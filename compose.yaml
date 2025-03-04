@@ -1,0 +1,17 @@
+services:
+  portal-frontend:
+    image: ghcr.io/minbzk/bureaublad-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+  #   depends_on:
+  #     - portal-backend
+  # portal-backend:
+  #  image: ghcr.io/minbzk/bureaublad-api
+  #   build:
+  #     context: backend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"

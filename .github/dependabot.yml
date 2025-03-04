@@ -1,0 +1,50 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Amsterdam"
+    groups:
+      allgithubactions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: npm
+    directory: "frontend"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Amsterdam"
+    groups:
+      allbun:
+        patterns:
+          - "*"
+      
+
+  - package-ecosystem: pip
+    directory: "backend"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Amsterdam"
+    groups:
+      allpip:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Amsterdam"
+    groups:
+      alldockercompose:
+        patterns:
+          - "*"
