@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json next.config.ts /app/
 COPY src /app/src
-COPY public /app/public
+COPY src/public /app/public
 
 RUN npm ci && npm run build
 

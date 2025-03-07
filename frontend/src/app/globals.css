@@ -15,7 +15,7 @@
     background-color: var(--rvo-color-wit);
 }
 .openbsw-bureaublad-header-image {
-    background-image: url(../../public/mijnbureau.svg);
+    background-image: url(../public/mijnbureau.svg);
     background-position: 50%;
     background-size: cover;
     height: 100px;
