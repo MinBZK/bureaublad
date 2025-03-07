@@ -1,13 +1,19 @@
-# Mijn portaal - backend
+# Bureaublad API
 
-## Getting Started
+## API Design rules
 
-Make sure you install [uv](https://docs.astral.sh/uv/)
+https://google.aip.dev/122
 
-First, run the development server:
+## getting started
 
-```bash
-uv dev
+From the backend folder you can install all the dependencies with:
+
+```sh
+uv sync
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+then run fastapi dev server
+
+```sh
+uv run fastapi dev
+```

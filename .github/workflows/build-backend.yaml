@@ -1,15 +1,84 @@
-name: Publish Docker image
+name: Build Backend container
 
 on:
   push:
     branches:
-    - main
-
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - "main"
 env:
   IMAGE_NAME: 'bureaublad-api'
+  PYTHON_VERSION: "3.12"
 
 jobs:
-  push_to_registries:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install uv
+        run: pipx install uv
+
+      - name: Install dependencies
+        run: |
+          cd backend/
+          uv run sync
+
+      - name: Run ruff format
+        run: |
+          cd backend/
+          uv run ruff format --check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+        
+      - name: Install uv
+        run: pipx install uv
+
+      - name: Install dependencies
+        run: |
+          cd backend/
+          uv run sync
+
+      - name: Run ruff 
+        run: |
+          cd backend/
+          uv run ruff check
+
+      - name: Run pyright 
+        run: |
+          cd backend/
+          uv run pyright
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          trivy-config: trivy.yaml
+          scan-type: fs
+          scan-ref: "backend/"
+
+  build:
+    needs: [format, lint, security]
     name: Push Docker image to github registries
     runs-on: ubuntu-latest
     permissions:
@@ -19,6 +88,18 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: get commit hash
+        id: get_commit_hash
+        run: |
+          echo "commit_hash=$(git describe --tags)" >> "$GITHUB_OUTPUT"
+
+      - name: Make changes to project to inject commit hash
+        run: |
+          sed -i 's/VERSION: str = .*$/VERSION: str = "${{ steps.get_commit_hash.outputs.commit_hash }}"/g' backend/app/config.py
+
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -58,3 +139,56 @@ jobs:
           subject-name: ghcr.io/minbzk/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+
+      - name: Run Trivy vulnerability scanner sarif
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          scan-type: image
+          exit-code: 0
+          format: "sarif"
+          output: "trivy-results.sarif"
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: "trivy-results.sarif"
+
+      - name: Run Trivy SBOM
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          scan-type: image
+          exit-code: 0
+          format: "cyclonedx"
+          output: "trivy-sbom.json"
+          list-all-pkgs: "true"
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Trivy license scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+          scan-type: image
+          scanners: "license"
+          exit-code: 0
+          output: "trivy-license.json"
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Upload SBOM & License
+        uses: actions/upload-artifact@v4.6.1
+        with:
+          name: sbom-licence-${{ github.sha }}.json
+          path: |
+            trivy-sbom.json
+            trivy-license.json
+          if-no-files-found: error
+          overwrite: true

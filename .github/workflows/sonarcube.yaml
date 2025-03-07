@@ -5,7 +5,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-name: ci
+name: sonarcube
 
 jobs:
   sonarqube:

@@ -1,17 +1,22 @@
 services:
   portal-frontend:
-    image: ghcr.io/minbzk/bureaublad-frontend
+    image: ghcr.io/minbzk/bureaublad-frontend:dev
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
       - "3000:80"
-  #   depends_on:
-  #     - portal-backend
-  # portal-backend:
-  #  image: ghcr.io/minbzk/bureaublad-api
-  #   build:
-  #     context: backend
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
+    depends_on:
+      - portal-backend
+  portal-backend:
+    image: ghcr.io/minbzk/bureaublad-api:dev
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "3000:3000"
