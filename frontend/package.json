@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nl-rvo/assets": "^1.0.0-alpha.360",
+    "@nl-rvo/component-library-css": "^4.4.4",
+    "@nl-rvo/design-tokens": "^1.7.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "next": "15.2.1"
