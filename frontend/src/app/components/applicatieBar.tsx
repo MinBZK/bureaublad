@@ -1,4 +1,90 @@
+const applicaties = [{
+  id: 0,
+  title: 'Chat',
+  url: 'https://chat.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-tekstballonnen-met-punten',
+  iconLabel: 'Tekstballonnen met punten'
+}, {
+  id: 1,
+  title: 'Meet',
+  url: 'https://meet.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-silhouet-voor-scherm-raam-met-silhouet',
+  iconLabel: 'Silhouet voor scherm met silhouet'
+}, {
+  id: 2,
+  title: 'Spread-sheets',
+  url: 'https://grist.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-grafiek',
+  iconLabel: 'Spread-sheets'
+}, {
+  id: 3,
+  title: 'Files',
+  url: 'https://files.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-map-vol-documenten',
+  iconLabel: 'Map vol documenten'
+}, {
+  id: 4,
+  title: 'Taken',
+  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/tasks',
+  iconClass: 'rvo-icon-kalender-met-vinkje',
+  iconLabel: 'Kalender met vinkje'
+}, {
+  id: 5,
+  title: 'Projecten',
+  url: 'https://projects.opendesk.apps.digilab.network/auth/keycloak',
+  iconClass: 'rvo-icon-bord-met-grafieken',
+  iconLabel: 'Bord met grafieken'
+}, {
+  id: 6,
+  title: 'Kennis',
+  url: 'https://wiki.opendesk.apps.digilab.network/',
+  iconClass: 'rvo-icon-online-leren',
+  iconLabel: 'Online leren'
+}, {
+  id: 7,
+  title: 'Wacht-woord manager',
+  url: 'https://vault.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-sleutelbos',
+  iconLabel: 'Sleutelbos'
+}, {
+  id: 8,
+  title: 'AI assistent',
+  url: 'https://vault.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-half-tandwiel-half-brein',
+  iconLabel: 'Half tandwiel half brein'
+}, {
+  id: 9,
+  title: 'Kalender',
+  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/calendar',
+  iconClass: 'rvo-icon-kalender',
+  iconLabel: 'Kalender'
+}, {
+  id: 10,
+  title: 'Docs',
+  url: 'https://docs.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-document-met-potlood',
+  iconLabel: 'Docs'
+}];
+
 export default function ApplicatieBar() {
+  const userApplicaties = applicaties.map(applicatie =>
+    <div key={applicatie.id} className="openbsw-applicatie-bar-item">
+      <div className="openbsw-applicatie-bar-item-icon">
+        <span
+          className={'utrecht-icon rvo-icon ' + applicatie.iconClass + ' rvo-icon--xl rvo-icon--zwart'}
+          role="img"
+          aria-label={applicatie.iconLabel}
+        ></span>
+      </div>
+      <a
+        className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
+        href={applicatie.url}
+      >
+        {applicatie.title}
+      </a>
+    </div>
+  ).slice(0, 10);
+
   return (
     <div className="rvo-layout-grid-container">
       <div
@@ -21,171 +107,7 @@ export default function ApplicatieBar() {
             ></span>
           </a>
         </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                  <span
-                    className="utrecht-icon rvo-icon rvo-icon-tekstballonnen-met-punten rvo-icon--xl rvo-icon--zwart"
-                    role="img"
-                    aria-label="Tekstballonnen met punten"
-                  ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Chat
-          </a>
-        </div>
-        {/*<div className="openbsw-applicatie-bar-item">*/}
-        {/*  <div className="openbsw-applicatie-bar-item-icon">*/}
-        {/*    <span*/}
-        {/*      className="utrecht-icon rvo-icon rvo-icon-document-met-potlood rvo-icon--xl rvo-icon--zwart"*/}
-        {/*      role="img"*/}
-        {/*      aria-label="Document met potlood"*/}
-        {/*    ></span>*/}
-        {/*  </div>*/}
-        {/*  <a*/}
-        {/*    className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"*/}
-        {/*    href="#"*/}
-        {/*  >*/}
-        {/*    Docs*/}
-        {/*  </a>*/}
-        {/*</div>*/}
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                  <span
-                    className="utrecht-icon rvo-icon rvo-icon-silhouet-voor-scherm-raam-met-silhouet rvo-icon--xl rvo-icon--zwart"
-                    role="img"
-                    aria-label="Silhouet voor scherm met silhouet"
-                  ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Meet
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                  <span
-                    className="utrecht-icon rvo-icon rvo-icon-grafiek rvo-icon--xl rvo-icon--zwart"
-                    role="img"
-                    aria-label="Grafiek"
-                  ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Spread-sheets
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-map-vol-documenten rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Map vol documenten"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Files
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-kalender rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Kalender"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Kalender
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Kalender met vinkje"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Taken
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-bord-met-grafieken rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Bord met grafieken"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Projecten
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-online-leren rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Online leren"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Kennis
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-sleutelbos rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Sleutelbos"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            Wacht-woord manager
-          </a>
-        </div>
-        <div className="openbsw-applicatie-bar-item">
-          <div className="openbsw-applicatie-bar-item-icon">
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-half-tandwiel-half-brein rvo-icon--xl rvo-icon--zwart"
-                      role="img"
-                      aria-label="Half tandwiel half brein"
-                    ></span>
-          </div>
-          <a
-            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
-            href="#"
-          >
-            AI assistent
-          </a>
-        </div>
+        {userApplicaties}
       </div>
     </div>
   )
