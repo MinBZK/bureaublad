@@ -29,6 +29,9 @@
     padding-top: var(--rvo-space-md);
     padding-bottom: var(--rvo-space-md);
 }
+.openbsw-textbox--menu {
+    width: 450px;
+}
 
 .openbsw-alert {
     margin-top: var(--rvo-space-md);
