@@ -11,5 +11,8 @@ COPY uv.lock pyproject.toml /app/
 WORKDIR /app
 RUN uv sync --frozen --no-cache
 
+WORKDIR /
+ENV PYTHONPATH=/
+
 # Run the application.
-CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "8080", "--host", "0.0.0.0"]
+CMD ["/app/.venv/bin/uvicorn", "--host", "0.0.0.0", "app.main:app", "--port", "8080"]

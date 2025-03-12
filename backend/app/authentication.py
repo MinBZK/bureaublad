@@ -5,7 +5,7 @@ from typing import Annotated
 import httpx
 from fastapi import Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jose import ExpiredSignatureError, JWTError, jwt
+from jose import JWTError, jwt
 from jose.constants import ALGORITHMS
 from jose.jws import get_unverified_header
 
@@ -48,12 +48,11 @@ def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationC
         alg = header.get("alg", None)
 
         if alg == ALGORITHMS.RS256:
-            kid = header.get("kid", None)
+            kid = header.get("kid")
             key = get_public_key(kid=kid)
         else:
-            key = settings.OIDC_CLIENT_SECRET
+            key = str(settings.OIDC_CLIENT_SECRET)
 
-        # todo: change public key to secret key if needed
         claims = jwt.decode(
             token,
             key,
@@ -62,17 +61,11 @@ def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationC
             issuer=settings.OIDC_ISSUER,
             options=jtw_decode_options,
         )
-        sub: str = claims.get("sub", None)
-        if sub is None:
-            logger.debug("sub claim not found")
-            raise CredentialError
+        sub: str = claims.get("sub", "unknown")
         request.state.user = User(sub=sub, access_token=token)
 
     except JWTError as err:
         logger.debug("JWTError")
-        raise CredentialError from err
-    except ExpiredSignatureError as err:
-        logger.debug("ExpiredSignatureError")
         raise CredentialError from err
     except Exception as err:
         logger.debug("Exception authentication")
