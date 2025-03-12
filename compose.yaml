@@ -13,10 +13,12 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    env_file:
+      - .env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 5
     ports:
-      - "3000:3000"
+      - "8080:8080"

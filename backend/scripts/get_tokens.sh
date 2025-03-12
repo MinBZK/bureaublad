@@ -1,15 +1,8 @@
 #!/usr/bin/env bash
 
-# "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/auth"
-# "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/token"
-# "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/token/introspect"
-# "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/certs"
-
-
-
 USERNAME=""
 PASSWORD=""
-CLIENT_ID="chat"
+CLIENT_ID="files"
 CLIENT_SECRET=""
 KEYCLOAK_URL="https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/token"
 
@@ -31,13 +24,7 @@ if [ -z "$USERNAME" ] || [ -z "$PASSWORD" ] || [ -z "$CLIENT_ID" ] || [ -z "$CLI
     exit 1
 fi
 
-echo $USERNAME
-echo $PASSWORD
-echo $CLIENT_ID
-echo $CLIENT_SECRET
-
-
-response=$(curl "$KEYCLOAK_URL" \
+response=$(curl -s "$KEYCLOAK_URL" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   --data-urlencode "client_id=${CLIENT_ID}" \
   --data-urlencode "client_secret=${CLIENT_SECRET}" \
@@ -46,7 +33,14 @@ response=$(curl "$KEYCLOAK_URL" \
   --data-urlencode "password=${PASSWORD}" \
   --data-urlencode "scope=openid profile email")
 
-access_token=$(echo $response | jq -r '.access_token')
-token_type=$(echo $response | jq -r '.token_type')
 
+access_token=$(echo $response | jq -r '.access_token')
+id_token=$(echo $response | jq -r '.id_token')
+
+echo "ACCESS TOKEN"
+echo "-----------"
 echo $access_token
+echo ""
+echo "ID TOKEN"
+echo "--------"
+echo $id_token

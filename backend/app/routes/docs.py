@@ -18,8 +18,11 @@ async def docs_documents(request: Request, q: str | None = None) -> list[Note]:
     access_token = user.access_token
     new_token = await exchange_token(access_token, audience="docs")
 
-    docs_client = DocsClient(base_url=settings.DOCS_URL, token=new_token)
+    if not new_token:
+        return []
 
-    documents: list[Note] = docs_client.get_documents(title=q)
+    client = DocsClient(base_url=settings.DOCS_URL, token=new_token)
+
+    documents: list[Note] = client.get_documents(title=q)
 
     return documents

@@ -12,10 +12,11 @@ class DocsClient:
         )
 
     def get_documents(self, path: str = "api/v1.0/documents/", page: int = 1, title: str | None = None) -> list[Note]:
-        url = f"{self.base_url}/{path}?page={page}"
+        url = httpx.URL(f"{self.base_url}/{path}", params={"page": page})
 
         if title:
-            url = f"{url}&title={title}"
+            url = url.copy_add_param("title", str(title))
+
         response = self.client.request("GET", url)
         if response.status_code != 200:
             return TypeAdapter(list[Note]).validate_python([])
