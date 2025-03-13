@@ -36,7 +36,6 @@ class Settings(BaseSettings):
     CALENDAR_AUDIENCE: str = "files"
 
     CORS_ALLOW_ORIGINS: str | list[str] = "*"
-    CORS_ALLOW_ORIGINS: str | list[str] = "*"
     CORS_ALLOW_CREDENTIALS: bool = False
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
