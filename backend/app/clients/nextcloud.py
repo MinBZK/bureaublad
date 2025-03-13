@@ -1,5 +1,5 @@
 import httpx
-from app.models import Activity
+from app.models import Activity, FileSearchResult, SearchResults
 from pydantic import TypeAdapter
 
 
@@ -43,3 +43,45 @@ class NextCloudClient:
         notes: list[Activity] = TypeAdapter(list[Activity]).validate_python(results)
 
         return notes
+
+    def search_files(self, term: str, path: str = "ocs/v2.php/search/providers/files/search") -> list[SearchResults]:
+        url = httpx.URL(f"{self.base_url}/{path}", params={"term": term})
+
+        response = self.client.request("GET", url)
+        if response.status_code != 200:
+            return TypeAdapter(list[FileSearchResult]).validate_python([])
+
+        results = response.json().get("ocs", []).get("data", []).get("entries", [])
+
+        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
+
+        return search_results
+
+    def search_calendar(
+        self, term: str, path: str = "ocs/v2.php/search/providers/calendar/search"
+    ) -> list[SearchResults]:
+        url = httpx.URL(f"{self.base_url}/{path}", params={"term": term})
+
+        response = self.client.request("GET", url)
+
+        if response.status_code != 200:
+            return TypeAdapter(list[FileSearchResult]).validate_python([])
+
+        results = response.json().get("ocs", []).get("data", []).get("entries", [])
+
+        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
+
+        return search_results
+
+    def search_tasks(self, term: str, path: str = "ocs/v2.php/search/providers/tasks/search") -> list[SearchResults]:
+        url = httpx.URL(f"{self.base_url}/{path}", params={"term": term})
+
+        response = self.client.request("GET", url)
+        if response.status_code != 200:
+            return TypeAdapter(list[FileSearchResult]).validate_python([])
+
+        results = response.json().get("ocs", []).get("data", []).get("entries", [])
+
+        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
+
+        return search_results
