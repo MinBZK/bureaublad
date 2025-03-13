@@ -1,4 +1,5 @@
 from pydantic import BaseModel, computed_field
+from datetime import datetime
 
 from app.config import settings
 
@@ -24,3 +25,8 @@ class Note(BaseModel):
     @property
     def url(self) -> str:
         return f"{settings.DOCS_URL}/docs/{self.id}/"
+
+    @computed_field
+    @property
+    def updated_date(self) -> str:
+        return datetime.fromisoformat(self.updated_at).strftime('%d %b %Y')

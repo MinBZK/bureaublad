@@ -16,8 +16,8 @@ class Settings(BaseSettings):
 
     ENVIRONMENT: Literal["dev", "prod"] = "dev"
 
-    OIDC_CLIENT_ID: str = "bureaublad"
-    OIDC_CLIENT_SECRET: str
+    OIDC_CLIENT_ID: str = "bureaublad-frontend"
+    OIDC_CLIENT_SECRET: str = "None"
     OIDC_AUTHORIZATION_ENDPOINT: str = (
         "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/auth"
     )
@@ -31,5 +31,10 @@ class Settings(BaseSettings):
     NEXTCLOUD_URL: str = "https://files.la-suite.apps.digilab.network"
     DOCS_URL: str = "https://docs.la-suite.apps.digilab.network"
 
+    CORS_ALLOW_ORIGINS: str | list[str] = "*"
+    CORS_ALLOW_ORIGINS: str | list[str] = "*"
+    CORS_ALLOW_CREDENTIALS: bool = False
+    CORS_ALLOW_METHODS: list[str] = ["*"]
+    CORS_ALLOW_HEADERS: list[str] = ["*"]
 
 settings = Settings()  # type: ignore[reportCallIssue]

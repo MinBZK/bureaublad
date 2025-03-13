@@ -1,6 +1,7 @@
 import logging
 
 from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.authentication import get_current_user
 from app.config import settings
@@ -26,3 +27,11 @@ app = FastAPI(
 
 app.include_router(api_router, dependencies=[Depends(get_current_user)], prefix=settings.API_V1_STR)
 app.include_router(root_router, tags=["health"])
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.CORS_ALLOW_ORIGINS,
+    allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
+    allow_methods=settings.CORS_ALLOW_METHODS,
+    allow_headers=settings.CORS_ALLOW_HEADERS
+)

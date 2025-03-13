@@ -1,5 +1,8 @@
 import ApplicatieBar from "@/app/components/applicatieBar";
 import SiteAlert from "@/app/components/siteAlert";
+import MijnDocumenten from "@/app/components/mijnDocumenten";
+import MijnTaken from "@/app/components/mijnTaken";
+import MijnDossiers from "@/app/components/mijnDossiers";
 
 export default function Home() {
   return (
@@ -13,28 +16,7 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
             style={{"--division": "1fr 1fr"}}
           >
-            <div className="openbsw-panel">
-              <h4>Mijn dossiers</h4>
-              <p className="utrecht-button-group">
-                <button
-                  className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
-                      role="img"
-                      aria-label="Plus"
-                    ></span>
-                  Nieuw dossier
-                </button>
-                <button
-                  className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                  Al mijn dossiers
-                </button>
-              </p>
-            </div>
+            <MijnDossiers></MijnDossiers>
             <div className="openbsw-panel">
               <h4>Agenda afspraken</h4>
               <p className="utrecht-button-group">
@@ -67,38 +49,8 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
             style={{"--division": "1fr 1fr 1fr"}}
           >
-            <div className="openbsw-panel">
-              <h4>Mijn documenten</h4>
-              <p className="utrecht-button-group">
-                <button
-                  className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
-                      role="img"
-                      aria-label="Plus"
-                    ></span>
-                  Nieuw document
-                </button>
-              </p>
-            </div>
-            <div className="openbsw-panel">
-              <h4>Mijn taken</h4>
-              <p className="utrecht-button-group">
-                <button
-                  className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
-                      role="img"
-                      aria-label="Plus"
-                    ></span>
-                  Nieuwe taak
-                </button>
-              </p>
-            </div>
+            <MijnDocumenten></MijnDocumenten>
+            <MijnTaken></MijnTaken>
             <div className="openbsw-panel">
               <h4>Updates</h4>
               <p>

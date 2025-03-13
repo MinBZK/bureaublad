@@ -88,7 +88,23 @@
 }
 .openbsw-panel h4 {
     margin-top: 0;
+    margin-bottom: var(--rvo-space-sm);
 }
 .openbsw-panel .utrecht-button .rvo-icon {
     margin-right: 5px;
+}
+.openbsw-panel .utrecht-button-group {
+    margin-top: var(--rvo-space-md);
+}
+
+.openbsw-tabs {
+    margin-bottom: var(--rvo-space-md);
+}
+
+.openbsw-document-titel {
+    font-weight: var(--rvo-font-weight-bold);
+}
+.openbsw-document-datum {
+    font-size: var(--rvo-font-size-sm);
+    color: var(--rvo-color-grijs-500);
 }

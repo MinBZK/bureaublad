@@ -17,13 +17,10 @@ export const KeycloakProvider = ({ children }) => {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            console.log('initKeycloak');
             initKeycloak()
                 .then(auth => {
-                    console.log(auth);
                     setAuthenticated(auth);
                     if (keycloak && auth) {
-                        console.log(keycloak.tokenParsed?.name);
                         setUser({
                             name: keycloak.tokenParsed?.name,
                             email: keycloak.tokenParsed?.email,
