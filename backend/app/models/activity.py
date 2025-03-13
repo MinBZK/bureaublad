@@ -26,9 +26,14 @@ class Activity(BaseModel):
     @computed_field
     @property
     def date(self) -> str:
-        return self.datetime.strftime("%Y-%m-%d")
+        return self.datetime.strftime("%d %b %Y")
 
     @computed_field
     @property
     def time(self) -> str:
         return self.datetime.strftime("%H:%M:%S")
+
+    @computed_field
+    @property
+    def object_filename(self) -> str:
+        return self.object_name.split('/')[-1]

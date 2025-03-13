@@ -16,7 +16,7 @@ class Settings(BaseSettings):
 
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
 
-    OIDC_CLIENT_ID: str = "bureaublad"
+    OIDC_CLIENT_ID: str = "bureaublad-frontend"
     OIDC_CLIENT_SECRET: str | None = None
     OIDC_AUTHORIZATION_ENDPOINT: str = (
         "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/auth"
@@ -35,5 +35,9 @@ class Settings(BaseSettings):
     CALENDAR_URL: str = "https://files.la-suite.apps.digilab.network"
     CALENDAR_AUDIENCE: str = "files"
 
+    CORS_ALLOW_ORIGINS: str | list[str] = "*"
+    CORS_ALLOW_CREDENTIALS: bool = False
+    CORS_ALLOW_METHODS: list[str] = ["*"]
+    CORS_ALLOW_HEADERS: list[str] = ["*"]
 
 settings = Settings()  # type: ignore[reportCallIssue]
