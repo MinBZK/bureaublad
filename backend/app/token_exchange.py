@@ -38,6 +38,9 @@ async def exchange_token(
     )
 
     logger.debug(response.status_code)
+    if response.status_code != 200:
+        logger.debug(response.text)
+
     new_token = response.json().get("access_token", None)
 
     return new_token

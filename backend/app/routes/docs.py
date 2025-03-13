@@ -13,16 +13,16 @@ router = APIRouter(prefix="/docs", tags=["docs"])
 
 
 @router.get("/documents", response_model=list[Note])
-async def docs_documents(request: Request, q: str | None = None) -> list[Note]:
+async def docs_documents(request: Request, title: str | None = None, favorite: bool = False) -> list[Note]:
     user: User = request.state.user
     access_token = user.access_token
-    new_token = await exchange_token(access_token, audience="docs")
+    new_token = await exchange_token(access_token, audience=settings.DOCS_AUDIENCE)
 
     if not new_token:
         return []
 
     client = DocsClient(base_url=settings.DOCS_URL, token=new_token)
 
-    documents: list[Note] = client.get_documents(title=q)
+    documents: list[Note] = client.get_documents(title=title, favorite=favorite)
 
     return documents

@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(extra="ignore")
+    model_config = SettingsConfigDict(env_file=("dev.env", ".env", "prod.env"), extra="ignore")
     API_V1_STR: str = "/v1"
     SECRET_KEY: str = secrets.token_urlsafe(32)
 
@@ -14,10 +14,10 @@ class Settings(BaseSettings):
 
     VERSION: str = "0.1.0"
 
-    ENVIRONMENT: Literal["dev", "prod"] = "dev"
+    ENVIRONMENT: Literal["dev", "prod"] = "prod"
 
     OIDC_CLIENT_ID: str = "bureaublad"
-    OIDC_CLIENT_SECRET: str
+    OIDC_CLIENT_SECRET: str | None = None
     OIDC_AUTHORIZATION_ENDPOINT: str = (
         "https://id.la-suite.apps.digilab.network/realms/lasuite/protocol/openid-connect/auth"
     )
@@ -29,7 +29,11 @@ class Settings(BaseSettings):
     OIDC_SIGNATURE_ALGORITM: str | list[str] = [ALGORITHMS.RS256, ALGORITHMS.HS256]
 
     NEXTCLOUD_URL: str = "https://files.la-suite.apps.digilab.network"
+    NEXTCLOUD_AUDIENCE: str = "files"
     DOCS_URL: str = "https://docs.la-suite.apps.digilab.network"
+    DOCS_AUDIENCE: str = "docs"
+    CALENDAR_URL: str = "https://files.la-suite.apps.digilab.network"
+    CALENDAR_AUDIENCE: str = "files"
 
 
 settings = Settings()  # type: ignore[reportCallIssue]
