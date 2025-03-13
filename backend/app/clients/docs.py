@@ -12,7 +12,7 @@ class DocsClient:
         )
 
     def get_documents(
-        self, path: str = "/api/v1.0/documents/", page: int = 1, title: str | None = None, favorite: bool = False
+        self, path: str = "api/v1.0/documents/", page: int = 1, title: str | None = None, favorite: bool = False
     ) -> list[Note]:
         url = httpx.URL(f"{self.base_url}/{path}", params={"page": page})
 

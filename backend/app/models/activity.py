@@ -36,4 +36,4 @@ class Activity(BaseModel):
     @computed_field
     @property
     def object_filename(self) -> str:
-        return self.object_name.split('/')[-1]
+        return self.object_name.split("/")[-1]
