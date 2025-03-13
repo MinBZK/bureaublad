@@ -48,7 +48,6 @@ function MijnTakenItems() {
   } else if (!isLoaded) {
     return <div>Loading...</div>;
   } else {
-    console.log(items[0]);
     return (
       <div>
         {items.map(item => (
@@ -77,7 +76,9 @@ export default function MijnTaken() {
   return (
     <div className="openbsw-panel">
       <h4>Mijn taken</h4>
-      <MijnTakenItems></MijnTakenItems>
+      <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
+        <MijnTakenItems></MijnTakenItems>
+      </div>
       <p className="utrecht-button-group">
         <button
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"

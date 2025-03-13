@@ -76,7 +76,9 @@ export default function MijnDossiers() {
   return (
     <div className="openbsw-panel">
       <h4>Mijn dossiers</h4>
-      <MijnDossiersItems></MijnDossiersItems>
+      <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
+        <MijnDossiersItems></MijnDossiersItems>
+      </div>
       <p className="utrecht-button-group openbsw-">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"

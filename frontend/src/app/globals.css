@@ -96,6 +96,10 @@
 .openbsw-panel .utrecht-button-group {
     margin-top: var(--rvo-space-md);
 }
+.openbsw-panel-scrollable-content {
+    max-height: 200px;
+    min-height: 200px
+}
 
 .openbsw-tabs {
     margin-bottom: var(--rvo-space-md);
@@ -107,4 +111,7 @@
 .openbsw-document-datum {
     font-size: var(--rvo-font-size-sm);
     color: var(--rvo-color-grijs-500);
+}
+.openbsw-document-categorie {
+    color: var(--rvo-color-hemelblauw);
 }

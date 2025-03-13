@@ -6,7 +6,6 @@ import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 
 function iconInfoByFilename(filename: string): {iconName: string, iconType: string} {
   const extension = filename.substring(filename.lastIndexOf(".") + 1);
-  console.log(filename);
   if (extension) {
     switch(extension) {
       case 'odt':
@@ -148,7 +147,9 @@ export default function MijnDocumenten() {
       {/*</div>*/}
       {/*<div id="tab-2">*/}
       {/*</div>*/}
-      <MijnDocumentenItems></MijnDocumentenItems>
+      <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
+        <MijnDocumentenItems></MijnDocumentenItems>
+      </div>
       <p className="utrecht-button-group openbsw-">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"

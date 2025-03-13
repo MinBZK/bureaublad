@@ -3,6 +3,7 @@ import SiteAlert from "@/app/components/siteAlert";
 import MijnDocumenten from "@/app/components/mijnDocumenten";
 import MijnTaken from "@/app/components/mijnTaken";
 import MijnDossiers from "@/app/components/mijnDossiers";
+import Updates from "@/app/components/updates";
 
 export default function Home() {
   return (
@@ -51,17 +52,7 @@ export default function Home() {
           >
             <MijnDocumenten></MijnDocumenten>
             <MijnTaken></MijnTaken>
-            <div className="openbsw-panel">
-              <h4>Updates</h4>
-              <p>
-                <a
-                  className="rvo-link rvo-link--with-icon rvo-link--hemelblauw rvo-link--normal"
-                  href="#"
-                >
-                  Meer updates
-                </a>
-              </p>
-            </div>
+            <Updates></Updates>
           </div>
         </div>
 
