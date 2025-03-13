@@ -32,9 +32,10 @@ function UpdatesItems() {
           for (let i = 0; i < items.length; i++) {
             const title = items[i].getElementsByTagName('title')[0].textContent;
             const link = items[i].getElementsByTagName('link')[0].textContent;
+            const guid = items[i].getElementsByTagName('guid')[0].textContent;
             const pubDate = new Date(items[i].getElementsByTagName('pubDate')[0]?.textContent).toLocaleDateString("nl-NL", dateOptions);
             const hostname = new URL(link).hostname;
-            feedItems.push({ title, link, hostname, pubDate });
+            feedItems.push({ title, link, guid, hostname, pubDate });
           }
           setItems(feedItems);
         },
@@ -56,18 +57,20 @@ function UpdatesItems() {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.link} key={item.guid} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
-            <div>
-              <div
-                className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
-                <div>
-                  <span className="openbsw-document-titel">{item.title}</span><br/>
-                  <span className="openbsw-document-categorie">{item.hostname} </span>
-                  <span className="openbsw-document-datum"> {item.pubDate}</span>
+          <div key={item.guid} className="openbsw-updates-item">
+            <a href={item.link} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+              <div>
+                <div
+                  className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+                  <div>
+                    <span className="openbsw-document-titel">{item.title}</span><br/>
+                    <span className="openbsw-document-categorie">{item.hostname} </span>
+                    <span className="openbsw-document-datum"> {item.pubDate}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         ))}
       </div>
     );

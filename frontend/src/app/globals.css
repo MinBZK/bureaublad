@@ -115,3 +115,7 @@
 .openbsw-document-categorie {
     color: var(--rvo-color-hemelblauw);
 }
+
+.openbsw-updates-item {
+    margin-bottom: var(--rvo-space-xs);
+}
