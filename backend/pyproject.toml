@@ -5,6 +5,7 @@ description = "API voor bureaublad"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "caldav>=1.4.0",
     "fastapi[standard]>=0.115.11",
     "pydantic-settings>=2.8.1",
     "pyright>=1.1.396",

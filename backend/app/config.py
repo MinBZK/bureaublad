@@ -34,10 +34,13 @@ class Settings(BaseSettings):
     DOCS_AUDIENCE: str = "docs"
     CALENDAR_URL: str = "https://files.la-suite.apps.digilab.network"
     CALENDAR_AUDIENCE: str = "files"
+    TASK_URL: str = "https://files.la-suite.apps.digilab.network"
+    TASK_AUDIENCE: str = "files"
 
     CORS_ALLOW_ORIGINS: str | list[str] = "*"
     CORS_ALLOW_CREDENTIALS: bool = False
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
+
 
 settings = Settings()  # type: ignore[reportCallIssue]

@@ -1,5 +1,6 @@
-from pydantic import BaseModel, computed_field
 from datetime import datetime
+
+from pydantic import BaseModel, computed_field
 
 from app.config import settings
 
@@ -29,4 +30,4 @@ class Note(BaseModel):
     @computed_field
     @property
     def updated_date(self) -> str:
-        return datetime.fromisoformat(self.updated_at).strftime('%d %b %Y')
+        return datetime.fromisoformat(self.updated_at).strftime("%d %b %Y")
