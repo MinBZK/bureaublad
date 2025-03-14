@@ -27,6 +27,25 @@ export const KeycloakProvider = ({ children }) => {
                         });
                     }
                     setInitialized(true);
+
+                    // Set up token refresh
+                    const refreshInterval = setInterval(() => {
+                        if (keycloak && keycloak.token) {
+                            keycloak.updateToken(30).then(refreshed => {
+                                if (refreshed) {
+                                    setUser({
+                                        name: keycloak.tokenParsed?.name,
+                                        email: keycloak.tokenParsed?.email,
+                                    });
+                                }
+                            }).catch(err => {
+                                console.error('Failed to refresh token', err);
+                                logout();
+                            });
+                        }
+                    }, 60000); 
+
+                return () => clearInterval(refreshInterval);
                 })
                 .catch(err => console.error('Failed to initialize Keycloak', err));
         }
