@@ -3,6 +3,7 @@ import "./globals.css";
 import React from "react";
 import UserMenu from "@/app/components/userMenu";
 import {KeycloakProvider} from "@/app/auth/KeycloakProvider";
+import Search from "@/app/components/search";
 
 export const metadata: Metadata = {
   title: "Mijn Bureaublad",
@@ -33,17 +34,7 @@ export default function RootLayout({
                       Home
                     </a></li>
                   <li className="rvo-menubar__item">
-                    <div className="rvo-layout-row rvo-layout-gap--0 rvo-margin-inline-start--2xl">
-                      <input id="field" placeholder="Zoek collega's, dossiers of vraag hulp van je persoonlijke assistent"
-                             type="text" className="utrecht-textbox utrecht-textbox--html-input openbsw-textbox--menu"
-                             dir="auto" defaultValue=""
-                      />
-                      <button className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-md"
-                              type="button">
-                        <span className="utrecht-icon rvo-icon rvo-icon-zoek rvo-icon--md rvo-icon--hemelblauw" role="img"
-                              aria-label="Home"></span>
-                      </button>
-                    </div>
+                    <Search></Search>
                   </li>
                   <li className="rvo-menubar__item rvo-menubar__item--active rvo-menubar__item--align-right">
                     <UserMenu></UserMenu>

@@ -44,9 +44,9 @@ function MijnTakenItems() {
   }, [keycloakContext])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Laden...</div>;
   } else {
     return (
       <div>

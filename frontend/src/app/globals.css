@@ -119,3 +119,16 @@
 .openbsw-updates-item {
     margin-bottom: var(--rvo-space-xs);
 }
+
+.openbsw-search-card {
+    background-color: var(--rvo-color-wit);
+    min-width: 500px;
+    max-width: 500px;
+}
+.openbsw-search-scrollable-content {
+    max-height: 400px;
+}
+.openbsw-search-result--date {
+    color: var(--rvo-color-hemelblauw);
+    font-size: var(--rvo-font-size-sm);
+}
