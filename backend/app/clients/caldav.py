@@ -24,7 +24,10 @@ class CaldavClient:
                 event_start = event_instance.dtstart.value
                 event_end = event_instance.dtend.value
 
-                if event_start <= check_date <= event_end:
+                check_date_start = datetime.combine(check_date, datetime.min.time(), event_start.tzinfo)
+                check_date_end = datetime.combine(check_date, datetime.max.time(), event_start.tzinfo)
+
+                if check_date_start <= event_start <= check_date_end or check_date_start <= event_end <= check_date_end:
                     events_today.append(Calendar(title=event_instance.summary.value, start=event_start, end=event_end))
         return events_today
 
