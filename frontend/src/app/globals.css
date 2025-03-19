@@ -120,10 +120,19 @@
     margin-bottom: var(--rvo-space-xs);
 }
 
-.openbsw-search-card {
+.openbsw-search-container {
+    position: relative;
+}
+.openbsw-search-popover-content {
     background-color: var(--rvo-color-wit);
     min-width: 500px;
     max-width: 500px;
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    transform: translateX(-100%);
+    margin-top: 8px;
+    z-index: 1000;
 }
 .openbsw-search-scrollable-content {
     max-height: 400px;
@@ -131,4 +140,6 @@
 .openbsw-search-result--date {
     color: var(--rvo-color-hemelblauw);
     font-size: var(--rvo-font-size-sm);
+}
+.openbsw-search-popover-content {
 }

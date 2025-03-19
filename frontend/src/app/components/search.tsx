@@ -1,9 +1,8 @@
 'use client'
 
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 import {keycloak} from "@/app/auth/keycloak";
-import Popover from "@/app/components/popover";
 import FileTypeIcon from "@/app/components/fileTypeIcon";
 
 interface SearchResultsProps {
@@ -123,35 +122,73 @@ function SearchResults({term}: SearchResultsProps) {
 
 export default function Search() {
   const [query, setQuery] = useState("");
-  const [typedQuery, setTypedQuery] = useState("");
+  const [isVisible, setIsVisible] = useState(false); // Manages the visibility state of the popover
+  const popoverRef = useRef(null); // Reference to the popover element
+  const triggerRef = useRef(null); // Reference to the button element that triggers the popover
+  const inputRef = useRef(null);
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setTypedQuery(e.target.value);
-  }
+  const handleOnClick = () => {
+    setIsVisible(true);
+    submitQuery();
+  };
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
-      submitQuery();
+      handleOnClick();
     }
   }
 
   function submitQuery() {
-    setQuery(typedQuery)
+    setQuery(inputRef.current.value);
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        popoverRef.current && !popoverRef.current.contains(event.target) &&
+        triggerRef.current && !triggerRef.current.contains(event.target) &&
+        inputRef.current && !inputRef.current.contains(event.target)
+      ) {
+        setIsVisible(false); // Close the popover if clicked outside
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="rvo-layout-row rvo-layout-gap--0 rvo-margin-inline-start--2xl">
+    <div className="rvo-layout-row rvo-layout-gap--0 rvo-margin-inline-start--2xl openbsw-search-container">
       <input id="field" placeholder="Zoek collega's, dossiers of vraag hulp van je persoonlijke assistent"
              type="text" className="utrecht-textbox utrecht-textbox--html-input openbsw-textbox--menu"
              dir="auto" defaultValue=""
              onKeyUp={handleKeyUp}
-             onChange={handleInputChange}
+             ref={inputRef}
       />
-      <Popover content={<SearchResults term={query}></SearchResults>} onClickHandler={submitQuery}
-               buttonClassName="utrecht-button utrecht-button--primary-action utrecht-button--rvo-md">
+      <button
+        ref={triggerRef}
+        onClick={handleOnClick}
+        className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-md  popover-trigger"
+        aria-haspopup="true"
+        aria-expanded={isVisible}
+        aria-controls="popover-content"
+      >
         <span className="utrecht-icon rvo-icon rvo-icon-zoek rvo-icon--md rvo-icon--hemelblauw" role="img"
               aria-label="Vergrootglas"></span>
-      </Popover>
+      </button>
+      {isVisible && (
+        <div
+          id="popover-content"
+          ref={popoverRef}
+          className="rvo-card rvo-card--outline rvo-card--padding-sm openbsw-search-popover-content"
+          role="dialog"
+          aria-modal="true"
+        >
+          <SearchResults term={query}></SearchResults>
+        </div>
+      )}
     </div>
   )
 }
