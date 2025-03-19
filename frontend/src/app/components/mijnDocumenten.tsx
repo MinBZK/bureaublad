@@ -113,6 +113,7 @@ export default function MijnDocumenten() {
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
           href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
         >
           <span
             className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"

@@ -5,5 +5,5 @@ from pydantic import BaseModel
 
 class Task(BaseModel):
     title: str
-    start: datetime
-    end: datetime
+    start: datetime | None
+    end: datetime | None

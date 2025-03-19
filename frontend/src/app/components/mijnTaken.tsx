@@ -13,7 +13,7 @@ function MijnTakenItems() {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/nextcloud/activities", {
+      fetch("http://localhost:8000/v1/caldav/tasks", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -29,6 +29,7 @@ function MijnTakenItems() {
             if (result.detail) {
               setError(result.detail)
             } else {
+              console.log(result);
               setItems(result);
             }
           },
@@ -51,17 +52,29 @@ function MijnTakenItems() {
     return (
       <div>
         {items.map(item => (
-          <a href={item.url} key={item.activity_id} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+          <a href={item.url} key={item.title + '/' + item.start} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
-                  <span className="utrecht-icon rvo-icon rvo-icon-document-met-lijnen rvo-icon--xl rvo-icon--hemelblauw" role="img"
-                        aria-label="Document met lijnen"></span>
+                  <span className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--hemelblauw" role="img"
+                        aria-label="Kalender met vinkje"></span>
                 </div>
                 <div>
                   <span className="openbsw-document-titel">{item.title}</span><br/>
-                  <span className="openbsw-document-datum">{item.updated_date}</span>
+                  {item.end && (
+                    <span className="openbsw-document-datum">Tot: {new Date(Date.parse(item.end)).toLocaleString("nl-NL", {
+                      timeStyle: "short",
+                      dateStyle: "short",
+                    })}</span>
+                  )}
+                  {!item.end && item.start && (
+                    <span className="openbsw-document-datum">Vanaf: {new Date(Date.parse(item.start)).toLocaleString("nl-NL", {
+                      timeStyle: "short",
+                      dateStyle: "short",
+                    })}</span>
+                  )}
+
                 </div>
               </div>
             </div>
@@ -80,17 +93,18 @@ export default function MijnTaken() {
         <MijnTakenItems></MijnTakenItems>
       </div>
       <p className="utrecht-button-group">
-        <button
+        <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-          type="button"
+          href="https://files.la-suite.apps.digilab.network/apps/tasks/collections/all"
+          target="_blank"
         >
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
-                      role="img"
-                      aria-label="Plus"
-                    ></span>
+          <span
+            className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
+            role="img"
+            aria-label="Plus"
+          ></span>
           Nieuwe taak
-        </button>
+        </a>
       </p>
     </div>
   )

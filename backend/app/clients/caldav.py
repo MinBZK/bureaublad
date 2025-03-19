@@ -40,12 +40,10 @@ class CaldavClient:
 
         for calendar in calendars:
             for task in calendar.todos():
-                print(task.data)
                 task_instance = task.instance.vtodo
                 task_summary: str = task_instance.summary.value
-                task_start: datetime = task_instance.dtstart.value
-                task_due: datetime = task_instance.due.value
-
+                task_start: datetime = task_instance.dtstart.value if hasattr(task_instance, 'dtstart') else None
+                task_due: datetime = task_instance.due.value if hasattr(task_instance, 'due') else None
                 tasks_list.append(Task(title=task_summary, start=task_start, end=task_due))
 
         return tasks_list
