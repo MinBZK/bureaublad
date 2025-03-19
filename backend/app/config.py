@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     CALENDAR_AUDIENCE: str = "files"
     TASK_URL: str = "https://files.la-suite.apps.digilab.network"
     TASK_AUDIENCE: str = "files"
+    OPENZAAK_URL: str = "https://open-zaak.commonground.apps.digilab.network"
+    OPENZAAK_AUDIENCE: str = "openzaak"
 
     CORS_ALLOW_ORIGINS: str | list[str] = "*"
     CORS_ALLOW_CREDENTIALS: bool = False
