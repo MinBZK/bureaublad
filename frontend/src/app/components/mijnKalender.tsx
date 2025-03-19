@@ -74,6 +74,11 @@ function MijnKalenderItems() {
 }
 
 export default function MijnKalender() {
+  const nextHour = new Date();
+  nextHour.setHours(nextHour.getHours() + 1);
+  nextHour.setMinutes(0, 0, 0);
+  const fromTimestamp = nextHour.valueOf() / 1000;
+  const toTimestamp = nextHour.setHours(nextHour.getHours() + 1).valueOf() / 1000;
   return (
     <div className="openbsw-panel">
       <h4>Agenda van vandaag</h4>
@@ -81,9 +86,10 @@ export default function MijnKalender() {
         <MijnKalenderItems></MijnKalenderItems>
       </div>
       <p className="utrecht-button-group">
-        <button
+        <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-          type="button"
+          href={'https://files.la-suite.apps.digilab.network/apps/calendar/dayGridMonth/now/new/popover/0/' + fromTimestamp + '/' + toTimestamp}
+          target="_blank"
         >
           <span
             className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
@@ -91,10 +97,10 @@ export default function MijnKalender() {
             aria-label="Plus"
           ></span>
           Afspraak inplannen
-        </button>
+        </a>
         <a
           className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm"
-          href="https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/calendar"
+          href="https://files.la-suite.apps.digilab.network/apps/calendar/"
           target="_blank"
         >
           Mijn agenda
