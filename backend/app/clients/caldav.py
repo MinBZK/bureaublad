@@ -19,16 +19,17 @@ class CaldavClient:
         events_today: list[Calendar] = []
 
         for calendar in calendars:
-            for event in calendar.events():
+            check_date_start = datetime.combine(check_date, datetime.min.time())
+            check_date_end = datetime.combine(check_date, datetime.max.time())
+            events = calendar.search(
+                start=check_date_start,
+                end=check_date_end,
+                event=True,
+                expand=True
+            )
+            for event in events:
                 event_instance = event.instance.vevent
-                event_start = event_instance.dtstart.value
-                event_end = event_instance.dtend.value
-
-                check_date_start = datetime.combine(check_date, datetime.min.time(), event_start.tzinfo)
-                check_date_end = datetime.combine(check_date, datetime.max.time(), event_start.tzinfo)
-
-                if check_date_start <= event_start <= check_date_end or check_date_start <= event_end <= check_date_end:
-                    events_today.append(Calendar(title=event_instance.summary.value, start=event_start, end=event_end))
+                events_today.append(Calendar(title=event_instance.summary.value, start=event_instance.dtstart.value, end=event_instance.dtend.value))
         return events_today
 
     def get_tasks(self) -> list[Task]:
