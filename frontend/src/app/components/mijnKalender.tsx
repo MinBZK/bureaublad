@@ -95,6 +95,7 @@ export default function MijnKalender() {
         <a
           className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm"
           href="https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/calendar"
+          target="_blank"
         >
           Mijn agenda
         </a>
