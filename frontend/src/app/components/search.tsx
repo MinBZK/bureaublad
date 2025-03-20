@@ -4,6 +4,7 @@ import React, {useContext, useEffect, useRef, useState} from "react";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 import {keycloak} from "@/app/auth/keycloak";
 import FileTypeIcon from "@/app/components/fileTypeIcon";
+import Markdown from "react-markdown";
 
 interface SearchResultsProps {
   term?: string
@@ -21,24 +22,77 @@ function shortenUrl(url: string, maxLength: number) {
   return url;
 }
 
+function SearchResultsItems({ items }) {
+  if (items.length === 0) {
+    return (
+      <>
+        Geen resultaten gevonden
+      </>
+    )
+  } else {
+    return (
+      <>
+        <h3 className="utrecht-heading-3">Zoekresultaten</h3>
+        <div className="rvo-scrollable-content openbsw-search-scrollable-content">
+          <div className="rvo-layout-column rvo-layout-gap--0">
+            {items.map(item => (
+              <a href={item.url} key={item.url}
+                 className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+                 target="_blank">
+                <div>
+                  <div
+                    className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+                    <div className="rvo-margin--sm">
+                      <FileTypeIcon fileName={item.name}/>
+                    </div>
+                    <div>
+                      <span className="openbsw-document-titel">{item.name}</span><br/>
+                      <span className="openbsw-search-result--date">{shortenUrl(item.url, 60)}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+  }
+}
+
+function SearchResultsAI({ value }) {
+  return (
+    <div className="rvo-scrollable-content openbsw-search-scrollable-content">
+      <Markdown>{value}</Markdown>
+    </div>
+  );
+}
+
 function SearchResults({term}: SearchResultsProps) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
+  const [aiResult, setAiResult] = useState('');
+  const [isSearchQuery, setIsSearchQuery] = useState(false);
+  const [storedTerm, setStoredTerm] = useState('');
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
-    if (term && keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/nextcloud/search?term=" + term, {
-        method: "GET",
-        mode: "cors",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${keycloak.token}`,
-        }
-      })
+    if (term && (term != storedTerm) && keycloakContext.authenticated) {
+      setStoredTerm(term);
+      const newIsSearchQuery = term.split(' ').length < 4;
+      setIsSearchQuery(newIsSearchQuery);
+      if (newIsSearchQuery) {
+        fetch("http://localhost:8000/v1/nextcloud/search?term=" + term, {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${keycloak.token}`,
+          }
+        })
         .then(res => res.json())
         .then(
           (result) => {
@@ -57,8 +111,38 @@ function SearchResults({term}: SearchResultsProps) {
             setError(error);
           }
         )
+      } else {
+        fetch("http://localhost:8000/v1/ai/chat/completions", {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${keycloak.token}`,
+          },
+          body: JSON.stringify({ prompt: term })
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              if (result.detail) {
+                setError(result.detail)
+              } else {
+                setAiResult(result);
+              }
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
+            }
+          )
+      }
     }
-  }, [keycloakContext, term])
+  }, [keycloakContext, term, storedTerm])
 
   if (!term) {
     return (
@@ -85,38 +169,15 @@ function SearchResults({term}: SearchResultsProps) {
         Foutmelding: {error.message}
       </>
     );
-  } else if (items.length === 0) {
+  } else if (isSearchQuery) {
     return (
-      <>
-        Geen resultaten gevonden
-      </>
-    )
-  } else {
-    return (
-      <>
-        <h3 className="utrecht-heading-3">Zoekresultaten</h3>
-        <div className="rvo-scrollable-content openbsw-search-scrollable-content">
-          <div className="rvo-layout-column rvo-layout-gap--0">
-            {items.map(item => (
-              <a href={item.url} key={item.url} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
-                <div>
-                  <div
-                    className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
-                    <div className="rvo-margin--sm">
-                      <FileTypeIcon fileName={item.name} />
-                    </div>
-                    <div>
-                      <span className="openbsw-document-titel">{item.name}</span><br/>
-                      <span className="openbsw-search-result--date">{shortenUrl(item.url, 60)}</span>
-                    </div>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </>
+      <SearchResultsItems items={items}></SearchResultsItems>
     );
+  } else {
+    console.log(aiResult);
+    return (
+      <SearchResultsAI value={aiResult}></SearchResultsAI>
+    )
   }
 }
 
@@ -129,17 +190,13 @@ export default function Search() {
 
   const handleOnClick = () => {
     setIsVisible(true);
-    submitQuery();
+    setQuery(inputRef.current.value);
   };
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       handleOnClick();
     }
-  }
-
-  function submitQuery() {
-    setQuery(inputRef.current.value);
   }
 
   useEffect(() => {

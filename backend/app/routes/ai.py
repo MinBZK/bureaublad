@@ -15,7 +15,7 @@ router = APIRouter(prefix="/ai", tags=["caldav"])
 async def ai_post_chat_completions(request: Request, chat_request: ChatCompletionRequest) -> str:
 
     if settings.AI_API_KEY is None:
-        return "AI not available"
+        return "AI niet beschikbaar"
 
     client = OpenAI(base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
 
