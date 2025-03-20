@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     CALENDAR_AUDIENCE: str = "files"
     TASK_URL: str = "https://files.la-suite.apps.digilab.network"
     TASK_AUDIENCE: str = "files"
+    AI_BASE_URL: str = "https://api.openai.com/v1/"
+    AI_MODEL: str = "gpt-4o"
+    AI_API_KEY: str | None = None
 
     CORS_ALLOW_ORIGINS: str | list[str] = "*"
     CORS_ALLOW_CREDENTIALS: bool = False
