@@ -29,7 +29,6 @@ function MijnTakenItems() {
             if (result.detail) {
               setError(result.detail)
             } else {
-              console.log(result);
               setItems(result);
             }
           },
