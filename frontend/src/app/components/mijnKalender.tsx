@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 
-function MijnTakenItems() {
+function MijnKalenderItems() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -13,7 +13,8 @@ function MijnTakenItems() {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/caldav/tasks", {
+      const today = new Date().toISOString().substring(0, 10);
+      fetch("http://localhost:8000/v1/caldav/calendars/" + today, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -49,52 +50,45 @@ function MijnTakenItems() {
     return <div>Laden...</div>;
   } else {
     return (
-      <div>
+      <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.title + '/' + item.start} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
-            <div>
-              <div
-                className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
-                <div className="rvo-margin--sm">
-                  <span className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--hemelblauw" role="img"
-                        aria-label="Kalender met vinkje"></span>
-                </div>
-                <div>
-                  <span className="openbsw-document-titel">{item.title}</span><br/>
-                  {item.end && (
-                    <span className="openbsw-document-datum">Tot: {new Date(Date.parse(item.end)).toLocaleString("nl-NL", {
-                      timeStyle: "short",
-                      dateStyle: "short",
-                    })}</span>
-                  )}
-                  {!item.end && item.start && (
-                    <span className="openbsw-document-datum">Vanaf: {new Date(Date.parse(item.start)).toLocaleString("nl-NL", {
-                      timeStyle: "short",
-                      dateStyle: "short",
-                    })}</span>
-                  )}
-
-                </div>
+          <div key={item.title + '/' + item.start}>
+            <div
+              className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+              <div className="rvo-margin--sm">
+                  <span className="utrecht-icon rvo-icon rvo-icon-kalender-met-vlakken rvo-icon--xl rvo-icon--hemelblauw" role="img"
+                        aria-label="Kalender met vlakken"></span>
+              </div>
+              <div>
+                <span className="openbsw-document-titel">{item.title}</span><br/>
+                <span className="openbsw-document-datum">
+                  {new Date(Date.parse(item.start)).toLocaleTimeString('nl-NL', { timeStyle: "short" })} - {new Date(Date.parse(item.end)).toLocaleTimeString('nl-NL', { timeStyle: "short" })}
+                </span>
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     );
   }
 }
 
-export default function MijnTaken() {
+export default function MijnKalender() {
+  const nextHour = new Date();
+  nextHour.setHours(nextHour.getHours() + 1);
+  nextHour.setMinutes(0, 0, 0);
+  const fromTimestamp = nextHour.valueOf() / 1000;
+  const toTimestamp = nextHour.setHours(nextHour.getHours() + 1).valueOf() / 1000;
   return (
     <div className="openbsw-panel">
-      <h4>Mijn taken</h4>
+      <h4>Agenda van vandaag</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnTakenItems></MijnTakenItems>
+        <MijnKalenderItems></MijnKalenderItems>
       </div>
       <p className="utrecht-button-group">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-          href="https://files.la-suite.apps.digilab.network/apps/tasks/collections/all"
+          href={'https://files.la-suite.apps.digilab.network/apps/calendar/dayGridMonth/now/new/popover/0/' + fromTimestamp + '/' + toTimestamp}
           target="_blank"
         >
           <span
@@ -102,7 +96,14 @@ export default function MijnTaken() {
             role="img"
             aria-label="Plus"
           ></span>
-          Nieuwe taak
+          Afspraak inplannen
+        </a>
+        <a
+          className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm"
+          href="https://files.la-suite.apps.digilab.network/apps/calendar/"
+          target="_blank"
+        >
+          Mijn agenda
         </a>
       </p>
     </div>

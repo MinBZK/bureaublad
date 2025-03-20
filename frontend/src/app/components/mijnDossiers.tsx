@@ -44,9 +44,9 @@ function MijnDossiersItems() {
   }, [keycloakContext])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Laden...</div>;
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
@@ -83,17 +83,19 @@ export default function MijnDossiers() {
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
           href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
         >
           <span
             className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
             role="img"
             aria-label="Plus"
           ></span>
-          Nieuw document
+          Nieuw dossier
         </a>
         <a
           className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm  rvo-link--no-underline"
           href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
         >
           Al mijn dossiers
         </a>

@@ -3,47 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
-
-function iconInfoByFilename(filename: string): {iconName: string, iconType: string} {
-  const extension = filename.substring(filename.lastIndexOf(".") + 1);
-  if (extension) {
-    switch(extension) {
-      case 'odt':
-      case 'doc':
-      case 'docx':
-      case 'txt':
-      case 'rtf':
-      {
-        return {
-          iconName: 'rvo-icon-document-met-vlakken-en-lijnen-erop',
-          iconType: 'Document met vlakken en lijnen erop'
-        }
-      }
-      case 'xls':
-      case 'xlsx':
-      case 'ods':
-      {
-        return {
-          iconName: 'rvo-icon-grafiek',
-          iconType: 'Grafiek'
-        }
-      }
-      case 'ppt':
-      case 'pptx':
-      case 'odp':
-      {
-        return {
-          iconName: 'rvo-icon-bord-met-grafieken',
-          iconType: 'Bord met grafieken'
-        }
-      }
-    }
-  }
-  return {
-    iconName: 'rvo-icon-document-blanco',
-    iconType: 'Document blanco'
-  }
-}
+import FileTypeIcon from "@/app/components/fileTypeIcon";
 
 function MijnDocumentenItems() {
   const [error, setError] = useState(null);
@@ -85,9 +45,9 @@ function MijnDocumentenItems() {
   }, [keycloakContext])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <div>Laden...</div>;
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
@@ -97,8 +57,7 @@ function MijnDocumentenItems() {
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
-                  <span className={'utrecht-icon rvo-icon ' + iconInfoByFilename(item.object_filename).iconName + ' rvo-icon--xl rvo-icon--hemelblauw'} role="img"
-                        aria-label={iconInfoByFilename(item.object_filename).iconTitle}></span>
+                  <FileTypeIcon fileName={item.object_filename}></FileTypeIcon>
                 </div>
                 <div>
                   <span className="openbsw-document-titel">{item.object_filename}</span><br/>
@@ -154,6 +113,7 @@ export default function MijnDocumenten() {
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
           href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
         >
           <span
             className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"

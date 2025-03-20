@@ -4,6 +4,7 @@ import MijnDocumenten from "@/app/components/mijnDocumenten";
 import MijnTaken from "@/app/components/mijnTaken";
 import MijnDossiers from "@/app/components/mijnDossiers";
 import Updates from "@/app/components/updates";
+import MijnKalender from "@/app/components/mijnKalender";
 
 export default function Home() {
   return (
@@ -18,28 +19,7 @@ export default function Home() {
             style={{"--division": "1fr 1fr"}}
           >
             <MijnDossiers></MijnDossiers>
-            <div className="openbsw-panel">
-              <h4>Agenda afspraken</h4>
-              <p className="utrecht-button-group">
-                <button
-                  className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                    <span
-                      className="utrecht-icon rvo-icon rvo-icon-plus rvo-icon--sm rvo-icon--hemelblauw"
-                      role="img"
-                      aria-label="Plus"
-                    ></span>
-                  Afspraak inplannen
-                </button>
-                <button
-                  className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm"
-                  type="button"
-                >
-                  Mijn agenda
-                </button>
-              </p>
-            </div>
+            <MijnKalender></MijnKalender>
           </div>
         </div>
 
