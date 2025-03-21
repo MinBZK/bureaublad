@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 
-function MijnKalenderItems() {
+function MijnKalenderItems(baseUrl) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -14,7 +14,7 @@ function MijnKalenderItems() {
   useEffect(() => {
     if (keycloakContext.authenticated) {
       const today = new Date().toISOString().substring(0, 10);
-      fetch("http://localhost:8000/v1/caldav/calendars/" + today, {
+      fetch(baseUrl.baseUrl + "/v1/caldav/calendars/" + today, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -42,7 +42,7 @@ function MijnKalenderItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl.baseUrl]);
 
   if (error) {
     return <div>Foutmelding: {error.message}</div>;
@@ -73,7 +73,7 @@ function MijnKalenderItems() {
   }
 }
 
-export default function MijnKalender() {
+export default function MijnKalender({baseUrl}) {
   const nextHour = new Date();
   nextHour.setHours(nextHour.getHours() + 1);
   nextHour.setMinutes(0, 0, 0);
@@ -83,7 +83,7 @@ export default function MijnKalender() {
     <div className="openbsw-panel">
       <h4>Agenda van vandaag</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnKalenderItems></MijnKalenderItems>
+        <MijnKalenderItems baseUrl={baseUrl}></MijnKalenderItems>
       </div>
       <p className="utrecht-button-group">
         <a

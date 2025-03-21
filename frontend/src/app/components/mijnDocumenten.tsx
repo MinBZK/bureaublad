@@ -5,7 +5,7 @@ import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 import FileTypeIcon from "@/app/components/fileTypeIcon";
 
-function MijnDocumentenItems() {
+function MijnDocumentenItems({ baseUrl }) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -14,7 +14,7 @@ function MijnDocumentenItems() {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/nextcloud/activities", {
+      fetch(baseUrl + "/v1/nextcloud/activities", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -42,7 +42,7 @@ function MijnDocumentenItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl])
 
   if (error) {
     return <div>Foutmelding: {error.message}</div>;
@@ -72,7 +72,7 @@ function MijnDocumentenItems() {
   }
 }
 
-export default function MijnDocumenten() {
+export default function MijnDocumenten({ baseUrl }) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn documenten</h4>
@@ -107,7 +107,7 @@ export default function MijnDocumenten() {
       {/*<div id="tab-2">*/}
       {/*</div>*/}
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnDocumentenItems></MijnDocumentenItems>
+        <MijnDocumentenItems baseUrl={baseUrl}></MijnDocumentenItems>
       </div>
       <p className="utrecht-button-group openbsw-">
         <a

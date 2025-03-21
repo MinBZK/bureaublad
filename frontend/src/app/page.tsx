@@ -18,8 +18,8 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
             style={{"--division": "1fr 1fr"}}
           >
-            <MijnDossiers></MijnDossiers>
-            <MijnKalender></MijnKalender>
+            <MijnDossiers baseUrl={process.env.BACKEND_BASE_URL}></MijnDossiers>
+            <MijnKalender baseUrl={process.env.BACKEND_BASE_URL}></MijnKalender>
           </div>
         </div>
 
@@ -30,8 +30,8 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
             style={{"--division": "1fr 1fr 1fr"}}
           >
-            <MijnDocumenten></MijnDocumenten>
-            <MijnTaken></MijnTaken>
+            <MijnDocumenten baseUrl={process.env.BACKEND_BASE_URL}></MijnDocumenten>
+            <MijnTaken baseUrl={process.env.BACKEND_BASE_URL}></MijnTaken>
             <Updates></Updates>
           </div>
         </div>

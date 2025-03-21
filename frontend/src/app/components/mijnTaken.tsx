@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 
-function MijnTakenItems() {
+function MijnTakenItems({ baseUrl }) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -13,7 +13,7 @@ function MijnTakenItems() {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/caldav/tasks", {
+      fetch(baseUrl + "/v1/caldav/tasks", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -41,7 +41,7 @@ function MijnTakenItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl])
 
   if (error) {
     return <div>Foutmelding: {error.message}</div>;
@@ -84,12 +84,12 @@ function MijnTakenItems() {
   }
 }
 
-export default function MijnTaken() {
+export default function MijnTaken({ baseUrl }) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn taken</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnTakenItems></MijnTakenItems>
+        <MijnTakenItems baseUrl={baseUrl}></MijnTakenItems>
       </div>
       <p className="utrecht-button-group">
         <a

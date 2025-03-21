@@ -7,7 +7,8 @@ import FileTypeIcon from "@/app/components/fileTypeIcon";
 import Markdown from "react-markdown";
 
 interface SearchResultsProps {
-  term?: string
+  term?: string,
+  baseUrl?: unknown
 }
 
 function shortenUrl(url: string, maxLength: number) {
@@ -22,7 +23,7 @@ function shortenUrl(url: string, maxLength: number) {
   return url;
 }
 
-function SearchResultsItems({ items }) {
+function SearchResultsItems({items}) {
   if (items.length === 0) {
     return (
       <>
@@ -60,7 +61,7 @@ function SearchResultsItems({ items }) {
   }
 }
 
-function SearchResultsAI({ value }) {
+function SearchResultsAI({value}) {
   return (
     <div className="rvo-scrollable-content openbsw-search-scrollable-content">
       <Markdown>{value}</Markdown>
@@ -68,7 +69,7 @@ function SearchResultsAI({ value }) {
   );
 }
 
-function SearchResults({term}: SearchResultsProps) {
+function SearchResults({term, baseUrl}: SearchResultsProps) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -84,7 +85,7 @@ function SearchResults({term}: SearchResultsProps) {
       const newIsSearchQuery = term.split(' ').length < 4;
       setIsSearchQuery(newIsSearchQuery);
       if (newIsSearchQuery) {
-        fetch("http://localhost:8000/v1/nextcloud/search?term=" + term, {
+        fetch(baseUrl.baseUrl + "/v1/nextcloud/search?term=" + term, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -93,26 +94,26 @@ function SearchResults({term}: SearchResultsProps) {
             "Authorization": `Bearer ${keycloak.token}`,
           }
         })
-        .then(res => res.json())
-        .then(
-          (result) => {
-            setIsLoaded(true);
-            if (result.detail) {
-              setError(result.detail)
-            } else {
-              setItems(result);
+          .then(res => res.json())
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              if (result.detail) {
+                setError(result.detail)
+              } else {
+                setItems(result);
+              }
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
             }
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            setIsLoaded(true);
-            setError(error);
-          }
-        )
+          )
       } else {
-        fetch("http://localhost:8000/v1/ai/chat/completions", {
+        fetch(baseUrl.baseUrl + "/v1/ai/chat/completions", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -120,7 +121,7 @@ function SearchResults({term}: SearchResultsProps) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${keycloak.token}`,
           },
-          body: JSON.stringify({ prompt: term })
+          body: JSON.stringify({prompt: term})
         })
           .then(res => res.json())
           .then(
@@ -142,7 +143,7 @@ function SearchResults({term}: SearchResultsProps) {
           )
       }
     }
-  }, [keycloakContext, term, storedTerm])
+  }, [keycloakContext, term, storedTerm, baseUrl.baseUrl]);
 
   if (!term) {
     return (
@@ -181,7 +182,7 @@ function SearchResults({term}: SearchResultsProps) {
   }
 }
 
-export default function Search() {
+export default function Search({baseUrl}) {
   const [query, setQuery] = useState("");
   const [isVisible, setIsVisible] = useState(false); // Manages the visibility state of the popover
   const popoverRef = useRef(null); // Reference to the popover element
@@ -243,7 +244,7 @@ export default function Search() {
           role="dialog"
           aria-modal="true"
         >
-          <SearchResults term={query}></SearchResults>
+          <SearchResults baseUrl={baseUrl} term={query}></SearchResults>
         </div>
       )}
     </div>

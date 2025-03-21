@@ -4,7 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {keycloak} from "@/app/auth/keycloak";
 import {KeycloakContext} from "@/app/auth/KeycloakProvider";
 
-function MijnDossiersItems() {
+function MijnDossiersItems(baseUrl) {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -13,7 +13,7 @@ function MijnDossiersItems() {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/docs/documents", {
+      fetch(baseUrl.baseUrl + "/v1/docs/documents", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -41,7 +41,7 @@ function MijnDossiersItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl.baseUrl]);
 
   if (error) {
     return <div>Foutmelding: {error.message}</div>;
@@ -51,7 +51,9 @@ function MijnDossiersItems() {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.id} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+          <a href={item.url} key={item.id}
+             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+             target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
@@ -72,12 +74,12 @@ function MijnDossiersItems() {
   }
 }
 
-export default function MijnDossiers() {
+export default function MijnDossiers({baseUrl}) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnDossiersItems></MijnDossiersItems>
+        <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>
       </div>
       <p className="utrecht-button-group openbsw-">
         <a

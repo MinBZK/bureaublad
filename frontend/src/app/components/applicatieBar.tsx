@@ -49,7 +49,7 @@ const applicaties = [{
 }, {
   id: 8,
   title: 'AI assistent',
-  url: 'https://vault.la-suite.apps.digilab.network/',
+  url: 'https://ai-assistant.la-suite.apps.digilab.network/',
   iconClass: 'rvo-icon-half-tandwiel-half-brein',
   iconLabel: 'Half tandwiel half brein'
 }, {
