@@ -1,9 +1,9 @@
 'use client'
 
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
-import {keycloak} from "@/app/auth/keycloak";
-import FileTypeIcon from "@/app/components/fileTypeIcon";
+import React, {RefObject, useContext, useEffect, useRef, useState} from "react";
+import {KeycloakContext} from "../auth/KeycloakProvider";
+import {keycloak} from "../auth/keycloak";
+import FileTypeIcon from "./fileTypeIcon";
 import Markdown from "react-markdown";
 
 interface SearchResultsProps {
@@ -23,7 +23,16 @@ function shortenUrl(url: string, maxLength: number) {
   return url;
 }
 
-function SearchResultsItems({items}) {
+interface SearchResultsItemData {
+  url: string,
+  name: string,
+}
+
+interface SearchResultsItemsProps {
+  items: SearchResultsItemData[]
+}
+
+function SearchResultsItems({items}: SearchResultsItemsProps) {
   if (items.length === 0) {
     return (
       <>
@@ -61,7 +70,11 @@ function SearchResultsItems({items}) {
   }
 }
 
-function SearchResultsAI({value}) {
+interface SearchResultsAIProps {
+  value: string
+}
+
+function SearchResultsAI({value}: SearchResultsAIProps) {
   return (
     <div className="rvo-scrollable-content openbsw-search-scrollable-content">
       <Markdown>{value}</Markdown>
@@ -70,7 +83,7 @@ function SearchResultsAI({value}) {
 }
 
 function SearchResults({term, baseUrl}: SearchResultsProps) {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [aiResult, setAiResult] = useState('');
@@ -85,7 +98,7 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
       const newIsSearchQuery = term.split(' ').length < 4;
       setIsSearchQuery(newIsSearchQuery);
       if (newIsSearchQuery) {
-        fetch(baseUrl.baseUrl + "/v1/nextcloud/search?term=" + term, {
+        fetch(baseUrl + "/v1/nextcloud/search?term=" + term, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -113,7 +126,7 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
             }
           )
       } else {
-        fetch(baseUrl.baseUrl + "/v1/ai/chat/completions", {
+        fetch(baseUrl + "/v1/ai/chat/completions", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -143,7 +156,7 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
           )
       }
     }
-  }, [keycloakContext, term, storedTerm, baseUrl.baseUrl]);
+  }, [keycloakContext, term, storedTerm, baseUrl]);
 
   if (!term) {
     return (
@@ -164,7 +177,7 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
         Zoeken naar: {term}
       </div>
     );
-  } else if (error) {
+  } else if (error.message) {
     return (
       <>
         Foutmelding: {error.message}
@@ -182,16 +195,22 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
   }
 }
 
-export default function Search({baseUrl}) {
+interface SearchProps {
+  baseUrl: string
+}
+
+export default function Search({baseUrl}: SearchProps) {
   const [query, setQuery] = useState("");
   const [isVisible, setIsVisible] = useState(false); // Manages the visibility state of the popover
-  const popoverRef = useRef(null); // Reference to the popover element
-  const triggerRef = useRef(null); // Reference to the button element that triggers the popover
-  const inputRef = useRef(null);
+  const popoverRef: RefObject<HTMLDivElement | null> = useRef(null); // Reference to the popover element
+  const triggerRef: RefObject<HTMLButtonElement | null> = useRef(null); // Reference to the button element that triggers the popover
+  const inputRef: RefObject<HTMLInputElement | null> = useRef(null);
 
   const handleOnClick = () => {
     setIsVisible(true);
-    setQuery(inputRef.current.value);
+    if (inputRef.current) {
+      setQuery(inputRef.current.value);
+    }
   };
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -201,11 +220,11 @@ export default function Search({baseUrl}) {
   }
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
-        popoverRef.current && !popoverRef.current.contains(event.target) &&
-        triggerRef.current && !triggerRef.current.contains(event.target) &&
-        inputRef.current && !inputRef.current.contains(event.target)
+        popoverRef.current && !popoverRef.current.contains(event.target as Node) &&
+        triggerRef.current && !triggerRef.current.contains(event.target as Node) &&
+        inputRef.current && !inputRef.current.contains(event.target as Node)
       ) {
         setIsVisible(false); // Close the popover if clicked outside
       }

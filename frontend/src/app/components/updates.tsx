@@ -1,11 +1,20 @@
 'use client'
 
 import {useEffect, useState} from "react";
+import {valueOrEmptyString} from "../page";
+
+interface UpdateItemsData {
+  title: string,
+  link: string,
+  guid: string,
+  hostname: string,
+  pubDate: string,
+}
 
 function UpdatesItems() {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as UpdateItemsData[]);
 
   useEffect(() => {
     fetch("https://developer.overheid.nl/blog/rss.xml", {
@@ -21,19 +30,19 @@ function UpdatesItems() {
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(result, 'text/xml');
           const items = xmlDoc.getElementsByTagName('item');
-          const feedItems = [];
+          const feedItems: UpdateItemsData[] = [];
 
-          const dateOptions: DateTimeFormatOptions = {
+          const dateOptions: Intl.DateTimeFormatOptions = {
             year: "numeric",
             month: "short",
             day: "numeric",
           };
 
           for (let i = 0; i < items.length; i++) {
-            const title = items[i].getElementsByTagName('title')[0].textContent;
-            const link = items[i].getElementsByTagName('link')[0].textContent;
-            const guid = items[i].getElementsByTagName('guid')[0].textContent;
-            const pubDate = new Date(items[i].getElementsByTagName('pubDate')[0]?.textContent).toLocaleDateString("nl-NL", dateOptions);
+            const title = valueOrEmptyString(items[i].getElementsByTagName('title')[0].textContent);
+            const link = valueOrEmptyString(items[i].getElementsByTagName('link')[0].textContent);
+            const guid = valueOrEmptyString(items[i].getElementsByTagName('guid')[0].textContent);
+            const pubDate = new Date(valueOrEmptyString(items[i].getElementsByTagName('pubDate')[0].textContent)).toLocaleDateString("nl-NL", dateOptions);
             const hostname = new URL(link).hostname;
             feedItems.push({ title, link, guid, hostname, pubDate });
           }
@@ -49,7 +58,7 @@ function UpdatesItems() {
       )
   }, [])
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Loading...</div>;

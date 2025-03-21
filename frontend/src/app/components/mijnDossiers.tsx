@@ -1,19 +1,30 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import {keycloak} from "@/app/auth/keycloak";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
+import {keycloak} from "../auth/keycloak";
+import {KeycloakContext} from "../auth/KeycloakProvider";
 
-function MijnDossiersItems(baseUrl) {
-  const [error, setError] = useState(null);
+interface MijnDossiersItemsProps {
+  baseUrl: string
+}
+
+interface MijnDossiersItemsData {
+  url: string,
+  id: string,
+  title: string,
+  updated_date: string,
+}
+
+function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as MijnDossiersItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch(baseUrl.baseUrl + "/v1/docs/documents", {
+      fetch(baseUrl + "/v1/docs/documents", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -41,9 +52,9 @@ function MijnDossiersItems(baseUrl) {
           }
         )
     }
-  }, [keycloakContext, baseUrl.baseUrl]);
+  }, [keycloakContext, baseUrl]);
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Laden...</div>;
@@ -74,7 +85,11 @@ function MijnDossiersItems(baseUrl) {
   }
 }
 
-export default function MijnDossiers({baseUrl}) {
+interface MijnDossiersProps {
+  baseUrl: string
+}
+
+export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn dossiers</h4>

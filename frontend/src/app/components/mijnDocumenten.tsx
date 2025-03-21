@@ -1,14 +1,26 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import {keycloak} from "@/app/auth/keycloak";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
-import FileTypeIcon from "@/app/components/fileTypeIcon";
+import {keycloak} from "../auth/keycloak";
+import {KeycloakContext} from "../auth/KeycloakProvider";
+import FileTypeIcon from "./fileTypeIcon";
 
-function MijnDocumentenItems({ baseUrl }) {
-  const [error, setError] = useState(null);
+interface MijnDocumentenItemsProps {
+  baseUrl?: string
+}
+
+interface DocumentenItemsData {
+  url: string,
+  object_filename: string,
+  type: string,
+  date: string,
+  activity_id: string,
+}
+
+function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as DocumentenItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
@@ -44,7 +56,7 @@ function MijnDocumentenItems({ baseUrl }) {
     }
   }, [keycloakContext, baseUrl])
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Laden...</div>;
@@ -52,7 +64,9 @@ function MijnDocumentenItems({ baseUrl }) {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.activity_id} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+          <a href={item.url} key={item.activity_id}
+             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+             target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
@@ -72,7 +86,11 @@ function MijnDocumentenItems({ baseUrl }) {
   }
 }
 
-export default function MijnDocumenten({ baseUrl }) {
+interface MijnDocumentenProps {
+  baseUrl: string
+}
+
+export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn documenten</h4>

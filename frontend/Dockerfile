@@ -1,8 +1,8 @@
-FROM node:23-alpine3.20 AS build
+FROM node:23-alpine3.21 AS build
 
 WORKDIR /app
 
-COPY package.json package-lock.json next.config.ts /app/
+COPY package.json package-lock.json next.config.ts tsconfig.json /app/
 COPY src /app/src
 COPY src/public /app/public
 
