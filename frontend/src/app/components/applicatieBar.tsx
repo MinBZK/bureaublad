@@ -69,18 +69,23 @@ const applicaties = [{
 export default function ApplicatieBar() {
   const userApplicaties = applicaties.map(applicatie =>
     <div key={applicatie.id} className="openbsw-applicatie-bar-item">
-      <div className="openbsw-applicatie-bar-item-icon">
-        <span
-          className={'utrecht-icon rvo-icon ' + applicatie.iconClass + ' rvo-icon--xl rvo-icon--zwart'}
-          role="img"
-          aria-label={applicatie.iconLabel}
-        ></span>
-      </div>
       <a
         className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--hemelblauw rvo-link--normal"
         href={applicatie.url}
+        target="_blank"
       >
-        {applicatie.title}
+        <div className="rvo-layout-column rvo-layout-gap--2xs">
+          <div className="openbsw-applicatie-bar-item-icon">
+          <span
+            className={'utrecht-icon rvo-icon ' + applicatie.iconClass + ' rvo-icon--xl rvo-icon--zwart'}
+            role="img"
+            aria-label={applicatie.iconLabel}
+          ></span>
+          </div>
+          <div>
+            {applicatie.title}
+          </div>
+        </div>
       </a>
     </div>
   ).slice(0, 10);
