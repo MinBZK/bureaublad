@@ -94,7 +94,7 @@ export default function ApplicatieBar() {
     <div className="rvo-layout-grid-container">
       <div
         className="rvo-layout-grid rvo-layout-gap--xl rvo-layout-grid-columns--twelve rvo-layout-grid--division openbsw-applicatie-bar"
-        style={{"--division": "2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"}}
+        style={{"--division": "2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr"} as React.CSSProperties}
       >
         <div className="openbsw-applicatie-bar-head">
           <p>

@@ -23,7 +23,7 @@ export default function Home() {
         <div className="rvo-layout-grid-container openbsw-panel-container">
           <div
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr"}}
+            style={{"--division": "1fr 1fr"} as React.CSSProperties}
           >
             <MijnDossiers baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnDossiers>
             <MijnKalender baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnKalender>
@@ -35,7 +35,7 @@ export default function Home() {
         <div className="rvo-layout-grid-container openbsw-panel-container">
           <div
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr 1fr"}}
+            style={{"--division": "1fr 1fr 1fr"} as React.CSSProperties}
           >
             <MijnDocumenten baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnDocumenten>
             <MijnTaken baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnTaken>
