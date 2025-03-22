@@ -1,4 +1,4 @@
-FROM node:23-alpine3.21 AS build
+FROM --platform=$BUILDPLATFORM node:23-alpine3.21 AS build
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY src/public /app/public
 
 RUN npm ci && npm run build
 
-FROM nginx:1.27.4-alpine
+FROM --platform=$BUILDPLATFORM nginx:1.27.4-alpine
 
 COPY --from=build /app/dist /usr/share/nginx/html
 

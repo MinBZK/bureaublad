@@ -13,7 +13,6 @@ router = APIRouter(prefix="/ai", tags=["caldav"])
 
 @router.post("/chat/completions")
 async def ai_post_chat_completions(request: Request, chat_request: ChatCompletionRequest) -> str:
-
     if settings.AI_API_KEY is None:
         return "AI niet beschikbaar"
 
@@ -34,7 +33,7 @@ async def ai_post_chat_completions(request: Request, chat_request: ChatCompletio
   7. Als je het antwoord niet weet, erken dit direct
   8. Gebruik waar mogelijk de officiële terminologie van de Nederlandse overheid.
   9. Structureer complexe antwoorden met duidelijke kopjes en opsommingstekens voor betere leesbaarheid.
-  10. Informeer gebruikers over relevante procedures, termijnen en formulieren bij vragen over overheidsprocessen.""",
+  10. Informeer gebruikers over relevante procedures, termijnen en formulieren bij vragen over overheidsprocessen.""",  # noqa: E501
             },
             {"role": "user", "content": chat_request.prompt},
         ],

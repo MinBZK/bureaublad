@@ -3,10 +3,16 @@ name: Build Frontend container
 on:
   push:
     branches:
-    - main
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - "main"
 
 env:
   IMAGE_NAME: 'bureaublad-frontend'
+  URL: 'https://bureaublad.apps.digilab.network'
 
 jobs:
   push_to_registries:
@@ -50,7 +56,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
+        env:
+          BACKEND_BASE_URL: ${{ env.URL }}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
