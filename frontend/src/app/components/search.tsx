@@ -1,13 +1,14 @@
 'use client'
 
-import React, {useContext, useEffect, useRef, useState} from "react";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
-import {keycloak} from "@/app/auth/keycloak";
-import FileTypeIcon from "@/app/components/fileTypeIcon";
+import React, {RefObject, useContext, useEffect, useRef, useState} from "react";
+import {KeycloakContext} from "../auth/KeycloakProvider";
+import {keycloak} from "../auth/keycloak";
+import FileTypeIcon from "./fileTypeIcon";
 import Markdown from "react-markdown";
 
 interface SearchResultsProps {
-  term?: string
+  term?: string,
+  baseUrl?: unknown
 }
 
 function shortenUrl(url: string, maxLength: number) {
@@ -22,7 +23,16 @@ function shortenUrl(url: string, maxLength: number) {
   return url;
 }
 
-function SearchResultsItems({ items }) {
+interface SearchResultsItemData {
+  url: string,
+  name: string,
+}
+
+interface SearchResultsItemsProps {
+  items: SearchResultsItemData[]
+}
+
+function SearchResultsItems({items}: SearchResultsItemsProps) {
   if (items.length === 0) {
     return (
       <>
@@ -60,7 +70,11 @@ function SearchResultsItems({ items }) {
   }
 }
 
-function SearchResultsAI({ value }) {
+interface SearchResultsAIProps {
+  value: string
+}
+
+function SearchResultsAI({value}: SearchResultsAIProps) {
   return (
     <div className="rvo-scrollable-content openbsw-search-scrollable-content">
       <Markdown>{value}</Markdown>
@@ -68,8 +82,8 @@ function SearchResultsAI({ value }) {
   );
 }
 
-function SearchResults({term}: SearchResultsProps) {
-  const [error, setError] = useState(null);
+function SearchResults({term, baseUrl}: SearchResultsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [aiResult, setAiResult] = useState('');
@@ -84,7 +98,7 @@ function SearchResults({term}: SearchResultsProps) {
       const newIsSearchQuery = term.split(' ').length < 4;
       setIsSearchQuery(newIsSearchQuery);
       if (newIsSearchQuery) {
-        fetch("http://localhost:8000/v1/nextcloud/search?term=" + term, {
+        fetch(baseUrl + "/v1/ocs/search?term=" + term, {
           method: "GET",
           mode: "cors",
           headers: {
@@ -93,26 +107,26 @@ function SearchResults({term}: SearchResultsProps) {
             "Authorization": `Bearer ${keycloak.token}`,
           }
         })
-        .then(res => res.json())
-        .then(
-          (result) => {
-            setIsLoaded(true);
-            if (result.detail) {
-              setError(result.detail)
-            } else {
-              setItems(result);
+          .then(res => res.json())
+          .then(
+            (result) => {
+              setIsLoaded(true);
+              if (result.detail) {
+                setError(result.detail)
+              } else {
+                setItems(result);
+              }
+            },
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
             }
-          },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
-          (error) => {
-            setIsLoaded(true);
-            setError(error);
-          }
-        )
+          )
       } else {
-        fetch("http://localhost:8000/v1/ai/chat/completions", {
+        fetch(baseUrl + "/v1/ai/chat/completions", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -120,7 +134,7 @@ function SearchResults({term}: SearchResultsProps) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${keycloak.token}`,
           },
-          body: JSON.stringify({ prompt: term })
+          body: JSON.stringify({prompt: term})
         })
           .then(res => res.json())
           .then(
@@ -142,7 +156,7 @@ function SearchResults({term}: SearchResultsProps) {
           )
       }
     }
-  }, [keycloakContext, term, storedTerm])
+  }, [keycloakContext, term, storedTerm, baseUrl]);
 
   if (!term) {
     return (
@@ -163,7 +177,7 @@ function SearchResults({term}: SearchResultsProps) {
         Zoeken naar: {term}
       </div>
     );
-  } else if (error) {
+  } else if (error.message) {
     return (
       <>
         Foutmelding: {error.message}
@@ -181,16 +195,22 @@ function SearchResults({term}: SearchResultsProps) {
   }
 }
 
-export default function Search() {
+interface SearchProps {
+  baseUrl: string
+}
+
+export default function Search({baseUrl}: SearchProps) {
   const [query, setQuery] = useState("");
   const [isVisible, setIsVisible] = useState(false); // Manages the visibility state of the popover
-  const popoverRef = useRef(null); // Reference to the popover element
-  const triggerRef = useRef(null); // Reference to the button element that triggers the popover
-  const inputRef = useRef(null);
+  const popoverRef: RefObject<HTMLDivElement | null> = useRef(null); // Reference to the popover element
+  const triggerRef: RefObject<HTMLButtonElement | null> = useRef(null); // Reference to the button element that triggers the popover
+  const inputRef: RefObject<HTMLInputElement | null> = useRef(null);
 
   const handleOnClick = () => {
     setIsVisible(true);
-    setQuery(inputRef.current.value);
+    if (inputRef.current) {
+      setQuery(inputRef.current.value);
+    }
   };
 
   function handleKeyUp(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -200,11 +220,11 @@ export default function Search() {
   }
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
-        popoverRef.current && !popoverRef.current.contains(event.target) &&
-        triggerRef.current && !triggerRef.current.contains(event.target) &&
-        inputRef.current && !inputRef.current.contains(event.target)
+        popoverRef.current && !popoverRef.current.contains(event.target as Node) &&
+        triggerRef.current && !triggerRef.current.contains(event.target as Node) &&
+        inputRef.current && !inputRef.current.contains(event.target as Node)
       ) {
         setIsVisible(false); // Close the popover if clicked outside
       }
@@ -243,7 +263,7 @@ export default function Search() {
           role="dialog"
           aria-modal="true"
         >
-          <SearchResults term={query}></SearchResults>
+          <SearchResults baseUrl={baseUrl} term={query}></SearchResults>
         </div>
       )}
     </div>

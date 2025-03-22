@@ -1,12 +1,13 @@
 import Keycloak from 'keycloak-js';
+import {valueOrEmptyString} from "../page";
 
 let keycloak: Keycloak;
 
 if (typeof window !== 'undefined') {
     keycloak = new Keycloak({
-        url: process.env.NEXT_PUBLIC_KEYCLOAK_URL,
-        realm: process.env.NEXT_PUBLIC_KEYCLOAK_REALM,
-        clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT,
+        url: valueOrEmptyString(process.env.NEXT_PUBLIC_KEYCLOAK_URL),
+        realm: valueOrEmptyString(process.env.NEXT_PUBLIC_KEYCLOAK_REALM),
+        clientId: valueOrEmptyString(process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT),
     });
 }
 

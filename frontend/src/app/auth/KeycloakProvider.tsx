@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { initKeycloak, keycloak, logout } from '@/app/auth/keycloak';
+import { initKeycloak, keycloak, logout } from './keycloak';
 
 export const KeycloakContext = createContext({
     initialized: false,
@@ -10,7 +10,9 @@ export const KeycloakContext = createContext({
     logout: () => {},
 });
 
-export const KeycloakProvider = ({ children }) => {
+export const KeycloakProvider = ({ children }: Readonly<{
+    children: React.ReactNode;
+}>) => {
     const [initialized, setInitialized] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [user, setUser] = useState({name: "Loading...", email: "Loading..."});

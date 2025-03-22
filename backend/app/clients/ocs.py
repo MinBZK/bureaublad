@@ -4,7 +4,7 @@ from pydantic import TypeAdapter
 
 
 # https://docs.nextcloud.com/server/latest/developer_manual/client_apis/index.html
-class NextCloudClient:
+class OCSClient:
     def __init__(self, base_url: str, token: str) -> None:
         self.base_url = base_url
         self.token = token
