@@ -57,6 +57,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           platforms: linux/amd64,linux/arm64
+          build-args: BACKEND_BASE_URL=$BACKEND_BASE_URL
         env:
           BACKEND_BASE_URL: ${{ env.URL }}
 

@@ -8,7 +8,7 @@ from app.models import ChatCompletionRequest
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/ai", tags=["caldav"])
+router = APIRouter(prefix="/ai", tags=["ai"])
 
 
 @router.post("/chat/completions")

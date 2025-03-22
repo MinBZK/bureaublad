@@ -98,7 +98,7 @@ function SearchResults({term, baseUrl}: SearchResultsProps) {
       const newIsSearchQuery = term.split(' ').length < 4;
       setIsSearchQuery(newIsSearchQuery);
       if (newIsSearchQuery) {
-        fetch(baseUrl + "/v1/nextcloud/search?term=" + term, {
+        fetch(baseUrl + "/v1/ocs/search?term=" + term, {
           method: "GET",
           mode: "cors",
           headers: {

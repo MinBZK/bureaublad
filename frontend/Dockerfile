@@ -1,6 +1,9 @@
 FROM --platform=$BUILDPLATFORM node:23-alpine3.21 AS build
 
 WORKDIR /app
+ARG BACKEND_BASE_URL=http://localhost
+
+ENV BACKEND_BASE_URL=$BACKEND_BASE_URL
 
 COPY package.json package-lock.json next.config.ts tsconfig.json /app/
 COPY src /app/src

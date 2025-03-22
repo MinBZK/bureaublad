@@ -2,27 +2,27 @@ import logging
 
 from fastapi import APIRouter, Request
 
-from app.clients.nextcloud import NextCloudClient
+from app.clients.ocs import OCSClient
 from app.config import settings
 from app.models import Activity, SearchResults, User
 from app.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/nextcloud", tags=["nextcloud"])
+router = APIRouter(prefix="/ocs", tags=["ocs"])
 
 
 @router.get("/activities", response_model=list[Activity])
-async def nextcloud_activities(request: Request) -> list[Activity]:
+async def ocs_activities(request: Request) -> list[Activity]:
     user: User = request.state.user
     access_token = user.access_token
 
-    new_token = await exchange_token(access_token, audience=settings.NEXTCLOUD_AUDIENCE)
+    new_token = await exchange_token(access_token, audience=settings.OCS_AUDIENCE)
 
     if not new_token:
         return []
 
-    client = NextCloudClient(base_url=settings.NEXTCLOUD_URL, token=new_token)
+    client = OCSClient(base_url=settings.OCS_URL, token=new_token)
 
     activities: list[Activity] = client.get_activities()
 
@@ -30,16 +30,16 @@ async def nextcloud_activities(request: Request) -> list[Activity]:
 
 
 @router.get("/search", response_model=list[SearchResults])
-async def nextcloud_search(request: Request, term: str) -> list[SearchResults]:
+async def ocs_search(request: Request, term: str) -> list[SearchResults]:
     user: User = request.state.user
     access_token = user.access_token
 
-    new_token = await exchange_token(access_token, audience=settings.NEXTCLOUD_AUDIENCE)
+    new_token = await exchange_token(access_token, audience=settings.OCS_AUDIENCE)
 
     if not new_token:
         return []
 
-    client = NextCloudClient(base_url=settings.NEXTCLOUD_URL, token=new_token)
+    client = OCSClient(base_url=settings.OCS_URL, token=new_token)
 
     # todo: make parallel requests
     search_results_files: list[SearchResults] = client.search_files(term=term)

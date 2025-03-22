@@ -26,7 +26,7 @@ function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch(baseUrl + "/v1/nextcloud/activities", {
+      fetch(baseUrl + "/v1/ocs/activities", {
         method: "GET",
         mode: "cors",
         headers: {
