@@ -6,6 +6,7 @@ from fastapi import FastAPI
 
 logger = logging.getLogger(__name__)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("Starting version 0.1.0")
