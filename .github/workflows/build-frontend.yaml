@@ -16,7 +16,7 @@ env:
   NEXT_PUBLIC_KEYCLOAK_URL: 'https://bureaublad.apps.digilab.network'
   NEXT_PUBLIC_KEYCLOAK_REALM: lasuite
   NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad-frontend
-  NEXT_PUBLIC_BACKEND_BASE_URL: 'https://bureaublad.apps.digilab.network'
+  NEXT_PUBLIC_BACKEND_BASE_URL: 'https://bureaublad.apps.digilab.network/api'
 
 jobs:
   push_to_registries:
