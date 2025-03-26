@@ -35,7 +35,7 @@ export default function RootLayout({
                       Home
                     </a></li>
                   <li className="rvo-menubar__item">
-                    <Search baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></Search>
+                    <Search baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></Search>
                   </li>
                   <li className="rvo-menubar__item rvo-menubar__item--active rvo-menubar__item--align-right">
                     <UserMenu></UserMenu>

@@ -25,8 +25,8 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
             style={{"--division": "1fr 1fr"} as React.CSSProperties}
           >
-            <MijnDossiers baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnDossiers>
-            <MijnKalender baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnKalender>
+            <MijnDossiers baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnDossiers>
+            <MijnKalender baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnKalender>
           </div>
         </div>
 
@@ -37,8 +37,8 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
             style={{"--division": "1fr 1fr 1fr"} as React.CSSProperties}
           >
-            <MijnDocumenten baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnDocumenten>
-            <MijnTaken baseUrl={valueOrEmptyString(process.env.BACKEND_BASE_URL)}></MijnTaken>
+            <MijnDocumenten baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnDocumenten>
+            <MijnTaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnTaken>
             <Updates></Updates>
           </div>
         </div>
