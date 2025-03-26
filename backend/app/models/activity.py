@@ -21,7 +21,7 @@ class Activity(BaseModel):
     @computed_field
     @property
     def url(self) -> str:
-        return f"{settings.NEXTCLOUD_URL}/f/{self.object_id}"
+        return f"{settings.OCS_URL}/f/{self.object_id}"
 
     @computed_field
     @property

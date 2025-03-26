@@ -3,10 +3,20 @@ name: Build Frontend container
 on:
   push:
     branches:
-    - main
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - "main"
 
 env:
   IMAGE_NAME: 'bureaublad-frontend'
+  URL: 'https://bureaublad.apps.digilab.network'
+  NEXT_PUBLIC_KEYCLOAK_URL: 'https://id.la-suite.apps.digilab.network'
+  NEXT_PUBLIC_KEYCLOAK_REALM: lasuite
+  NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad-frontend
+  NEXT_PUBLIC_BACKEND_BASE_URL: 'https://bureaublad.apps.digilab.network/api'
 
 jobs:
   push_to_registries:
@@ -50,7 +60,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            NEXT_PUBLIC_KEYCLOAK_URL=${{env.NEXT_PUBLIC_KEYCLOAK_URL}}
+            NEXT_PUBLIC_KEYCLOAK_REALM=${{env.NEXT_PUBLIC_KEYCLOAK_REALM}}
+            NEXT_PUBLIC_KEYCLOAK_CLIENT=${{env.NEXT_PUBLIC_KEYCLOAK_CLIENT}}
+            NEXT_PUBLIC_BACKEND_BASE_URL=${{env.NEXT_PUBLIC_BACKEND_BASE_URL}}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2

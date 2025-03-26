@@ -4,6 +4,12 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_KEYCLOAK_URL: https://id.la-suite.apps.digilab.network/
+        NEXT_PUBLIC_KEYCLOAK_REALM: lasuite
+        NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad-frontend
+        NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8080
+    # env_file: frontend/.env
     ports:
       - "3000:80"
     depends_on:
@@ -14,7 +20,7 @@ services:
       context: backend
       dockerfile: Dockerfile
     env_file:
-      - .env
+      - backend/.env
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s

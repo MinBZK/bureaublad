@@ -17,7 +17,7 @@ logging.basicConfig(
 app = FastAPI(
     title="Bureaublad API",
     debug=settings.DEBUG,
-    version=settings.VERSION,
+    version="0.1.0",
     redirect_slashes=False,
     openapi_url="/openapi.json",
     docs_url="/",

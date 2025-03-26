@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
-import UserMenu from "@/app/components/userMenu";
-import {KeycloakProvider} from "@/app/auth/KeycloakProvider";
-import Search from "@/app/components/search";
+import UserMenu from "./components/userMenu";
+import {KeycloakProvider} from "./auth/KeycloakProvider";
+import Search from "./components/search";
+import {valueOrEmptyString} from "@/app/page";
 
 export const metadata: Metadata = {
   title: "Mijn Bureaublad",
@@ -34,7 +35,7 @@ export default function RootLayout({
                       Home
                     </a></li>
                   <li className="rvo-menubar__item">
-                    <Search></Search>
+                    <Search baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></Search>
                   </li>
                   <li className="rvo-menubar__item rvo-menubar__item--active rvo-menubar__item--align-right">
                     <UserMenu></UserMenu>

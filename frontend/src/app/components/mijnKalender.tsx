@@ -1,20 +1,30 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import {keycloak} from "@/app/auth/keycloak";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
+import {keycloak} from "../auth/keycloak";
+import {KeycloakContext} from "../auth/KeycloakProvider";
 
-function MijnKalenderItems() {
-  const [error, setError] = useState(null);
+interface MijnKalenderItemsProps {
+  baseUrl: string
+}
+
+interface MijnKalenderItemsData {
+  title: string,
+  start: string,
+  end: string,
+}
+
+function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as MijnKalenderItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
       const today = new Date().toISOString().substring(0, 10);
-      fetch("http://localhost:8000/v1/caldav/calendars/" + today, {
+      fetch(baseUrl + "/v1/caldav/calendars/" + today, {
         method: "GET",
         mode: "cors",
         headers: {
@@ -42,9 +52,9 @@ function MijnKalenderItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl]);
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Laden...</div>;
@@ -56,13 +66,15 @@ function MijnKalenderItems() {
             <div
               className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
               <div className="rvo-margin--sm">
-                  <span className="utrecht-icon rvo-icon rvo-icon-kalender-met-vlakken rvo-icon--xl rvo-icon--hemelblauw" role="img"
-                        aria-label="Kalender met vlakken"></span>
+                  <span
+                    className="utrecht-icon rvo-icon rvo-icon-kalender-met-vlakken rvo-icon--xl rvo-icon--hemelblauw"
+                    role="img"
+                    aria-label="Kalender met vlakken"></span>
               </div>
               <div>
                 <span className="openbsw-document-titel">{item.title}</span><br/>
                 <span className="openbsw-document-datum">
-                  {new Date(Date.parse(item.start)).toLocaleTimeString('nl-NL', { timeStyle: "short" })} - {new Date(Date.parse(item.end)).toLocaleTimeString('nl-NL', { timeStyle: "short" })}
+                  {new Date(Date.parse(item.start)).toLocaleTimeString('nl-NL', {timeStyle: "short"})} - {new Date(Date.parse(item.end)).toLocaleTimeString('nl-NL', {timeStyle: "short"})}
                 </span>
               </div>
             </div>
@@ -73,7 +85,11 @@ function MijnKalenderItems() {
   }
 }
 
-export default function MijnKalender() {
+interface MijnKalenderProps {
+  baseUrl: string
+}
+
+export default function MijnKalender({baseUrl}: MijnKalenderProps) {
   const nextHour = new Date();
   nextHour.setHours(nextHour.getHours() + 1);
   nextHour.setMinutes(0, 0, 0);
@@ -83,7 +99,7 @@ export default function MijnKalender() {
     <div className="openbsw-panel">
       <h4>Agenda van vandaag</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnKalenderItems></MijnKalenderItems>
+        <MijnKalenderItems baseUrl={baseUrl}></MijnKalenderItems>
       </div>
       <p className="utrecht-button-group">
         <a

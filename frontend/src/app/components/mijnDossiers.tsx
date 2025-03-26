@@ -1,19 +1,30 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import {keycloak} from "@/app/auth/keycloak";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
+import {keycloak} from "../auth/keycloak";
+import {KeycloakContext} from "../auth/KeycloakProvider";
 
-function MijnDossiersItems() {
-  const [error, setError] = useState(null);
+interface MijnDossiersItemsProps {
+  baseUrl: string
+}
+
+interface MijnDossiersItemsData {
+  url: string,
+  id: string,
+  title: string,
+  updated_date: string,
+}
+
+function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as MijnDossiersItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/docs/documents", {
+      fetch(baseUrl + "/v1/docs/documents", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -41,9 +52,9 @@ function MijnDossiersItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl]);
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Laden...</div>;
@@ -51,7 +62,9 @@ function MijnDossiersItems() {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.id} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+          <a href={item.url} key={item.id}
+             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+             target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
@@ -72,12 +85,16 @@ function MijnDossiersItems() {
   }
 }
 
-export default function MijnDossiers() {
+interface MijnDossiersProps {
+  baseUrl: string
+}
+
+export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnDossiersItems></MijnDossiersItems>
+        <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>
       </div>
       <p className="utrecht-button-group openbsw-">
         <a

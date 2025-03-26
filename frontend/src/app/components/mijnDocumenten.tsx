@@ -1,20 +1,32 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import {keycloak} from "@/app/auth/keycloak";
-import {KeycloakContext} from "@/app/auth/KeycloakProvider";
-import FileTypeIcon from "@/app/components/fileTypeIcon";
+import {keycloak} from "../auth/keycloak";
+import {KeycloakContext} from "../auth/KeycloakProvider";
+import FileTypeIcon from "./fileTypeIcon";
 
-function MijnDocumentenItems() {
-  const [error, setError] = useState(null);
+interface MijnDocumentenItemsProps {
+  baseUrl?: string
+}
+
+interface DocumentenItemsData {
+  url: string,
+  object_filename: string,
+  type: string,
+  date: string,
+  activity_id: string,
+}
+
+function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
+  const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([] as DocumentenItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch("http://localhost:8000/v1/nextcloud/activities", {
+      fetch(baseUrl + "/v1/ocs/activities", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -42,9 +54,9 @@ function MijnDocumentenItems() {
           }
         )
     }
-  }, [keycloakContext])
+  }, [keycloakContext, baseUrl])
 
-  if (error) {
+  if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
   } else if (!isLoaded) {
     return <div>Laden...</div>;
@@ -52,7 +64,9 @@ function MijnDocumentenItems() {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.activity_id} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+          <a href={item.url} key={item.activity_id}
+             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+             target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
@@ -72,7 +86,11 @@ function MijnDocumentenItems() {
   }
 }
 
-export default function MijnDocumenten() {
+interface MijnDocumentenProps {
+  baseUrl: string
+}
+
+export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
   return (
     <div className="openbsw-panel">
       <h4>Mijn documenten</h4>
@@ -107,12 +125,12 @@ export default function MijnDocumenten() {
       {/*<div id="tab-2">*/}
       {/*</div>*/}
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnDocumentenItems></MijnDocumentenItems>
+        <MijnDocumentenItems baseUrl={baseUrl}></MijnDocumentenItems>
       </div>
       <p className="utrecht-button-group openbsw-">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
-          href="https://docs.la-suite.apps.digilab.network/docs/"
+          href="https://files.la-suite.apps.digilab.network/apps/files/files"
           target="_blank"
         >
           <span

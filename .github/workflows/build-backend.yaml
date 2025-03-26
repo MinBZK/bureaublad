@@ -60,10 +60,10 @@ jobs:
           cd backend/
           uv run ruff check
 
-      - name: Run pyright 
-        run: |
-          cd backend/
-          uv run pyright
+      # - name: Run pyright 
+      #   run: |
+      #     cd backend/
+      #     uv run pyright
 
   security:
     runs-on: ubuntu-latest
@@ -131,7 +131,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2

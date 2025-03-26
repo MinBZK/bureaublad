@@ -47,7 +47,7 @@ function iconInfoByFilename(filename: string): {iconName: string, iconTitle: str
   }
 }
 
-export default function FileTypeIcon({ fileName }){
+export default function FileTypeIcon({ fileName }: { fileName: string }) {
   const iconInfo = iconInfoByFilename(fileName);
   return (
     <span className={'utrecht-icon rvo-icon ' + iconInfo.iconName + ' rvo-icon--xl rvo-icon--hemelblauw'} role="img"

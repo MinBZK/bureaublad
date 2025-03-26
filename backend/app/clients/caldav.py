@@ -21,15 +21,16 @@ class CaldavClient:
         for calendar in calendars:
             check_date_start = datetime.combine(check_date, datetime.min.time())
             check_date_end = datetime.combine(check_date, datetime.max.time())
-            events = calendar.search(
-                start=check_date_start,
-                end=check_date_end,
-                event=True,
-                expand=True
-            )
+            events = calendar.search(start=check_date_start, end=check_date_end, event=True, expand=True)
             for event in events:
                 event_instance = event.instance.vevent
-                events_today.append(Calendar(title=event_instance.summary.value, start=event_instance.dtstart.value, end=event_instance.dtend.value))
+                events_today.append(
+                    Calendar(
+                        title=event_instance.summary.value,
+                        start=event_instance.dtstart.value,
+                        end=event_instance.dtend.value,
+                    )
+                )
         return events_today
 
     def get_tasks(self) -> list[Task]:
@@ -42,8 +43,8 @@ class CaldavClient:
             for task in calendar.todos():
                 task_instance = task.instance.vtodo
                 task_summary: str = task_instance.summary.value
-                task_start: datetime = task_instance.dtstart.value if hasattr(task_instance, 'dtstart') else None
-                task_due: datetime = task_instance.due.value if hasattr(task_instance, 'due') else None
+                task_start: datetime = task_instance.dtstart.value if hasattr(task_instance, "dtstart") else None
+                task_due: datetime = task_instance.due.value if hasattr(task_instance, "due") else None
                 tasks_list.append(Task(title=task_summary, start=task_start, end=task_due))
 
         return tasks_list

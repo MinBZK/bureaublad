@@ -4,15 +4,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.config import settings
-
 logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    logger.info(f"Starting version {settings.VERSION}")
+    logger.info("Starting version 0.1.0")
     yield
 
-    logger.info(f"Stopping application version {settings.VERSION}")
+    logger.info("Stopping application version 0.1.0")
     logging.shutdown()
