@@ -130,7 +130,7 @@ export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
       <p className="utrecht-button-group openbsw-">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
-          href="https://docs.la-suite.apps.digilab.network/docs/"
+          href="https://files.la-suite.apps.digilab.network/apps/files/files"
           target="_blank"
         >
           <span
