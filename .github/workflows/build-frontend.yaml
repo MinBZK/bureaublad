@@ -61,9 +61,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           annotations: ${{ steps.meta.outputs.annotations }}
           platforms: linux/amd64,linux/arm64
-          build-args: BACKEND_BASE_URL=$BACKEND_BASE_URL
-        env:
-          BACKEND_BASE_URL: ${{ env.URL }}
+          build-args: |
+            NEXT_PUBLIC_KEYCLOAK_URL=${{env.NEXT_PUBLIC_KEYCLOAK_URL}}
+            NEXT_PUBLIC_KEYCLOAK_REALM=${{env.NEXT_PUBLIC_KEYCLOAK_REALM}}
+            NEXT_PUBLIC_KEYCLOAK_CLIENT=${{env.NEXT_PUBLIC_KEYCLOAK_CLIENT}}
+            NEXT_PUBLIC_BACKEND_BASE_URL=${{env.NEXT_PUBLIC_BACKEND_BASE_URL}}
 
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
