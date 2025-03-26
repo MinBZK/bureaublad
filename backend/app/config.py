@@ -12,8 +12,6 @@ class Settings(BaseSettings):
 
     DEBUG: bool = False
 
-    VERSION: str = "0.1.0"
-
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
 
     OIDC_CLIENT_ID: str = "bureaublad-frontend"
