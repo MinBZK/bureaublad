@@ -3,6 +3,7 @@ import logging
 import httpx
 
 from app.config import settings
+from app.exception import TokenExchangeError
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ async def exchange_token(
     logger.debug(response.status_code)
     if response.status_code != 200:
         logger.debug(response.text)
+        raise TokenExchangeError()
 
     new_token = response.json().get("access_token", None)
 
