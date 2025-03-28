@@ -18,7 +18,7 @@ class Note(BaseModel):
     # nb_accesses: int # noqa: ERA001
     # numchild: int # noqa: ERA001
     path: str
-    title: str
+    title: str | None
     updated_at: str
     user_roles: list[str]
 
