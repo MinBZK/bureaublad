@@ -29,7 +29,7 @@ class ZakenClient:
             headers={"Authorization": f"Bearer {jwt_token}", "Content-Type": "application/json", "Accept-Crs": "EPSG:4326"}
         )
 
-        url = httpx.URL(f"{self.base_url}/{path}", params={"page": page})
+        url = httpx.URL(f"{self.base_url}/{path}", params={"page": page, "ordering": "startdatum"})
 
 
         response = client.request("GET", url)
@@ -39,5 +39,6 @@ class ZakenClient:
         results = response.json().get("results", [])
 
         zaken: list[Zaak] = TypeAdapter(list[Zaak]).validate_python(results)
+        zaken.reverse()
 
         return zaken
