@@ -3,6 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
+import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnZakenItemsProps {
   baseUrl: string
@@ -92,6 +93,7 @@ interface MijnZakenProps {
 export default function MijnZaken({baseUrl}: MijnZakenProps) {
   return (
     <div className="openbsw-panel">
+      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
       <h4>Mijn zaken</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnZakenItems baseUrl={baseUrl}></MijnZakenItems>

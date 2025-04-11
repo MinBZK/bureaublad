@@ -4,6 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
 import FileTypeIcon from "./fileTypeIcon";
+import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnDocumentenItemsProps {
   baseUrl?: string
@@ -93,7 +94,8 @@ interface MijnDocumentenProps {
 export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
   return (
     <div className="openbsw-panel">
-      <h4>Mijn documenten</h4>
+      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <h4>Mijn files</h4>
       {/*<ul*/}
       {/*  className="rvo-tabs rvo-ul rvo-ul--no-margin rvo-ul--no-padding rvo-ul--icon rvo-ul--icon-option-2 openbsw-tabs"*/}
       {/*  role="tablist"*/}

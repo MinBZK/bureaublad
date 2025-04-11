@@ -1,69 +1,89 @@
+import LifecycleTag from "@/app/components/lifecycleTag";
+
 const applicaties = [{
   id: 0,
   title: 'Chat',
   url: 'https://chat.la-suite.apps.digilab.network/',
   iconClass: 'rvo-icon-tekstballonnen-met-punten',
-  iconLabel: 'Tekstballonnen met punten'
+  iconLabel: 'Tekstballonnen met punten',
+  status: "In ontwikkeling",
 }, {
   id: 1,
   title: 'Meet',
   url: 'https://meet.la-suite.apps.digilab.network/',
   iconClass: 'rvo-icon-silhouet-voor-scherm-raam-met-silhouet',
-  iconLabel: 'Silhouet voor scherm met silhouet'
-}, {
-  id: 2,
-  title: 'Spread-sheets',
-  url: 'https://grist.la-suite.apps.digilab.network/',
-  iconClass: 'rvo-icon-grafiek',
-  iconLabel: 'Spread-sheets'
-}, {
-  id: 3,
-  title: 'Files',
-  url: 'https://files.la-suite.apps.digilab.network/',
-  iconClass: 'rvo-icon-map-vol-documenten',
-  iconLabel: 'Map vol documenten'
-}, {
-  id: 4,
-  title: 'Taken',
-  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/tasks',
-  iconClass: 'rvo-icon-kalender-met-vinkje',
-  iconLabel: 'Kalender met vinkje'
-}, {
-  id: 5,
-  title: 'Projecten',
-  url: 'https://projects.opendesk.apps.digilab.network/auth/keycloak',
-  iconClass: 'rvo-icon-bord-met-grafieken',
-  iconLabel: 'Bord met grafieken'
-}, {
-  id: 6,
-  title: 'Kennis',
-  url: 'https://wiki.opendesk.apps.digilab.network/',
-  iconClass: 'rvo-icon-online-leren',
-  iconLabel: 'Online leren'
-}, {
-  id: 7,
-  title: 'Wacht-woord manager',
-  url: 'https://vault.la-suite.apps.digilab.network/',
-  iconClass: 'rvo-icon-sleutelbos',
-  iconLabel: 'Sleutelbos'
-}, {
-  id: 8,
-  title: 'AI assistent',
-  url: 'https://ai-assistant.la-suite.apps.digilab.network/',
-  iconClass: 'rvo-icon-half-tandwiel-half-brein',
-  iconLabel: 'Half tandwiel half brein'
-}, {
-  id: 9,
-  title: 'Kalender',
-  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/calendar',
-  iconClass: 'rvo-icon-kalender',
-  iconLabel: 'Kalender'
+  iconLabel: 'Silhouet voor scherm met silhouet',
+  status: "In ontwikkeling",
 }, {
   id: 10,
   title: 'Docs',
   url: 'https://docs.la-suite.apps.digilab.network/',
   iconClass: 'rvo-icon-document-met-potlood',
-  iconLabel: 'Docs'
+  iconLabel: 'Document met potlood',
+  status: "In ontwikkeling",
+}, {
+  id: 2,
+  title: 'Spread-sheets',
+  url: 'https://grist.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-grafiek',
+  iconLabel: 'Spread-sheets',
+  status: "In ontwikkeling",
+}, {
+  id: 5,
+  title: 'Projecten',
+  url: 'https://projects.opendesk.apps.digilab.network/auth/keycloak',
+  iconClass: 'rvo-icon-bord-met-grafieken',
+  iconLabel: 'Bord met grafieken',
+  status: "In ontwikkeling",
+}, {
+  id: 6,
+  title: 'Kennis',
+  url: 'https://wiki.opendesk.apps.digilab.network/',
+  iconClass: 'rvo-icon-online-leren',
+  iconLabel: 'Online leren',
+  status: "In ontwikkeling",
+}, {
+  id: 7,
+  title: 'Wacht-woord manager',
+  url: 'https://vault.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-sleutelbos',
+  iconLabel: 'Sleutelbos',
+  status: "In ontwikkeling",
+}, {
+  id: 8,
+  title: 'AI assistent',
+  url: 'https://ai-assistant.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-half-tandwiel-half-brein',
+  iconLabel: 'Half tandwiel half brein',
+  status: "In ontwikkeling",
+}, {
+  id: 9,
+  title: 'OpenZaak',
+  url: 'https://open-zaak.commonground.apps.digilab.network/',
+  iconClass: 'rvo-icon-map-met-loep',
+  iconLabel: 'Map met loep',
+  status: "In ontwikkeling",
+}, {
+  id: 3,
+  title: 'Files',
+  url: 'https://files.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-map-vol-documenten',
+  iconLabel: 'Map vol documenten',
+  status: "In ontwikkeling",
+}, {
+  id: 11,
+  title: 'Kalender',
+  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/calendar',
+  iconClass: 'rvo-icon-kalender',
+  iconLabel: 'Kalender',
+  status: "In ontwikkeling",
+}, {
+  id: 4,
+  title: 'Taken',
+  url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/tasks',
+  iconClass: 'rvo-icon-kalender-met-vinkje',
+  iconLabel: 'Kalender met vinkje',
+  status: "In ontwikkeling",
 }];
 
 export default function ApplicatieBar() {
@@ -82,6 +102,7 @@ export default function ApplicatieBar() {
             aria-label={applicatie.iconLabel}
           ></span>
           </div>
+          <LifecycleTag status={'In ontwikkeling'} mode={'short'}/>
           <div>
             {applicatie.title}
           </div>
