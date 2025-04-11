@@ -2,9 +2,9 @@ import ApplicatieBar from "./components/applicatieBar";
 import SiteAlert from "./components/siteAlert";
 import MijnDocumenten from "./components/mijnDocumenten";
 import MijnTaken from "./components/mijnTaken";
-import MijnDossiers from "./components/mijnDossiers";
 import Updates from "./components/updates";
 import MijnKalender from "./components/mijnKalender";
+import MijnZaken from "@/app/components/mijnZaken";
 
 export function valueOrEmptyString(textContent: string | null | undefined): string {
   if (textContent) {
@@ -25,7 +25,7 @@ export default function Home() {
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
             style={{"--division": "1fr 1fr"} as React.CSSProperties}
           >
-            <MijnDossiers baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnDossiers>
+            <MijnZaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnZaken>
             <MijnKalender baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnKalender>
           </div>
         </div>

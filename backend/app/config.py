@@ -37,6 +37,10 @@ class Settings(BaseSettings):
     AI_BASE_URL: str = "https://api.openai.com/v1/"
     AI_MODEL: str = "gpt-4o"
     AI_API_KEY: str | None = None
+    ZAKEN_URL: str = "https://open-zaak.commonground.apps.digilab.network"
+    ZAKEN_AUDIENCE: str = "openzaak"
+    OPENZAAK_CLIENT_ID: str = ""
+    OPENZAAK_SECRET: str = ""
 
     CORS_ALLOW_ORIGINS: str | list[str] = "*"
     CORS_ALLOW_CREDENTIALS: bool = False
