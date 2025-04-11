@@ -3,6 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
+import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnDossiersItemsProps {
   baseUrl: string
@@ -92,6 +93,7 @@ interface MijnDossiersProps {
 export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
+      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
       <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>

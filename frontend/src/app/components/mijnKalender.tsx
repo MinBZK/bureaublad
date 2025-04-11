@@ -3,6 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
+import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnKalenderItemsProps {
   baseUrl: string
@@ -97,6 +98,7 @@ export default function MijnKalender({baseUrl}: MijnKalenderProps) {
   const toTimestamp = nextHour.setHours(nextHour.getHours() + 1).valueOf() / 1000;
   return (
     <div className="openbsw-panel">
+      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
       <h4>Agenda van vandaag</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnKalenderItems baseUrl={baseUrl}></MijnKalenderItems>

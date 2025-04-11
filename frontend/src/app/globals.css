@@ -41,6 +41,7 @@
     margin-top: var(--rvo-space-md);
     margin-bottom: var(--rvo-space-md);
     background-color: var(--rvo-color-wit);
+    gap: 28px;
 }
 .openbsw-applicatie-bar-head {
     text-align: end;
@@ -74,7 +75,7 @@
     width: 50px;
     height: 50px;
     padding: var(--rvo-space-sm);
-    margin-left: var(--rvo-space-2xs);
+    /*margin-left: var(--rvo-space-2xs);*/
     background-color: var(--rvo-color-hemelblauw-150);
 }
 
@@ -99,6 +100,11 @@
 .openbsw-panel-scrollable-content {
     max-height: 200px;
     min-height: 200px
+}
+.openbsw-lifecycle-long {
+    float: right;
+    padding-block-start: 2px;
+    padding-block-end: 2px;
 }
 
 .openbsw-tabs {

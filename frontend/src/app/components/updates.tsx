@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {valueOrEmptyString} from "../page";
+import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface UpdateItemsData {
   title: string,
@@ -89,6 +90,7 @@ function UpdatesItems() {
 export default function Updates() {
   return (
     <div className="openbsw-panel">
+      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
       <h4>Updates</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <UpdatesItems></UpdatesItems>
