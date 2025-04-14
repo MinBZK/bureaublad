@@ -1,9 +1,10 @@
-import httpx
 import time
+
+import httpx
+from app.config import settings
+from app.models import Zaak
 from jose import jwt
 from jose.constants import ALGORITHMS
-from app.models import Zaak
-from app.config import settings
 from pydantic import TypeAdapter
 
 
