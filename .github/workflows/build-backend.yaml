@@ -184,7 +184,7 @@ jobs:
 
 
       - name: Upload SBOM & License
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: sbom-licence-${{ github.sha }}.json
           path: |
