@@ -4,7 +4,7 @@ from fastapi import APIRouter, Request
 
 from app.clients.zaken import ZakenClient
 from app.config import settings
-from app.models import Zaak, User
+from app.models import User, Zaak
 from app.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)

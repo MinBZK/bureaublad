@@ -2,8 +2,6 @@ from datetime import date
 
 from pydantic import BaseModel
 
-from app.config import settings
-
 
 class Zaak(BaseModel):
     uuid: str
