@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@nl-rvo/assets": "^1.0.0-alpha.360",
-    "@nl-rvo/component-library-css": "^4.5.7",
+    "@nl-rvo/component-library-css": "^4.5.9",
     "@nl-rvo/design-tokens": "^1.7.3",
-    "keycloak-js": "^26.1.4",
-    "next": "15.2.1",
+    "keycloak-js": "^26.1.5",
+    "next": "15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0"
@@ -24,7 +24,7 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
     "eslint": "^9.24.0",
-    "eslint-config-next": "15.2.1",
+    "eslint-config-next": "15.3.0",
     "@eslint/eslintrc": "^3.3.1"
   }
 }
