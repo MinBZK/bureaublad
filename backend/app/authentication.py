@@ -62,7 +62,9 @@ def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationC
             options=jtw_decode_options,
         )
         sub: str = claims.get("sub", "unknown")
-        request.state.user = User(sub=sub, access_token=token)
+        name: str = claims.get("name", "unknown")
+        email: str = claims.get("email", "unknown")
+        request.state.user = User(sub=sub, access_token=token, name=name, email=email)
 
     except JWTError as err:
         logger.debug("JWTError")
