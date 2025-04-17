@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <KeycloakProvider>
-        <body className="rvo-theme openbsw-bureaublad">
+        <body className="rvo-theme openbsw-bureaublad" id="modal-container">
           {/*<header className="openbsw-bureaublad-header">*/}
           {/*  <div className="rvo-header openbsw-bureaublad-header-image"></div>*/}
           {/*</header>*/}
