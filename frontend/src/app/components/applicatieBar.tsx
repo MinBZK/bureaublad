@@ -31,6 +31,13 @@ const applicaties: Applicatie[] = [{
   iconLabel: 'Document met potlood',
   status: 'In ontwikkeling',
 }, {
+  id: 12,
+  title: 'Drive',
+  url: 'https://drive.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-map',
+  iconLabel: 'Map',
+  status: 'In ontwikkeling',
+}, {
   id: 2,
   title: 'Spread-sheets',
   url: 'https://grist.la-suite.apps.digilab.network/',
@@ -52,25 +59,11 @@ const applicaties: Applicatie[] = [{
   iconLabel: 'Online leren',
   status: 'In ontwikkeling',
 }, {
-  id: 7,
-  title: 'Wacht-woord manager',
-  url: 'https://vault.la-suite.apps.digilab.network/',
-  iconClass: 'rvo-icon-sleutelbos',
-  iconLabel: 'Sleutelbos',
-  status: 'In ontwikkeling',
-}, {
   id: 8,
   title: 'AI assistent',
   url: 'https://ai-assistant.la-suite.apps.digilab.network/',
   iconClass: 'rvo-icon-half-tandwiel-half-brein',
   iconLabel: 'Half tandwiel half brein',
-  status: 'In ontwikkeling',
-}, {
-  id: 9,
-  title: 'OpenZaak',
-  url: 'https://open-zaak.commonground.apps.digilab.network/',
-  iconClass: 'rvo-icon-map-met-loep',
-  iconLabel: 'Map met loep',
   status: 'In ontwikkeling',
 }, {
   id: 3,
@@ -92,6 +85,20 @@ const applicaties: Applicatie[] = [{
   url: 'https://webmail.opendesk.apps.digilab.network/appsuite/#app=io.ox/tasks',
   iconClass: 'rvo-icon-kalender-met-vinkje',
   iconLabel: 'Kalender met vinkje',
+  status: 'In ontwikkeling',
+}, {
+  id: 7,
+  title: 'Wacht-woord manager',
+  url: 'https://vault.la-suite.apps.digilab.network/',
+  iconClass: 'rvo-icon-sleutelbos',
+  iconLabel: 'Sleutelbos',
+  status: 'In ontwikkeling',
+}, {
+  id: 9,
+  title: 'OpenZaak',
+  url: 'https://open-zaak.commonground.apps.digilab.network/',
+  iconClass: 'rvo-icon-map-met-loep',
+  iconLabel: 'Map met loep',
   status: 'In ontwikkeling',
 }];
 
