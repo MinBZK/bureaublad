@@ -28,7 +28,7 @@ jobs:
       attestations: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -68,7 +68,7 @@ jobs:
             NEXT_PUBLIC_BACKEND_BASE_URL=${{env.NEXT_PUBLIC_BACKEND_BASE_URL}}
 
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-name: ghcr.io/minbzk/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
