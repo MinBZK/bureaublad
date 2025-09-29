@@ -1,38 +1,70 @@
-# Mijn Bureaublad
+# Bureaublad
 
-This is a portal that consolidates important features from multiple opensource tools into on entry point for the user.
+Bureaublad is a flexible dashboard that aggregates information from multiple open-source components, providing users with a unified interface to access essential tools and data.
 
+It is a stateless application, so all data stays at the source.
 
+## Integrated Tools
+
+- [CalDav](https://datatracker.ietf.org/doc/html/rfc4791) (calendar protocol)
+- [Docs](https://github.com/suitenumerique/docs)
+- [Ocs](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/OCS/ocs-api-overview.html) (Nextcloud & OwnCloud protocol)
+- [OpenZaak](https://github.com/open-zaak/open-zaak)
+- OpenAI Chat Completion API
+
+## Planned Integrations
+
+- [Synapse](https://github.com/element-hq/synapse)
+- [Drive](https://github.com/suitenumerique/drive)
+- [Meet](https://github.com/suitenumerique/meet)
 
 ## Getting Started
 
-To get started you will need `docker engine` and `docker compose` installed.
+To run Bureaublad, ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed.
+
+The copy the example.env in the backend to .env
+
+```bash
+cp backend/example.env backend/.env
+```
+
+Then, build and start the application with:
 
 ```sh
 docker compose build
 docker compose up
 ```
 
-## Solution Architecture
+When the application start you will get 3 urls:
 
-The idea behind this tool is to consolidate important features from multiple tools into one place for the users. This will be the landing place from which they acces all other tools.
+1. <http://localhost:3000>
+2. <http://localhost:8081>
+3. <http://localhost:8080>
 
-The tools consists of two main containers. A backend and a frontend. The frontend is a SPA application and the backend a REST api. In the future we will add a websocket, but is not in scope for the first version. Other containers will be a OpenID connect authentication system with a Token Exchange. We assume that the user can access all other tools through an OpenID connect system so that we can use the token exchange to access all other resources as the user. 
+You can use the admin user to login:
 
-We may add a search feature where information is streamed into from other tools. 
-
-
-### C4 model
-
-We use the C4 model to make a diagram of the tools.
-
-```mermaid
-   C4Context
-      title System Context diagram for Mijn Portal
+```
+username: admin
+password: admin
 ```
 
+## Solution Architecture
 
+Bureaublad consolidates data from various tools into a single platform, making it easier for users to access the information they need, when they need it.
 
-## Technical Architecture
+The solution consists of:
 
-The current tools we use try to adhere to the tools uses by our partners so we can cooperate better. Which means we will use [django rest framework](https://www.django-rest-framework.org/) and [react](https://react.dev/). 
+- **Backend:** REST API
+- **Frontend:** Single Page Application (SPA)
+- **Identity Provider:** Supports OpenID Connect authentication with [Token Exchange](https://datatracker.ietf.org/doc/html/rfc8693)
+
+In the future we plan to add a advanced search feature and make the page more configurable to the users wishes.
+
+## Technical Overview
+
+- **Frontend:** [React](https://react.dev/)
+- **Backend:** [FastAPI](https://fastapi.tiangolo.com/)
+- **Design System:** [Rijkshuiststyle NL-Design System](https://github.com/nl-design-system/rijkshuisstijl-community)
+
+**Note:** Your identity provider must support Token Exchange for authentication. Verify compatibility before deployment.
+

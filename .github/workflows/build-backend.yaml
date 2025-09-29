@@ -60,11 +60,6 @@ jobs:
           cd backend/
           uv run ruff check
 
-      # - name: Run pyright 
-      #   run: |
-      #     cd backend/
-      #     uv run pyright
-
   security:
     runs-on: ubuntu-latest
     steps:
