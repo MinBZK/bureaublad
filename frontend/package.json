@@ -10,21 +10,21 @@
   },
   "dependencies": {
     "@nl-rvo/assets": "^1.0.0-alpha.360",
-    "@nl-rvo/component-library-css": "^4.9.1",
-    "@nl-rvo/design-tokens": "^1.9.1",
+    "@nl-rvo/component-library-css": "^4.11.1",
+    "@nl-rvo/design-tokens": "^1.11.0",
     "keycloak-js": "^26.2.0",
-    "next": "15.4.5",
+    "next": "15.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "@types/node": "^24.1.0",
-    "@types/react": "^19.1.9",
-    "@types/react-dom": "^19.1.7",
-    "eslint": "^9.32.0",
-    "eslint-config-next": "15.4.5",
+    "typescript": "^5.9.3",
+    "@types/node": "^24.6.1",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "eslint": "^9.36.0",
+    "eslint-config-next": "15.5.4",
     "@eslint/eslintrc": "^3.3.1"
   }
 }
