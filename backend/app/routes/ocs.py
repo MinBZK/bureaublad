@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 
 from app.clients.ocs import OCSClient
 from app.config import settings
@@ -14,6 +14,10 @@ router = APIRouter(prefix="/ocs", tags=["ocs"])
 
 @router.get("/activities", response_model=list[Activity])
 async def ocs_activities(request: Request) -> list[Activity]:
+    # Redundant checks needed to satisfy the type system.
+    if not settings.ocs_enabled or not settings.OCS_URL:
+        raise HTTPException(status_code=503, detail="OCS service is not configured")
+
     user: User = request.state.user
     access_token = user.access_token
 
@@ -31,6 +35,10 @@ async def ocs_activities(request: Request) -> list[Activity]:
 
 @router.get("/search", response_model=list[SearchResults])
 async def ocs_search(request: Request, term: str) -> list[SearchResults]:
+    # Redundant checks needed to satisfy the type system.
+    if not settings.ocs_enabled or not settings.OCS_URL:
+        raise HTTPException(status_code=503, detail="OCS service is not configured")
+
     user: User = request.state.user
     access_token = user.access_token
 
