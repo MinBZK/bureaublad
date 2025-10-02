@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { initKeycloak, keycloak, logout } from './keycloak';
 
@@ -45,7 +44,7 @@ export const KeycloakProvider = ({ children }: Readonly<{
                                 logout();
                             });
                         }
-                    }, 60000); 
+                    }, 60000);
 
                 return () => clearInterval(refreshInterval);
                 })

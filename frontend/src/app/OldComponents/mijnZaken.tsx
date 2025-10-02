@@ -3,7 +3,7 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 import {CustomModal} from "./customModal";
 
 interface MijnZakenItemsProps {

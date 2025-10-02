@@ -1,4 +1,4 @@
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 
 interface Applicatie  {
   id: number,

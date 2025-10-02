@@ -1,49 +1,48 @@
-import ApplicatieBar from "./components/applicatieBar";
-import SiteAlert from "./components/siteAlert";
-import MijnDocumenten from "./components/mijnDocumenten";
-import MijnTaken from "./components/mijnTaken";
-import Updates from "./components/updates";
-import MijnKalender from "./components/mijnKalender";
-import MijnZaken from "@/app/components/mijnZaken";
-
-export function valueOrEmptyString(textContent: string | null | undefined): string {
-  if (textContent) {
-    return textContent;
-  }
-  return '';
-}
+"use client";
+import React from "react";
+import { Col, Row, Card, Calendar, theme } from "antd";
+import Office from "./features/Office/Office";
+import Chat from "./features/Chat/Chat";
+import Docs from "./features/Docs/Docs";
+import VideoChat from "./features/VideoChat/VideoChat";
+import Email from "./features/Email/Email";
 
 export default function Home() {
+  const { token } = theme.useToken();
+  const wrapperStyle: React.CSSProperties = {
+    width: 300,
+    border: `1px solid ${token.colorBorderSecondary}`,
+    borderRadius: token.borderRadiusLG,
+  };
+
   return (
-    <main className="content">
-      <div
-        className="rvo-max-width-layout rvo-max-width-layout--md rvo-min-width-layout--sm openbsw-alert">
-        <SiteAlert/>
-
-        <div className="rvo-layout-grid-container openbsw-panel-container">
-          <div
-            className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr"} as React.CSSProperties}
-          >
-            <MijnZaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnZaken>
-            <MijnKalender baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnKalender>
-          </div>
-        </div>
-
-        <ApplicatieBar/>
-
-        <div className="rvo-layout-grid-container openbsw-panel-container">
-          <div
-            className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr 1fr"} as React.CSSProperties}
-          >
-            <MijnDocumenten baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnDocumenten>
-            <MijnTaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnTaken>
-            <Updates></Updates>
-          </div>
-        </div>
-
-      </div>
-    </main>
+    <React.Fragment>
+      <Row gutter={16}>
+        <Col span={8}>
+          <Office />
+        </Col>
+        <Col span={8}>
+          <Chat />
+        </Col>
+        <Col span={8}>
+          <Docs />
+        </Col>
+      </Row>
+      <Row gutter={16} style={{ marginTop: 10 }}>
+        <Col span={8}>
+          <Email />
+        </Col>
+        <Col span={8}>
+          <VideoChat />
+        </Col>
+        <Col span={8}>
+          <Card title="Agenda" variant="borderless">
+            <div style={wrapperStyle}>
+              <Calendar fullscreen={false} onPanelChange={undefined} />
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </React.Fragment>
   );
 }

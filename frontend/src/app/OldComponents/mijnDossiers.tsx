@@ -3,31 +3,29 @@
 import {useContext, useEffect, useState} from "react";
 import {keycloak} from "../auth/keycloak";
 import {KeycloakContext} from "../auth/KeycloakProvider";
-import FileTypeIcon from "./fileTypeIcon";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 
-interface MijnDocumentenItemsProps {
-  baseUrl?: string
+interface MijnDossiersItemsProps {
+  baseUrl: string
 }
 
-interface DocumentenItemsData {
+interface MijnDossiersItemsData {
   url: string,
-  object_filename: string,
-  type: string,
-  date: string,
-  activity_id: string,
+  id: string,
+  title: string,
+  updated_date: string,
 }
 
-function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
+function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([] as DocumentenItemsData[]);
+  const [items, setItems] = useState([] as MijnDossiersItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch(baseUrl + "/v1/ocs/activities", {
+      fetch(baseUrl + "/v1/docs/documents", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -55,7 +53,7 @@ function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
           }
         )
     }
-  }, [keycloakContext, baseUrl])
+  }, [keycloakContext, baseUrl]);
 
   if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
@@ -65,18 +63,19 @@ function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map(item => (
-          <a href={item.url} key={item.activity_id}
+          <a href={item.url} key={item.id}
              className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
              target="_blank">
             <div>
               <div
                 className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
-                  <FileTypeIcon fileName={item.object_filename}></FileTypeIcon>
+                  <span className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw" role="img"
+                        aria-label="Map"></span>
                 </div>
                 <div>
-                  <span className="openbsw-document-titel">{item.object_filename}</span><br/>
-                  <span className="openbsw-document-datum">{item.type} {item.date}</span>
+                  <span className="openbsw-document-titel">{item.title}</span><br/>
+                  <span className="openbsw-document-datum">{item.updated_date}</span>
                 </div>
               </div>
             </div>
@@ -87,52 +86,22 @@ function MijnDocumentenItems({baseUrl}: MijnDocumentenItemsProps) {
   }
 }
 
-interface MijnDocumentenProps {
+interface MijnDossiersProps {
   baseUrl: string
 }
 
-export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
+export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
       <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
-      <h4>Mijn files</h4>
-      {/*<ul*/}
-      {/*  className="rvo-tabs rvo-ul rvo-ul--no-margin rvo-ul--no-padding rvo-ul--icon rvo-ul--icon-option-2 openbsw-tabs"*/}
-      {/*  role="tablist"*/}
-      {/*  aria-label="Tabs"*/}
-      {/*>*/}
-      {/*  <li role="presentation" className="rvo-tabs__item">*/}
-      {/*    <a*/}
-      {/*      className="rvo-link rvo-tabs__item-link rvo-tabs__item-link--active rvo-link--active rvo-link--no-underline"*/}
-      {/*      role="tab"*/}
-      {/*      aria-selected="true"*/}
-      {/*      href="#tab-1"*/}
-      {/*    >*/}
-      {/*      Recent*/}
-      {/*    </a>*/}
-      {/*  </li>*/}
-      {/*  <li role="presentation" className="rvo-tabs__item">*/}
-      {/*    <a*/}
-      {/*      className="rvo-link rvo-tabs__item-link rvo-link--no-underline rvo-link--normal"*/}
-      {/*      role="tab"*/}
-      {/*      aria-selected="false"*/}
-      {/*      href="#tab-2"*/}
-      {/*    >*/}
-      {/*      Favorieten*/}
-      {/*    </a>*/}
-      {/*  </li>*/}
-      {/*</ul>*/}
-      {/*<div id="tab-1">*/}
-      {/*</div>*/}
-      {/*<div id="tab-2">*/}
-      {/*</div>*/}
+      <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnDocumentenItems baseUrl={baseUrl}></MijnDocumentenItems>
+        <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>
       </div>
       <p className="utrecht-button-group openbsw-">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
-          href="https://files.la-suite.apps.digilab.network/apps/files/files"
+          href="https://docs.la-suite.apps.digilab.network/docs/"
           target="_blank"
         >
           <span
@@ -140,7 +109,14 @@ export default function MijnDocumenten({baseUrl}: MijnDocumentenProps) {
             role="img"
             aria-label="Plus"
           ></span>
-          Nieuw document
+          Nieuw dossier
+        </a>
+        <a
+          className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm  rvo-link--no-underline"
+          href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
+        >
+          Al mijn dossiers
         </a>
       </p>
     </div>

@@ -1,8 +1,8 @@
 'use client'
 
 import {useEffect, useState} from "react";
-import {valueOrEmptyString} from "../page";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
+import { valueOrEmptyString } from "../Common/pageConfig";
 
 interface UpdateItemsData {
   title: string,
