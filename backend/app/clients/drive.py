@@ -11,7 +11,6 @@ class DriveClient:
             headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
         )
 
-
     def get_documents(
         self, path: str = "api/v1.0/items/", page: int = 1, title: str | None = None, favorite: bool = False
     ) -> list[Document]:
@@ -29,19 +28,17 @@ class DriveClient:
         if len(results) < 1:
             return TypeAdapter(list[Document]).validate_python([])
 
-
-        workspace_id = results[0]['id']
+        workspace_id = results[0]["id"]
 
         item_url = f"{self.base_url}/api/v1.0/items/{workspace_id}/children/"
 
         response = self.client.request("GET", item_url)
         if response.status_code != 200:
             return TypeAdapter(list[Document]).validate_python([])
-        
+
         results = response.json().get("results", [])
 
         print(results)
-
 
         notes: list[Document] = TypeAdapter(list[Document]).validate_python(results)
 

@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 
 from app.clients.meet import MeetClient
 from app.config import settings
@@ -14,6 +14,10 @@ router = APIRouter(prefix="/meet", tags=["meet"])
 
 @router.get("/meeting", response_model=list[Meeting])
 async def meet_dmeetings(request: Request, title: str | None = None, favorite: bool = False) -> list[Meeting]:
+    # Redundant checks needed to satisfy the type system.
+    if not settings.meet_enabled or not settings.MEET_URL:
+        raise HTTPException(status_code=503, detail="Meet service is not configured")
+
     user: User = request.state.user
     access_token = user.access_token
     new_token = await exchange_token(access_token, audience=settings.MEET_AUDIENCE)
@@ -23,6 +27,6 @@ async def meet_dmeetings(request: Request, title: str | None = None, favorite: b
 
     client = MeetClient(base_url=settings.MEET_URL, token=new_token)
 
-    documents: list[Meeting] = client.get_documents(title=title, favorite=favorite)
+    meetings: list[Meeting] = client.get_meetings(title=title, favorite=favorite)
 
-    return documents
+    return meetings

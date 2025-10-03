@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 from openai import OpenAI
 
 from app.config import settings
@@ -13,8 +13,9 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 
 @router.post("/chat/completions")
 async def ai_post_chat_completions(request: Request, chat_request: ChatCompletionRequest) -> str:
-    if settings.AI_API_KEY is None:
-        return "AI niet beschikbaar"
+    # Redundant checks needed to satisfy the type system.
+    if not settings.ai_enabled or not settings.AI_MODEL:
+        raise HTTPException(status_code=503, detail="AI service is not configured")
 
     client = OpenAI(base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
 
