@@ -1,9 +1,8 @@
 [project]
 name = "bureaublad-api"
-version = "0.1.0"
 description = "API voor bureaublad"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
     "caldav>=1.4.0",
     "fastapi[standard]>=0.115.11",
@@ -13,23 +12,24 @@ dependencies = [
     "python-jose>=3.4.0",
     "ruff>=0.9.9",
 ]
+dynamic = ["version"]
 
 [tool.ruff]
 line-length = 120
-target-version = "py312"
+target-version = "py313"
 src = ["app"]
 
 [tool.ruff.lint]
 select = ["I", "SIM", "B", "UP", "F", "E", "S", "C90", "DTZ", "LOG", "PIE", "PT", "ERA", "W", "C", "TRY", "RUF", "ANN"]
 fixable = ["ALL"]
 task-tags = ["TODO"]
-ignore = ["TRY003"]
+ignore = ["TRY003", "C901"]
 
 [tool.ruff.lint.mccabe]
 max-complexity = 8
 
 [tool.pyright]
-pythonVersion = "3.12"
+pythonVersion = "3.13"
 typeCheckingMode = "strict"
 reportMissingImports = true
 reportMissingTypeStubs = true

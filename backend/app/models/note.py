@@ -7,16 +7,7 @@ from app.config import settings
 
 class Note(BaseModel):
     id: str
-    # abilities: dict[str, bool]  # noqa: ERA001
     created_at: str
-    # creator: str # noqa: ERA001
-    # depth: int # noqa: ERA001
-    # excerpt: str | None # noqa: ERA001
-    # is_favorite: bool # noqa: ERA001
-    # link_role: str # noqa: ERA001
-    # link_reach: str # noqa: ERA001
-    # nb_accesses: int # noqa: ERA001
-    # numchild: int # noqa: ERA001
     path: str
     title: str | None
     updated_at: str

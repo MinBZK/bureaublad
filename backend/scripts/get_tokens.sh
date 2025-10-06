@@ -4,7 +4,7 @@ USERNAME=""
 PASSWORD=""
 CLIENT_ID="files"
 CLIENT_SECRET=""
-KEYCLOAK_URL="http://localhost:8081/realms/master/protocol/openid-connect/token"
+KEYCLOAK_URL="http://localhost:8080/realms/mijnbureau/protocol/openid-connect/token"
 
 # Parse command-line options
 while getopts u:p:c:s: flag
