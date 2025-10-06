@@ -1,7 +1,7 @@
 import logging
 from datetime import date
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, HTTPException, Request
 
 from app.clients.caldav import CaldavClient
 from app.config import settings
@@ -15,6 +15,10 @@ router = APIRouter(prefix="/caldav", tags=["caldav"])
 
 @router.get("/calendars/{calendar_date}")
 async def caldav_calendar(request: Request, calendar_date: date) -> list[Calendar | None]:
+    # Redundant checks needed to satisfy the type system.
+    if not settings.calendar_enabled or not settings.CALENDAR_URL:
+        raise HTTPException(status_code=503, detail="Calendar service is not configured")
+
     user: User = request.state.user
     access_token = user.access_token
 
@@ -32,6 +36,10 @@ async def caldav_calendar(request: Request, calendar_date: date) -> list[Calenda
 
 @router.get("/tasks", response_model=list[Task])
 async def caldav_tasks(request: Request) -> list[Task]:
+    # Redundant checks needed to satisfy the type system.
+    if not settings.task_enabled or not settings.TASK_URL:
+        raise HTTPException(status_code=503, detail="Task service is not configured")
+
     user: User = request.state.user
     access_token = user.access_token
 

@@ -30,7 +30,7 @@ app.include_router(root_router, tags=["health"])
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ALLOW_ORIGINS,
+    allow_origins=settings.all_cors_origins,
     allow_credentials=settings.CORS_ALLOW_CREDENTIALS,
     allow_methods=settings.CORS_ALLOW_METHODS,
     allow_headers=settings.CORS_ALLOW_HEADERS,
