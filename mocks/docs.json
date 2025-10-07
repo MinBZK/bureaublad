@@ -1,0 +1,16 @@
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1.0/documents/",
+
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {"count":1,"next":null,"previous":null,"results":[{"id":"36edbee9-fd20-4f06-a80c-e4e366295c47","abilities":{"accesses_manage":true,"accesses_view":true,"ai_transform":true,"ai_translate":true,"attachment_upload":true,"media_check":true,"can_edit":true,"children_list":true,"children_create":true,"collaboration_auth":true,"cors_proxy":true,"descendants":true,"destroy":true,"duplicate":true,"favorite":true,"link_configuration":true,"invite_owner":true,"mask":true,"move":true,"partial_update":true,"restore":true,"retrieve":true,"media_auth":true,"link_select_options":{"restricted":null,"authenticated":["reader","editor"],"public":["reader","editor"]},"tree":true,"update":true,"versions_destroy":true,"versions_list":true,"versions_retrieve":true},"ancestors_link_reach":null,"ancestors_link_role":null,"computed_link_reach":"restricted","computed_link_role":null,"created_at":"2025-10-07T07:27:20.948144Z","creator":"21630b9f-3a11-44c5-91ba-b94f4a804011","depth":1,"excerpt":null,"is_favorite":false,"link_role":"reader","link_reach":"restricted","nb_accesses_ancestors":1,"nb_accesses_direct":1,"numchild":0,"path":"000005z","title":"test","updated_at":"2025-10-07T07:27:29.103584Z","user_role":"owner"}]}
+    }
+  }
+]

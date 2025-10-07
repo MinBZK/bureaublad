@@ -30,7 +30,7 @@ class DriveClient:
 
         workspace_id = results[0]["id"]
 
-        item_url = f"{self.base_url}/api/v1.0/items/{workspace_id}/children/"
+        item_url = f"{self.base_url}/api/v1.0/items/{workspace_id}/tree/"
 
         response = self.client.request("GET", item_url)
         if response.status_code != 200:
