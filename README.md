@@ -1,7 +1,7 @@
 # Bureaublad
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/build-backend.yaml?label=backend)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/build-frontend.yaml.yaml?label=frontend)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/backend-ci.yaml?label=backend)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/frontend-ci?label=frontend)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=MinBZK_bureaublad&metric=coverage)](https://sonarcloud.io/summary/new_code?id=MinBZK_bureaublad)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MinBZK_bureaublad&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MinBZK_bureaublad)
 ![GitHub License](https://img.shields.io/github/license/minbzk/bureaublad)
