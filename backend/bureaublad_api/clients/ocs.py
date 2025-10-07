@@ -1,6 +1,13 @@
+import logging
+from typing import cast
+
 import httpx
-from app.models import Activity, FileSearchResult, SearchResults
+from bureaublad_api.exceptions import ExternalServiceError
+from bureaublad_api.models.activity import Activity
+from bureaublad_api.models.search import FileSearchResult, SearchResults
 from pydantic import TypeAdapter
+
+logger = logging.getLogger(__name__)
 
 
 # https://docs.nextcloud.com/server/latest/developer_manual/client_apis/index.html
@@ -36,7 +43,8 @@ class OCSClient:
 
         response = self.client.request("GET", url)
         if response.status_code != 200:
-            return TypeAdapter(list[Activity]).validate_python([])
+            logger.error(f"OCS activities request failed: status={response.status_code}, url={url}")
+            raise ExternalServiceError("OCS", f"Failed to fetch activities (status {response.status_code})")
 
         results = response.json().get("ocs", []).get("data", [])
 
@@ -49,13 +57,14 @@ class OCSClient:
 
         response = self.client.request("GET", url)
         if response.status_code != 200:
-            return TypeAdapter(list[FileSearchResult]).validate_python([])
+            logger.error(f"OCS file search failed: status={response.status_code}, url={url}")
+            raise ExternalServiceError("OCS", f"Failed to search files (status {response.status_code})")
 
         results = response.json().get("ocs", []).get("data", []).get("entries", [])
 
-        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
-
-        return search_results
+        # Validate as FileSearchResult to handle aliases, then cast to base type
+        validated = TypeAdapter(list[FileSearchResult]).validate_python(results)
+        return cast(list[SearchResults], validated)
 
     def search_calendar(
         self, term: str, path: str = "ocs/v2.php/search/providers/calendar/search"
@@ -65,23 +74,25 @@ class OCSClient:
         response = self.client.request("GET", url)
 
         if response.status_code != 200:
-            return TypeAdapter(list[FileSearchResult]).validate_python([])
+            logger.error(f"OCS calendar search failed: status={response.status_code}, url={url}")
+            raise ExternalServiceError("OCS", f"Failed to search calendar (status {response.status_code})")
 
         results = response.json().get("ocs", []).get("data", []).get("entries", [])
 
-        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
-
-        return search_results
+        # Validate as FileSearchResult to handle aliases, then cast to base type
+        validated = TypeAdapter(list[FileSearchResult]).validate_python(results)
+        return cast(list[SearchResults], validated)
 
     def search_tasks(self, term: str, path: str = "ocs/v2.php/search/providers/tasks/search") -> list[SearchResults]:
         url = httpx.URL(f"{self.base_url}/{path}", params={"term": term})
 
         response = self.client.request("GET", url)
         if response.status_code != 200:
-            return TypeAdapter(list[FileSearchResult]).validate_python([])
+            logger.error(f"OCS task search failed: status={response.status_code}, url={url}")
+            raise ExternalServiceError("OCS", f"Failed to search tasks (status {response.status_code})")
 
         results = response.json().get("ocs", []).get("data", []).get("entries", [])
 
-        search_results: list[SearchResults] = TypeAdapter(list[FileSearchResult]).validate_python(results)
-
-        return search_results
+        # Validate as FileSearchResult to handle aliases, then cast to base type
+        validated = TypeAdapter(list[FileSearchResult]).validate_python(results)
+        return cast(list[SearchResults], validated)

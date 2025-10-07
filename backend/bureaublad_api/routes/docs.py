@@ -1,11 +1,13 @@
 import logging
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Request
 
-from app.clients.docs import DocsClient
-from app.config import settings
-from app.models import Note, User
-from app.token_exchange import exchange_token
+from bureaublad_api.clients.docs import DocsClient
+from bureaublad_api.core.config import settings
+from bureaublad_api.exceptions import ServiceUnavailableError
+from bureaublad_api.models.note import Note
+from bureaublad_api.models.user import User
+from bureaublad_api.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,7 @@ router = APIRouter(prefix="/docs", tags=["docs"])
 async def docs_documents(request: Request, title: str | None = None, favorite: bool = False) -> list[Note]:
     # Redundant checks needed to satisfy the type system.
     if not settings.docs_enabled or not settings.DOCS_URL:
-        raise HTTPException(status_code=503, detail="Docs service is not configured")
+        raise ServiceUnavailableError("Docs")
 
     user: User = request.state.user
     access_token = user.access_token

@@ -2,8 +2,8 @@ import logging
 
 from fastapi import APIRouter
 
-from app.config import settings
-from app.models.config import (
+from bureaublad_api.core.config import settings
+from bureaublad_api.models.config import (
     ApplicationsConfig,
     ConfigResponse,
     OIDCConfig,

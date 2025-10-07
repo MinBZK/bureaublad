@@ -1,5 +1,5 @@
 import httpx
-from app.models import Meeting
+from bureaublad_api.models.meeting import Meeting
 from pydantic import TypeAdapter
 
 

@@ -1,19 +1,30 @@
+default_language_version:
+  python: python3.12
+
 repos:
+  # Standard pre-commit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: end-of-file-fixer
+      - id: trailing-whitespace
       - id: check-yaml
-        args: ["--unsafe"]
       - id: check-json
+        exclude: 'tsconfig\.json'
+      - id: check-toml
       - id: check-added-large-files
-        args: ["--maxkb=700"]
-      - id: check-shebang-scripts-are-executable
       - id: check-merge-conflict
-      - id: no-commit-to-branch
-        args: ["--branch", "main"]
+      - id: detect-private-key
 
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.27.2
+  # Ruff linting and formatting for backend
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.13.3
     hooks:
-      - id: gitleaks
+      - id: ruff
+        name: ruff (backend)
+        args: [--config, backend/pyproject.toml]
+        files: ^backend/
+      - id: ruff-format
+        name: ruff-format (backend)
+        args: [--config, backend/pyproject.toml]
+        files: ^backend/

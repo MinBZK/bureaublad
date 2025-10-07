@@ -2,22 +2,34 @@
 name = "bureaublad-api"
 description = "API voor bureaublad"
 readme = "README.md"
+license = "EUPL-1.2"
 requires-python = ">=3.13"
 dependencies = [
     "caldav>=1.4.0",
     "fastapi[standard]>=0.115.11",
     "openai>=1.66.5",
     "pydantic-settings>=2.8.1",
-    "pyright>=1.1.396",
     "python-jose>=3.4.0",
-    "ruff>=0.9.9",
+    "python-ulid>=2.8.0",
+]
+
+[project.urls]
+repository = "https://github.com/MinBZK/bureaublad"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.406",
+    "ruff>=0.13.3",
 ]
 dynamic = ["version"]
+
+[tool.uv]
+package = true
 
 [tool.ruff]
 line-length = 120
 target-version = "py313"
-src = ["app"]
+src = ["bureaublad_api"]
 
 [tool.ruff.lint]
 select = ["I", "SIM", "B", "UP", "F", "E", "S", "C90", "DTZ", "LOG", "PIE", "PT", "ERA", "W", "C", "TRY", "RUF", "ANN"]

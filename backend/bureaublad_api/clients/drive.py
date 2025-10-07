@@ -1,5 +1,5 @@
 import httpx
-from app.models import Document
+from bureaublad_api.models.document import Document
 from pydantic import TypeAdapter
 
 

@@ -2,10 +2,11 @@ import logging
 
 from fastapi import APIRouter, HTTPException, Request
 
-from app.clients.meet import MeetClient
-from app.config import settings
-from app.models import Meeting, User
-from app.token_exchange import exchange_token
+from bureaublad_api.clients.meet import MeetClient
+from bureaublad_api.core.config import settings
+from bureaublad_api.models.meeting import Meeting
+from bureaublad_api.models.user import User
+from bureaublad_api.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)
 

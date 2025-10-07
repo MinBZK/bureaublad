@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.routes import ai, caldav, config, docs, ocs
+from bureaublad_api.routes import ai, caldav, config, docs, ocs
 
 api_router = APIRouter()
 api_router.include_router(docs.router)

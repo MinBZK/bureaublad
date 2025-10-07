@@ -1,6 +1,11 @@
+import logging
+
 import httpx
-from app.models import Note
+from bureaublad_api.exceptions import ExternalServiceError
+from bureaublad_api.models.note import Note
 from pydantic import TypeAdapter
+
+logger = logging.getLogger(__name__)
 
 
 class DocsClient:
@@ -24,7 +29,8 @@ class DocsClient:
 
         response = self.client.request("GET", url)
         if response.status_code != 200:
-            return TypeAdapter(list[Note]).validate_python([])
+            logger.error(f"Docs get_documents failed: status={response.status_code}, url={url}")
+            raise ExternalServiceError("Docs", f"Failed to fetch documents (status {response.status_code})")
 
         results = response.json().get("results", [])
 

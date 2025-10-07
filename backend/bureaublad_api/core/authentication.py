@@ -9,9 +9,9 @@ from jose import JWTError, jwt
 from jose.constants import ALGORITHMS
 from jose.jws import get_unverified_header
 
-from app.config import settings
-from app.exception import CredentialError
-from app.models import User
+from bureaublad_api.core.config import settings
+from bureaublad_api.exceptions import CredentialError
+from bureaublad_api.models.user import User
 
 logger = logging.getLogger(__name__)
 
@@ -42,12 +42,28 @@ def get_public_key(kid: str) -> dict[str, str]:
     return public_key
 
 
+<<<<<<< HEAD:backend/app/authentication.py
 def get_current_user(
     request: Request,
     credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer_scheme)],
     openid_token: str = Depends(openid_scheme),
 ) -> str:
     token = openid_token or (credentials.credentials if credentials else None)
+=======
+def _validate_jwt_algorithm(alg: str | None) -> None:
+    """Validate that the JWT algorithm is in the allowed list."""
+    allowed_algorithms = (
+        settings.OIDC_SIGNATURE_ALGORITM
+        if isinstance(settings.OIDC_SIGNATURE_ALGORITM, list)
+        else [settings.OIDC_SIGNATURE_ALGORITM]
+    )
+    if alg not in allowed_algorithms:
+        raise CredentialError(f"Unsupported JWT algorithm: {alg}")
+
+
+def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]) -> str:
+    token = credentials.credentials
+>>>>>>> d47f213 (🎨(structure) restructure backend code):backend/bureaublad_api/core/authentication.py
 
     jtw_decode_options = {
         "require_iat": True,
@@ -61,6 +77,7 @@ def get_current_user(
         # Get header info for key selection - signature verified in jwt.decode below
         header = get_unverified_header(token)  # NOSONAR
         alg = header.get("alg", None)
+        _validate_jwt_algorithm(alg)
 
         # Determine verification key based on algorithm
         if alg == ALGORITHMS.RS256:
@@ -83,11 +100,16 @@ def get_current_user(
         email: str = claims.get("email", "unknown")
         request.state.user = User(sub=sub, access_token=token, name=name, email=email)
 
+    except CredentialError:
+        raise
     except JWTError as err:
-        logger.debug("JWTError")
-        raise CredentialError from err
+        logger.exception("JWT validation failed")
+        raise CredentialError("Invalid or expired JWT token") from err
+    except httpx.HTTPError as err:
+        logger.exception("Failed to fetch JWKS")
+        raise CredentialError("Failed to validate credentials") from err
     except Exception as err:
-        logger.debug("Exception authentication")
-        raise CredentialError from err
+        logger.exception("Authentication error")
+        raise CredentialError("Authentication failed") from err
 
     return sub

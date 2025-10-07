@@ -2,8 +2,8 @@ import logging
 
 import httpx
 
-from app.config import settings
-from app.exception import TokenExchangeError
+from bureaublad_api.core.config import settings
+from bureaublad_api.exceptions import TokenExchangeError
 
 logger = logging.getLogger(__name__)
 
@@ -32,17 +32,16 @@ async def exchange_token(
 
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
-    response = httpx.post(
-        url=settings.OIDC_TOKEN_ENDPOINT,
-        data=payload,
-        headers=headers,
-    )
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url=settings.OIDC_TOKEN_ENDPOINT,
+            data=payload,
+            headers=headers,
+        )
 
-    logger.debug(response.status_code)
+    logger.debug(f"Token exchange response status: {response.status_code}")
     if response.status_code != 200:
-        logger.debug(response.text)
-        raise TokenExchangeError()
+        logger.error(f"Token exchange failed: status={response.status_code}, response={response.text}")
+        raise TokenExchangeError(f"Token exchange failed with status {response.status_code}")
 
-    new_token = response.json().get("access_token", None)
-
-    return new_token
+    return response.json().get("access_token", None)

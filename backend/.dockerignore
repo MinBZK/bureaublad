@@ -1,1 +1,50 @@
+# Python
 .venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info
+dist
+build
+
+# Environment and secrets
+.env
+*.env
+!example.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets/
+credentials.json
+
+# Development
+.git
+.gitignore
+*.log
+*.sqlite
+*.db
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov
+.tox
+
+# Documentation
+*.md
+!README.md
+
+# Temporary files
+tmp/
+temp/
+*.tmp
