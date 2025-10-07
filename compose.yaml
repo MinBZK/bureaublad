@@ -1,38 +1,77 @@
 services:
-  bureaublad-frontend:
+  frontend:
     image: ghcr.io/minbzk/bureaublad-frontend:dev
     build:
       context: frontend
       dockerfile: Dockerfile
       args: #todo: move these options to the backend
-        NEXT_PUBLIC_KEYCLOAK_URL: http://localhost:8081
-        NEXT_PUBLIC_KEYCLOAK_REALM: master
-        NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad-frontend
-        NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8080
+        NEXT_PUBLIC_KEYCLOAK_URL: http://localhost:8080
+        NEXT_PUBLIC_KEYCLOAK_REALM: mijnbureau
+        NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad
+        NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
     ports:
       - "3000:80"
     depends_on:
-      - bureaublad-backend
+      - backend
       - keycloak
-  bureaublad-backend:
+  backend:
     image: ghcr.io/minbzk/bureaublad-api:dev
     build:
       context: backend
       dockerfile: Dockerfile
+    command: ["--host", "0.0.0.0", "app.main:app", "--port", "8000", "--reload"]
+    restart: unless-stopped
+    env_file:
+      - backend/.env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
-      interval: 5s
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
       timeout: 3s
       retries: 5
     ports:
-      - "8080:8080"
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app/app/
   keycloak:
-    image: quay.io/keycloak/keycloak:26.3.5
+    image: quay.io/keycloak/keycloak:26.4.0
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_USERNAME: admin
+      KC_DB_PASSWORD: admin
+      KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
+    restart: unless-stopped
     ports:
-      - 8081:8080
+      - 8080:8080
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:17.6
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
+      interval: 10s
+      timeout: 2s
+      retries: 3
+
+
+volumes:
+  postgres:

@@ -28,14 +28,14 @@ def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
         try:
             parsed: Any = json.loads(v)
         except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}")
+            raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
 
         if not isinstance(parsed, list):
-            raise ValueError("SIDEBAR_LINKS_JSON must be a JSON array")
+            raise TypeError("SIDEBAR_LINKS_JSON must be a JSON array")
 
         for idx, link in enumerate(parsed):  # type: ignore[misc]
             if not isinstance(link, dict):
-                raise ValueError(f"Link at index {idx} must be an object")
+                raise TypeError(f"Link at index {idx} must be an object")
             required = {"icon", "url", "title"}
             if not required.issubset(link.keys()):  # type: ignore[arg-type]
                 raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
@@ -44,7 +44,7 @@ def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
             try:
                 HttpUrl(link["url"])  # type: ignore[arg-type]
             except Exception as e:
-                raise ValueError(f"Link at index {idx} has invalid URL: {e}")
+                raise ValueError(f"Link at index {idx} has invalid URL: {e}") from e
 
         return parsed  # type: ignore[return-value]
 
@@ -56,7 +56,7 @@ def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=("dev.env", ".env", "prod.env"),
+        env_file=(".env"),
         env_file_encoding="utf-8",
         extra="ignore",
         case_sensitive=True,
@@ -68,14 +68,15 @@ class Settings(BaseSettings):
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
 
     # OpenID Connect
-    OIDC_CLIENT_ID: str = "bureaublad-frontend"
+    OIDC_CLIENT_ID: str = "bureaublad"
     OIDC_CLIENT_SECRET: str | None = None
     OIDC_AUTHORIZATION_ENDPOINT: str = ""
     OIDC_TOKEN_ENDPOINT: str = ""
+    OIDC_PUBLIC_TOKEN_ENDPOINT: str | None = None
     OIDC_JWKS_ENDPOINT: str = ""
     OIDC_USERNAME_CLAIM: str = "preferred_username"
     OIDC_SCOPES: dict[str, str] = {"openid": "", "profile": "", "email": ""}
-    OIDC_AUDIENCE: str = "account"
+    OIDC_AUDIENCE: str = "bureaublad"
     OIDC_ISSUER: str = ""
     OIDC_SIGNATURE_ALGORITM: str | list[str] = [ALGORITHMS.RS256, ALGORITHMS.HS256]
 
@@ -85,21 +86,20 @@ class Settings(BaseSettings):
     DOCS_URL: str | None = None
     DOCS_AUDIENCE: str = "docs"
     CALENDAR_URL: str | None = None
-    CALENDAR_AUDIENCE: str = "files"
+    CALENDAR_AUDIENCE: str = "openxchange"
     TASK_URL: str | None = None
-    TASK_AUDIENCE: str = "files"
+    TASK_AUDIENCE: str = "openxchange"
     DRIVE_URL: str | None = None
     DRIVE_AUDIENCE: str = "drive"
     MEET_URL: str | None = None
     MEET_AUDIENCE: str = "meet"
+    GRIST_URL: str | None = None
+    GRIST_AUDIENCE: str = "grist"
 
     # AI Integration
     AI_BASE_URL: str | None = "https://api.openai.com/v1/"
     AI_MODEL: str | None = "gpt-4o"
     AI_API_KEY: str | None = None
-
-    # Grist
-    GRIST_BASE_URL: str | None = None
 
     THEME_CSS_URL: str = ""
 
@@ -148,7 +148,12 @@ class Settings(BaseSettings):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def grist_enabled(self) -> bool:
-        return self.GRIST_BASE_URL is not None
+        return self.GRIST_URL is not None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def parsed_oidc_public_token_endpoint(self) -> str:
+        return self.OIDC_PUBLIC_TOKEN_ENDPOINT or self.OIDC_TOKEN_ENDPOINT
 
     @computed_field  # type: ignore[prop-decorator]
     @property

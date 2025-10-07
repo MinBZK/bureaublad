@@ -1,5 +1,5 @@
 import logging
-from datetime import date
+from datetime import date, datetime
 
 from fastapi import APIRouter, HTTPException, Request
 
@@ -29,7 +29,9 @@ async def caldav_calendar(request: Request, calendar_date: date) -> list[Calenda
 
     client = CaldavClient(base_url=settings.CALENDAR_URL, token=new_token)
 
-    calendar_items: list[Calendar | None] = client.get_calendars(check_date=calendar_date)
+    calendar_items: list[Calendar | None] = client.get_calendars(
+        check_date=datetime.combine(calendar_date, datetime.min.time())
+    )
 
     return calendar_items
 
