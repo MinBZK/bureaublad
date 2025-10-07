@@ -1,5 +1,5 @@
 import Keycloak from 'keycloak-js';
-import { valueOrEmptyString } from '../Common/pageConfig';
+import { valueOrEmptyString } from '../../Common/pageConfig';
 
 
 let keycloak: Keycloak;

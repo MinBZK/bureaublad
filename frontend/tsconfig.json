@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     "next-env.d.ts",
     "dist/types/**/*.ts"
-  ],
+, "src/app/Layout/PageLayout.jsx", "src/app/Common/pageConfig.jsx", "src/app/Common/DynamicIcon.jsx", "src/app/layout.jsx", "src/app/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

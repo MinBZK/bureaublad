@@ -25,7 +25,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.include_router(api_router, dependencies=[Depends(get_current_user)], prefix=settings.API_V1_STR)
+app.include_router(api_router, prefix=settings.API_V1_STR)
 app.include_router(root_router, tags=["health"])
 
 app.add_middleware(
