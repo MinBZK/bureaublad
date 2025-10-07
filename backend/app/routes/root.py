@@ -1,7 +1,9 @@
 import httpx
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, status
 
-from app.config import settings
+from app.core.config import settings
+from app.core.http_clients import HTTPClient
+from app.exceptions import ExternalServiceError, ServiceUnavailableError
 
 router = APIRouter()
 
@@ -9,18 +11,18 @@ router = APIRouter()
 @router.get("/startup", status_code=status.HTTP_204_NO_CONTENT)
 async def root_get_startup() -> None:
     if not settings.OIDC_ISSUER or not settings.OIDC_JWKS_ENDPOINT:
-        raise HTTPException(status_code=503, detail="Missing critical OIDC configuration")
+        raise ServiceUnavailableError("OIDC")
 
 
 @router.get("/readiness", status_code=status.HTTP_204_NO_CONTENT)
-async def root_get_readiness() -> None:
+async def root_get_readiness(http_client: HTTPClient) -> None:
     try:
-        async with httpx.AsyncClient(timeout=5.0) as client:
-            response = await client.get(settings.OIDC_JWKS_ENDPOINT)
-            if response.status_code != 200:
-                raise HTTPException(status_code=503, detail="OIDC provider not accessible")
-    except httpx.RequestError:
-        raise HTTPException(status_code=503, detail="Failed to connect to OIDC provider") from httpx.RequestError
+        response = await http_client.get(settings.OIDC_JWKS_ENDPOINT)
+        response.raise_for_status()
+    except httpx.HTTPStatusError as e:
+        raise ExternalServiceError("OIDC provider", f"HTTP {e.response.status_code}") from e
+    except httpx.RequestError as e:
+        raise ExternalServiceError("OIDC provider", "Connection failed") from e
 
 
 @router.get("/liveness", status_code=status.HTTP_204_NO_CONTENT)

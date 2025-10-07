@@ -1,5 +1,5 @@
 [project]
-name = "bureaublad-api"
+name = "app"
 description = "API voor bureaublad"
 readme = "README.md"
 license = "EUPL-1.2"
@@ -12,16 +12,18 @@ dependencies = [
     "python-jose>=3.4.0",
     "python-ulid>=2.8.0",
 ]
+dynamic = ["version"]
 
 [project.urls]
 repository = "https://github.com/MinBZK/bureaublad"
 
 [dependency-groups]
 dev = [
+    "httpx>=0.28.1",
     "pyright>=1.1.406",
     "ruff>=0.13.3",
 ]
-dynamic = ["version"]
+
 
 [tool.uv]
 package = true
@@ -29,7 +31,7 @@ package = true
 [tool.ruff]
 line-length = 120
 target-version = "py313"
-src = ["bureaublad_api"]
+src = ["app"]
 
 [tool.ruff.lint]
 select = ["I", "SIM", "B", "UP", "F", "E", "S", "C90", "DTZ", "LOG", "PIE", "PT", "ERA", "W", "C", "TRY", "RUF", "ANN"]
