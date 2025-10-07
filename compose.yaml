@@ -67,11 +67,49 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres"]
+      test: ["CMD", "pg_isready", "-q", "-d", "postgres", "-U", "admin"]
       interval: 10s
       timeout: 2s
       retries: 3
-
-
+  mockserver_docs:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/docs.json
+    ports:
+      - "8083:1080"
+    volumes:
+      - ./mocks/docs.json:/config/docs.json:ro
+  mockserver_drive:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/drive.json
+    ports:
+      - "8085:1080"
+    volumes:
+      - ./mocks/drive.json:/config/drive.json:ro
+  mockserver_grist:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/grist.json
+    ports:
+      - "8087:1080"
+    volumes:
+      - ./mocks/grist.json:/config/grist.json:ro
+  mockserver_meet:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/meet.json
+    ports:
+      - "8086:1080"
+    volumes:
+      - ./mocks/meet.json:/config/meet.json:ro
+  mockserver_nextcloud:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/nextcloud.json
+    ports:
+      - "8082:1080"
+    volumes:
+      - ./mocks/nextcloud.json:/config/nextcloud.json:ro
 volumes:
   postgres:
