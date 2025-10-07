@@ -82,4 +82,3 @@ In the future we plan to add a advanced search feature and make the page more co
 - **Backend:** [FastAPI](https://fastapi.tiangolo.com/)
 
 **Note:** Your identity provider must support Token Exchange for authentication. Verify compatibility before deployment.
-

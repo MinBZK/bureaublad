@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import {useContext, useEffect, useState} from "react";
-import {keycloak} from "../auth/keycloak";
-import {KeycloakContext} from "../auth/KeycloakProvider";
+import { useContext, useEffect, useState } from "react";
+import { keycloak } from "../auth/keycloak";
+import { KeycloakContext } from "../auth/KeycloakProvider";
 import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnDossiersItemsProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
 interface MijnDossiersItemsData {
-  url: string,
-  id: string,
-  title: string,
-  updated_date: string,
+  url: string;
+  id: string;
+  title: string;
+  updated_date: string;
 }
 
-function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
+function MijnDossiersItems({ baseUrl }: MijnDossiersItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([] as MijnDossiersItemsData[]);
@@ -29,17 +29,17 @@ function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
         method: "GET",
         mode: "cors",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${keycloak.token}`,
-        }
+          Authorization: `Bearer ${keycloak.token}`,
+        },
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
             if (result.detail) {
-              setError(result.detail)
+              setError(result.detail);
             } else {
               setItems(result);
             }
@@ -50,8 +50,8 @@ function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
-        )
+          },
+        );
     }
   }, [keycloakContext, baseUrl]);
 
@@ -62,20 +62,28 @@ function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
-        {items.map(item => (
-          <a href={item.url} key={item.id}
-             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
-             target="_blank">
+        {items.map((item) => (
+          <a
+            href={item.url}
+            key={item.id}
+            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+            target="_blank"
+          >
             <div>
-              <div
-                className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+              <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
-                  <span className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw" role="img"
-                        aria-label="Map"></span>
+                  <span
+                    className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw"
+                    role="img"
+                    aria-label="Map"
+                  ></span>
                 </div>
                 <div>
-                  <span className="openbsw-document-titel">{item.title}</span><br/>
-                  <span className="openbsw-document-datum">{item.updated_date}</span>
+                  <span className="openbsw-document-titel">{item.title}</span>
+                  <br />
+                  <span className="openbsw-document-datum">
+                    {item.updated_date}
+                  </span>
                 </div>
               </div>
             </div>
@@ -87,13 +95,13 @@ function MijnDossiersItems({baseUrl}: MijnDossiersItemsProps) {
 }
 
 interface MijnDossiersProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
-export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
+export default function MijnDossiers({ baseUrl }: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
-      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
       <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>
@@ -120,5 +128,5 @@ export default function MijnDossiers({baseUrl}: MijnDossiersProps) {
         </a>
       </p>
     </div>
-  )
+  );
 }

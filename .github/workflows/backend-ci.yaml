@@ -1,5 +1,9 @@
 name: backend-ci
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -14,7 +18,7 @@ on:
     paths:
       - "backend/**"
 env:
-  IMAGE_NAME: 'bureaublad-api'
+  IMAGE_NAME: "bureaublad-api"
 
 jobs:
   format:
@@ -25,7 +29,7 @@ jobs:
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v6
         with:
-          python-version-file: 'backend/pyproject.toml'
+          python-version-file: "backend/pyproject.toml"
 
       - name: Install uv
         run: pipx install uv
@@ -48,8 +52,8 @@ jobs:
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v6
         with:
-          python-version-file: 'backend/pyproject.toml'
-        
+          python-version-file: "backend/pyproject.toml"
+
       - name: Install uv
         run: pipx install uv
 
@@ -62,17 +66,6 @@ jobs:
         run: |
           cd backend/
           uv run ruff check
-      
-      - name: Run  hadolint linter
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          dockerfile: backend/Dockerfile
-          format: json
-          failure-threshold: warning
-
-      # - name: Run pyright type checker
-      #   run: |
-      #     uv run pyright
 
       - name: Run  hadolint linter
         uses: hadolint/hadolint-action@v3.3.0
@@ -120,7 +113,6 @@ jobs:
       - name: Make changes to project to inject commit hash
         run: |
           sed -i 's/VERSION: str = .*$/VERSION: str = "${{ steps.get_commit_hash.outputs.commit_hash }}"/g' backend/app/const.py
-
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -202,7 +194,6 @@ jobs:
         env:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: Upload SBOM & License
         uses: actions/upload-artifact@v4.6.2

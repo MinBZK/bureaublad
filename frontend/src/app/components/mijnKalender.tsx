@@ -1,21 +1,21 @@
-'use client'
+"use client";
 
-import {useContext, useEffect, useState} from "react";
-import {keycloak} from "../auth/keycloak";
-import {KeycloakContext} from "../auth/KeycloakProvider";
+import { useContext, useEffect, useState } from "react";
+import { keycloak } from "../auth/keycloak";
+import { KeycloakContext } from "../auth/KeycloakProvider";
 import LifecycleTag from "@/app/components/lifecycleTag";
 
 interface MijnKalenderItemsProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
 interface MijnKalenderItemsData {
-  title: string,
-  start: string,
-  end: string,
+  title: string;
+  start: string;
+  end: string;
 }
 
-function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
+function MijnKalenderItems({ baseUrl }: MijnKalenderItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([] as MijnKalenderItemsData[]);
@@ -29,17 +29,17 @@ function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
         method: "GET",
         mode: "cors",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${keycloak.token}`,
-        }
+          Authorization: `Bearer ${keycloak.token}`,
+        },
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
             if (result.detail) {
-              setError(result.detail)
+              setError(result.detail);
             } else {
               setItems(result);
             }
@@ -50,8 +50,8 @@ function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
-        )
+          },
+        );
     }
   }, [keycloakContext, baseUrl]);
 
@@ -62,20 +62,28 @@ function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
-        {items.map(item => (
-          <div key={item.title + '/' + item.start}>
-            <div
-              className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+        {items.map((item) => (
+          <div key={item.title + "/" + item.start}>
+            <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
               <div className="rvo-margin--sm">
-                  <span
-                    className="utrecht-icon rvo-icon rvo-icon-kalender-met-vlakken rvo-icon--xl rvo-icon--hemelblauw"
-                    role="img"
-                    aria-label="Kalender met vlakken"></span>
+                <span
+                  className="utrecht-icon rvo-icon rvo-icon-kalender-met-vlakken rvo-icon--xl rvo-icon--hemelblauw"
+                  role="img"
+                  aria-label="Kalender met vlakken"
+                ></span>
               </div>
               <div>
-                <span className="openbsw-document-titel">{item.title}</span><br/>
+                <span className="openbsw-document-titel">{item.title}</span>
+                <br />
                 <span className="openbsw-document-datum">
-                  {new Date(Date.parse(item.start)).toLocaleTimeString('nl-NL', {timeStyle: "short"})} - {new Date(Date.parse(item.end)).toLocaleTimeString('nl-NL', {timeStyle: "short"})}
+                  {new Date(Date.parse(item.start)).toLocaleTimeString(
+                    "nl-NL",
+                    { timeStyle: "short" },
+                  )}{" "}
+                  -{" "}
+                  {new Date(Date.parse(item.end)).toLocaleTimeString("nl-NL", {
+                    timeStyle: "short",
+                  })}
                 </span>
               </div>
             </div>
@@ -87,18 +95,19 @@ function MijnKalenderItems({baseUrl}: MijnKalenderItemsProps) {
 }
 
 interface MijnKalenderProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
-export default function MijnKalender({baseUrl}: MijnKalenderProps) {
+export default function MijnKalender({ baseUrl }: MijnKalenderProps) {
   const nextHour = new Date();
   nextHour.setHours(nextHour.getHours() + 1);
   nextHour.setMinutes(0, 0, 0);
   const fromTimestamp = nextHour.valueOf() / 1000;
-  const toTimestamp = nextHour.setHours(nextHour.getHours() + 1).valueOf() / 1000;
+  const toTimestamp =
+    nextHour.setHours(nextHour.getHours() + 1).valueOf() / 1000;
   return (
     <div className="openbsw-panel">
-      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
       <h4>Agenda van vandaag</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnKalenderItems baseUrl={baseUrl}></MijnKalenderItems>
@@ -106,7 +115,12 @@ export default function MijnKalender({baseUrl}: MijnKalenderProps) {
       <p className="utrecht-button-group">
         <a
           className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-          href={'https://files.la-suite.apps.digilab.network/apps/calendar/dayGridMonth/now/new/popover/0/' + fromTimestamp + '/' + toTimestamp}
+          href={
+            "https://files.la-suite.apps.digilab.network/apps/calendar/dayGridMonth/now/new/popover/0/" +
+            fromTimestamp +
+            "/" +
+            toTimestamp
+          }
           target="_blank"
         >
           <span
@@ -125,5 +139,5 @@ export default function MijnKalender({baseUrl}: MijnKalenderProps) {
         </a>
       </p>
     </div>
-  )
+  );
 }

@@ -11,6 +11,8 @@ updates:
       allgithubactions:
         patterns:
           - "*"
+    commit-message:
+      prefix: "⬆️(deps) "
 
   - package-ecosystem: npm
     directory: "frontend"
@@ -23,7 +25,8 @@ updates:
       allbun:
         patterns:
           - "*"
-      
+    commit-message:
+      prefix: "⬆️(deps) "
 
   - package-ecosystem: pip
     directory: "backend"
@@ -36,6 +39,8 @@ updates:
       allpip:
         patterns:
           - "*"
+    commit-message:
+      prefix: "⬆️(deps) "
 
   - package-ecosystem: "docker-compose"
     directory: "/"
@@ -48,3 +53,5 @@ updates:
       alldockercompose:
         patterns:
           - "*"
+    commit-message:
+      prefix: "⬆️(deps) "

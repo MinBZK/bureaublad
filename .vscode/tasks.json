@@ -1,67 +1,66 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "python: typecheck",
-            "detail": "typecheck code.",
-            "type": "shell",
-            "command": "uv run pyright",
-            "group": "test",
-            "presentation": {
-              "reveal": "always",
-              "panel": "new"
-            },
-            "problemMatcher": [],
-            "options": {
-              "cwd": "${workspaceFolder}/backend/"
-            }
-          },
-          {
-            "label": "python: lint",
-            "detail": "lint code.",
-            "type": "shell",
-            "command": "uv run ruff check --fix",
-            "group": "test",
-            "presentation": {
-              "reveal": "always",
-              "panel": "new"
-            },
-            "problemMatcher": [],
-            "options": {
-              "cwd": "${workspaceFolder}/backend/"
-            }
-          },
-          {
-            "label": "python: format",
-            "detail": "format code.",
-            "type": "shell",
-            "command": "uv run ruff format",
-            "group": "test",
-            "presentation": {
-              "reveal": "always",
-              "panel": "new"
-            },
-            "problemMatcher": [],
-            "options": {
-              "cwd": "${workspaceFolder}/backend/"
-            }
-          },
-          {
-            "label": "python: dependencies",
-            "detail": "get python dependencies.",
-            "type": "shell",
-            "command": "uv",
-            "args": ["sync"],
-            "group": "test",
-            "presentation": {
-              "reveal": "always",
-              "panel": "new"
-            },
-            "problemMatcher": [],
-            "options": {
-              "cwd": "${workspaceFolder}/backend/"
-              
-            }
-          },
-        ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "python: typecheck",
+      "detail": "typecheck code.",
+      "type": "shell",
+      "command": "uv run pyright",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend/"
+      }
+    },
+    {
+      "label": "python: lint",
+      "detail": "lint code.",
+      "type": "shell",
+      "command": "uv run ruff check --fix",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend/"
+      }
+    },
+    {
+      "label": "python: format",
+      "detail": "format code.",
+      "type": "shell",
+      "command": "uv run ruff format",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend/"
+      }
+    },
+    {
+      "label": "python: dependencies",
+      "detail": "get python dependencies.",
+      "type": "shell",
+      "command": "uv",
+      "args": ["sync"],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "options": {
+        "cwd": "${workspaceFolder}/backend/"
+      }
+    }
+  ]
 }
