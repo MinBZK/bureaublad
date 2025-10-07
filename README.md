@@ -1,84 +1,138 @@
 # Bureaublad
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/backend-ci.yaml?label=backend)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/frontend-ci?label=frontend)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/minbzk/bureaublad/frontend-ci.yaml?label=frontend)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=MinBZK_bureaublad&metric=coverage)](https://sonarcloud.io/summary/new_code?id=MinBZK_bureaublad)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MinBZK_bureaublad&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MinBZK_bureaublad)
 ![GitHub License](https://img.shields.io/github/license/minbzk/bureaublad)
 
-Bureaublad is a flexible dashboard that aggregates information from multiple open-source components, providing users with a unified interface to access essential tools and data.
+## Overview
 
-It is a stateless application, so all data stays at the source.
+Bureaublad is a flexible dashboard application that aggregates information from multiple open-source components into a unified interface. Users can access essential tools and data from a single location without needing to switch between different applications.
 
-## Integrated Tools
+**Key Features:**
 
-- [CalDav protocol](https://datatracker.ietf.org/doc/html/rfc4791) (calendar protocol)
-  - calendar
-  - tasks
-- [Docs](https://github.com/suitenumerique/docs)
-- [Ocs](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/OCS/ocs-api-overview.html) (Nextcloud & OwnCloud protocol)
-  - activity app
-- [Drive](https://github.com/suitenumerique/drive)
-- [Meet](https://github.com/suitenumerique/meet)
-- [OpenAI interface](https://github.com/openai/openai-python)
+- 🔄 **Stateless Design** - All data remains at the source
+- 🔌 **Multiple Integrations** - Connects to various productivity tools
+- 🔐 **Secure Authentication** - OpenID Connect with Token Exchange support
+- 📱 **Modern Interface** - React-based responsive frontend
 
-## Planned Integrations
+## Architecture
 
-- [Synapse](https://github.com/element-hq/synapse)
+Bureaublad follows a modern microservices architecture:
 
-## Getting Started
+- **Frontend:** React SPA (Single Page Application)
+- **Backend:** FastAPI REST API
+- **Authentication:** OpenID Connect with Token Exchange support
 
-To run Bureaublad, ensure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed.
+## Integrations
 
-copy the example.env in the backend to .env
+### Currently Supported
 
-```bash
-cp backend/example.env backend/.env
+| Tool                   | Protocol                                                                                                   | Features                         |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **Calendar & Tasks**   | [CalDav](https://datatracker.ietf.org/doc/html/rfc4791)                                                    | Calendar events, task management |
+| **Docs**               | [Docs API](https://github.com/suitenumerique/docs)                                                         | Document management              |
+| **Nextcloud/OwnCloud** | [OCS API](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/OCS/ocs-api-overview.html) | Activity feeds                   |
+| **Drive**              | [Drive API](https://github.com/suitenumerique/drive)                                                       | File storage and sharing         |
+| **Meet**               | [Meet API](https://github.com/suitenumerique/meet)                                                         | Video conferencing               |
+| **AI Assistant**       | [OpenAI API](https://github.com/openai/openai-python)                                                      | AI-powered assistance            |
+
+### Planned Integrations
+
+- **Matrix Chat** via [Synapse](https://github.com/element-hq/synapse)
+
+## Quick Start
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system
+
+### Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/minbzk/bureaublad.git
+   cd bureaublad
+   ```
+
+2. **Configure environment**
+
+   ```bash
+   cp backend/example.env backend/.env
+   ```
+
+3. **Start the application**
+
+   ```bash
+   docker compose build
+   docker compose up
+   ```
+
+### Access the Application
+
+Once started, you can access the following services:
+
+| Service            | URL                                                | Description                     |
+| ------------------ | -------------------------------------------------- | ------------------------------- |
+| **Frontend**       | <http://localhost:3000>                            | Main application interface      |
+| **Backend API**    | <http://localhost:8000>                            | REST API documentation          |
+| **Keycloak Admin** | <http://localhost:8080>                            | Identity provider admin console |
+| **User Account**   | <http://localhost:8080/realms/mijnbureau/account/> | User account management         |
+
+### Default Credentials
+
+#### Admin Access (Keycloak Master Realm)
+
+```
+Username: admin
+Password: admin
 ```
 
-Then, build and start the application with:
-
-```sh
-docker compose build
-docker compose up
-```
-
-When the application start you will get 4 urls:
-
-- [frontend](http://localhost:3000)
-- [backend](http://localhost:8000)
-- [keycloak master](http://localhost:8080)
-- [keycloak mijnbureau](http://localhost:8080/realms/mijnbureau/account/)
-
-In the master realm you can login with the admin credentials and manage all realm, including mijnbureau
+#### User Accounts (MijnBureau Realm)
 
 ```
-username: admin
-password: admin
+jane@mijnbureau.nl / jane
+john@mijnbureau.nl / john
 ```
 
-in the MijnBureau realm you can login with 4 users:
+## Development
+
+### Technology Stack
+
+- **Frontend:** React with TypeScript, modern hooks and functional components
+- **Backend:** FastAPI with Python 3.13, Pydantic v2 for data validation
+- **Authentication:** Keycloak with OpenID Connect
+- **Containerization:** Docker with multi-service orchestration
+
+### Project Structure
 
 ```
-username: jane@mijnbureau.nl password: jane
-username: john@mijnbureau.nl password: john
+bureaublad/
+├── backend/          # FastAPI application
+├── frontend/         # React application
+|-- keycloak/         # Keycloak config
+|-- mocks/            # Mocks of integrated tools
+|-- scripts/          # Helper scripts
+├── compose.yaml      # Docker orchestration
+└── README.md         # This file
 ```
 
-## Solution Architecture
+## Requirements
 
-Bureaublad consolidates data from various tools into a single platform, making it easier for users to access the information they need, when they need it.
+> **Important:** Your identity provider must support [Token Exchange (RFC 8693)](https://datatracker.ietf.org/doc/html/rfc8693) for proper authentication flow. Please verify compatibility before deployment.
 
-The solution consists of:
+## Future Roadmap
 
-- **Backend:** REST API
-- **Frontend:** Single Page Application (SPA)
-- **Identity Provider:** Supports OpenID Connect authentication with [Token Exchange](https://datatracker.ietf.org/doc/html/rfc8693)
+- 🔍 Advanced search capabilities across all integrated tools
+- ⚙️ User-customizable dashboard layouts and widgets
+- 🔗 Additional third-party integrations
 
-In the future we plan to add a advanced search feature and make the page more configurable to the users wishes.
+## Contributing
 
-## Technical Overview
+We welcome contributions! Please see our contributing guidelines for more information.
 
-- **Frontend:** [React](https://react.dev/)
-- **Backend:** [FastAPI](https://fastapi.tiangolo.com/)
+## License
 
-**Note:** Your identity provider must support Token Exchange for authentication. Verify compatibility before deployment.
+This project is licensed under the terms specified in the LICENSE file.
