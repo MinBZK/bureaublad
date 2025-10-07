@@ -1,5 +1,9 @@
 name: frontend-ci
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -8,19 +12,19 @@ on:
       - "v*"
     paths:
       - "frontend/**"
-  
 
 env:
-  IMAGE_NAME: 'bureaublad-frontend'
-  URL: 'https://bureaublad.apps.digilab.network'
-  NEXT_PUBLIC_KEYCLOAK_URL: 'http://localhost:8080'
+  IMAGE_NAME: "bureaublad-frontend"
+  URL: "https://bureaublad.apps.digilab.network"
+  NEXT_PUBLIC_KEYCLOAK_URL: "http://localhost:8080"
   NEXT_PUBLIC_KEYCLOAK_REALM: mijnbureau
   NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad
   NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000'
 
 jobs:
-  push_to_registries:
+  build:
     name: Push Docker image to github registries
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       packages: write

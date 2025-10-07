@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import React from "react";
 import UserMenu from "./components/userMenu";
-import {KeycloakProvider} from "./auth/KeycloakProvider";
+import { KeycloakProvider } from "./auth/KeycloakProvider";
 import Search from "./components/search";
-import {valueOrEmptyString} from "@/app/page";
+import { valueOrEmptyString } from "@/app/page";
 
 export const metadata: Metadata = {
   title: "Mijn Bureaublad",
@@ -29,13 +29,24 @@ export default function RootLayout({
               <nav className="rvo-menubar rvo-menubar--lg">
                 <ul className="rvo-menubar__list">
                   <li className="rvo-menubar__item">
-                    <a className="rvo-link rvo-menubar__link rvo-link--logoblauw" href="#">
-                      <span className="utrecht-icon rvo-icon rvo-icon-home rvo-icon--md rvo-icon--hemelblauw" role="img"
-                            aria-label="Home"></span>
+                    <a
+                      className="rvo-link rvo-menubar__link rvo-link--logoblauw"
+                      href="#"
+                    >
+                      <span
+                        className="utrecht-icon rvo-icon rvo-icon-home rvo-icon--md rvo-icon--hemelblauw"
+                        role="img"
+                        aria-label="Home"
+                      ></span>
                       Home
-                    </a></li>
+                    </a>
+                  </li>
                   <li className="rvo-menubar__item">
-                    <Search baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></Search>
+                    <Search
+                      baseUrl={valueOrEmptyString(
+                        process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+                      )}
+                    ></Search>
                   </li>
                   <li className="rvo-menubar__item rvo-menubar__item--active rvo-menubar__item--align-right">
                     <UserMenu></UserMenu>

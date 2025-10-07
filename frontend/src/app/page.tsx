@@ -6,43 +6,59 @@ import Updates from "./components/updates";
 import MijnKalender from "./components/mijnKalender";
 import MijnZaken from "@/app/components/mijnZaken";
 
-export function valueOrEmptyString(textContent: string | null | undefined): string {
+export function valueOrEmptyString(
+  textContent: string | null | undefined,
+): string {
   if (textContent) {
     return textContent;
   }
-  return '';
+  return "";
 }
 
 export default function Home() {
   return (
     <main className="content">
-      <div
-        className="rvo-max-width-layout rvo-max-width-layout--md rvo-min-width-layout--sm openbsw-alert">
-        <SiteAlert/>
+      <div className="rvo-max-width-layout rvo-max-width-layout--md rvo-min-width-layout--sm openbsw-alert">
+        <SiteAlert />
 
         <div className="rvo-layout-grid-container openbsw-panel-container">
           <div
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--two rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr"} as React.CSSProperties}
+            style={{ "--division": "1fr 1fr" } as React.CSSProperties}
           >
-            <MijnZaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnZaken>
-            <MijnKalender baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnKalender>
+            <MijnZaken
+              baseUrl={valueOrEmptyString(
+                process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+              )}
+            ></MijnZaken>
+            <MijnKalender
+              baseUrl={valueOrEmptyString(
+                process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+              )}
+            ></MijnKalender>
           </div>
         </div>
 
-        <ApplicatieBar/>
+        <ApplicatieBar />
 
         <div className="rvo-layout-grid-container openbsw-panel-container">
           <div
             className="rvo-layout-grid rvo-layout-gap--md rvo-layout-grid-columns--three rvo-layout-grid--division"
-            style={{"--division": "1fr 1fr 1fr"} as React.CSSProperties}
+            style={{ "--division": "1fr 1fr 1fr" } as React.CSSProperties}
           >
-            <MijnDocumenten baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnDocumenten>
-            <MijnTaken baseUrl={valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}></MijnTaken>
+            <MijnDocumenten
+              baseUrl={valueOrEmptyString(
+                process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+              )}
+            ></MijnDocumenten>
+            <MijnTaken
+              baseUrl={valueOrEmptyString(
+                process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
+              )}
+            ></MijnTaken>
             <Updates></Updates>
           </div>
         </div>
-
       </div>
     </main>
   );

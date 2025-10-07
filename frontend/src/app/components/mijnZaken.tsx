@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import {useContext, useEffect, useState} from "react";
-import {keycloak} from "../auth/keycloak";
-import {KeycloakContext} from "../auth/KeycloakProvider";
+import { useContext, useEffect, useState } from "react";
+import { keycloak } from "../auth/keycloak";
+import { KeycloakContext } from "../auth/KeycloakProvider";
 import LifecycleTag from "@/app/components/lifecycleTag";
-import {CustomModal} from "./customModal";
+import { CustomModal } from "./customModal";
 
 interface MijnZakenItemsProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
 interface MijnZakenItemsData {
   identificatie: string;
-  url: string,
-  uuid: string,
-  omschrijving: string,
-  toelichting?: string
-  startdatum: string,
+  url: string;
+  uuid: string;
+  omschrijving: string;
+  toelichting?: string;
+  startdatum: string;
   einddatum?: string;
   archiefstatus: string;
   vertrouwelijkheidaanduiding: string;
@@ -27,38 +27,51 @@ interface MijnZakenItemsData {
 }
 
 interface MijnZakenItemProps {
-  zaakItem: MijnZakenItemsData
+  zaakItem: MijnZakenItemsData;
 }
 
-function MijnZakenItem({zaakItem}: MijnZakenItemProps) {
+function MijnZakenItem({ zaakItem }: MijnZakenItemProps) {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
 
   return (
-    <a href="#"
-       onClick={() => setIsCustomModalOpen(true)}
-       className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal">
+    <a
+      href="#"
+      onClick={() => setIsCustomModalOpen(true)}
+      className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+    >
       <div>
-        <div
-          className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+        <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
           <div className="rvo-margin--sm">
-                <span className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw" role="img"
-                      aria-label="Map"></span>
+            <span
+              className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw"
+              role="img"
+              aria-label="Map"
+            ></span>
           </div>
           <div>
-            <span className="openbsw-document-titel">{zaakItem.omschrijving}</span><br/>
-            <span className="openbsw-document-datum">{zaakItem.startdatum}</span>
+            <span className="openbsw-document-titel">
+              {zaakItem.omschrijving}
+            </span>
+            <br />
+            <span className="openbsw-document-datum">
+              {zaakItem.startdatum}
+            </span>
           </div>
         </div>
       </div>
-      {isCustomModalOpen &&
-        <CustomModal onClose={() => setIsCustomModalOpen(false)} title={zaakItem.omschrijving}>
-            <h3>Toelichting</h3>
-            <p>
-                OpenZaak is een API-systeem. Het is de bedoeling om vanuit applicaties hiermee
-                te integreren om zaken en documenten te beheren. In het kader van Open BSW is
-                hier geen applicatie voor beschikbaar. Vandaar dat hier alleen een overzicht
-                van enkele facetten van een zaak worden getoond.
-            </p>
+      {isCustomModalOpen && (
+        <CustomModal
+          onClose={() => setIsCustomModalOpen(false)}
+          title={zaakItem.omschrijving}
+        >
+          <h3>Toelichting</h3>
+          <p>
+            OpenZaak is een API-systeem. Het is de bedoeling om vanuit
+            applicaties hiermee te integreren om zaken en documenten te beheren.
+            In het kader van Open BSW is hier geen applicatie voor beschikbaar.
+            Vandaar dat hier alleen een overzicht van enkele facetten van een
+            zaak worden getoond.
+          </p>
           <dl className="rvo-data-list">
             <dt>Titel</dt>
             <dd>{zaakItem.omschrijving}</dd>
@@ -86,12 +99,12 @@ function MijnZakenItem({zaakItem}: MijnZakenItemProps) {
             <dd>{zaakItem.uuid}</dd>
           </dl>
         </CustomModal>
-      }
+      )}
     </a>
   );
 }
 
-function MijnZakenItems({baseUrl}: MijnZakenItemsProps) {
+function MijnZakenItems({ baseUrl }: MijnZakenItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([] as MijnZakenItemsData[]);
@@ -104,17 +117,17 @@ function MijnZakenItems({baseUrl}: MijnZakenItemsProps) {
         method: "GET",
         mode: "cors",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${keycloak.token}`,
-        }
+          Authorization: `Bearer ${keycloak.token}`,
+        },
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
             if (result.detail) {
-              setError(result.detail)
+              setError(result.detail);
             } else {
               setItems(result);
             }
@@ -125,8 +138,8 @@ function MijnZakenItems({baseUrl}: MijnZakenItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
-        )
+          },
+        );
     }
   }, [keycloakContext, baseUrl]);
 
@@ -137,8 +150,8 @@ function MijnZakenItems({baseUrl}: MijnZakenItemsProps) {
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
-        {items.map(item => (
-          <MijnZakenItem  key={item.uuid} zaakItem={item}/>
+        {items.map((item) => (
+          <MijnZakenItem key={item.uuid} zaakItem={item} />
         ))}
       </div>
     );
@@ -146,13 +159,13 @@ function MijnZakenItems({baseUrl}: MijnZakenItemsProps) {
 }
 
 interface MijnZakenProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
-export default function MijnZaken({baseUrl}: MijnZakenProps) {
+export default function MijnZaken({ baseUrl }: MijnZakenProps) {
   return (
     <div className="openbsw-panel">
-      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
       <h4>Mijn zaken</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnZakenItems baseUrl={baseUrl}></MijnZakenItems>
@@ -179,5 +192,5 @@ export default function MijnZaken({baseUrl}: MijnZakenProps) {
       {/*  </a>*/}
       {/*</p>*/}
     </div>
-  )
+  );
 }

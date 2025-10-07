@@ -25,9 +25,7 @@
         "http://127.0.0.1:8000/*",
         "http://127.0.0.1:3000/*"
       ],
-      "webOrigins": [
-        "+"
-      ],
+      "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -80,14 +78,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "docs4NtYg01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8083"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8083"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8083"],
+      "webOrigins": ["+", "http://127.0.0.1:8083"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -140,14 +132,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "drivetYg01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8085/*"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8085/"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8085/*"],
+      "webOrigins": ["+", "http://127.0.0.1:8085/"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -200,14 +186,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "gristtYg01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8087/*"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8087"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8087/*"],
+      "webOrigins": ["+", "http://127.0.0.1:8087"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -260,14 +240,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "meetNtYg01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8086/*"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8086"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8086/*"],
+      "webOrigins": ["+", "http://127.0.0.1:8086"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -320,14 +294,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "nextcloud1zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8082/*"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8082"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8082/*"],
+      "webOrigins": ["+", "http://127.0.0.1:8082"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -380,14 +348,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "openxchange01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "/*",
-        "http://127.0.0.1:8084/*"
-      ],
-      "webOrigins": [
-        "+",
-        "http://127.0.0.1:8084"
-      ],
+      "redirectUris": ["/*", "http://127.0.0.1:8084/*"],
+      "webOrigins": ["+", "http://127.0.0.1:8084"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -428,36 +390,40 @@
       ]
     }
   ],
-  "users" : [
+  "users": [
     {
-      "username" :"john@mijnbureau.nl",
-      "firstName" : "John",
-      "lastName" : "Doe",
+      "username": "john@mijnbureau.nl",
+      "firstName": "John",
+      "lastName": "Doe",
       "email": "john@mijnbureau.nl",
-      "emailVerified" : true,
-      "createdTimestamp" : 1759760136259,
-      "realmRoles" : [ "default-roles-mijnbureau" ],
-      "credentials" : [ {
-        "type" : "password",
-        "value": "john",
-        "temporary": false
-      } ],
-      "enabled" : true
+      "emailVerified": true,
+      "createdTimestamp": 1759760136259,
+      "realmRoles": ["default-roles-mijnbureau"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "john",
+          "temporary": false
+        }
+      ],
+      "enabled": true
     },
     {
-      "username" :"jane@mijnbureau.nl",
-      "firstName" : "Jane",
-      "lastName" : "Doe",
+      "username": "jane@mijnbureau.nl",
+      "firstName": "Jane",
+      "lastName": "Doe",
       "email": "jane@mijnbureau.nl",
-      "emailVerified" : true,
-      "createdTimestamp" : 1759760136259,
-      "realmRoles" : [ "default-roles-mijnbureau" ],
-      "credentials" : [ {
-        "type" : "password",
-        "value": "jane",
-        "temporary": false
-      } ],
-      "enabled" : true
+      "emailVerified": true,
+      "createdTimestamp": 1759760136259,
+      "realmRoles": ["default-roles-mijnbureau"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "jane",
+          "temporary": false
+        }
+      ],
+      "enabled": true
     }
   ],
   "keycloakVersion": "26.3.5"
