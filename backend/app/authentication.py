@@ -4,7 +4,7 @@ from typing import Annotated
 
 import httpx
 from fastapi import Depends, Request
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer, OAuth2AuthorizationCodeBearer
 from jose import JWTError, jwt
 from jose.constants import ALGORITHMS
 from jose.jws import get_unverified_header
@@ -15,11 +15,21 @@ from app.models import User
 
 logger = logging.getLogger(__name__)
 
-security = HTTPBearer(bearerFormat="JWT", scheme_name="bearer", description="OpenID Connect JWT token", auto_error=True)
+bearer_scheme = HTTPBearer(
+    bearerFormat="JWT", scheme_name="Bearer", description="OpenID Connect JWT token", auto_error=True
+)
+openid_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl=str(settings.OIDC_AUTHORIZATION_ENDPOINT),
+    refreshUrl=str(settings.parsed_oidc_public_token_endpoint),
+    tokenUrl=str(settings.parsed_oidc_public_token_endpoint),
+    auto_error=False,
+    scheme_name="OpenID Connect",
+)
 
 
 @cache
 def get_public_key(kid: str) -> dict[str, str]:
+    logger.debug(f"Fetching public key from {settings.OIDC_JWKS_ENDPOINT}")
     response = httpx.get(settings.OIDC_JWKS_ENDPOINT)
     response.raise_for_status()
     jwks = response.json()
@@ -32,8 +42,12 @@ def get_public_key(kid: str) -> dict[str, str]:
     return public_key
 
 
-def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]) -> str:
-    token = credentials.credentials
+def get_current_user(
+    request: Request,
+    credentials: Annotated[HTTPAuthorizationCredentials, Depends(bearer_scheme)],
+    openid_token: str = Depends(openid_scheme),
+) -> str:
+    token = openid_token or (credentials.credentials if credentials else None)
 
     jtw_decode_options = {
         "require_iat": True,
@@ -44,15 +58,18 @@ def get_current_user(request: Request, credentials: Annotated[HTTPAuthorizationC
     }
 
     try:
-        header = get_unverified_header(token)
+        # Get header info for key selection - signature verified in jwt.decode below
+        header = get_unverified_header(token)  # NOSONAR
         alg = header.get("alg", None)
 
+        # Determine verification key based on algorithm
         if alg == ALGORITHMS.RS256:
             kid = header.get("kid")
             key = get_public_key(kid=kid)
         else:
             key = str(settings.OIDC_CLIENT_SECRET)
 
+        # Full signature verification happens here
         claims = jwt.decode(
             token,
             key,

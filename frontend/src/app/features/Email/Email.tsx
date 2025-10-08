@@ -4,9 +4,6 @@ import { Card } from "antd";
 import { Avatar, List } from "antd";
 import {
   EditOutlined,
-  FileTextOutlined,
-  FileWordOutlined,
-  FileZipOutlined,
   MailOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";

@@ -1,0 +1,124 @@
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1.0/items/"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "count": 1,
+        "next": null,
+        "previous": null,
+        "results": [
+          {
+            "id": "ae5508b3-ee3b-4dfb-b9b5-3e2f2e7aad45",
+            "abilities": {
+              "accesses_manage": true,
+              "accesses_view": true,
+              "children_list": true,
+              "children_create": true,
+              "destroy": true,
+              "hard_delete": true,
+              "favorite": true,
+              "link_configuration": true,
+              "invite_owner": true,
+              "move": false,
+              "restore": true,
+              "retrieve": true,
+              "tree": true,
+              "media_auth": true,
+              "partial_update": true,
+              "update": true,
+              "upload_ended": true
+            },
+            "created_at": "2025-10-07T20:19:04.484150Z",
+            "creator": { "full_name": "Berry", "short_name": "Berry" },
+            "depth": 1,
+            "is_favorite": false,
+            "link_role": "reader",
+            "link_reach": "restricted",
+            "nb_accesses": 1,
+            "numchild": 1,
+            "numchild_folder": 0,
+            "path": "ae5508b3-ee3b-4dfb-b9b5-3e2f2e7aad45",
+            "title": "Workspace",
+            "updated_at": "2025-10-07T20:19:04.484162Z",
+            "user_roles": ["owner"],
+            "type": "folder",
+            "upload_state": null,
+            "url": null,
+            "filename": null,
+            "mimetype": null,
+            "main_workspace": true,
+            "size": null,
+            "description": null,
+            "deleted_at": null,
+            "hard_delete_at": null
+          }
+        ]
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1.0/items/*/tree/"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "ae5508b3-ee3b-4dfb-b9b5-3e2f2e7aad45",
+        "abilities": {
+          "accesses_manage": true,
+          "accesses_view": true,
+          "children_list": true,
+          "children_create": true,
+          "destroy": true,
+          "hard_delete": true,
+          "favorite": true,
+          "link_configuration": true,
+          "invite_owner": true,
+          "move": false,
+          "restore": true,
+          "retrieve": true,
+          "tree": true,
+          "media_auth": true,
+          "partial_update": true,
+          "update": true,
+          "upload_ended": true
+        },
+        "created_at": "2025-10-07T20:19:04.484150Z",
+        "creator": { "full_name": "Berry", "short_name": "Berry" },
+        "depth": 1,
+        "is_favorite": false,
+        "link_role": "reader",
+        "link_reach": "restricted",
+        "nb_accesses": 1,
+        "numchild": 1,
+        "numchild_folder": 0,
+        "path": "ae5508b3-ee3b-4dfb-b9b5-3e2f2e7aad45",
+        "title": "Workspace",
+        "updated_at": "2025-10-07T20:19:04.484162Z",
+        "user_roles": ["owner"],
+        "type": "folder",
+        "upload_state": null,
+        "url": null,
+        "filename": null,
+        "mimetype": null,
+        "main_workspace": true,
+        "size": null,
+        "description": null,
+        "deleted_at": null,
+        "hard_delete_at": null,
+        "children": []
+      }
+    }
+  }
+]

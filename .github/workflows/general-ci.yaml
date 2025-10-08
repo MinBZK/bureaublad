@@ -1,0 +1,76 @@
+name: general-ci
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  lint-commit-messages:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Show logs
+        run: git log
+
+      - name: Install gitlint
+        run: pip install requests gitlint
+
+      - name: Lint commit messages added to main
+        run: gitlint --commits origin/${{ github.event.pull_request.base.ref }}..HEAD
+
+  check-format-rules:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Install prettier
+        run: npm install -g prettier
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run formatters
+        run: ./scripts/format.sh
+
+      - name: Check for changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "Error: Detected uncommitted changes after formatting. Please run the formatter locally and commit the results."
+            git status
+            git diff
+            exit 1
+          fi
+
+      - name: run pre-commit
+        run: pre-commit run --all-files

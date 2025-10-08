@@ -4,13 +4,7 @@ import { Card } from "antd";
 
 import { Avatar, List } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
-interface DataType {
-  gender?: string;
-  name?: string;
-  email?: string;
-  avatar?: string;
-  id?: string;
-}
+
 function VideoChat() {
   return (
     <Card title="Video Chat" variant="borderless">

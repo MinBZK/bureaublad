@@ -3,15 +3,9 @@ import React from "react";
 import { Card } from "antd";
 
 import { Avatar, List } from "antd";
-import { PhoneOutlined, WechatOutlined } from "@ant-design/icons";
+import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
-interface DataType {
-  gender?: string;
-  name?: string;
-  email?: string;
-  avatar?: string;
-  id?: string;
-}
+
 function Chat() {
   return (
     <Card title="Chat" variant="borderless">

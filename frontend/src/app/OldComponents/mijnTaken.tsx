@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import {useContext, useEffect, useState} from "react";
-import {keycloak} from "../auth/keycloak";
-import {KeycloakContext} from "../auth/KeycloakProvider";
+import { useContext, useEffect, useState } from "react";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
+import { keycloak } from "../Context/auth/keycloak";
 import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 
 interface TakenItemsData {
-  url: string,
-  title: string,
-  end: string,
-  start: string,
+  url: string;
+  title: string;
+  end: string;
+  start: string;
 }
 
 interface MijnTakenItemsProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
-function MijnTakenItems({baseUrl}: MijnTakenItemsProps) {
+function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([] as TakenItemsData[]);
@@ -29,17 +29,17 @@ function MijnTakenItems({baseUrl}: MijnTakenItemsProps) {
         method: "GET",
         mode: "cors",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${keycloak.token}`,
-        }
+          Authorization: `Bearer ${keycloak.token}`,
+        },
       })
-        .then(res => res.json())
+        .then((res) => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
             if (result.detail) {
-              setError(result.detail)
+              setError(result.detail);
             } else {
               setItems(result);
             }
@@ -51,9 +51,9 @@ function MijnTakenItems({baseUrl}: MijnTakenItemsProps) {
             setIsLoaded(true);
             setError(error);
           }
-        )
+        );
     }
-  }, [keycloakContext, baseUrl])
+  }, [keycloakContext, baseUrl]);
 
   if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
@@ -62,35 +62,46 @@ function MijnTakenItems({baseUrl}: MijnTakenItemsProps) {
   } else {
     return (
       <div>
-        {items.map(item => (
-          <a href={item.url} key={item.title + '/' + item.start}
-             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
-             target="_blank">
+        {items.map((item) => (
+          <a
+            href={item.url}
+            key={item.title + "/" + item.start}
+            className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+            target="_blank"
+          >
             <div>
-              <div
-                className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+              <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
-                  <span className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--hemelblauw"
-                        role="img"
-                        aria-label="Kalender met vinkje"></span>
+                  <span
+                    className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--hemelblauw"
+                    role="img"
+                    aria-label="Kalender met vinkje"
+                  ></span>
                 </div>
                 <div>
-                  <span className="openbsw-document-titel">{item.title}</span><br/>
+                  <span className="openbsw-document-titel">{item.title}</span>
+                  <br />
                   {item.end && (
-                    <span
-                      className="openbsw-document-datum">Tot: {new Date(Date.parse(item.end)).toLocaleString("nl-NL", {
-                      timeStyle: "short",
-                      dateStyle: "short",
-                    })}</span>
+                    <span className="openbsw-document-datum">
+                      Tot:{" "}
+                      {new Date(Date.parse(item.end)).toLocaleString("nl-NL", {
+                        timeStyle: "short",
+                        dateStyle: "short",
+                      })}
+                    </span>
                   )}
                   {!item.end && item.start && (
-                    <span
-                      className="openbsw-document-datum">Vanaf: {new Date(Date.parse(item.start)).toLocaleString("nl-NL", {
-                      timeStyle: "short",
-                      dateStyle: "short",
-                    })}</span>
+                    <span className="openbsw-document-datum">
+                      Vanaf:{" "}
+                      {new Date(Date.parse(item.start)).toLocaleString(
+                        "nl-NL",
+                        {
+                          timeStyle: "short",
+                          dateStyle: "short",
+                        }
+                      )}
+                    </span>
                   )}
-
                 </div>
               </div>
             </div>
@@ -102,13 +113,13 @@ function MijnTakenItems({baseUrl}: MijnTakenItemsProps) {
 }
 
 interface MijnTakenProps {
-  baseUrl: string
+  baseUrl: string;
 }
 
-export default function MijnTaken({baseUrl}: MijnTakenProps) {
+export default function MijnTaken({ baseUrl }: MijnTakenProps) {
   return (
     <div className="openbsw-panel">
-      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
       <h4>Mijn taken</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <MijnTakenItems baseUrl={baseUrl}></MijnTakenItems>
@@ -128,5 +139,5 @@ export default function MijnTaken({baseUrl}: MijnTakenProps) {
         </a>
       </p>
     </div>
-  )
+  );
 }

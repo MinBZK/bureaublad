@@ -5,8 +5,6 @@ import { Avatar, List } from "antd";
 import {
   EditOutlined,
   FileTextOutlined,
-  FileWordOutlined,
-  FileZipOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 

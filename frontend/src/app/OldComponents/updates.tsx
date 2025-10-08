@@ -1,15 +1,15 @@
-'use client'
+"use client";
 
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 import { valueOrEmptyString } from "../Common/pageConfig";
 
 interface UpdateItemsData {
-  title: string,
-  link: string,
-  guid: string,
-  hostname: string,
-  pubDate: string,
+  title: string;
+  link: string;
+  guid: string;
+  hostname: string;
+  pubDate: string;
 }
 
 function UpdatesItems() {
@@ -21,16 +21,16 @@ function UpdatesItems() {
     fetch("https://developer.overheid.nl/blog/rss.xml", {
       method: "GET",
       headers: {
-        "Accept": "application/rss+xml",
-      }
+        Accept: "application/rss+xml",
+      },
     })
-      .then(res => res.text())
+      .then((res) => res.text())
       .then(
         (result) => {
           setIsLoaded(true);
           const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(result, 'text/xml');
-          const items = xmlDoc.getElementsByTagName('item');
+          const xmlDoc = parser.parseFromString(result, "text/xml");
+          const items = xmlDoc.getElementsByTagName("item");
           const feedItems: UpdateItemsData[] = [];
 
           const dateOptions: Intl.DateTimeFormatOptions = {
@@ -40,10 +40,20 @@ function UpdatesItems() {
           };
 
           for (let i = 0; i < items.length; i++) {
-            const title = valueOrEmptyString(items[i].getElementsByTagName('title')[0].textContent);
-            const link = valueOrEmptyString(items[i].getElementsByTagName('link')[0].textContent);
-            const guid = valueOrEmptyString(items[i].getElementsByTagName('guid')[0].textContent);
-            const pubDate = new Date(valueOrEmptyString(items[i].getElementsByTagName('pubDate')[0].textContent)).toLocaleDateString("nl-NL", dateOptions);
+            const title = valueOrEmptyString(
+              items[i].getElementsByTagName("title")[0].textContent
+            );
+            const link = valueOrEmptyString(
+              items[i].getElementsByTagName("link")[0].textContent
+            );
+            const guid = valueOrEmptyString(
+              items[i].getElementsByTagName("guid")[0].textContent
+            );
+            const pubDate = new Date(
+              valueOrEmptyString(
+                items[i].getElementsByTagName("pubDate")[0].textContent
+              )
+            ).toLocaleDateString("nl-NL", dateOptions);
             const hostname = new URL(link).hostname;
             feedItems.push({ title, link, guid, hostname, pubDate });
           }
@@ -56,8 +66,8 @@ function UpdatesItems() {
           setIsLoaded(true);
           setError(error);
         }
-      )
-  }, [])
+      );
+  }, []);
 
   if (error.message) {
     return <div>Foutmelding: {error.message}</div>;
@@ -66,16 +76,25 @@ function UpdatesItems() {
   } else {
     return (
       <div className="rvo-layout-column rvo-layout-gap--0">
-        {items.map(item => (
+        {items.map((item) => (
           <div key={item.guid} className="openbsw-updates-item">
-            <a href={item.link} className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal" target="_blank">
+            <a
+              href={item.link}
+              className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
+              target="_blank"
+            >
               <div>
-                <div
-                  className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
+                <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                   <div>
-                    <span className="openbsw-document-titel">{item.title}</span><br/>
-                    <span className="openbsw-document-categorie">{item.hostname} </span>
-                    <span className="openbsw-document-datum"> {item.pubDate}</span>
+                    <span className="openbsw-document-titel">{item.title}</span>
+                    <br />
+                    <span className="openbsw-document-categorie">
+                      {item.hostname}{" "}
+                    </span>
+                    <span className="openbsw-document-datum">
+                      {" "}
+                      {item.pubDate}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -90,7 +109,7 @@ function UpdatesItems() {
 export default function Updates() {
   return (
     <div className="openbsw-panel">
-      <LifecycleTag status={'In ontwikkeling'} mode={'long'}/>
+      <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
       <h4>Updates</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
         <UpdatesItems></UpdatesItems>
@@ -104,5 +123,5 @@ export default function Updates() {
         </a>
       </p>
     </div>
-  )
+  );
 }

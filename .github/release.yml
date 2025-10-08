@@ -3,9 +3,21 @@ changelog:
     authors:
       - dependabot[bot]
   categories:
+    - title: Breaking Changes 🛠
+      labels:
+        - breaking-change
     - title: Exciting New Features 🎉
       labels:
+        - feature
+    - title: Improvements ✨
+      labels:
         - enhancement
+    - title: Bug Fixes 🐛
+      labels:
+        - bug
+    - title: Dependencies ⬆️
+      labels:
+        - dependencies
     - title: Other Changes
       labels:
         - "*"
