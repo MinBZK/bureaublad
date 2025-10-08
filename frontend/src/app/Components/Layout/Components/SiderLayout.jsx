@@ -2,7 +2,7 @@
 import React from "react";
 
 import { Layout, Menu, Input } from "antd";
-import { menuItem } from "../../Common/pageConfig";
+import { menuItem } from "../../../Common/pageConfig";
 const { Search } = Input;
 const { Sider } = Layout;
 

@@ -1,7 +1,8 @@
 // import "./globals.css";
 import React from "react";
 import { KeycloakProvider } from "./Context/auth/KeycloakProvider";
-import PageLayout from "./Layout/PageLayout";
+import PageLayout from "./Components/Layout/PageLayout";
+import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
 import { AppProvider } from "./Context/AppContext";
 export const metadata = {
   title: "Mijn Bureaublad",
@@ -14,6 +15,7 @@ export default function RootLayout({ children }) {
       <KeycloakProvider>
         <body>
           <AppProvider>
+            <ThemeLoader />
             <PageLayout>{children}</PageLayout>
           </AppProvider>
         </body>

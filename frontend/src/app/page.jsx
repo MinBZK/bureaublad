@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Col, Row, Card, Calendar, theme, Space } from "antd";
+import { Col, Row, Card, Calendar, theme, Space, Button } from "antd";
 import Office from "./features/Office/Office";
 import Chat from "./features/Chat/Chat";
 import Docs from "./features/Docs/Docs";
@@ -47,11 +47,11 @@ export default function Home() {
       </Row>
       <Row gutter={16}>
         {items?.sidebar_links?.map((value) => (
-          <Col span={8} style={{ marginTop: 10 }}>
+          <Col span={8} style={{ marginTop: 10 }} key={value?.title}>
             <Card
               title={
                 <Space>
-                  <DynamicIcon name={value?.icon}/>
+                  <DynamicIcon name={value?.icon} />
                   {value?.title}
                 </Space>
               }
