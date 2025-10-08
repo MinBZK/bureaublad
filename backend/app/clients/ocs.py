@@ -35,7 +35,7 @@ class OCSClient:
 
     async def get_activities(
         self,
-        path: str = "/ocs/v2.php/apps/activity/api/v2/activity",
+        path: str = "ocs/v2.php/apps/activity/api/v2/activity",
         limit: int = 6,
         since: int = 0,
         filter: None | str = "files",
@@ -88,56 +88,6 @@ class OCSClient:
         if response.status_code != 200:
             logger.error(f"OCS file search failed: status={response.status_code}, url={url}")
             raise ExternalServiceError("OCS", f"Failed to search files (status {response.status_code})")
-
-        results = response.json().get("ocs", []).get("data", []).get("entries", [])
-
-        # Validate as FileSearchResult to handle aliases, then cast to base type
-        validated = TypeAdapter(list[FileSearchResult]).validate_python(results)
-        return cast(list[SearchResults], validated)
-
-    async def search_calendar(
-        self, term: str, path: str = "ocs/v2.php/search/providers/calendar/search"
-    ) -> list[SearchResults]:
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "OCS-APIRequest": "true",
-            "Accept": "application/json",
-        }
-        response = await self.client.get(
-            url,
-            params={"term": term},
-            headers=headers,
-        )
-
-        if response.status_code != 200:
-            logger.error(f"OCS calendar search failed: status={response.status_code}, url={url}")
-            raise ExternalServiceError("OCS", f"Failed to search calendar (status {response.status_code})")
-
-        results = response.json().get("ocs", []).get("data", []).get("entries", [])
-
-        # Validate as FileSearchResult to handle aliases, then cast to base type
-        validated = TypeAdapter(list[FileSearchResult]).validate_python(results)
-        return cast(list[SearchResults], validated)
-
-    async def search_tasks(
-        self, term: str, path: str = "ocs/v2.php/search/providers/tasks/search"
-    ) -> list[SearchResults]:
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        headers = {
-            "Authorization": f"Bearer {self.token}",
-            "OCS-APIRequest": "true",
-            "Accept": "application/json",
-        }
-        response = await self.client.get(
-            url,
-            params={"term": term},
-            headers=headers,
-        )
-
-        if response.status_code != 200:
-            logger.error(f"OCS task search failed: status={response.status_code}, url={url}")
-            raise ExternalServiceError("OCS", f"Failed to search tasks (status {response.status_code})")
 
         results = response.json().get("ocs", []).get("data", []).get("entries", [])
 

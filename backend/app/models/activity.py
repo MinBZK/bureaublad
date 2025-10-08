@@ -11,7 +11,7 @@ class Activity(BaseModel):
     type: str
     user: str
     subject: str
-    message: str
+    message: str | None
     link: str
     object_type: str
     object_id: int
