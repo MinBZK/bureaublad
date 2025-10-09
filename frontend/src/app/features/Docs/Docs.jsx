@@ -1,14 +1,28 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card } from "antd";
 import { Avatar, List } from "antd";
-import {
-  EditOutlined,
-  FileTextOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { baseUrl } from "@/app/Common/pageConfig";
 
 function Docs() {
+  const [docs, setDocs] = useState([]);
+  useEffect(() => {
+    fetch(baseUrl + "/api/v1/docs/documents", {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${keycloak.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => setDocs(json))
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
+  console.log(docs);
   return (
     <Card title="Docs" variant="borderless">
       <List
