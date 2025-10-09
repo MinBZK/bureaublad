@@ -1,33 +1,47 @@
+"""Docs service client for document management."""
+
+import logging
+from typing import Any
+
 import httpx
-from app.models import Note
+from app.models.note import Note
 from pydantic import TypeAdapter
+
+logger = logging.getLogger(__name__)
 
 
 class DocsClient:
-    def __init__(self, base_url: str, token: str) -> None:
-        self.base_url = base_url
+    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
+        self.client = http_client
+        self.base_url = base_url.rstrip("/")
         self.token = token
-        self.client = httpx.Client(
-            headers={"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
-        )
 
-    def get_documents(
-        self, path: str = "api/v1.0/documents/", page: int = 1, title: str | None = None, favorite: bool = False
+    async def get_documents(
+        self,
+        path: str = "api/v1.0/documents/",
+        page: int = 1,
+        title: str | None = None,
+        favorite: bool = False,
     ) -> list[Note]:
-        url = httpx.URL(f"{self.base_url}/{path}", params={"page": page})
+        params: dict[str, Any] = {"page": page}
 
         if title:
-            url = url.copy_add_param("title", str(title))
+            params["title"] = title
 
         if favorite:
-            url = url.copy_add_param("favorite", str(favorite))
+            params["favorite"] = str(favorite)
 
-        response = self.client.request("GET", url)
+        url = f"{self.base_url}/{path.lstrip('/')}"
+        response = await self.client.get(
+            url,
+            params=params,
+            headers={"Authorization": f"Bearer {self.token}"},
+        )
+
         if response.status_code != 200:
             return TypeAdapter(list[Note]).validate_python([])
 
         results = response.json().get("results", [])
-
         notes: list[Note] = TypeAdapter(list[Note]).validate_python(results)
 
         return notes

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, computed_field
 
-from app.config import settings
+from app.core.config import settings
 
 
 class Note(BaseModel):
