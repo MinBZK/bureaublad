@@ -2,7 +2,7 @@ import logging
 
 from fastapi import APIRouter
 
-from app.config import settings
+from app.core.config import settings
 from app.models.config import (
     ApplicationsConfig,
     ConfigResponse,

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, computed_field
 
-from app.config import settings
+from app.core.config import settings
 
 
 class Note(BaseModel):
@@ -11,7 +11,7 @@ class Note(BaseModel):
     path: str
     title: str | None
     updated_at: str
-    user_roles: list[str]
+    user_role: str
 
     @computed_field
     @property
@@ -21,4 +21,4 @@ class Note(BaseModel):
     @computed_field
     @property
     def updated_date(self) -> str:
-        return datetime.fromisoformat(self.updated_at).strftime("%d %b %Y")
+        return datetime.fromisoformat(self.updated_at).strftime("%d %b %Y %H:%M")

@@ -12,14 +12,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <KeycloakProvider>
         <body>
           <AppProvider>
             <ThemeLoader />
             <PageLayout>{children}</PageLayout>
           </AppProvider>
         </body>
-      </KeycloakProvider>
     </html>
   );
 }

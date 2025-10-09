@@ -12,4 +12,4 @@ class Document(BaseModel):
     @computed_field
     @property
     def updated_date(self) -> str:
-        return datetime.fromisoformat(self.updated_at).strftime("%d %b %Y")
+        return datetime.fromisoformat(self.updated_at).strftime("%d %b %Y %H:%M")

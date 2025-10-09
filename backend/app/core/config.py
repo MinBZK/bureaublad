@@ -1,57 +1,62 @@
 import json
 import secrets
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, cast
 
 from jose.constants import ALGORITHMS
 from pydantic import AnyUrl, BeforeValidator, HttpUrl, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app.types import LoggingLevelType
 
-def parse_cors_origins(v: Any) -> list[str] | str:  # noqa: ANN401
-    if isinstance(v, str):
-        if v == "*":
-            return "*"
-        if not v.startswith("["):
-            return [i.strip() for i in v.split(",") if i.strip()]
+
+def parse_string_or_list(v: Any) -> list[str]:  # noqa: ANN401
+    if isinstance(v, str) and not v.startswith("["):
+        return [i.strip() for i in v.split(",") if i.strip()]
     if isinstance(v, list):
-        for idx, item in enumerate(v):  # type: ignore[misc]
+        for idx, item in enumerate(v):  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
             if not isinstance(item, str):
-                raise TypeError(f"CORS_ALLOW_ORIGINS list item at index {idx} must be string, got {type(item)}")  # type: ignore[arg-type]
-        return v  # type: ignore[return-value]
-    raise ValueError(f"CORS_ALLOW_ORIGINS must be string or list, got {type(v)}")
+                raise TypeError(f"List item at index {idx} must be string, got {type(item)}")  # pyright: ignore[reportUnknownArgumentType]
+        return cast(list[str], v)
+    raise ValueError(f"Must be string or list, got {type(v)}")
+
+
+def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
+    """Validate that a single sidebar link has correct structure and valid URL."""
+    if not isinstance(link, dict):
+        raise TypeError(f"Link at index {idx} must be an object")
+
+    required = {"icon", "url", "title"}
+    if not required.issubset(link.keys()):  # pyright: ignore[reportUnknownArgumentType]
+        raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
+
+    try:
+        HttpUrl(link["url"])  # pyright: ignore[reportUnknownArgumentType]
+    except Exception as e:
+        raise ValueError(f"Link at index {idx} has invalid URL: {e}") from e
 
 
 def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
-    if isinstance(v, str):
-        if not v.strip():
-            return []
-        try:
-            parsed: Any = json.loads(v)
-        except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
-
-        if not isinstance(parsed, list):
-            raise TypeError("SIDEBAR_LINKS_JSON must be a JSON array")
-
-        for idx, link in enumerate(parsed):  # type: ignore[misc]
-            if not isinstance(link, dict):
-                raise TypeError(f"Link at index {idx} must be an object")
-            required = {"icon", "url", "title"}
-            if not required.issubset(link.keys()):  # type: ignore[arg-type]
-                raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
-
-            # Validate URL is valid http/https
-            try:
-                HttpUrl(link["url"])  # type: ignore[arg-type]
-            except Exception as e:
-                raise ValueError(f"Link at index {idx} has invalid URL: {e}") from e
-
-        return parsed  # type: ignore[return-value]
-
     if isinstance(v, list):
-        return v  # type: ignore[return-value]
+        return cast(list[dict[str, str]], v)
 
-    raise ValueError(f"SIDEBAR_LINKS_JSON must be string or list, got {type(v)}")
+    if not isinstance(v, str):
+        raise TypeError(f"SIDEBAR_LINKS_JSON must be string or list, got {type(v)}")
+
+    if not v.strip():
+        return []
+
+    try:
+        parsed: Any = json.loads(v)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
+
+    if not isinstance(parsed, list):
+        raise TypeError("SIDEBAR_LINKS_JSON must be a JSON array")
+
+    for idx, link in enumerate(parsed):  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
+        _validate_sidebar_link(link, idx)
+
+    return cast(list[dict[str, str]], parsed)
 
 
 class Settings(BaseSettings):
@@ -66,6 +71,9 @@ class Settings(BaseSettings):
     SECRET_KEY: str = secrets.token_urlsafe(32)
     DEBUG: bool = False
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
+
+    LOGGING_LEVEL: LoggingLevelType = "INFO"
+    LOGGING_CONFIG: dict[str, Any] | None = None
 
     # OpenID Connect
     OIDC_CLIENT_ID: str = "bureaublad"
@@ -105,47 +113,49 @@ class Settings(BaseSettings):
 
     SIDEBAR_LINKS_JSON: Annotated[list[dict[str, str]], BeforeValidator(parse_sidebar_links)] = []
 
-    CORS_ALLOW_ORIGINS: Annotated[list[AnyUrl] | str, BeforeValidator(parse_cors_origins)] = []
+    CORS_ALLOW_ORIGINS: Annotated[list[AnyUrl], BeforeValidator(parse_string_or_list)] = []
     CORS_ALLOW_CREDENTIALS: bool = False
     CORS_ALLOW_METHODS: list[str] = ["*"]
     CORS_ALLOW_HEADERS: list[str] = ["*"]
 
-    @computed_field  # type: ignore[prop-decorator]
+    TRUSTED_HOSTS: Annotated[list[str], BeforeValidator(parse_string_or_list)] = ["*"]
+
+    @computed_field
     @property
     def ocs_enabled(self) -> bool:
         return self.OCS_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def docs_enabled(self) -> bool:
         return self.DOCS_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def calendar_enabled(self) -> bool:
         return self.CALENDAR_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def task_enabled(self) -> bool:
         return self.TASK_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def drive_enabled(self) -> bool:
         return self.DRIVE_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def meet_enabled(self) -> bool:
         return self.MEET_URL is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def ai_enabled(self) -> bool:
         return self.AI_BASE_URL is not None and self.AI_MODEL is not None and self.AI_API_KEY is not None
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def grist_enabled(self) -> bool:
         return self.GRIST_URL is not None
@@ -155,19 +165,17 @@ class Settings(BaseSettings):
     def parsed_oidc_public_token_endpoint(self) -> str:
         return self.OIDC_PUBLIC_TOKEN_ENDPOINT or self.OIDC_TOKEN_ENDPOINT
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def oidc_discovery_endpoint(self) -> str:
         if self.OIDC_ISSUER:
             return f"{self.OIDC_ISSUER.rstrip('/')}/.well-known/openid-configuration"
         return ""
 
-    @computed_field  # type: ignore[prop-decorator]
+    @computed_field
     @property
     def all_cors_origins(self) -> list[str]:
-        if isinstance(self.CORS_ALLOW_ORIGINS, str):
-            return [self.CORS_ALLOW_ORIGINS]
         return [str(origin).rstrip("/") for origin in self.CORS_ALLOW_ORIGINS]
 
 
-settings = Settings()  # type: ignore[reportCallIssue]
+settings = Settings()

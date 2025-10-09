@@ -1,6 +1,8 @@
-from datetime import datetime
+# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false, reportAttributeAccessIssue=false, reportUnknownArgumentType=false, reportAssignmentType=false
+from datetime import date, datetime
 
-from app.models import Calendar, Task
+from app.models.calendar import Calendar
+from app.models.task import Task
 from caldav import DAVClient
 from caldav.requests import HTTPBearerAuth
 
@@ -12,11 +14,11 @@ class CaldavClient:
 
         self.client = DAVClient(url=f"{base_url}/remote.php/dav", auth=HTTPBearerAuth(token))
 
-    def get_calendars(self, check_date: datetime) -> list[Calendar | None]:
+    def get_calendars(self, check_date: date) -> list[Calendar | None]:
         principal = self.client.principal()
         calendars = principal.calendars()
 
-        events_today: list[Calendar] = []
+        events_today: list[Calendar | None] = []
 
         for calendar in calendars:
             check_date_start = datetime.combine(check_date, datetime.min.time())
@@ -31,6 +33,7 @@ class CaldavClient:
                         end=event_instance.dtend.value,
                     )
                 )
+
         return events_today
 
     def get_tasks(self) -> list[Task]:

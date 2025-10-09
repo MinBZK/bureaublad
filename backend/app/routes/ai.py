@@ -1,10 +1,11 @@
 import logging
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, Request
 from openai import OpenAI
 
-from app.config import settings
-from app.models import ChatCompletionRequest
+from app.core.config import settings
+from app.exceptions import ServiceUnavailableError
+from app.models.ai import ChatCompletionRequest
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 async def ai_post_chat_completions(request: Request, chat_request: ChatCompletionRequest) -> str:
     # Redundant checks needed to satisfy the type system.
     if not settings.ai_enabled or not settings.AI_MODEL:
-        raise HTTPException(status_code=503, detail="AI service is not configured")
+        raise ServiceUnavailableError("AI")
 
     client = OpenAI(base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
 
@@ -40,4 +41,4 @@ async def ai_post_chat_completions(request: Request, chat_request: ChatCompletio
         ],
     )
 
-    return completion.choices[0].message.content
+    return completion.choices[0].message.content or ""

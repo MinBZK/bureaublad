@@ -2,7 +2,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, computed_field
 
-from app.config import settings
+from app.core.config import settings
 
 
 class Activity(BaseModel):
@@ -11,7 +11,7 @@ class Activity(BaseModel):
     type: str
     user: str
     subject: str
-    message: str
+    message: str | None
     link: str
     object_type: str
     object_id: int

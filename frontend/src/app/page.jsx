@@ -6,61 +6,45 @@ import Chat from "./features/Chat/Chat";
 import Docs from "./features/Docs/Docs";
 import VideoChat from "./features/VideoChat/VideoChat";
 import Email from "./features/Email/Email";
+import Drive from "./features/Drive/Drive";
 import { useAppContext } from "./Context/AppContext";
 import DynamicIcon from "./Common/DynamicIcon";
+import AiAssistant from "../app/features/AiAssistant/AiAssistant";
 
 export default function Home() {
+  const { items } = useAppContext();
   const { token } = theme.useToken();
   const wrapperStyle = {
     width: 300,
     border: `1px solid ${token.colorBorderSecondary}`,
     borderRadius: token.borderRadiusLG,
   };
-  const { items } = useAppContext();
+  console.log(items?.applications);
+
   return (
     <React.Fragment>
-      <Row gutter={16}>
+      {items?.applications?.ai && <AiAssistant />}
+      <Row gutter={16} style={{ marginTop: 10 }}>
+        <Col span={8}>{items?.applications?.docs && <Docs />}</Col>
+        <Col span={8}>{items?.applications?.drive && <Drive />}</Col>
         <Col span={8}>
-          <Office />
-        </Col>
-        <Col span={8}>
-          <Chat />
-        </Col>
-        <Col span={8}>
-          <Docs />
+          <VideoChat />
         </Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>
           <Email />
         </Col>
+        <Col span={8}>{items?.applications?.meet && <Chat />}</Col>
         <Col span={8}>
-          <VideoChat />
-        </Col>
-        <Col span={8}>
-          <Card title="Agenda" variant="borderless">
-            <div style={wrapperStyle}>
-              <Calendar fullscreen={false} onPanelChange={undefined} />
-            </div>
-          </Card>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        {items?.sidebar_links?.map((value) => (
-          <Col span={8} style={{ marginTop: 10 }} key={value?.title}>
-            <Card
-              title={
-                <Space>
-                  <DynamicIcon name={value?.icon} />
-                  {value?.title}
-                </Space>
-              }
-              variant="borderless"
-            >
-              {value?.url}
+          {items?.applications?.calendar && (
+            <Card title="Agenda" variant="borderless">
+              <div style={wrapperStyle}>
+                <Calendar fullscreen={false} onPanelChange={undefined} />
+              </div>
             </Card>
-          </Col>
-        ))}
+          )}
+        </Col>
       </Row>
     </React.Fragment>
   );
