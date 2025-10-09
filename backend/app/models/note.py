@@ -11,7 +11,7 @@ class Note(BaseModel):
     path: str
     title: str | None
     updated_at: str
-    user_roles: list[str]
+    user_role: str
 
     @computed_field
     @property

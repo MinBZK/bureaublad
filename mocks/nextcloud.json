@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "ocs": {
+          "data": [
+            {
+              "activity_id": 1,
+              "timestamp": 1446137950,
+              "app": "files",
+              "type": "file_created",
+              "user": "test1",
+              "affecteduser": "admin",
+              "subject": "test1 created hello.txt",
+              "subject_rich": {
+                "0": "test1 created {file1}",
+                "1": {
+                  "file1": {
+                    "type": "file",
+                    "id": 23,
+                    "name": "hello.txt",
+                    "path": "\/test\/hello.txt"
+                  }
+                }
+              },
+              "message": null,
+              "message_rich": {
+                "0": "",
+                "1": []
+              },
+              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
+              "link": "",
+              "object_type": "files",
+              "object_id": 23,
+              "object_name": "\/test\/hello.txt",
+              "datetime": "2025-10-08 16:24:53",
+              "previews": [
+                {
+                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
+                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
+                  "mimeType": "text/plain",
+                  "view": "files",
+                  "fileId": 23,
+                  "isMimeTypeIcon": false,
+                  "filename": "hello.txt"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+]

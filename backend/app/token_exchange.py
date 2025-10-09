@@ -1,9 +1,6 @@
 import logging
 
-import httpx
-
 from app.core.config import settings
-from app.exceptions import TokenExchangeError
 
 logger = logging.getLogger(__name__)
 
@@ -30,20 +27,4 @@ async def exchange_token(
     if settings.OIDC_ISSUER:
         payload.update({"subject_issuer": settings.OIDC_ISSUER})
 
-    headers = {"Content-Type": "application/x-www-form-urlencoded"}
-
-    # Configure client with timeout and retries for production reliability
-    transport = httpx.AsyncHTTPTransport(retries=2)
-    async with httpx.AsyncClient(timeout=2.0, transport=transport) as client:
-        response = await client.post(
-            url=settings.OIDC_TOKEN_ENDPOINT,
-            data=payload,
-            headers=headers,
-        )
-
-    logger.debug(f"Token exchange response status: {response.status_code}")
-    if response.status_code != 200:
-        logger.error(f"Token exchange failed: status={response.status_code}, response={response.text}")
-        raise TokenExchangeError(f"Token exchange failed with status {response.status_code}")
-
-    return response.json().get("access_token", None)
+    return token

@@ -81,4 +81,6 @@ app.add_middleware(
     allow_headers=settings.CORS_ALLOW_HEADERS,
 )
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.TRUSTED_HOSTS)
-app.add_middleware(HTTPSRedirectMiddleware)
+
+if settings.ENVIRONMENT == "prod":
+    app.add_middleware(HTTPSRedirectMiddleware)
