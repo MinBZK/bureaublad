@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter
 from openai import OpenAI
 
 from app.core.config import settings
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 
 
 @router.post("/chat/completions")
-async def ai_post_chat_completions(request: Request, chat_request: ChatCompletionRequest) -> str:
+async def ai_post_chat_completions(chat_request: ChatCompletionRequest) -> str:
     # Redundant checks needed to satisfy the type system.
     if not settings.ai_enabled or not settings.AI_MODEL:
         raise ServiceUnavailableError("AI")

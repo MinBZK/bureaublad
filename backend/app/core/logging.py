@@ -50,6 +50,7 @@ LOGGING_CONFIG = {
     "loggers": {
         "": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
         "httpcore": {"handlers": ["console"], "level": "ERROR", "propagate": False},
+        "authlib": {"handlers": ["console"], "level": "ERROR", "propagate": False},
     },
 }
 

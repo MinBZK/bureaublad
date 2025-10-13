@@ -72,6 +72,9 @@ class Settings(BaseSettings):
     DEBUG: bool = False
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
 
+    # Session configuration
+    SESSION_MAX_AGE: int = 2 * 60 * 60  # 2 hours (should be >= refresh token lifetime)
+
     LOGGING_LEVEL: LoggingLevelType = "INFO"
     LOGGING_CONFIG: dict[str, Any] | None = None
 
@@ -79,11 +82,16 @@ class Settings(BaseSettings):
     OIDC_CLIENT_ID: str = "bureaublad"
     OIDC_CLIENT_SECRET: str | None = None
     OIDC_AUTHORIZATION_ENDPOINT: str = ""
+    OIDC_LOGOUT_ENDPOINT: str = ""
+    OIDC_POST_LOGOUT_REDIRECT_URI: str | None = None
     OIDC_TOKEN_ENDPOINT: str = ""
+    OIDC_REVOCATION_ENDPOINT: str | None = None  # RFC 7009 token revocation
     OIDC_PUBLIC_TOKEN_ENDPOINT: str | None = None
     OIDC_JWKS_ENDPOINT: str = ""
     OIDC_USERNAME_CLAIM: str = "preferred_username"
-    OIDC_SCOPES: dict[str, str] = {"openid": "", "profile": "", "email": ""}
+    OIDC_NAME_CLAIM: str = "name"
+    OIDC_EMAIL_CLAIM: str = "email"
+    OIDC_SCOPES: str = "openid profile email"
     OIDC_AUDIENCE: str = "bureaublad"
     OIDC_ISSUER: str = ""
     OIDC_SIGNATURE_ALGORITM: str | list[str] = [ALGORITHMS.RS256, ALGORITHMS.HS256]
