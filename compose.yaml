@@ -39,7 +39,7 @@ services:
     volumes:
       - ./backend/app:/app/app/
   keycloak:
-    image: quay.io/keycloak/keycloak:26.4.0
+    image: quay.io/keycloak/keycloak:26.3.0
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
@@ -49,7 +49,7 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - 127.0.0.1:8080:8080
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
