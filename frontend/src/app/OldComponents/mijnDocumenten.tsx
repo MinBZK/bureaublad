@@ -1,10 +1,10 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { keycloak } from "../auth/keycloak";
-import { KeycloakContext } from "../auth/KeycloakProvider";
+import { keycloak } from "../Context/auth/keycloak";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
 import FileTypeIcon from "./fileTypeIcon";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 
 interface MijnDocumentenItemsProps {
   baseUrl?: string;

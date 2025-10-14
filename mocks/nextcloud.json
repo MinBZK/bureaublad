@@ -53,6 +53,90 @@
                   "filename": "hello.txt"
                 }
               ]
+            },
+            {
+              "activity_id": 1,
+              "timestamp": 1446137950,
+              "app": "files",
+              "type": "file_created",
+              "user": "test1",
+              "affecteduser": "admin",
+              "subject": "test2 created test2.txt",
+              "subject_rich": {
+                "0": "test2 created {file1}",
+                "1": {
+                  "file1": {
+                    "type": "file",
+                    "id": 23,
+                    "name": "hello2.txt",
+                    "path": "\/test\/hello.txt"
+                  }
+                }
+              },
+              "message": null,
+              "message_rich": {
+                "0": "",
+                "1": []
+              },
+              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
+              "link": "",
+              "object_type": "files",
+              "object_id": 23,
+              "object_name": "\/test\/hello2.txt",
+              "datetime": "2025-10-08 16:24:53",
+              "previews": [
+                {
+                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
+                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
+                  "mimeType": "text/plain",
+                  "view": "files",
+                  "fileId": 23,
+                  "isMimeTypeIcon": false,
+                  "filename": "hello.txt"
+                }
+              ]
+            },
+            {
+              "activity_id": 1,
+              "timestamp": 1446137950,
+              "app": "files",
+              "type": "file_created",
+              "user": "test3",
+              "affecteduser": "admin",
+              "subject": "test3 created hello.txt",
+              "subject_rich": {
+                "0": "test3 created {file1}",
+                "1": {
+                  "file1": {
+                    "type": "file",
+                    "id": 23,
+                    "name": "hello3.txt",
+                    "path": "\/test\/hello3.txt"
+                  }
+                }
+              },
+              "message": null,
+              "message_rich": {
+                "0": "",
+                "1": []
+              },
+              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
+              "link": "",
+              "object_type": "files",
+              "object_id": 23,
+              "object_name": "\/test\/hello3.txt",
+              "datetime": "2025-10-08 16:24:53",
+              "previews": [
+                {
+                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
+                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
+                  "mimeType": "text/plain",
+                  "view": "files",
+                  "fileId": 23,
+                  "isMimeTypeIcon": false,
+                  "filename": "hello.txt"
+                }
+              ]
             }
           ]
         }

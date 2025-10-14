@@ -7,8 +7,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { KeycloakContext } from "../auth/KeycloakProvider";
-import { keycloak } from "../auth/keycloak";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
+import { keycloak } from "../Context/auth/keycloak";
 import FileTypeIcon from "./fileTypeIcon";
 import Markdown from "react-markdown";
 
@@ -187,7 +187,6 @@ function SearchResults({ term, baseUrl }: SearchResultsProps) {
   } else if (isSearchQuery) {
     return <SearchResultsItems items={items}></SearchResultsItems>;
   } else {
-    console.log(aiResult);
     return <SearchResultsAI value={aiResult}></SearchResultsAI>;
   }
 }

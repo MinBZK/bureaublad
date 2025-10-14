@@ -1,31 +1,31 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { keycloak } from "../auth/keycloak";
-import { KeycloakContext } from "../auth/KeycloakProvider";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
+import { keycloak } from "../Context/auth/keycloak";
 
-interface TakenItemsData {
-  url: string;
-  title: string;
-  end: string;
-  start: string;
-}
-
-interface MijnTakenItemsProps {
+interface MijnDossiersItemsProps {
   baseUrl: string;
 }
 
-function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
+interface MijnDossiersItemsData {
+  url: string;
+  id: string;
+  title: string;
+  updated_date: string;
+}
+
+function MijnDossiersItems({ baseUrl }: MijnDossiersItemsProps) {
   const [error, setError] = useState(new Error());
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([] as TakenItemsData[]);
+  const [items, setItems] = useState([] as MijnDossiersItemsData[]);
 
   const keycloakContext = useContext(KeycloakContext);
 
   useEffect(() => {
     if (keycloakContext.authenticated) {
-      fetch(baseUrl + "/v1/caldav/tasks", {
+      fetch(baseUrl + "/v1/docs/documents", {
         method: "GET",
         mode: "cors",
         headers: {
@@ -61,11 +61,11 @@ function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
     return <div>Laden...</div>;
   } else {
     return (
-      <div>
+      <div className="rvo-layout-column rvo-layout-gap--0">
         {items.map((item) => (
           <a
             href={item.url}
-            key={item.title + "/" + item.start}
+            key={item.id}
             className="rvo-link rvo-link--with-icon rvo-link--no-underline rvo-link--zwart rvo-link--normal"
             target="_blank"
           >
@@ -73,35 +73,17 @@ function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
               <div className="rvo-layout-row rvo-layout-align-items-start rvo-layout-align-content-start rvo-layout-justify-items-start rvo-layout-justify-content-start rvo-layout-gap--0">
                 <div className="rvo-margin--sm">
                   <span
-                    className="utrecht-icon rvo-icon rvo-icon-kalender-met-vinkje rvo-icon--xl rvo-icon--hemelblauw"
+                    className="utrecht-icon rvo-icon rvo-icon-map rvo-icon--xl rvo-icon--hemelblauw"
                     role="img"
-                    aria-label="Kalender met vinkje"
+                    aria-label="Map"
                   ></span>
                 </div>
                 <div>
                   <span className="openbsw-document-titel">{item.title}</span>
                   <br />
-                  {item.end && (
-                    <span className="openbsw-document-datum">
-                      Tot:{" "}
-                      {new Date(Date.parse(item.end)).toLocaleString("nl-NL", {
-                        timeStyle: "short",
-                        dateStyle: "short",
-                      })}
-                    </span>
-                  )}
-                  {!item.end && item.start && (
-                    <span className="openbsw-document-datum">
-                      Vanaf:{" "}
-                      {new Date(Date.parse(item.start)).toLocaleString(
-                        "nl-NL",
-                        {
-                          timeStyle: "short",
-                          dateStyle: "short",
-                        },
-                      )}
-                    </span>
-                  )}
+                  <span className="openbsw-document-datum">
+                    {item.updated_date}
+                  </span>
                 </div>
               </div>
             </div>
@@ -112,22 +94,22 @@ function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
   }
 }
 
-interface MijnTakenProps {
+interface MijnDossiersProps {
   baseUrl: string;
 }
 
-export default function MijnTaken({ baseUrl }: MijnTakenProps) {
+export default function MijnDossiers({ baseUrl }: MijnDossiersProps) {
   return (
     <div className="openbsw-panel">
       <LifecycleTag status={"In ontwikkeling"} mode={"long"} />
-      <h4>Mijn taken</h4>
+      <h4>Mijn dossiers</h4>
       <div className="rvo-scrollable-content openbsw-panel-scrollable-content">
-        <MijnTakenItems baseUrl={baseUrl}></MijnTakenItems>
+        <MijnDossiersItems baseUrl={baseUrl}></MijnDossiersItems>
       </div>
-      <p className="utrecht-button-group">
+      <p className="utrecht-button-group openbsw-">
         <a
-          className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm"
-          href="https://files.la-suite.apps.digilab.network/apps/tasks/collections/all"
+          className="utrecht-button utrecht-button--primary-action utrecht-button--rvo-sm rvo-link--no-underline"
+          href="https://docs.la-suite.apps.digilab.network/docs/"
           target="_blank"
         >
           <span
@@ -135,7 +117,14 @@ export default function MijnTaken({ baseUrl }: MijnTakenProps) {
             role="img"
             aria-label="Plus"
           ></span>
-          Nieuwe taak
+          Nieuw dossier
+        </a>
+        <a
+          className="utrecht-button utrecht-button--secondary-action utrecht-button--rvo-sm  rvo-link--no-underline"
+          href="https://docs.la-suite.apps.digilab.network/docs/"
+          target="_blank"
+        >
+          Al mijn dossiers
         </a>
       </p>
     </div>

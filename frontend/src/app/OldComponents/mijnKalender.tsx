@@ -1,9 +1,9 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
-import { keycloak } from "../auth/keycloak";
-import { KeycloakContext } from "../auth/KeycloakProvider";
-import LifecycleTag from "@/app/components/lifecycleTag";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
+import { keycloak } from "../Context/auth/keycloak";
+import LifecycleTag from "@/app/OldComponents/lifecycleTag";
 
 interface MijnKalenderItemsProps {
   baseUrl: string;

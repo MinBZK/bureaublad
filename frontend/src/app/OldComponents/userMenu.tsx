@@ -1,6 +1,6 @@
 "use client";
 
-import { KeycloakContext } from "../auth/KeycloakProvider";
+import { KeycloakContext } from "../Context/auth/KeycloakProvider";
 import { useContext } from "react";
 
 export default function UserMenu() {

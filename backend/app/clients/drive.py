@@ -33,7 +33,6 @@ class DriveClient:
             params=params,
             headers={"Authorization": f"Bearer {self.token}"},
         )
-
         if response.status_code != 200:
             return TypeAdapter(list[Document]).validate_python([])
 

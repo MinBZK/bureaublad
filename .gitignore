@@ -45,6 +45,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/frontend/.env.local
 
 bureaublad-backend.log*
 .claude

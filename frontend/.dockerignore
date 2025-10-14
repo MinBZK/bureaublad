@@ -1,0 +1,25 @@
+# Node
+node_modules
+**/node_modules
+
+# Next.js build outputs
+.next
+out
+build
+dist
+
+# Git
+.git
+.gitignore
+
+# Logs and configs
+*.log
+.env
+.env.local
+.env.development
+.env.production
+
+# OS/Editor files
+.DS_Store
+.vscode
+.idea

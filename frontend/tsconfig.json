@@ -27,7 +27,11 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    "dist/types/**/*.ts"
+    "dist/types/**/*.ts",
+    "src/app/features/Chat/Chat.jsx",
+    "src/app/features/Email/Email.jsx",
+    "src/app/features/Files/Files.jsx",
+    "src/app/features/VideoChat/VideoChat.jsx"
   ],
   "exclude": ["node_modules"]
 }
