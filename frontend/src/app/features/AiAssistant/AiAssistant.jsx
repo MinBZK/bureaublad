@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Card, Result, Input, Timeline } from "antd";
 import { baseUrl } from "@/app/Common/pageConfig";
 import axios from "axios";
-import { SendOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, SendOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const { Search } = Input;
 function AiAssistant() {
@@ -29,6 +30,7 @@ function AiAssistant() {
   };
   const items = aiResult?.map((value) => ({
     children: value,
+    label: moment().format("DD-MM-YYYY HH:mm"),
   }));
 
   return (
@@ -40,7 +42,29 @@ function AiAssistant() {
           onSearch={postAi}
         />
         {aiResult?.length > 0 && (
-          <Timeline style={{ marginTop: "30px" }} items={items} />
+          <React.Fragment>
+            <div
+              style={{
+                marginTop: 30,
+                maxHeight: 250,
+                overflowY: "auto",
+                paddingRight: 8,
+              }}
+            >
+              <Timeline items={items} mode="left" reverse={true} />
+            </div>
+            {aiResult?.length > 6 && (
+              <div style={{ textAlign: "center", marginTop: 20 }}>
+                <ArrowDownOutlined
+                  style={{
+                    fontSize: 24,
+                    color: "#888",
+                    animation: "bounce 1.2s infinite",
+                  }}
+                />
+              </div>
+            )}
+          </React.Fragment>
         )}
         {error && (
           <Result

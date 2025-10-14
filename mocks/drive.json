@@ -2,7 +2,7 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/api/v1.0/drive/"
+      "path": "/api/v1.0/items/"
     },
     "httpResponse": {
       "statusCode": 200,

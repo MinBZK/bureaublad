@@ -187,7 +187,6 @@ function SearchResults({ term, baseUrl }: SearchResultsProps) {
   } else if (isSearchQuery) {
     return <SearchResultsItems items={items}></SearchResultsItems>;
   } else {
-    console.log(aiResult);
     return <SearchResultsAI value={aiResult}></SearchResultsAI>;
   }
 }

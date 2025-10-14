@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import { Col, Row, Card, Calendar, theme, Space, Button } from "antd";
-import Office from "./features/Office/Office";
+import { Col, Row, Card, Calendar, theme } from "antd";
+import Files from "./features/Files/Files";
 import Chat from "./features/Chat/Chat";
-import Docs from "./features/Docs/Docs";
+import Note from "./features/Notes/Notes";
 import VideoChat from "./features/VideoChat/VideoChat";
-import Email from "./features/Email/Email";
+// import Email from "./features/Email/Email";
 import Drive from "./features/Drive/Drive";
 import { useAppContext } from "./Context/AppContext";
-import DynamicIcon from "./Common/DynamicIcon";
+// import DynamicIcon from "./Common/DynamicIcon";
 import AiAssistant from "../app/features/AiAssistant/AiAssistant";
 
 export default function Home() {
@@ -19,23 +19,24 @@ export default function Home() {
     border: `1px solid ${token.colorBorderSecondary}`,
     borderRadius: token.borderRadiusLG,
   };
-  console.log(items?.applications);
 
   return (
     <React.Fragment>
       {items?.applications?.ai && <AiAssistant />}
       <Row gutter={16} style={{ marginTop: 10 }}>
-        <Col span={8}>{items?.applications?.docs && <Docs />}</Col>
+        <Col span={8}>{items?.applications?.docs && <Note />}</Col>
         <Col span={8}>{items?.applications?.drive && <Drive />}</Col>
         <Col span={8}>
-          <VideoChat />
+          <Files />
         </Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>
-          <Email />
+          {items?.applications?.meet && <Chat />}
+
+          {/* <Email /> */}
         </Col>
-        <Col span={8}>{items?.applications?.meet && <Chat />}</Col>
+        <Col span={8}>{items?.applications?.meet && <VideoChat />}</Col>
         <Col span={8}>
           {items?.applications?.calendar && (
             <Card title="Agenda" variant="borderless">

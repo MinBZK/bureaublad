@@ -1,4 +1,4 @@
-// import "./globals.css";
+import "./globals.css";
 import React from "react";
 import { KeycloakProvider } from "./Context/auth/KeycloakProvider";
 import PageLayout from "./Components/Layout/PageLayout";

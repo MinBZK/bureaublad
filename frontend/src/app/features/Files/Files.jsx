@@ -1,24 +1,69 @@
 "use client";
-import React from "react";
-import { Card } from "antd";
+import React, { useEffect, useState } from "react";
+import { Card, Result } from "antd";
 import { Avatar, List } from "antd";
 import {
   EditOutlined,
+  FileOutlined,
   FileTextOutlined,
   FileWordOutlined,
   FileZipOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import axios from "axios";
+import { baseUrl } from "@/app/Common/pageConfig";
+import Widget from "@/app/Common/Widget";
 
-function Office() {
+// NextCloud
+function Files() {
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  useEffect(() => {
+    setLoading(true);
+    const fetchDocs = async () => {
+      try {
+        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        setFiles(res.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDocs();
+  }, []);
+
+  const onSearch = async (value) => {
+    try {
+      const res = await axios.get(`${baseUrl}/api/v1/ocs/search?term=${value}`);
+      setFiles(res.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <Card title="Office" variant="borderless">
+    <Widget
+      title="Bestanden"
+      setSearch={setSearch}
+      loading={loading}
+      error={error}
+    >
       <List
         dataSource={data}
         renderItem={(item) => (
           <List.Item key={item.description}>
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={
+                <Avatar
+                  icon={<FileOutlined />}
+                  style={{ backgroundColor: "#1677ff" }}
+                />
+              }
               title={<a href="https://ant.design">{item.name}</a>}
               description={item.description}
             />
@@ -28,11 +73,11 @@ function Office() {
           </List.Item>
         )}
       />
-    </Card>
+    </Widget>
   );
 }
 
-export default Office;
+export default Files;
 
 const data = [
   {

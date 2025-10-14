@@ -1,16 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Card, Result } from "antd";
 import { Avatar, List } from "antd";
-import { FileImageOutlined } from "@ant-design/icons";
+import { EditOutlined,      FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { baseUrl } from "@/app/Common/pageConfig";
-import moment from "moment";
 import axios from "axios";
-import Widget from "@/app/Common/Widget";
+import Widget from "../../Common/Widget";
 
-function Drive() {
-  const [drive, setDrive] = useState([]);
+// Docs
+function Note() {
+  const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [favorite, setFavorite] = useState(false);
@@ -19,8 +18,10 @@ function Drive() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/drive/documents");
-        setDrive(res.data);
+        const res = await axios.get(
+          `${baseUrl}/api/v1/docs/documents?favorite=${favorite}&title=${search}`
+        );
+        setDocs(res.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -32,28 +33,26 @@ function Drive() {
 
   return (
     <Widget
-      title="Drive"
+      title="Notities"
       favorite={favorite}
       setFavorite={setFavorite}
+      search={search}
       setSearch={setSearch}
       loading={loading}
       error={error}
     >
       <List
-        dataSource={drive}
+        dataSource={docs}
         renderItem={(item) => (
           <List.Item key={item.description}>
             <List.Item.Meta
-              avatar={
-                <Avatar
-                  icon={<FileImageOutlined />}
-                  style={{ backgroundColor: "#f56a00" }}
-                />
-              }
-              title={<Link href={item?.url || ""}>{item.title}</Link>}
-              description={`Gemaakt:
-                  ${moment(item.created_at).format("DD-MM-YYYY, mm:ss")}`}
+              avatar={<Avatar icon={<FileTextOutlined />} />}
+              title={<Link href={item?.url}>{item.title}</Link>}
+              description={`Geüpdatet: ${item.updated_date}`}
             />
+            <Link href={item?.url}>
+              <EditOutlined />
+            </Link>
           </List.Item>
         )}
       />
@@ -61,4 +60,4 @@ function Drive() {
   );
 }
 
-export default Drive;
+export default Note;
