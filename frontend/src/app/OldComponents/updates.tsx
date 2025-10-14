@@ -41,18 +41,18 @@ function UpdatesItems() {
 
           for (let i = 0; i < items.length; i++) {
             const title = valueOrEmptyString(
-              items[i].getElementsByTagName("title")[0].textContent
+              items[i].getElementsByTagName("title")[0].textContent,
             );
             const link = valueOrEmptyString(
-              items[i].getElementsByTagName("link")[0].textContent
+              items[i].getElementsByTagName("link")[0].textContent,
             );
             const guid = valueOrEmptyString(
-              items[i].getElementsByTagName("guid")[0].textContent
+              items[i].getElementsByTagName("guid")[0].textContent,
             );
             const pubDate = new Date(
               valueOrEmptyString(
-                items[i].getElementsByTagName("pubDate")[0].textContent
-              )
+                items[i].getElementsByTagName("pubDate")[0].textContent,
+              ),
             ).toLocaleDateString("nl-NL", dateOptions);
             const hostname = new URL(link).hostname;
             feedItems.push({ title, link, guid, hostname, pubDate });
@@ -65,7 +65,7 @@ function UpdatesItems() {
         (error) => {
           setIsLoaded(true);
           setError(error);
-        }
+        },
       );
   }, []);
 

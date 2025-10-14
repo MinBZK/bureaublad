@@ -20,5 +20,4 @@ function DynamicIcon({ name }) {
   return Icon ? <Icon /> : null;
 }
 
-export default DynamicIcon
-
+export default DynamicIcon;

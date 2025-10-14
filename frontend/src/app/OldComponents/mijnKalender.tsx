@@ -50,7 +50,7 @@ function MijnKalenderItems({ baseUrl }: MijnKalenderItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
+          },
         );
     }
   }, [keycloakContext, baseUrl]);
@@ -78,7 +78,7 @@ function MijnKalenderItems({ baseUrl }: MijnKalenderItemsProps) {
                 <span className="openbsw-document-datum">
                   {new Date(Date.parse(item.start)).toLocaleTimeString(
                     "nl-NL",
-                    { timeStyle: "short" }
+                    { timeStyle: "short" },
                   )}{" "}
                   -{" "}
                   {new Date(Date.parse(item.end)).toLocaleTimeString("nl-NL", {

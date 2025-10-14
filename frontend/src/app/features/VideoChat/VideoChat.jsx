@@ -18,7 +18,7 @@ function VideoChat() {
               title={<a href="https://ant.design">{item.name}</a>}
               description={item.email}
             />
-             <Avatar
+            <Avatar
               style={{ backgroundColor: "#87d068" }}
               icon={<PhoneOutlined />}
             />

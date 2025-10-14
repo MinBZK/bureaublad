@@ -50,7 +50,7 @@ function MijnDossiersItems({ baseUrl }: MijnDossiersItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
+          },
         );
     }
   }, [keycloakContext, baseUrl]);

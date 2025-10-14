@@ -2,10 +2,7 @@
 import React from "react";
 import { Card } from "antd";
 import { Avatar, List } from "antd";
-import {
-  EditOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 function Email() {

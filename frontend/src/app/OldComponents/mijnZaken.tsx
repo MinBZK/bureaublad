@@ -138,7 +138,7 @@ function MijnZakenItems({ baseUrl }: MijnZakenItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
+          },
         );
     }
   }, [keycloakContext, baseUrl]);

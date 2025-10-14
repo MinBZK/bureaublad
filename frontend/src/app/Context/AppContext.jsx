@@ -23,7 +23,9 @@ export function AppProvider({ children }) {
       .catch((err) => console.error("Fetch error:", err));
   }, []);
 
-  return <AppContext.Provider value={{ items }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ items }}>{children}</AppContext.Provider>
+  );
 }
 
 export function useAppContext() {

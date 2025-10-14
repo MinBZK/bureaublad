@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Avatar, List } from "antd";
-import { EditOutlined,      FileTextOutlined } from "@ant-design/icons";
+import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { baseUrl } from "@/app/Common/pageConfig";
 import axios from "axios";
@@ -19,7 +19,7 @@ function Note() {
     const fetchDocs = async () => {
       try {
         const res = await axios.get(
-          `${baseUrl}/api/v1/docs/documents?favorite=${favorite}&title=${search}`
+          `${baseUrl}/api/v1/docs/documents?favorite=${favorite}&title=${search}`,
         );
         setDocs(res.data);
       } catch (err) {

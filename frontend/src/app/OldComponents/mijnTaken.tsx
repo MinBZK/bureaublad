@@ -50,7 +50,7 @@ function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
           (error) => {
             setIsLoaded(true);
             setError(error);
-          }
+          },
         );
     }
   }, [keycloakContext, baseUrl]);
@@ -98,7 +98,7 @@ function MijnTakenItems({ baseUrl }: MijnTakenItemsProps) {
                         {
                           timeStyle: "short",
                           dateStyle: "short",
-                        }
+                        },
                       )}
                     </span>
                   )}
