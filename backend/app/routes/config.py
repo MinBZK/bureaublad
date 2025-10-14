@@ -6,7 +6,6 @@ from app.core.config import settings
 from app.models.config import (
     ApplicationsConfig,
     ConfigResponse,
-    OIDCConfig,
     SidebarLink,
 )
 
@@ -30,14 +29,9 @@ async def get_config() -> ConfigResponse:
         grist=settings.grist_enabled,
     )
 
-    oidc = OIDCConfig(
-        discovery_endpoint=settings.oidc_discovery_endpoint,
-        username_claim=settings.OIDC_USERNAME_CLAIM,
-    )
-
     return ConfigResponse(
         sidebar_links=sidebar_links,
         theme_css=settings.THEME_CSS_URL,
         applications=applications,
-        oidc=oidc,
+        silent_login=True,  # Backend handles authentication
     )

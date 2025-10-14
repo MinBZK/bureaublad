@@ -37,4 +37,4 @@ class ConfigResponse(BaseModel):
     sidebar_links: list[SidebarLink]
     theme_css: str
     applications: ApplicationsConfig
-    oidc: OIDCConfig
+    silent_login: bool = False
