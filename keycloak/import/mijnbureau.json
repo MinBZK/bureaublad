@@ -42,7 +42,7 @@
         "client.secret.creation.time": "1759753400",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "true",
-        "post.logout.redirect.uris": "+",
+        "post.logout.redirect.uris": "http://localhost:8000/+http://localhost:3000/+http://127.0.0.1:8000/+http://127.0.0.1:3000/",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },

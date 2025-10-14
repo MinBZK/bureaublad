@@ -39,7 +39,7 @@ services:
     volumes:
       - ./backend/app:/app/app/
   keycloak:
-    image: quay.io/keycloak/keycloak:26.3.0
+    image: quay.io/keycloak/keycloak:26.4.0
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin

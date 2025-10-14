@@ -5,12 +5,16 @@ readme = "README.md"
 license = "EUPL-1.2"
 requires-python = ">=3.13"
 dependencies = [
+    "authlib>=1.6.5",
     "caldav>=1.4.0",
     "fastapi[standard]>=0.115.11",
+    "httpx>=0.28.1",
+    "itsdangerous>=2.2.0",
     "openai>=1.66.5",
     "pydantic-settings>=2.8.1",
     "python-jose>=3.4.0",
     "python-ulid>=2.8.0",
+    "types-authlib>=1.6.5.20251005",
 ]
 dynamic = ["version"]
 
@@ -19,7 +23,6 @@ repository = "https://github.com/MinBZK/bureaublad"
 
 [dependency-groups]
 dev = [
-    "httpx>=0.28.1",
     "pyright>=1.1.406",
     "ruff>=0.13.3",
 ]

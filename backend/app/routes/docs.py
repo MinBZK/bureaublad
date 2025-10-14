@@ -3,11 +3,11 @@ import logging
 from fastapi import APIRouter, Request
 
 from app.clients.docs import DocsClient
+from app.core import session
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
-from app.exceptions import ServiceUnavailableError
+from app.exceptions import CredentialError, ServiceUnavailableError
 from app.models.note import Note
-from app.models.user import User
 from app.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)
@@ -22,12 +22,20 @@ async def docs_documents(
     title: str | None = None,
     favorite: bool = False,
 ) -> list[Note]:
-    """Get documents from Docs service."""
+    """Get documents from Docs service.
+
+    Note: Auth is already validated by get_current_user() at router level.
+    The auth state (including refreshed tokens) is available in request.session.
+    """
     if not settings.docs_enabled or not settings.DOCS_URL:
         raise ServiceUnavailableError("Docs")
 
-    user: User = request.state.user
-    token = await exchange_token(user.access_token, audience=settings.DOCS_AUDIENCE) or ""
+    # Get auth from session (already refreshed by get_current_user dependency)
+    auth = session.get_auth(request)
+    if not auth:
+        raise CredentialError("Not authenticated")
+
+    token = await exchange_token(auth.access_token, audience=settings.DOCS_AUDIENCE) or ""
 
     client = DocsClient(http_client, settings.DOCS_URL, token)
     return await client.get_documents(title=title, favorite=favorite)
