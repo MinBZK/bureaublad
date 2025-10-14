@@ -15,7 +15,6 @@ export function AppProvider({ children }) {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${keycloak.token}`,
       },
     })
       .then((res) => res.json())

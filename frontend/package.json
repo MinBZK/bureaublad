@@ -6,15 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@nl-rvo/assets": "^1.0.0-alpha.360",
-    "@nl-rvo/component-library-css": "^4.11.1",
-    "@nl-rvo/design-tokens": "^1.11.0",
     "antd": "^5.27.4",
     "axios": "^1.12.2",
-    "keycloak-js": "^26.2.0",
     "moment": "^2.30.1",
     "next": "15.5.4",
     "react": "^19.1.1",
@@ -28,6 +27,7 @@
     "@types/react-dom": "^19.1.9",
     "eslint": "^9.36.0",
     "eslint-config-next": "15.5.4",
+    "prettier": "^3.6.2",
     "typescript": "^5.9.2"
   }
 }

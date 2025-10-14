@@ -26,9 +26,7 @@ export default function Home() {
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>{items?.applications?.docs && <Note />}</Col>
         <Col span={8}>{items?.applications?.drive && <Drive />}</Col>
-        <Col span={8}>
-          <Files />
-        </Col>
+        <Col span={8}>{items?.applications?.ocs && <Files />}</Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>
