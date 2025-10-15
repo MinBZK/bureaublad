@@ -4,7 +4,7 @@ import logging
 from typing import Any
 
 import httpx
-from app.models.meeting import Meeting
+from app.models.room import Room
 from pydantic import TypeAdapter
 
 logger = logging.getLogger(__name__)
@@ -28,29 +28,20 @@ class MeetClient:
         self.base_url = base_url.rstrip("/")
         self.token = token
 
-    async def get_meetings(
-        self,
-        path: str = "api/v1.0/documents/",
-        page: int = 1,
-        title: str | None = None,
-        favorite: bool = False,
-    ) -> list[Meeting]:
+    async def get_rooms(self, path: str = "api/v1.0/rooms", page: int | None = 1) -> list[Room]:
         """Fetch meetings from Meet service.
 
         Args:
             path: API endpoint path
             page: Page number for pagination
-            title: Optional title filter
-            favorite: Whether to filter for favorites only
 
         Returns:
             List of Meeting objects
         """
+        if page is None or page < 1:
+            page = 1
+
         params: dict[str, Any] = {"page": page}
-        if title:
-            params["title"] = title
-        if favorite:
-            params["favorite"] = str(favorite)
 
         url = f"{self.base_url}/{path.lstrip('/')}"
         response = await self.client.get(
@@ -60,9 +51,9 @@ class MeetClient:
         )
 
         if response.status_code != 200:
-            return TypeAdapter(list[Meeting]).validate_python([])
+            return TypeAdapter(list[Room]).validate_python([])
 
         results = response.json().get("results", [])
-        meetings: list[Meeting] = TypeAdapter(list[Meeting]).validate_python(results)
+        rooms: list[Room] = TypeAdapter(list[Room]).validate_python(results)
 
-        return meetings
+        return rooms
