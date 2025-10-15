@@ -30,6 +30,21 @@ export default function PageLayout({ children }) {
     fetchProfile();
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        setProfile(res.data);
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <Layout>
       <HeaderLayout isProfile={!!error} />
@@ -49,7 +64,7 @@ export default function PageLayout({ children }) {
             >
               <Skeleton loading={loading}>
                 <Typography.Title>
-                  Welkom{" "}
+                  Welkom
                   <span style={{ color: "#4096FF" }}>{profile?.name}</span>
                 </Typography.Title>
               </Skeleton>

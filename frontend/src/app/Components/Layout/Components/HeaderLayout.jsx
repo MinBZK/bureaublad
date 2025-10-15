@@ -16,7 +16,7 @@ function HeaderLayout({ isProfile = true }) {
     },
     {
       key: "2",
-      label: <Link href={`/api//v1/auth/logout`}>Uitloggen</Link>,
+      label: <Link href={`/api/v1/auth/logout`}>Uitloggen</Link>,
       icon: <LogoutOutlined />,
       danger: true,
     },
