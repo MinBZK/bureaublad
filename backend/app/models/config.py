@@ -31,6 +31,7 @@ class ApplicationsConfig(BaseModel):
     meet: bool = False
     ocs: bool = False
     grist: bool = False
+    conversation: bool = False
 
 
 class ConfigResponse(BaseModel):
