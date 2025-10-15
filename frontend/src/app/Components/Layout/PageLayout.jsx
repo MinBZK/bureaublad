@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
-import { Divider, Typography, Layout, theme } from "antd";
+import { Divider, Typography, Layout, theme, Skeleton } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
-// import { keycloak } from "../Context/auth/keycloak";
-// import { KeycloakContext } from "../Context/auth/KeycloakProvider";
 import { useAppContext } from "../../Context/AppContext";
 const { Content } = Layout;
 
@@ -12,8 +10,25 @@ export default function PageLayout({ children }) {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(false);
   // const keycloakContext = useContext(KeycloakContext);
   const { items } = useAppContext();
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        setProfile(res.data);
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   return (
     <Layout>
@@ -30,7 +45,9 @@ export default function PageLayout({ children }) {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Typography.Title>Goedemiddag Berry</Typography.Title>
+            <Skeleton loading={loading}>
+              <Typography.Title>Welkom {profile?.name}</Typography.Title>
+            </Skeleton>
             <Divider />
             {children}
           </Content>

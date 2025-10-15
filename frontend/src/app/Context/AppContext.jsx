@@ -2,29 +2,62 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { baseUrl } from "../Common/pageConfig";
+import axios from "axios";
+import { Button, Flex, Result, Spin } from "antd";
+import HeaderLayout from "../Components/Layout/Components/HeaderLayout";
+import Loading from "../Common/Loading";
+// axios.defaults.withCredentials = true;
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [items, setitems] = useState(null);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
-    fetch(baseUrl + "/api/v1/config", {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        // Authorization: `Bearer ${keycloak.token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((json) => setitems(json))
-      .catch((err) => console.error("Fetch error:", err));
+    setLoading(true);
+    const fetchConfig = async () => {
+      try {
+        const res = await axios.get(baseUrl + "/api/v1/config");
+        console.log(res)
+        setitems(res);
+      } catch (err) {
+        console.log(err)
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchConfig();
   }, []);
 
   return (
-    <AppContext.Provider value={{ items }}>{children}</AppContext.Provider>
+    <Loading loading={loading}>
+      {error?.response?.status === 401 ? (
+        <React.Fragment>
+          <HeaderLayout isProfile={false} />
+          <Result
+            status="403"
+            title="403"
+            subTitle="Helaas, u bent niet bevoegd om deze pagina te bezoeken."
+            extra={
+              <Button
+                type="primary"
+                href={`${baseUrl}/api/v1/auth/login`}
+              >
+                Inloggen
+              </Button>
+            }
+          />
+        </React.Fragment>
+      ) : (
+        items && (
+          <AppContext.Provider value={{ items }}>
+            {children}
+          </AppContext.Provider>
+        )
+      )}
+    </Loading>
   );
 }
 
