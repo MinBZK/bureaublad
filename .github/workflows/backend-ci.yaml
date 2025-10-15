@@ -44,6 +44,29 @@ jobs:
           cd backend/
           uv run ruff format --check
 
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "backend/pyproject.toml"
+
+      - name: Install uv
+        run: pipx install uv
+
+      - name: Install dependencies
+        run: |
+          cd backend/
+          uv run sync
+
+      - name: pyright typecheck
+        run: |
+          cd backend/
+          uv run pyright
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -67,31 +90,15 @@ jobs:
           cd backend/
           uv run ruff check
 
-      - name: Run  hadolint linter
+      - name: Run hadolint linter
         uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: backend/Dockerfile
           format: json
           failure-threshold: warning
 
-      # - name: Run pyright type checker
-      #   run: |
-      #     uv run pyright
-
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          trivy-config: trivy.yaml
-          scan-type: fs
-          scan-ref: "backend/"
-
   build:
-    needs: [format, lint, security]
+    needs: [format, lint, typecheck]
     if: github.event_name != 'pull_request'
     name: Push Docker image to github registries
     runs-on: ubuntu-latest

@@ -3,8 +3,6 @@ import React from "react";
 import { Divider, Typography, Layout, theme } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
-// import { keycloak } from "../Context/auth/keycloak";
-// import { KeycloakContext } from "../Context/auth/KeycloakProvider";
 import { useAppContext } from "../../Context/AppContext";
 const { Content } = Layout;
 
@@ -12,7 +10,6 @@ export default function PageLayout({ children }) {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  // const keycloakContext = useContext(KeycloakContext);
   const { items } = useAppContext();
 
   return (
@@ -30,7 +27,7 @@ export default function PageLayout({ children }) {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Typography.Title>Goedemiddag Berry</Typography.Title>
+            <Typography.Title>Goedemiddag</Typography.Title>
             <Divider />
             {children}
           </Content>

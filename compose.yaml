@@ -4,10 +4,8 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
-      args: #todo: move these options to the backend
-        NEXT_PUBLIC_KEYCLOAK_URL: http://localhost:8080
-        NEXT_PUBLIC_KEYCLOAK_REALM: mijnbureau
-        NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad
+      target: dev
+      args:
         NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000
     restart: unless-stopped
     healthcheck:
@@ -16,7 +14,9 @@ services:
       timeout: 3s
       retries: 5
     ports:
-      - "3000:80"
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src/
     depends_on:
       - backend
       - keycloak

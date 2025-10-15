@@ -12,17 +12,73 @@ on:
       - "v*"
     paths:
       - "frontend/**"
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "backend/**"
 
 env:
   IMAGE_NAME: "bureaublad-frontend"
-  URL: "https://bureaublad.apps.digilab.network"
-  NEXT_PUBLIC_KEYCLOAK_URL: "http://localhost:8080"
-  NEXT_PUBLIC_KEYCLOAK_REALM: mijnbureau
-  NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad
-  NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000'
+  NEXT_PUBLIC_BACKEND_BASE_URL: /api
 
 jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: "frontend/.nvmrc"
+
+      - name: Install dependencies
+        run: |
+          cd frontend/
+          npm ci
+
+      - name: Run prettier format
+        run: |
+          cd frontend/
+          npm run format:check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: "frontend/.nvmrc"
+      - name: Install dependencies
+        run: |
+          cd frontend/
+          npm ci
+      - name: Run eslint
+        run: |
+          cd frontend/
+          npm run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: "frontend/.nvmrc"
+      - name: Install dependencies
+        run: |
+          cd frontend/
+          npm ci
+      - name: Run typecheck
+        run: |
+          cd frontend/
+          npm run typecheck
+
   build:
+    needs: [format, lint, typecheck]
     name: Push Docker image to github registries
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -66,9 +122,6 @@ jobs:
           annotations: ${{ steps.meta.outputs.annotations }}
           platforms: linux/amd64,linux/arm64
           build-args: |
-            NEXT_PUBLIC_KEYCLOAK_URL=${{env.NEXT_PUBLIC_KEYCLOAK_URL}}
-            NEXT_PUBLIC_KEYCLOAK_REALM=${{env.NEXT_PUBLIC_KEYCLOAK_REALM}}
-            NEXT_PUBLIC_KEYCLOAK_CLIENT=${{env.NEXT_PUBLIC_KEYCLOAK_CLIENT}}
             NEXT_PUBLIC_BACKEND_BASE_URL=${{env.NEXT_PUBLIC_BACKEND_BASE_URL}}
 
       - name: Generate artifact attestation
