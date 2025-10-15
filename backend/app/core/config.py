@@ -35,9 +35,9 @@ def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
         raise ValueError(f"Link at index {idx} has invalid URL: {e}") from e
 
 
-def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
+def parse_sidebar_links(v: Any) -> list[dict[str, str | bool]]:  # noqa: ANN401
     if isinstance(v, list):
-        return cast(list[dict[str, str]], v)
+        return cast(list[dict[str, str | bool]], v)
 
     if not isinstance(v, str):
         raise TypeError(f"SIDEBAR_LINKS_JSON must be string or list, got {type(v)}")
@@ -56,7 +56,7 @@ def parse_sidebar_links(v: Any) -> list[dict[str, str]]:  # noqa: ANN401
     for idx, link in enumerate(parsed):  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
         _validate_sidebar_link(link, idx)
 
-    return cast(list[dict[str, str]], parsed)
+    return cast(list[dict[str, str | bool]], parsed)
 
 
 class Settings(BaseSettings):
@@ -119,7 +119,7 @@ class Settings(BaseSettings):
 
     THEME_CSS_URL: str = ""
 
-    SIDEBAR_LINKS_JSON: Annotated[list[dict[str, str]], BeforeValidator(parse_sidebar_links)] = []
+    SIDEBAR_LINKS_JSON: Annotated[list[dict[str, str | bool]], BeforeValidator(parse_sidebar_links)] = []
 
     CORS_ALLOW_ORIGINS: Annotated[list[AnyUrl], BeforeValidator(parse_string_or_list)] = []
     CORS_ALLOW_CREDENTIALS: bool = False

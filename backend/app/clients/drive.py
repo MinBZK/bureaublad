@@ -18,13 +18,20 @@ class DriveClient:
         self,
         path: str = "api/v1.0/items/",
         page: int = 1,
+        page_size: int = 5,
+        ordering: str = "-updated_at",
         title: str | None = None,
-        favorite: bool = False,
+        is_creator_me: bool = False,
+        is_favorite: bool = False,
     ) -> list[Document]:
-        params: dict[str, Any] = {"page": page}
+        params: dict[str, Any] = {"page": page, "page_size": page_size, "ordering": ordering}
 
         if title:
             params["title"] = title
+        if is_creator_me:
+            params["is_creator_me"] = str(is_creator_me)
+        if is_favorite:
+            params["is_favorite"] = str(is_favorite)
 
         url = f"{self.base_url}/{path.lstrip('/')}"
 

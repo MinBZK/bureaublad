@@ -36,7 +36,7 @@ class OCSClient:
     async def get_activities(
         self,
         path: str = "ocs/v2.php/apps/activity/api/v2/activity",
-        limit: int = 6,
+        limit: int = 5,
         since: int = 0,
         filter: None | str = "files",
     ) -> list[Activity]:

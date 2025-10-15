@@ -16,7 +16,7 @@ router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 
 @router.get("/chats", response_model=list[Conversation])
-async def meet_dmeetings(request: Request, http_client: HTTPClient, page: int | None = None) -> list[Conversation]:
+async def conversations_get_chat(request: Request, http_client: HTTPClient, page: int = 1) -> list[Conversation]:
     """Get meetings from Meet service.
 
     Note: Auth is validated by get_current_user() at router level.

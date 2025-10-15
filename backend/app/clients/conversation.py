@@ -1,7 +1,6 @@
 """Meet service client for meeting management."""
 
 import logging
-from typing import Any
 
 import httpx
 from app.models.conversation import Conversation
@@ -31,7 +30,9 @@ class ConversationClient:
     async def get_chats(
         self,
         path: str = "api/v1.0/chats/",
-        page: int | None = 1,
+        page: int = 1,
+        page_size: int = 5,
+        ordering: str = "-updated_at",
     ) -> list[Conversation]:
         """Fetch chats from conversation service.
 
@@ -44,7 +45,7 @@ class ConversationClient:
         Returns:
             List of chats objects
         """
-        params: dict[str, Any] = {"page": page}
+        params: dict[str, int | str] = {"page": page, "page_size": page_size, "ordering": ordering}
 
         url = f"{self.base_url}/{path.lstrip('/')}"
         response = await self.client.get(

@@ -1,5 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
+
+from app.core.config import settings
 
 
 class Conversation(BaseModel):
+    id: str
     title: str
+
+    @computed_field
+    @property
+    def url(self) -> str:
+        return f"{settings.CONVERSATION_URL}/chat/{self.id}/"

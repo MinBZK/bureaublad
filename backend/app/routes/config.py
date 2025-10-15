@@ -16,9 +16,9 @@ router = APIRouter(prefix="/config", tags=["config"])
 
 @router.get("")
 async def get_config() -> ConfigResponse:
-    sidebar_links = [SidebarLink(**link) for link in settings.SIDEBAR_LINKS_JSON]
+    applications = [SidebarLink(**link) for link in settings.SIDEBAR_LINKS_JSON]  # type: ignore[arg-type]
 
-    applications = ApplicationsConfig(
+    cards = ApplicationsConfig(
         ai=settings.ai_enabled,
         docs=settings.docs_enabled,
         drive=settings.drive_enabled,
@@ -31,8 +31,8 @@ async def get_config() -> ConfigResponse:
     )
 
     return ConfigResponse(
-        sidebar_links=sidebar_links,
-        theme_css=settings.THEME_CSS_URL,
         applications=applications,
+        theme_css=settings.THEME_CSS_URL,
+        cards=cards,
         silent_login=True,  # Backend handles authentication
     )
