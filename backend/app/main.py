@@ -39,14 +39,15 @@ app = FastAPI(
     debug=settings.DEBUG,
     version=VERSION,
     redirect_slashes=False,
-    openapi_url="/openapi.json",
-    docs_url="/",
+    openapi_url="/api/openapi.json",
+    docs_url="/api/",
     redoc_url=None,
     lifespan=lifespan,
     servers=[
-        {"url": "http://localhost:8000", "description": "local environment"},
+        {"url": "http://bureaublad.localhost", "description": "local environment"},
     ],
     license_info={"name": "EUPL1.2", "url": "https://opensource.org/license/eupl-1-2"},
+    swagger_ui_oauth2_redirect_url="/api/oauth2-redirect",
     swagger_ui_parameters={
         "defaultModelsExpandDepth": -1,
         "defaultModelExpandDepth": -1,
@@ -64,8 +65,8 @@ app.add_exception_handler(RequestValidationError, cast(ExceptionHandler, validat
 app.add_exception_handler(httpx.HTTPError, cast(ExceptionHandler, httpx_exception_handler))
 app.add_exception_handler(Exception, generic_exception_handler)
 
-app.include_router(auth_router, prefix=settings.API_V1_STR)  # No auth required for auth endpoints
-app.include_router(api_router, dependencies=[Depends(get_current_user)], prefix=settings.API_V1_STR)
+app.include_router(auth_router, prefix="/api/v1")  # No auth required for auth endpoints
+app.include_router(api_router, dependencies=[Depends(get_current_user)], prefix="/api/v1")
 app.include_router(health_router, tags=["health"])
 
 # Middleware execution order (reverse of add order):

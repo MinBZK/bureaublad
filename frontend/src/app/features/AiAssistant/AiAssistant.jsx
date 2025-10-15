@@ -16,7 +16,7 @@ function AiAssistant() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.post(baseUrl + "/api/v1/ai/chat/completions", {
+        const res = await axios.post(baseUrl + "/v1/ai/chat/completions", {
           prompt: text,
         });
         setAiResult((arr) => [...arr, res.data]);
