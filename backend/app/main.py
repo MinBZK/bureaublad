@@ -47,11 +47,6 @@ app = FastAPI(
         {"url": "http://localhost:8000", "description": "local environment"},
     ],
     license_info={"name": "EUPL1.2", "url": "https://opensource.org/license/eupl-1-2"},
-    swagger_ui_init_oauth={
-        "clientId": settings.OIDC_CLIENT_ID,
-        "usePkceWithAuthorizationCodeGrant": True,
-        "scopes": "openid profile email",
-    },
     swagger_ui_parameters={
         "defaultModelsExpandDepth": -1,
         "defaultModelExpandDepth": -1,
