@@ -111,6 +111,8 @@ class Settings(BaseSettings):
     MEET_AUDIENCE: str = "meet"
     GRIST_URL: str | None = None
     GRIST_AUDIENCE: str = "grist"
+    CONVERSATION_URL: str | None = None
+    CONVERSATION_AUDIENCE: str = "conversation"
 
     # AI Integration
     AI_BASE_URL: str | None = "https://api.openai.com/v1/"
@@ -157,6 +159,11 @@ class Settings(BaseSettings):
     @property
     def meet_enabled(self) -> bool:
         return self.MEET_URL is not None
+
+    @computed_field
+    @property
+    def conversation_enabled(self) -> bool:
+        return self.CONVERSATION_URL is not None
 
     @computed_field
     @property
