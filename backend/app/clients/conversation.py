@@ -4,43 +4,46 @@ import logging
 from typing import Any
 
 import httpx
-from app.models.room import Room
+from app.models.conversation import Conversation
 from pydantic import TypeAdapter
 
 logger = logging.getLogger(__name__)
 
 
-class MeetClient:
-    """Client for Meet service API.
+class ConversationClient:
+    """Client for Conversation service API.
 
-    Handles business logic for fetching and managing meetings.
+    Handles business logic for fetching and managing conversations.
     """
 
     def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
-        """Initialize MeetClient.
+        """Initialize ConversationClient.
 
         Args:
             http_client: Shared httpx.AsyncClient instance
-            base_url: Base URL for the Meet service
+            base_url: Base URL for the conversations service
             token: Authentication token for this request
         """
         self.client = http_client
         self.base_url = base_url.rstrip("/")
         self.token = token
 
-    async def get_rooms(self, path: str = "api/v1.0/rooms", page: int | None = 1) -> list[Room]:
-        """Fetch meetings from Meet service.
+    async def get_chats(
+        self,
+        path: str = "api/v1.0/chats/",
+        page: int | None = 1,
+    ) -> list[Conversation]:
+        """Fetch chats from conversation service.
 
         Args:
             path: API endpoint path
             page: Page number for pagination
+            title: Optional title filter
+            favorite: Whether to filter for favorites only
 
         Returns:
-            List of Meeting objects
+            List of chats objects
         """
-        if page is None or page < 1:
-            page = 1
-
         params: dict[str, Any] = {"page": page}
 
         url = f"{self.base_url}/{path.lstrip('/')}"
@@ -49,11 +52,12 @@ class MeetClient:
             params=params,
             headers={"Authorization": f"Bearer {self.token}"},
         )
+        print(response)
 
         if response.status_code != 200:
-            return TypeAdapter(list[Room]).validate_python([])
+            return TypeAdapter(list[Conversation]).validate_python([])
 
         results = response.json().get("results", [])
-        rooms: list[Room] = TypeAdapter(list[Room]).validate_python(results)
+        chats: list[Conversation] = TypeAdapter(list[Conversation]).validate_python(results)
 
-        return rooms
+        return chats

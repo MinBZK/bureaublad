@@ -13,20 +13,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install dependencies first (cached layer)
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync \
-        --locked \
-        --no-dev \
-        --no-install-project
-
 # Copy application code
 COPY . /app
 
 # Install the project
-RUN --mount=type=cache,target=/root/.cache/uv \
+RUN --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync \
         --locked \
         --no-dev \

@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1.0/rooms"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "count": 123,
+        "next": "http://api.example.org/accounts/?page=2",
+        "previous": "",
+        "results": [
+          {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "name": "abz-rlzz-itv",
+            "slug": "abz-rlzz-itv",
+            "configuration": "{}",
+            "access_level": "public",
+            "pin_code": "string"
+          }
+        ]
+      }
+    }
+  }
+]

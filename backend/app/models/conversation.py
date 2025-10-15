@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
 
-class Meeting(BaseModel):
+class Conversation(BaseModel):
     title: str

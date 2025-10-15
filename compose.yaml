@@ -4,10 +4,8 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
-      args: #todo: move these options to the backend
-        NEXT_PUBLIC_KEYCLOAK_URL: http://localhost:8080
-        NEXT_PUBLIC_KEYCLOAK_REALM: mijnbureau
-        NEXT_PUBLIC_KEYCLOAK_CLIENT: bureaublad
+      target: dev
+      args:
         NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000
     restart: unless-stopped
     healthcheck:
@@ -16,7 +14,9 @@ services:
       timeout: 3s
       retries: 5
     ports:
-      - "3000:80"
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src/
     depends_on:
       - backend
       - keycloak
@@ -125,5 +125,14 @@ services:
       - "9005:1080"
     volumes:
       - ./mocks/ai.json:/config/ai.json:ro
+  mockserver_conversation:
+    image: mockserver/mockserver:5.15.0
+    environment:
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/conversations.json
+      MOCKSERVER_LOG_LEVEL: OFF
+    ports:
+      - "9006:1080"
+    volumes:
+      - ./mocks/conversations.json:/config/conversations.json:ro
 volumes:
   postgres:

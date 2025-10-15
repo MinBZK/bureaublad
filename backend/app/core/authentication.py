@@ -1,10 +1,13 @@
 import asyncio
 import logging
 import time
+from typing import Annotated
 
-from fastapi import Request
+from fastapi import Depends, Request
+from fastapi.security import OAuth2AuthorizationCodeBearer
 
 from app.core import session
+from app.core.config import settings
 from app.core.oauth import oauth
 from app.exceptions import CredentialError
 from app.models.user import User
@@ -14,10 +17,22 @@ logger = logging.getLogger(__name__)
 # Global lock to prevent concurrent token refreshes for the same session
 _refresh_locks: dict[str, asyncio.Lock] = {}
 
+oauth2_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl="/api/v1/auth/login",
+    tokenUrl=settings.OIDC_TOKEN_ENDPOINT,
+    auto_error=False,
+)
 
-async def get_current_user(request: Request) -> User:
-    """Get authenticated user, refreshing token if needed."""
+
+async def get_current_user(
+    request: Request, _credentials: Annotated[OAuth2AuthorizationCodeBearer, Depends(oauth2_scheme)]
+) -> User:
+    """Get authenticated user, refreshing token if needed.
+    _credentials is unused but required to trigger OAuth2 flow in the swagger UI.
+    """
+
     auth = session.get_auth(request)
+
     if not auth:
         raise CredentialError("Not authenticated")
 

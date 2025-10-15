@@ -7,7 +7,7 @@ from app.core import session
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import CredentialError, ServiceUnavailableError
-from app.models.meeting import Meeting
+from app.models.room import Room
 from app.token_exchange import exchange_token
 
 logger = logging.getLogger(__name__)
@@ -15,13 +15,12 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/meet", tags=["meet"])
 
 
-@router.get("/meeting", response_model=list[Meeting])
-async def meet_dmeetings(
+@router.get("/rooms", response_model=list[Room])
+async def meet_rooms(
     request: Request,
     http_client: HTTPClient,
-    title: str | None = None,
-    favorite: bool = False,
-) -> list[Meeting]:
+    page: int | None = None,
+) -> list[Room]:
     """Get meetings from Meet service.
 
     Note: Auth is validated by get_current_user() at router level.
@@ -37,4 +36,4 @@ async def meet_dmeetings(
     token = await exchange_token(auth.access_token, audience=settings.MEET_AUDIENCE) or ""
 
     client = MeetClient(http_client, settings.MEET_URL, token)
-    return await client.get_meetings(title=title, favorite=favorite)
+    return await client.get_rooms(page=page)
