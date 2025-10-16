@@ -44,6 +44,7 @@ async def callback(request: Request) -> RedirectResponse:
     """Handle OAuth 2.0 callback and exchange authorization code for tokens."""
     try:
         token: dict[str, Any] = await oauth.oidc.authorize_access_token(request)  # type: ignore[reportUnknownMemberType]
+
         auth = AuthState.from_token(token, name_claim=settings.OIDC_NAME_CLAIM, email_claim=settings.OIDC_EMAIL_CLAIM)  # type: ignore[reportUnknownArgumentType]
         session.set_auth(request, auth)  # type: ignore[reportUnknownArgumentType]
 
@@ -66,6 +67,7 @@ async def profile(request: Request) -> User:
     auth = session.get_auth(request)
     if not auth:
         raise CredentialError("Not authenticated")
+
     return auth.user
 
 

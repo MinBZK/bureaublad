@@ -6,6 +6,7 @@ from fastapi import APIRouter, Request
 from app.clients.caldav import CaldavClient
 from app.core import session
 from app.core.config import settings
+from app.core.http_clients import HTTPClient
 from app.exceptions import CredentialError, ServiceUnavailableError
 from app.models.calendar import Calendar
 from app.models.task import Task
@@ -19,6 +20,7 @@ router = APIRouter(prefix="/caldav", tags=["caldav"])
 @router.get("/calendars/{calendar_date}")
 async def caldav_calendar(
     calendar_date: date,
+    http_client: HTTPClient,
     request: Request,
 ) -> list[Calendar | None]:
     """Get calendar events for a specific date.
@@ -33,7 +35,7 @@ async def caldav_calendar(
     if not auth:
         raise CredentialError("Not authenticated")
 
-    new_token = await exchange_token(auth.access_token, audience=settings.CALENDAR_AUDIENCE)
+    new_token = await exchange_token(http_client, auth.access_token, audience=settings.CALENDAR_AUDIENCE)
 
     if not new_token:
         return []
@@ -48,7 +50,7 @@ async def caldav_calendar(
 
 
 @router.get("/tasks", response_model=list[Task])
-async def caldav_tasks(request: Request) -> list[Task]:
+async def caldav_tasks(request: Request, http_client: HTTPClient) -> list[Task]:
     """Get tasks from CalDAV service.
 
     Note: Auth is validated by get_current_user() at router level.
@@ -61,7 +63,7 @@ async def caldav_tasks(request: Request) -> list[Task]:
     if not auth:
         raise CredentialError("Not authenticated")
 
-    new_token = await exchange_token(auth.access_token, audience=settings.TASK_AUDIENCE)
+    new_token = await exchange_token(http_client, auth.access_token, audience=settings.TASK_AUDIENCE)
 
     if not new_token:
         return []

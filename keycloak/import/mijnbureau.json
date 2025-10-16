@@ -474,6 +474,5 @@
       ],
       "enabled": true
     }
-  ],
-  "keycloakVersion": "26.3.5"
+  ]
 }
