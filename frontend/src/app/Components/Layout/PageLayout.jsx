@@ -1,10 +1,20 @@
 "use client";
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { Divider, Typography, Layout, theme, Skeleton } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import axios from "axios";
+=======
+import React, { useState, useEffect } from "react";
+import { Divider, Typography, Layout, theme, Skeleton } from "antd";
+import SiderLayout from "./Components/SiderLayout";
+import HeaderLayout from "./Components/HeaderLayout";
+import { useAppContext } from "../../Context/AppContext";
+import axios from "axios";
+import { baseUrl } from "../../Common/pageConfig";
+>>>>>>> 800ac10 (✨(frontend) add conv and meeting)
 const { Content } = Layout;
 
 export default function PageLayout({ children }) {
@@ -13,6 +23,7 @@ export default function PageLayout({ children }) {
   } = theme.useToken();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
   const { items, error } = useAppContext();
 
   useEffect(() => {
@@ -29,6 +40,10 @@ export default function PageLayout({ children }) {
     };
     fetchProfile();
   }, []);
+=======
+  // const keycloakContext = useContext(KeycloakContext);
+  const { items, error } = useAppContext();
+>>>>>>> 800ac10 (✨(frontend) add conv and meeting)
 
   useEffect(() => {
     setLoading(true);
@@ -63,10 +78,14 @@ export default function PageLayout({ children }) {
               }}
             >
               <Skeleton loading={loading}>
+<<<<<<< HEAD
                 <Typography.Title>
                   Welkom
                   <span style={{ color: "#4096FF" }}>{profile?.name}</span>
                 </Typography.Title>
+=======
+                <Typography.Title>Welkom {profile?.name}</Typography.Title>
+>>>>>>> 800ac10 (✨(frontend) add conv and meeting)
               </Skeleton>
               <Divider />
               {children}
