@@ -1,22 +1,50 @@
 "use client";
-import React from "react";
-import { Card } from "antd";
-
+import React, { useState, useEffect } from "react";
 import { Avatar, List } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
+import Widget from "@/app/Common/Widget";
+import axios from "axios";
+import { baseUrl } from "@/app/Common/pageConfig";
 
 // meet
 function VideoChat() {
+  const [meet, setMeet] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    setLoading(true);
+    const fetchMeet = async () => {
+      try {
+        const res = await axios.get(`${baseUrl}/api/v1/meet/rooms`);
+        setMeet(res.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchMeet();
+  }, []);
+
   return (
-    <Card title="Video Chat" variant="borderless">
+    <Widget title="Video Chat" loading={loading} error={null}>
       <List
         dataSource={data}
         renderItem={(item) => (
-          <List.Item key={item.email}>
+          <List.Item key={item.slug}>
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={
+                <Avatar
+                  style={{
+                    backgroundColor: "#f56a00",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  {item?.name?.at(0)?.toUpperCase()}
+                </Avatar>
+              }
               title={<a href="https://ant.design">{item.name}</a>}
-              description={item.email}
+              description={<span>Hostsleutel:{item.pin_code}</span>}
             />
             <Avatar
               style={{ backgroundColor: "#87d068" }}
@@ -25,7 +53,7 @@ function VideoChat() {
           </List.Item>
         )}
       />
-    </Card>
+    </Widget>
   );
 }
 
@@ -33,38 +61,27 @@ export default VideoChat;
 
 const data = [
   {
-    createdAt: "2025-04-26T19:13:38.338Z",
-    name: "Let go boizz",
-    avatar: (
-      <Avatar style={{ backgroundColor: "#f56a00", verticalAlign: "middle" }}>
-        L
-      </Avatar>
-    ),
-    gender: "female",
-    email: "youngboizzz@gmail.com",
-    city: "Lake Lorenzo",
-    birthdate: "1955-04-13T21:25:22.777Z",
-    id: "7",
-    address: "Lake Lorenzo",
+    id: "3fa85f64-5717-b3fc-4562-b3fc-2c963f66afa6",
+    name: "abz-rlzz-itv",
+    slug: "abz-rlzz-itv",
+    configuration: "{}",
+    access_level: "public",
+    pin_code: "3fa85f64",
   },
   {
-    createdAt: "2025-04-27T03:03:49.295Z",
-    name: "Lizeth Friesen",
-    avatar: "https://avatars.githubusercontent.com/u/63156927",
-    gender: "male",
-    email: "Lizeth_Hagenes@hotmail.com",
-    city: "Franeckitown",
-    birthdate: "1964-07-01T13:57:11.140Z",
-    id: "8",
+    id: "3fa85f64-5717-4562-b3fc-b3fc-2c963f66afa6",
+    name: "itv-abz-rlzz",
+    slug: "itv-abz-rlzz",
+    configuration: "{}",
+    access_level: "public",
+    pin_code: "5717-4562",
   },
   {
-    createdAt: "2025-04-27T12:14:11.838Z",
-    name: "Terence Hilpert II",
-    avatar: "https://avatars.githubusercontent.com/u/25132279",
-    gender: "female",
-    email: "Alva_Tillman@gmail.com",
-    city: "North Aimee",
-    birthdate: "1979-01-14T21:17:21.365Z",
-    id: "9",
+    id: "3fa85f64-5717-4562-b3fc-b3fc-2c963f66afa6",
+    name: "rlzz-abz-itv",
+    slug: "rlzz-abz-itv",
+    configuration: "{}",
+    access_level: "public",
+    pin_code: "b3fc-b3fc",
   },
 ];

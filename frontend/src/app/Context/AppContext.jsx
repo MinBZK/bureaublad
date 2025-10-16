@@ -3,9 +3,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { baseUrl } from "../Common/pageConfig";
 import axios from "axios";
-import { Button, Flex, Result, Spin } from "antd";
-import HeaderLayout from "../Components/Layout/Components/HeaderLayout";
 import Loading from "../Common/Loading";
+import { useRouter } from "next/navigation";
 // axios.defaults.withCredentials = true;
 
 const AppContext = createContext();
@@ -14,15 +13,17 @@ export function AppProvider({ children }) {
   const [items, setitems] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const router = useRouter();
   useEffect(() => {
     setLoading(true);
     const fetchConfig = async () => {
       try {
         const res = await axios.get(baseUrl + "/api/v1/config");
-        console.log(res)
-        setitems(res);
+        setitems(res?.data);
       } catch (err) {
-        console.log(err)
+        if (err?.response?.state === 401) {
+          router.push("/login");
+        }
         setError(err);
       } finally {
         setLoading(false);
@@ -33,30 +34,9 @@ export function AppProvider({ children }) {
 
   return (
     <Loading loading={loading}>
-      {error?.response?.status === 401 ? (
-        <React.Fragment>
-          <HeaderLayout isProfile={false} />
-          <Result
-            status="403"
-            title="403"
-            subTitle="Helaas, u bent niet bevoegd om deze pagina te bezoeken."
-            extra={
-              <Button
-                type="primary"
-                href={`${baseUrl}/api/v1/auth/login`}
-              >
-                Inloggen
-              </Button>
-            }
-          />
-        </React.Fragment>
-      ) : (
-        items && (
-          <AppContext.Provider value={{ items }}>
-            {children}
-          </AppContext.Provider>
-        )
-      )}
+      <AppContext.Provider value={{ items, error }}>
+        {children}
+      </AppContext.Provider>
     </Loading>
   );
 }

@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, Typography, Layout, theme, Skeleton } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../../Context/AppContext";
+import axios from "axios";
+import { baseUrl } from "../../Common/pageConfig";
 const { Content } = Layout;
 
 export default function PageLayout({ children }) {
@@ -13,7 +15,7 @@ export default function PageLayout({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   // const keycloakContext = useContext(KeycloakContext);
-  const { items } = useAppContext();
+  const { items, error } = useAppContext();
 
   useEffect(() => {
     setLoading(true);
@@ -32,27 +34,30 @@ export default function PageLayout({ children }) {
 
   return (
     <Layout>
-      <HeaderLayout />
-      <Layout>
-        <SiderLayout colorBgContainer={colorBgContainer} items={items} />
-        <Layout style={{ padding: "0 24px 24px" }}>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              // height: "100vh",
-              background: "#f5f5f5",
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <Skeleton loading={loading}>
-              <Typography.Title>Welkom {profile?.name}</Typography.Title>
-            </Skeleton>
-            <Divider />
-            {children}
-          </Content>
+      <HeaderLayout isProfile={!!error} />
+      {error ? (
+        children
+      ) : (
+        <Layout>
+          <SiderLayout colorBgContainer={colorBgContainer} items={items} />
+          <Layout style={{ padding: "0 24px 24px" }}>
+            <Content
+              style={{
+                padding: 24,
+                margin: 0,
+                background: "#f5f5f5",
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              <Skeleton loading={loading}>
+                <Typography.Title>Welkom {profile?.name}</Typography.Title>
+              </Skeleton>
+              <Divider />
+              {children}
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
+      )}
     </Layout>
   );
 }

@@ -15,9 +15,25 @@
         "previous": "",
         "results": [
           {
-            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "id": "3fa85f64-5717-b3fc-4562-b3fc-2c963f66afa6",
             "name": "abz-rlzz-itv",
             "slug": "abz-rlzz-itv",
+            "configuration": "{}",
+            "access_level": "public",
+            "pin_code": "string"
+          },
+          {
+            "id": "3fa85f64-5717-4562-b3fc-b3fc-2c963f66afa6",
+            "name": "itv-abz-rlzz",
+            "slug": "itv-abz-rlzz",
+            "configuration": "{}",
+            "access_level": "public",
+            "pin_code": "string"
+          },
+          {
+            "id": "3fa85f64-5717-4562-b3fc-b3fc-2c963f66afa6",
+            "name": "rlzz-abz-itv",
+            "slug": "rlzz-abz-itv",
             "configuration": "{}",
             "access_level": "public",
             "pin_code": "string"
