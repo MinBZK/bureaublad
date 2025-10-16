@@ -19,7 +19,7 @@ function Note() {
     const fetchDocs = async () => {
       try {
         const res = await axios.get(
-          `${baseUrl}/api/v1/docs/documents?favorite=${favorite}&title=${search}`,
+          `${baseUrl}/v1/docs/documents?favorite=${favorite}&title=${search}`,
         );
         setDocs(res.data);
       } catch (err) {

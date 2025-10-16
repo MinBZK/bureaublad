@@ -19,7 +19,7 @@ function Drive() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/drive/documents");
+        const res = await axios.get(baseUrl + "/v1/drive/documents");
         setDrive(res.data);
       } catch (err) {
         setError(err.message);

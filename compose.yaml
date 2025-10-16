@@ -1,25 +1,46 @@
 services:
+  traefik:
+    image: traefik:v3.5.3
+    command:
+      - "--api.dashboard=false"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=proxy"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.asdefault=true"
+      - "--global.checknewversion=false"
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+    restart: unless-stopped
+    depends_on:
+      - frontend
+
   frontend:
     image: ghcr.io/minbzk/bureaublad-frontend:dev
     build:
       context: frontend
       dockerfile: Dockerfile
-      target: dev
+      target: prod
       args:
-        NEXT_PUBLIC_BACKEND_BASE_URL: http://localhost:8000
+        NEXT_PUBLIC_BACKEND_BASE_URL: /api
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 30s
-      timeout: 3s
-      retries: 5
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend/src:/app/src/
+    # volumes:
+    #   - ./frontend/src:/app/src/
     depends_on:
       - backend
-      - keycloak
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`bureaublad.localhost`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.routers.frontend.priority=5"
+
   backend:
     image: ghcr.io/minbzk/bureaublad-api:dev
     build:
@@ -29,15 +50,19 @@ services:
     restart: unless-stopped
     env_file:
       - backend/.env
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 3s
-      retries: 5
-    ports:
-      - "8000:8000"
     volumes:
       - ./backend/app:/app/app/
+    depends_on:
+      - keycloak
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`bureaublad.localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.priority=10"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.0
     environment:
@@ -48,21 +73,24 @@ services:
       KC_DB_PASSWORD: admin
       KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
     restart: unless-stopped
-    ports:
-      - 127.0.0.1:8080:8080
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
     depends_on:
       - postgres
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.localhost`)"
+      - "traefik.http.routers.keycloak.entrypoints=web"
+
   postgres:
     image: postgres:17.6
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=postgres
-    ports:
-      - "5432:5432"
     restart: unless-stopped
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -71,68 +99,109 @@ services:
       interval: 10s
       timeout: 2s
       retries: 3
+    networks:
+      - proxy
   mockserver_docs:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/docs.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9000:1080"
     volumes:
       - ./mocks/docs.json:/config/docs.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_docs.rule=Host(`docs.localhost`)"
+      - "traefik.http.routers.mockserver_docs.entrypoints=web"
+
   mockserver_drive:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/drive.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9001:1080"
     volumes:
       - ./mocks/drive.json:/config/drive.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_drive.rule=Host(`drive.localhost`)"
+      - "traefik.http.routers.mockserver_drive.entrypoints=web"
+
   mockserver_grist:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/grist.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9002:1080"
     volumes:
       - ./mocks/grist.json:/config/grist.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_grist.rule=Host(`grist.localhost`)"
+      - "traefik.http.routers.mockserver_grist.entrypoints=web"
+
   mockserver_meet:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/meet.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9003:1080"
     volumes:
       - ./mocks/meet.json:/config/meet.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_meet.rule=Host(`meet.localhost`)"
+      - "traefik.http.routers.mockserver_meet.entrypoints=web"
+
   mockserver_nextcloud:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/nextcloud.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9004:1080"
     volumes:
       - ./mocks/nextcloud.json:/config/nextcloud.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_nextcloud.rule=Host(`nextcloud.localhost`)"
+      - "traefik.http.routers.mockserver_nextcloud.entrypoints=web"
+
   mockserver_ai:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/ai.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9005:1080"
     volumes:
       - ./mocks/ai.json:/config/ai.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_ai.rule=Host(`ai.localhost`)"
+      - "traefik.http.routers.mockserver_ai.entrypoints=web"
+
   mockserver_conversation:
     image: mockserver/mockserver:5.15.0
     environment:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/conversations.json
       MOCKSERVER_LOG_LEVEL: OFF
-    ports:
-      - "9006:1080"
     volumes:
       - ./mocks/conversations.json:/config/conversations.json:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mockserver_conversation.rule=Host(`conversations.localhost`)"
+      - "traefik.http.routers.mockserver_conversation.entrypoints=web"
+
 volumes:
   postgres:
+
+networks:
+  proxy:
+    driver: bridge

@@ -28,6 +28,11 @@ export function valueOrEmptyString(textContent) {
   return "";
 }
 
-export const baseUrl = valueOrEmptyString(
-  process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
-);
+export const baseUrl =
+  typeof window !== "undefined"
+    ? valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL).startsWith(
+        "http",
+      )
+      ? valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)
+      : `${window.location.origin}${valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL)}`
+    : valueOrEmptyString(process.env.NEXT_PUBLIC_BACKEND_BASE_URL);

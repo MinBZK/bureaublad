@@ -47,6 +47,7 @@ COPY --from=build --chown=root:root --chmod=755 /app /app
 
 # Switch to non-root user
 USER appuser
+EXPOSE 8000
 
 # Run the application
 ENTRYPOINT ["/venv/bin/uvicorn"]

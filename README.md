@@ -36,7 +36,8 @@ Bureaublad follows a modern microservices architecture:
 | **Nextcloud/OwnCloud** | [OCS API](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/OCS/ocs-api-overview.html) | Activity feeds                   |
 | **Drive**              | [Drive API](https://github.com/suitenumerique/drive)                                                       | File storage and sharing         |
 | **Meet**               | [Meet API](https://github.com/suitenumerique/meet)                                                         | Video conferencing               |
-| **AI Assistant**       | [OpenAI API](https://github.com/openai/openai-python)                                                      | AI-powered assistance            |
+| **AI Assistant**       | [OpenAI API](https://github.com/openai/openai-python)                                                      | AI-powered endpoint              |
+| **Conversations**      | [Conversations API](https://github.com/suitenumerique/conversations)                                       | AI-powered assistance            |
 
 ### Planned Integrations
 
@@ -74,25 +75,32 @@ Bureaublad follows a modern microservices architecture:
 
 Once started, you can access the following services:
 
-| Service            | URL                                                | Description                     |
-| ------------------ | -------------------------------------------------- | ------------------------------- |
-| **Frontend**       | <http://localhost:3000>                            | Main application interface      |
-| **Backend API**    | <http://localhost:8000>                            | REST API documentation          |
-| **Keycloak Admin** | <http://localhost:8080>                            | Identity provider admin console |
-| **User Account**   | <http://localhost:8080/realms/mijnbureau/account/> | User account management         |
+| Service                | URL                                                    | Description                     |
+| ---------------------- | ------------------------------------------------------ | ------------------------------- |
+| **Frontend**           | <http://bureaublad.localhost>                          | Main application interface      |
+| **Backend API**        | <http://bureaublad.localhost/api/>                     | REST API documentation          |
+| **Keycloak Admin**     | <http://keycloak.localhost>                            | Identity provider admin console |
+| **User Account**       | <http://keycloak.localhost/realms/mijnbureau/account/> | User account management         |
+| **Docs mocks**         | <http://docs.localhost/mockserver/dashboard>           | docs mocks                      |
+| **Drive mocks**        | <http://drive.localhost/mockserver/dashboard>          | drive mocks                     |
+| **Grist mocks**        | <http://grist.localhost/mockserver/dashboard>          | grist mocks                     |
+| **Meet mocks**         | <http://meet.localhost/mockserver/dashboard>           | meet mocks                      |
+| **Nextcloud mocks**    | <http://nextcloud.localhost/mockserver/dashboard>      | nextcloud mocks                 |
+| **OpenAI mocks**       | <http://ai.localhost/mockserver/dashboard>             | AI mocks                        |
+| **Conversation mocks** | <http://conversation.localhost/mockserver/dashboard>   | conversation mocks              |
 
 ### Default Credentials
 
 #### Admin Access (Keycloak Master Realm)
 
-```
+```yaml
 Username: admin
 Password: admin
 ```
 
 #### User Accounts (MijnBureau Realm)
 
-```
+```yaml
 jane@mijnbureau.nl / jane
 john@mijnbureau.nl / john
 ```
