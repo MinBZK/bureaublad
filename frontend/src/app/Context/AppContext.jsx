@@ -9,7 +9,7 @@ export function AppProvider({ children }) {
   const [items, setitems] = useState(null);
 
   useEffect(() => {
-    fetch(baseUrl + "/api/v1/config", {
+    fetch(baseUrl + "/v1/config", {
       method: "GET",
       mode: "cors",
       headers: {

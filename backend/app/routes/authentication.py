@@ -31,6 +31,8 @@ async def login(request: Request, redirect_to: str | None = None) -> RedirectRes
         if not _is_safe_redirect(redirect_to):
             raise CredentialError("Invalid redirect URL")
         request.session["redirect_to"] = redirect_to
+    else:
+        request.session["redirect_to"] = settings.OIDC_POST_LOGIN_REDIRECT_URI
 
     redirect_uri = request.url_for("callback")
 

@@ -11,20 +11,15 @@
       "clientId": "bureaublad",
       "name": "Bureaublad",
       "description": "",
-      "rootUrl": "http://localhost:3000",
-      "adminUrl": "http://localhost:3000",
-      "baseUrl": "http://localhost:3000",
+      "rootUrl": "http://bureaublad.localhost",
+      "adminUrl": "http://bureaublad.localhost",
+      "baseUrl": "http://bureaublad.localhost",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "bureaublad01zjZKXPgK0An4RpsF78ycJy",
-      "redirectUris": [
-        "http://localhost:8000/*",
-        "http://localhost:3000/*",
-        "http://127.0.0.1:8000/*",
-        "http://127.0.0.1:3000/*"
-      ],
+      "redirectUris": ["http://bureaublad.localhost/*"],
       "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
@@ -42,7 +37,7 @@
         "client.secret.creation.time": "1759753400",
         "backchannel.logout.session.required": "true",
         "standard.token.exchange.enabled": "true",
-        "post.logout.redirect.uris": "http://localhost:8000/+http://localhost:3000/+http://127.0.0.1:8000/+http://127.0.0.1:3000/",
+        "post.logout.redirect.uris": "http://bureaublad.localhost/",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
@@ -174,7 +169,7 @@
       ]
     },
     {
-      "id": "cf0dd469-2c62-4f82-9973-59a12343c815",
+      "id": "cf0dd469-2c62-4f82-9973-59a12343c816",
       "clientId": "conversation",
       "name": "conversation",
       "description": "",

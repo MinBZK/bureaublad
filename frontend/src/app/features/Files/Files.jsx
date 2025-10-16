@@ -24,7 +24,7 @@ function Files() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        const res = await axios.get(baseUrl + "/v1/ocs/activities");
         setFiles(res.data);
       } catch (err) {
         setError(err.message);
@@ -37,7 +37,7 @@ function Files() {
 
   const onSearch = async (value) => {
     try {
-      const res = await axios.get(`${baseUrl}/api/v1/ocs/search?term=${value}`);
+      const res = await axios.get(`${baseUrl}/v1/ocs/search?term=${value}`);
       setFiles(res.data);
     } catch (err) {
       setError(err.message);

@@ -66,8 +66,6 @@ class Settings(BaseSettings):
         extra="ignore",
         case_sensitive=True,
     )
-
-    API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = secrets.token_urlsafe(32)
     DEBUG: bool = False
     ENVIRONMENT: Literal["dev", "prod"] = "prod"
@@ -84,9 +82,9 @@ class Settings(BaseSettings):
     OIDC_AUTHORIZATION_ENDPOINT: str = ""
     OIDC_LOGOUT_ENDPOINT: str = ""
     OIDC_POST_LOGOUT_REDIRECT_URI: str | None = None
+    OIDC_POST_LOGIN_REDIRECT_URI: str = "/"
     OIDC_TOKEN_ENDPOINT: str = ""
     OIDC_REVOCATION_ENDPOINT: str | None = None  # RFC 7009 token revocation
-    OIDC_PUBLIC_TOKEN_ENDPOINT: str | None = None
     OIDC_JWKS_ENDPOINT: str = ""
     OIDC_USERNAME_CLAIM: str = "preferred_username"
     OIDC_NAME_CLAIM: str = "name"
@@ -174,11 +172,6 @@ class Settings(BaseSettings):
     @property
     def grist_enabled(self) -> bool:
         return self.GRIST_URL is not None
-
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def parsed_oidc_public_token_endpoint(self) -> str:
-        return self.OIDC_PUBLIC_TOKEN_ENDPOINT or self.OIDC_TOKEN_ENDPOINT
 
     @computed_field
     @property
