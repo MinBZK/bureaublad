@@ -44,7 +44,7 @@ async def meet_get_rooms(
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=settings.MEET_AUDIENCE) or ""
+    token = await exchange_token(http_client, auth.access_token, audience=settings.MEET_AUDIENCE) or ""
 
     client = MeetClient(http_client, settings.MEET_URL, token)
     return await client.get_rooms(page=page)

@@ -34,7 +34,7 @@ async def drive_documents(
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=settings.DRIVE_AUDIENCE) or ""
+    token = await exchange_token(http_client, auth.access_token, audience=settings.DRIVE_AUDIENCE) or ""
 
     client = DriveClient(http_client, settings.DRIVE_URL, token)
     return await client.get_documents(title=title, is_favorite=is_favorite)

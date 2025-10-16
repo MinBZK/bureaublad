@@ -32,7 +32,7 @@ async def ocs_activities(
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=settings.OCS_AUDIENCE) or ""
+    token = await exchange_token(http_client, auth.access_token, audience=settings.OCS_AUDIENCE) or ""
 
     client = OCSClient(http_client, settings.OCS_URL, token)
     return await client.get_activities()

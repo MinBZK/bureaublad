@@ -12,6 +12,7 @@ oauth.register(  # type: ignore[reportUnknownMemberType]
     access_token_url=settings.OIDC_TOKEN_ENDPOINT,
     authorize_url=settings.OIDC_AUTHORIZATION_ENDPOINT,
     jwks_uri=settings.OIDC_JWKS_ENDPOINT,
+    audience=settings.OIDC_AUDIENCE,
     revocation_endpoint=settings.OIDC_REVOCATION_ENDPOINT,  # RFC 7009 token revocation
     client_kwargs={
         "scope": settings.OIDC_SCOPES,
