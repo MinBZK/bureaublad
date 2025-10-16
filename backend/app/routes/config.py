@@ -27,6 +27,7 @@ async def get_config() -> ConfigResponse:
         meet=settings.meet_enabled,
         ocs=settings.ocs_enabled,
         grist=settings.grist_enabled,
+        conversation=settings.conversation_enabled,
     )
 
     return ConfigResponse(
