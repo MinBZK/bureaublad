@@ -81,7 +81,7 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
 
     try:
         logger.info("Refreshing access token")
-        token = await oauth.oidc.fetch_token(  # type: ignore[reportUnknownMemberType]
+        token = await oauth.oidc.fetch_access_token(  # type: ignore[reportUnknownMemberType]
             grant_type="refresh_token",
             refresh_token=refresh_token,
         )
