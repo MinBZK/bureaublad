@@ -35,8 +35,7 @@ async def docs_get_documents(
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=settings.DOCS_AUDIENCE) or ""
-
+    token = await exchange_token(http_client, auth.access_token, audience=settings.DOCS_AUDIENCE) or ""
     client = DocsClient(http_client, settings.DOCS_URL, token)
     return await client.get_documents(title=title, is_favorite=is_favorite)
 

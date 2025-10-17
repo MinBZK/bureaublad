@@ -29,7 +29,7 @@ async def conversations_get_chat(request: Request, http_client: HTTPClient, page
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=settings.CONVERSATION_AUDIENCE) or ""
+    token = await exchange_token(http_client, auth.access_token, audience=settings.CONVERSATION_AUDIENCE) or ""
 
     client = ConversationClient(http_client, settings.CONVERSATION_URL, token)
     return await client.get_chats(page=page)
