@@ -7,7 +7,6 @@ from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
-from starlette.middleware.sessions import SessionMiddleware
 from starlette.types import ExceptionHandler
 
 from app.const import VERSION
@@ -23,6 +22,7 @@ from app.core.lifespan import lifespan
 from app.core.logging import configure_logging
 from app.middleware.logging import RequestLoggingMiddleware
 from app.middleware.request_id import RequestIDMiddleware
+from app.middleware.session import SessionMiddleware
 from app.routes.authentication import router as auth_router
 from app.routes.health import router as health_router
 from app.routes.main import api_router
@@ -39,8 +39,8 @@ app = FastAPI(
     debug=settings.DEBUG,
     version=VERSION,
     redirect_slashes=False,
-    openapi_url="/api/openapi.json",
-    docs_url="/api/",
+    openapi_url="/api/openapi.json" if settings.DEBUG else None,
+    docs_url="/api/" if settings.DEBUG else None,
     redoc_url=None,
     lifespan=lifespan,
     servers=[
@@ -74,9 +74,10 @@ app.add_middleware(RequestLoggingMiddleware)
 app.add_middleware(
     SessionMiddleware,
     secret_key=settings.SECRET_KEY,
-    session_cookie="session",
+    session_cookie="bureaublad_session",
     max_age=settings.SESSION_MAX_AGE,
     same_site="lax",
+    path="/api/v1",
     https_only=settings.ENVIRONMENT == "prod",  # Only require HTTPS in production
 )
 app.add_middleware(
