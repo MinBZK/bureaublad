@@ -1,9 +1,8 @@
 import React from "react";
-import HeaderLayout from "../Components/Layout/Components/HeaderLayout";
 import { Button, Result } from "antd";
-import { baseUrl } from "../Common/pageConfig";
 
 function Login() {
+  console.log("hello")
   return (
     <React.Fragment>
       <Result
@@ -11,7 +10,7 @@ function Login() {
         title="Inloggen"
         subTitle="Helaas, u bent niet bevoegd om deze pagina te bezoeken."
         extra={
-          <Button type="primary" href={`${baseUrl}/api/v1/auth/login`}>
+          <Button type="primary" href={`/api/v1/auth/login`}>
             Inloggen
           </Button>
         }
