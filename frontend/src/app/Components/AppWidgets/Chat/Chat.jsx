@@ -5,6 +5,7 @@ import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
+import moment from "moment";
 import axios from "axios";
 
 function Chat() {
@@ -33,9 +34,15 @@ function Chat() {
         renderItem={(item) => (
           <List.Item key={item.id}>
             <List.Item.Meta
-              title={<Link href={item?.url}>{item.title}</Link>}
+              title={<Link href="/#">{item.content}</Link>}
+              description={
+                <span>
+                  Gemaakt op:
+                  {moment(item?.created_at).format("DD-MM-yyyy HH:mm")}
+                </span>
+              }
             />
-            <Link href={item?.url}>
+            <Link href="/#">
               <Avatar
                 style={{ backgroundColor: "#1677ff" }}
                 icon={<WechatOutlined />}
