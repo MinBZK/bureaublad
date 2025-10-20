@@ -5,7 +5,6 @@ import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
-import moment from "moment";
 import axios from "axios";
 
 function Chat() {
@@ -18,7 +17,6 @@ function Chat() {
     const fetchChat = async () => {
       try {
         const res = await axios.get(`/api/v1/conversations/chats`);
-        console.log(res);
         setChat(res.data);
       } catch (err) {
         setError(err.message);
@@ -28,7 +26,6 @@ function Chat() {
     };
     fetchChat();
   }, []);
-
   return (
     <Widget title="Chat" loading={loading} error={error}>
       <List
@@ -36,15 +33,9 @@ function Chat() {
         renderItem={(item) => (
           <List.Item key={item.id}>
             <List.Item.Meta
-              title={<Link href="/#">{item.content}</Link>}
-              description={
-                <span>
-                  Gemaakt op:
-                  {moment(item?.created_at).format("DD-MM-yyyy HH:mm")}
-                </span>
-              }
+              title={<Link href={item?.url}>{item.title}</Link>}
             />
-            <Link href="/#">
+            <Link href={item?.url}>
               <Avatar
                 style={{ backgroundColor: "#1677ff" }}
                 icon={<WechatOutlined />}

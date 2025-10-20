@@ -20,7 +20,7 @@ function SiderLayout({ items, colorBgContainer }) {
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
         style={{ height: "100%", borderInlineEnd: 0 }}
-        items={items && menuItem(items?.sidebar_links)}
+        items={items && menuItem(items?.applications)}
       />
     </Sider>
   );

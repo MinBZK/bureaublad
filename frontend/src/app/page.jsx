@@ -22,21 +22,21 @@ export default function Home() {
 
   return (
     <React.Fragment>
-      {items?.applications?.ai && <AiAssistant />}
+      {items?.cards?.ai && <AiAssistant />}
       <Row gutter={16} style={{ marginTop: 10 }}>
-        <Col span={8}>{items?.applications?.docs && <Note />}</Col>
-        <Col span={8}>{items?.applications?.drive && <Drive />}</Col>
-        <Col span={8}>{items?.applications?.ocs && <Files />}</Col>
+        <Col span={8}>{items?.cards?.docs && <Note />}</Col>
+        <Col span={8}>{items?.cards?.drive && <Drive />}</Col>
+        <Col span={8}>{items?.cards?.ocs && <Files />}</Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>
-          {items?.applications?.meet && <Chat />}
+          {items?.cards?.conversation && <Chat />}
 
           {/* <Email /> */}
         </Col>
-        <Col span={8}>{items?.applications?.meet && <VideoChat />}</Col>
+        <Col span={8}>{items?.cards?.meet && <VideoChat />}</Col>
         <Col span={8}>
-          {items?.applications?.calendar && (
+          {items?.cards?.calendar && (
             <Card title="Agenda" variant="borderless">
               <div style={wrapperStyle}>
                 <Calendar fullscreen={false} onPanelChange={undefined} />

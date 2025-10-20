@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "../../Common/Loading";
 import { useRouter } from "next/navigation";
-// axios.defaults.withCredentials = true;
 
 const AppContext = createContext();
 
@@ -21,7 +20,6 @@ export function AppProvider({ children }) {
         setitems(res?.data);
       } catch (err) {
         if (err?.response?.status === 401) {
-          console.log(err?.response?.status);
           router.push("/login");
         } else {
           router.push("/not-found");
