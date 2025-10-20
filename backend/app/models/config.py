@@ -15,6 +15,7 @@ class SidebarLink(BaseModel):
     icon: str
     url: str
     title: str
+    iframe: bool = False
 
 
 class OIDCConfig(BaseModel):
@@ -31,10 +32,11 @@ class ApplicationsConfig(BaseModel):
     meet: bool = False
     ocs: bool = False
     grist: bool = False
+    conversation: bool = False
 
 
 class ConfigResponse(BaseModel):
-    sidebar_links: list[SidebarLink]
+    applications: list[SidebarLink]
     theme_css: str
-    applications: ApplicationsConfig
+    cards: ApplicationsConfig
     silent_login: bool = False

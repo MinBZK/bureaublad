@@ -16,11 +16,11 @@ router = APIRouter(prefix="/docs", tags=["docs"])
 
 
 @router.get("/documents", response_model=list[Note])
-async def docs_documents(
+async def docs_get_documents(
     request: Request,
     http_client: HTTPClient,
     title: str | None = None,
-    favorite: bool = False,
+    is_favorite: bool = False,
 ) -> list[Note]:
     """Get documents from Docs service.
 
@@ -38,4 +38,20 @@ async def docs_documents(
     token = await exchange_token(auth.access_token, audience=settings.DOCS_AUDIENCE) or ""
 
     client = DocsClient(http_client, settings.DOCS_URL, token)
-    return await client.get_documents(title=title, favorite=favorite)
+    return await client.get_documents(title=title, is_favorite=is_favorite)
+
+
+@router.post("/documents", response_model=Note)
+async def docs_post_documents(request: Request, http_client: HTTPClient) -> Note:
+    if not settings.docs_enabled or not settings.DOCS_URL:
+        raise ServiceUnavailableError("Docs")
+
+    # Get auth from session (already refreshed by get_current_user dependency)
+    auth = session.get_auth(request)
+    if not auth:
+        raise CredentialError("Not authenticated")
+
+    token = await exchange_token(auth.access_token, audience=settings.DOCS_AUDIENCE) or ""
+
+    client = DocsClient(http_client, settings.DOCS_URL, token)
+    return await client.post_document()

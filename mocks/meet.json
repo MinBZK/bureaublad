@@ -2,7 +2,7 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/api/v1.0/rooms"
+      "path": "/api/v1.0/rooms/"
     },
     "httpResponse": {
       "statusCode": 200,
@@ -39,6 +39,26 @@
             "pin_code": "string"
           }
         ]
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/api/v1.0/rooms/"
+    },
+    "httpResponse": {
+      "statusCode": 201,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "name": "abz-rlzz-itv",
+        "slug": "abz-rlzz-itv",
+        "configuration": "{}",
+        "access_level": "public",
+        "pin_code": "123456"
       }
     }
   }

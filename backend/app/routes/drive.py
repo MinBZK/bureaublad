@@ -20,7 +20,7 @@ async def drive_documents(
     request: Request,
     http_client: HTTPClient,
     title: str | None = None,
-    favorite: bool = False,
+    is_favorite: bool = False,
 ) -> list[Document]:
     """Get documents from Drive service.
 
@@ -37,4 +37,4 @@ async def drive_documents(
     token = await exchange_token(auth.access_token, audience=settings.DRIVE_AUDIENCE) or ""
 
     client = DriveClient(http_client, settings.DRIVE_URL, token)
-    return await client.get_documents(title=title, favorite=favorite)
+    return await client.get_documents(title=title, is_favorite=is_favorite)

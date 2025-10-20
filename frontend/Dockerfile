@@ -20,7 +20,7 @@ FROM dev AS build
 
 RUN npm run build
 
-FROM --platform=$BUILDPLATFORM nginx:1.27.4-alpine as prod
+FROM --platform=$BUILDPLATFORM nginx:1.27.4-alpine AS prod
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
