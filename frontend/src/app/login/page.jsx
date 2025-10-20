@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Result } from "antd";
 
 function Login() {
-  console.log("hello")
   return (
     <React.Fragment>
       <Result

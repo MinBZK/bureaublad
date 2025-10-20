@@ -43,7 +43,7 @@ function VideoChat() {
                 </Avatar>
               }
               title={<a href="/#">{item.name}</a>}
-              description={<span>Hostsleutel:{item.pin_code}</span>}
+              description={<span>Hostsleutel:{item.slug}</span>}
             />
             <Avatar
               style={{ backgroundColor: "#87d068" }}
