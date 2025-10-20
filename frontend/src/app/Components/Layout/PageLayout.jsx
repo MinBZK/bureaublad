@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Divider, Typography, Layout, theme, Skeleton } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
-import { useAppContext } from "../../Context/AppContext";
+import { useAppContext } from "../Context/AppContext";
 import axios from "axios";
-import { baseUrl } from "../../Common/pageConfig";
 const { Content } = Layout;
 
 export default function PageLayout({ children }) {
@@ -14,14 +13,13 @@ export default function PageLayout({ children }) {
   } = theme.useToken();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const keycloakContext = useContext(KeycloakContext);
   const { items, error } = useAppContext();
 
   useEffect(() => {
     setLoading(true);
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        const res = await axios.get("/api/v1/auth/profile");
         setProfile(res.data);
       } catch (err) {
         console.error(err.message);
@@ -50,7 +48,10 @@ export default function PageLayout({ children }) {
               }}
             >
               <Skeleton loading={loading}>
-                <Typography.Title>Welkom {profile?.name}</Typography.Title>
+                <Typography.Title>
+                  Welkom{" "}
+                  <span style={{ color: "#4096FF" }}>{profile?.name}</span>
+                </Typography.Title>
               </Skeleton>
               <Divider />
               {children}

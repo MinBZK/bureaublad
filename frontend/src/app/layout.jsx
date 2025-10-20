@@ -1,8 +1,7 @@
 import "./globals.css";
-import React from "react";
 import PageLayout from "./Components/Layout/PageLayout";
 import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
-import { AppProvider } from "./Context/AppContext";
+import { AppProvider } from "./Components/Context/AppContext";
 export const metadata = {
   title: "Mijn Bureaublad",
   description: "Open BSW bureaublad",

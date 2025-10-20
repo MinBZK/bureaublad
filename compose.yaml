@@ -25,12 +25,20 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
-      target: prod
+      target: dev
       args:
         NEXT_PUBLIC_BACKEND_BASE_URL: /api
     restart: unless-stopped
-    # volumes:
-    #   - ./frontend/src:/app/src/
+    command: npm run dev --turbo
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./.next:/app/.next
+      - /app/node_modules  # prevent host from overwriting node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true   # ensures file watching inside Docker
     depends_on:
       - backend
     networks:

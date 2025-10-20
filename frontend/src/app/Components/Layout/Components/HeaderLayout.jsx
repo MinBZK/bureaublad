@@ -4,7 +4,6 @@ import { Avatar, Dropdown, Flex, Layout } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Image from "next/image";
-import { baseUrl } from "@/app/Common/pageConfig";
 
 const { Header } = Layout;
 
@@ -17,7 +16,7 @@ function HeaderLayout({ isProfile = true }) {
     },
     {
       key: "2",
-      label: <Link href={`${baseUrl}/api/v1/auth/logout`}>Uitloggen</Link>,
+      label: <Link href={`/api//v1/auth/logout`}>Uitloggen</Link>,
       icon: <LogoutOutlined />,
       danger: true,
     },

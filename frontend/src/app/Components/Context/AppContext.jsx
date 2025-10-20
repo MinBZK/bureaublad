@@ -1,9 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { baseUrl } from "../Common/pageConfig";
 import axios from "axios";
-import Loading from "../Common/Loading";
+import Loading from "../../Common/Loading";
 import { useRouter } from "next/navigation";
 // axios.defaults.withCredentials = true;
 
@@ -18,11 +17,14 @@ export function AppProvider({ children }) {
     setLoading(true);
     const fetchConfig = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/config");
+        const res = await axios.get("/api/v1/config");
         setitems(res?.data);
       } catch (err) {
-        if (err?.response?.state === 401) {
+        if (err?.response?.status === 401) {
+          console.log(err?.response?.status);
           router.push("/login");
+        } else {
+          router.push("/not-found");
         }
         setError(err);
       } finally {

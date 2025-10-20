@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, Result, Input, Timeline } from "antd";
-import { baseUrl } from "@/app/Common/pageConfig";
 import axios from "axios";
 import { ArrowDownOutlined, SendOutlined } from "@ant-design/icons";
 import moment from "moment";
@@ -16,7 +15,7 @@ function AiAssistant() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.post(baseUrl + "/v1/ai/chat/completions", {
+        const res = await axios.post("/api/v1/ai/chat/completions", {
           prompt: text,
         });
         setAiResult((arr) => [...arr, res.data]);

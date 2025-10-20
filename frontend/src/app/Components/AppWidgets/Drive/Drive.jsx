@@ -1,15 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Avatar, List } from "antd";
-import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
+import { FileImageOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { baseUrl } from "@/app/Common/pageConfig";
+import moment from "moment";
 import axios from "axios";
-import Widget from "../../Common/Widget";
+import Widget from "@/app/Common/Widget";
 
-// Docs
-function Note() {
-  const [docs, setDocs] = useState([]);
+function Drive() {
+  const [drive, setDrive] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [favorite, setFavorite] = useState(false);
@@ -18,10 +17,8 @@ function Note() {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.get(
-          `${baseUrl}/v1/docs/documents?favorite=${favorite}&title=${search}`,
-        );
-        setDocs(res.data);
+        const res = await axios.get("/api/v1/drive/documents");
+        setDrive(res.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -33,26 +30,28 @@ function Note() {
 
   return (
     <Widget
-      title="Notities"
+      title="Drive"
       favorite={favorite}
       setFavorite={setFavorite}
-      search={search}
       setSearch={setSearch}
       loading={loading}
       error={error}
     >
       <List
-        dataSource={docs}
+        dataSource={drive}
         renderItem={(item) => (
           <List.Item key={item.description}>
             <List.Item.Meta
-              avatar={<Avatar icon={<FileTextOutlined />} />}
-              title={<Link href={item?.url}>{item.title}</Link>}
-              description={`Geüpdatet: ${item.updated_date}`}
+              avatar={
+                <Avatar
+                  icon={<FileImageOutlined />}
+                  style={{ backgroundColor: "#f56a00" }}
+                />
+              }
+              title={<Link href={item?.url || ""}>{item.title}</Link>}
+              description={`Gemaakt:
+                  ${moment(item.created_at).format("DD-MM-YYYY, mm:ss")}`}
             />
-            <Link href={item?.url}>
-              <EditOutlined />
-            </Link>
           </List.Item>
         )}
       />
@@ -60,4 +59,4 @@ function Note() {
   );
 }
 
-export default Note;
+export default Drive;
