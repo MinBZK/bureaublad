@@ -30,9 +30,9 @@ function HeaderLayout({ isProfile = true }) {
             alt="logo"
             width="50"
             height="50"
-            style={{ marginTop: 5 }}
+            className="logo"
           />
-          <span style={{ color: "white" }}>Mijn Bureau</span>
+          <span className="logo-txt">Mijn Bureau</span>
         </div>
         {!isProfile && (
           <Dropdown menu={{ items }}>

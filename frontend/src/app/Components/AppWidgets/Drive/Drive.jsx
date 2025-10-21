@@ -43,10 +43,7 @@ function Drive() {
           <List.Item key={item.description}>
             <List.Item.Meta
               avatar={
-                <Avatar
-                  icon={<FileImageOutlined />}
-                  style={{ backgroundColor: "#f56a00" }}
-                />
+                <Avatar icon={<FileImageOutlined />} className="avt-name" />
               }
               title={<Link href={item?.url || ""}>{item.title}</Link>}
               description={`Gemaakt:

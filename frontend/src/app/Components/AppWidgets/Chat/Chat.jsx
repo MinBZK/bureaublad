@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-
 import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
@@ -36,10 +35,7 @@ function Chat() {
               title={<Link href={item?.url}>{item.title}</Link>}
             />
             <Link href={item?.url}>
-              <Avatar
-                style={{ backgroundColor: "#1677ff" }}
-                icon={<WechatOutlined />}
-              />
+              <Avatar className="avt-doc" icon={<WechatOutlined />} />
             </Link>
           </List.Item>
         )}

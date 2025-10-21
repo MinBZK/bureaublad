@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Divider, Typography, Layout, theme, Skeleton } from "antd";
+import { Divider, Typography, Layout, Skeleton } from "antd";
 import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
@@ -8,9 +8,6 @@ import axios from "axios";
 const { Content } = Layout;
 
 export default function PageLayout({ children }) {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
   const { items, error } = useAppContext();
@@ -52,20 +49,12 @@ export default function PageLayout({ children }) {
         children
       ) : (
         <Layout>
-          <SiderLayout colorBgContainer={colorBgContainer} items={items} />
-          <Layout style={{ padding: "0 24px 24px" }}>
-            <Content
-              style={{
-                padding: 24,
-                margin: 0,
-                background: "#f5f5f5",
-                borderRadius: borderRadiusLG,
-              }}
-            >
+          <SiderLayout items={items} />
+          <Layout className="layout-content">
+            <Content className="content">
               <Skeleton loading={loading}>
                 <Typography.Title>
-                  Welkom{" "}
-                  <span style={{ color: "#4096FF" }}>{profile?.name}</span>
+                  Welkom <span className="profile">{profile?.name}</span>
                 </Typography.Title>
               </Skeleton>
               <Divider />
