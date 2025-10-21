@@ -49,7 +49,7 @@ export default function PageLayout({ children }) {
 
   return (
     <Layout>
-      <HeaderLayout isProfile={!!error} profile={profile?.name}/>
+      <HeaderLayout isProfile={!!error} profile={profile?.name} />
       {error ? (
         children
       ) : (
