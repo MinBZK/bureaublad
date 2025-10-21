@@ -2,14 +2,6 @@ FROM --platform=$BUILDPLATFORM node:22-alpine3.21 AS dev
 
 WORKDIR /app
 
-# Install required build dependencies for sharp and other native modules related to 22-alpine3.21
-RUN apk add --no-cache \
-  python3 \
-  make \
-  g++ \
-  libc6-compat \
-  vips-dev
-
 # Set build arguments
 ARG NEXT_PUBLIC_BACKEND_BASE_URL
 
@@ -20,8 +12,7 @@ COPY package.json package-lock.json next.config.ts tsconfig.json /app/
 COPY src /app/src
 COPY public /app/public
 
-# --no-audit --no-fund --prefer-offline --progress=false set otherwise will take too long in the dev
-RUN npm ci --no-audit --no-fund --prefer-offline --progress=false
+RUN npm ci
 
 CMD ["npm", "run", "dev"]
 
