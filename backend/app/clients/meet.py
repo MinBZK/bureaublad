@@ -11,7 +11,7 @@ from pydantic import TypeAdapter
 logger = logging.getLogger(__name__)
 
 
-class  MeetClient:
+class MeetClient:
     """Client for Meet service API.
 
     Handles business logic for fetching and managing meetings.
