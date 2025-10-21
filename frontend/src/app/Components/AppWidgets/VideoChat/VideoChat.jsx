@@ -29,28 +29,30 @@ function VideoChat() {
     <Widget title="Video Chat" loading={loading} error={error}>
       <List
         dataSource={meet}
-        renderItem={(item) => (
-          <List.Item key={item.slug}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  style={{
-                    backgroundColor: "#f56a00",
-                    verticalAlign: "middle",
-                  }}
-                >
-                  {item?.name?.at(0)?.toUpperCase()}
-                </Avatar>
-              }
-              title={<a href="/#">{item.name}</a>}
-              description={<span>Hostsleutel:{item.slug}</span>}
-            />
-            <Avatar
-              style={{ backgroundColor: "#87d068" }}
-              icon={<PhoneOutlined />}
-            />
-          </List.Item>
-        )}
+        renderItem={(item, index) =>
+          index <= 2 && (
+            <List.Item key={item.slug}>
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    style={{
+                      backgroundColor: "#f56a00",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {item?.name?.at(0)?.toUpperCase()}
+                  </Avatar>
+                }
+                title={<a href="/#">{item.name}</a>}
+                description={<span>Hostsleutel:{item.slug}</span>}
+              />
+              <Avatar
+                style={{ backgroundColor: "#87d068" }}
+                icon={<PhoneOutlined />}
+              />
+            </List.Item>
+          )
+        }
       />
     </Widget>
   );

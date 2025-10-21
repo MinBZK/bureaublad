@@ -7,11 +7,11 @@ import Image from "next/image";
 
 const { Header } = Layout;
 
-function HeaderLayout({ isProfile = true }) {
+function HeaderLayout({ isProfile = true, profile }) {
   const items = [
     {
       key: "1",
-      label: <Link href={`/profile`}>Profiel</Link>,
+      label: profile,
       icon: <UserOutlined />,
     },
     {

@@ -42,18 +42,20 @@ function Note() {
     >
       <List
         dataSource={docs}
-        renderItem={(item) => (
-          <List.Item key={item.description}>
-            <List.Item.Meta
-              avatar={<Avatar icon={<FileTextOutlined />} />}
-              title={<Link href={item?.url}>{item.title}</Link>}
-              description={`Geüpdatet: ${item.updated_date}`}
-            />
-            <Link href={item?.url}>
-              <EditOutlined />
-            </Link>
-          </List.Item>
-        )}
+        renderItem={(item, index) =>
+          index <= 2 && (
+            <List.Item key={item.description}>
+              <List.Item.Meta
+                avatar={<Avatar icon={<FileTextOutlined />} />}
+                title={<Link href={item?.url}>{item.title}</Link>}
+                description={`Geüpdatet: ${item.updated_date}`}
+              />
+              <Link href={item?.url}>
+                <EditOutlined />
+              </Link>
+            </List.Item>
+          )
+        }
       />
     </Widget>
   );

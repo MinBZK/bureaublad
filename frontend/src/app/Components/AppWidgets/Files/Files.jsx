@@ -53,28 +53,30 @@ function Files() {
     >
       <List
         dataSource={files}
-        renderItem={(item) => (
-          <List.Item key={item.datetime}>
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  icon={<FileOutlined />}
-                  style={{ backgroundColor: "#1677ff" }}
-                />
-              }
-              title={<Link href={item?.url}>{item.object_filename}</Link>}
-              description={
-                <span>
-                  Gemaakt op:
-                  {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
-                </span>
-              }
-            />
-            <Link href="/#">
-              <EditOutlined />
-            </Link>
-          </List.Item>
-        )}
+        renderItem={(item, index) =>
+          index <= 2 && (
+            <List.Item key={item.datetime}>
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    icon={<FileOutlined />}
+                    style={{ backgroundColor: "#1677ff" }}
+                  />
+                }
+                title={<Link href={item?.url}>{item.object_filename}</Link>}
+                description={
+                  <span>
+                    Gemaakt op:
+                    {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
+                  </span>
+                }
+              />
+              <Link href="/#">
+                <EditOutlined />
+              </Link>
+            </List.Item>
+          )
+        }
       />
     </Widget>
   );

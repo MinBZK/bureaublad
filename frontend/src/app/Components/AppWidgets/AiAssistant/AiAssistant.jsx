@@ -1,15 +1,41 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Card, Result, Input, Timeline } from "antd";
 import axios from "axios";
 import { ArrowDownOutlined, SendOutlined } from "@ant-design/icons";
 import moment from "moment";
+import Widget from "@/app/Common/Widget";
 
 const { Search } = Input;
 function AiAssistant() {
   const [aiResult, setAiResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showArrow, setShowArrow] = useState(false);
+  const timelineRef = useRef(null);
+
+  useEffect(() => {
+    // Show arrow only if there are more than 6 items
+    if (aiResult?.length > 6) {
+      setShowArrow(true);
+    }
+
+    const handleScroll = () => {
+      const el = timelineRef.current;
+      if (!el) return;
+
+      // Check if user scrolled to bottom (with a small tolerance)
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 5;
+      setShowArrow(!atBottom);
+    };
+
+    const el = timelineRef.current;
+    if (el) el.addEventListener("scroll", handleScroll);
+
+    return () => {
+      if (el) el.removeEventListener("scroll", handleScroll);
+    };
+  }, [aiResult]);
 
   const postAi = (text) => {
     setLoading(true);
@@ -33,16 +59,17 @@ function AiAssistant() {
   }));
 
   return (
-    <Card title="AiAssistant" variant="borderless">
+    <Widget
+      title="AI Assistant"
+      loading={false}
+      error={error}
+      setSearch={(t) => postAi(t)}
+    >
       <React.Fragment>
-        <Search
-          placeholder="Ask anything"
-          enterButton={<SendOutlined />}
-          onSearch={postAi}
-        />
         {aiResult?.length > 0 && (
-          <React.Fragment>
+          <>
             <div
+              ref={timelineRef}
               style={{
                 marginTop: 30,
                 maxHeight: 250,
@@ -52,28 +79,25 @@ function AiAssistant() {
             >
               <Timeline items={items} mode="left" reverse={true} />
             </div>
-            {aiResult?.length > 6 && (
-              <div style={{ textAlign: "center", marginTop: 20 }}>
-                <ArrowDownOutlined
-                  style={{
-                    fontSize: 24,
-                    color: "#888",
-                    animation: "bounce 1.2s infinite",
-                  }}
-                />
-              </div>
-            )}
-          </React.Fragment>
-        )}
-        {error && (
-          <Result
-            status="warning"
-            title={error}
-            style={{ marginTop: "-10%" }}
-          />
+            <div
+              style={{
+                textAlign: "center",
+                marginLeft: "-6px",
+                visibility: showArrow ? "visible" : "hidden",
+              }}
+            >
+              <ArrowDownOutlined
+                style={{
+                  fontSize: 24,
+                  color: "#888",
+                  animation: "bounce 1.2s infinite",
+                }}
+              />
+            </div>
+          </>
         )}
       </React.Fragment>
-    </Card>
+    </Widget>
   );
 }
 
