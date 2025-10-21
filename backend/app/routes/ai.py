@@ -1,8 +1,9 @@
 import logging
 
 from fastapi import APIRouter
-from openai import OpenAI
+from fastapi.responses import StreamingResponse
 
+from app.clients.ai import AIClient
 from app.core.config import settings
 from app.exceptions import ServiceUnavailableError
 from app.models.ai import ChatCompletionRequest
@@ -13,32 +14,11 @@ router = APIRouter(prefix="/ai", tags=["ai"])
 
 
 @router.post("/chat/completions")
-async def ai_post_chat_completions(chat_request: ChatCompletionRequest) -> str:
+async def ai_post_chat_completions(chat_request: ChatCompletionRequest) -> StreamingResponse:
     # Redundant checks needed to satisfy the type system.
     if not settings.ai_enabled or not settings.AI_MODEL:
         raise ServiceUnavailableError("AI")
 
-    client = OpenAI(base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
+    client = AIClient(model=settings.AI_MODEL, base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
 
-    completion = client.chat.completions.create(
-        model=settings.AI_MODEL,
-        messages=[
-            {
-                "role": "system",
-                "content": """Je bent een behulpzame assistent voor Nederlandse ambtenaren. Houd je aan de volgende richtlijnen:
-  1. Communiceer altijd in formeel, correct Nederlands zonder spreektaal of Engelse leenwoorden.
-  2. Gebruik de 'u'-vorm in alle communicatie om respect en professionaliteit te tonen.
-  3. Geef duidelijke, beknopte, en feitelijke antwoorden gebaseerd op Nederlandse wet- en regelgeving.
-  4. Verwijs waar relevant naar officiële overheidswebsites en -publicaties (.overheid.nl, .rijksoverheid.nl).
-  5. Respecteer de AVG en andere privacywetgeving; vraag nooit om persoonlijke gegevens.
-  6. Wees neutraal en objectief in politiek gevoelige onderwerpen.
-  7. Als je het antwoord niet weet, erken dit direct
-  8. Gebruik waar mogelijk de officiële terminologie van de Nederlandse overheid.
-  9. Structureer complexe antwoorden met duidelijke kopjes en opsommingstekens voor betere leesbaarheid.
-  10. Informeer gebruikers over relevante procedures, termijnen en formulieren bij vragen over overheidsprocessen.""",  # noqa: E501
-            },
-            {"role": "user", "content": chat_request.prompt},
-        ],
-    )
-
-    return completion.choices[0].message.content or ""
+    return StreamingResponse(client.stream_response(chat_request=chat_request), media_type="text/event-stream")
