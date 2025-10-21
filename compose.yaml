@@ -172,12 +172,10 @@ services:
       - "traefik.http.routers.mockserver_nextcloud.entrypoints=web"
 
   mockserver_ai:
-    image: mockserver/mockserver:5.15.0
-    environment:
-      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/ai.json
-      MOCKSERVER_LOG_LEVEL: OFF
-    volumes:
-      - ./mocks/ai.json:/config/ai.json:ro
+    build:
+      context: mocks/ai_mock
+      dockerfile: Dockerfile
+    restart: unless-stopped
     networks:
       - proxy
     labels:
