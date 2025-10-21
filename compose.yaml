@@ -80,9 +80,8 @@ services:
       KC_DB_USERNAME: admin
       KC_DB_PASSWORD: admin
       KC_DB_URL: jdbc:postgresql://postgres:5432/postgres
-      # It used to set a refresh token in the frontend every 5 mins without going to the login page. (Silent Login)
-      KC_HOSTNAME: http://keycloak.localhost
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+      KC_HOSTNAME: http://keycloak.localhost
     restart: unless-stopped
     command: start-dev --import-realm
     volumes:
