@@ -1,13 +1,26 @@
 "use client";
 import React from "react";
-import { Avatar, Flex, Layout } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Dropdown, Flex, Layout } from "antd";
+import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Image from "next/image";
 
 const { Header } = Layout;
 
-function HeaderLayout() {
+function HeaderLayout({ isProfile = true }) {
+  const items = [
+    {
+      key: "1",
+      label: <Link href={`/profile`}>Profiel</Link>,
+      icon: <UserOutlined />,
+    },
+    {
+      key: "2",
+      label: <Link href={`/api//v1/auth/logout`}>Uitloggen</Link>,
+      icon: <LogoutOutlined />,
+      danger: true,
+    },
+  ];
   return (
     <Header>
       <Flex justify={"space-between"}>
@@ -21,11 +34,13 @@ function HeaderLayout() {
           />
           <span style={{ color: "white" }}>Mijn Bureau</span>
         </div>
-        <div>
-          <Link href="/#">
-            <Avatar icon={<UserOutlined />} />
-          </Link>
-        </div>
+        {!isProfile && (
+          <Dropdown menu={{ items }}>
+            <Link href="/#">
+              <Avatar icon={<UserOutlined />} />
+            </Link>
+          </Dropdown>
+        )}
       </Flex>
     </Header>
   );

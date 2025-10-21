@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Card, Result } from "antd";
 import { Avatar, List } from "antd";
 import {
   EditOutlined,
@@ -11,20 +10,20 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
-import { baseUrl } from "@/app/Common/pageConfig";
 import Widget from "@/app/Common/Widget";
+import moment from "moment";
 
 // NextCloud
 function Files() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
+
   useEffect(() => {
     setLoading(true);
     const fetchDocs = async () => {
       try {
-        const res = await axios.get(baseUrl + "/v1/ocs/activities");
+        const res = await axios.get("/api/v1/ocs/activities");
         setFiles(res.data);
       } catch (err) {
         setError(err.message);
@@ -37,7 +36,7 @@ function Files() {
 
   const onSearch = async (value) => {
     try {
-      const res = await axios.get(`${baseUrl}/v1/ocs/search?term=${value}`);
+      const res = await axios.get(`/api/v1/ocs/search?term=${value}`);
       setFiles(res.data);
     } catch (err) {
       setError(err.message);
@@ -45,18 +44,17 @@ function Files() {
       setLoading(false);
     }
   };
-
   return (
     <Widget
       title="Bestanden"
-      setSearch={setSearch}
+      setSearch={onSearch}
       loading={loading}
       error={error}
     >
       <List
-        dataSource={data}
+        dataSource={files}
         renderItem={(item) => (
-          <List.Item key={item.description}>
+          <List.Item key={item.datetime}>
             <List.Item.Meta
               avatar={
                 <Avatar
@@ -64,8 +62,13 @@ function Files() {
                   style={{ backgroundColor: "#1677ff" }}
                 />
               }
-              title={<a href="https://ant.design">{item.name}</a>}
-              description={item.description}
+              title={<Link href={item?.url}>{item.object_filename}</Link>}
+              description={
+                <span>
+                  Gemaakt op:
+                  {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
+                </span>
+              }
             />
             <Link href="/#">
               <EditOutlined />

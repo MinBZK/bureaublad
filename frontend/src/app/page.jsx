@@ -1,15 +1,15 @@
 "use client";
 import React from "react";
 import { Col, Row, Card, Calendar, theme } from "antd";
-import Files from "./features/Files/Files";
-import Chat from "./features/Chat/Chat";
-import Note from "./features/Notes/Notes";
-import VideoChat from "./features/VideoChat/VideoChat";
+import Files from "./Components/AppWidgets/Files/Files";
+import Chat from "./Components/AppWidgets/Chat/Chat";
+import Note from "./Components/AppWidgets/Notes/Notes";
+import VideoChat from "./Components/AppWidgets/VideoChat/VideoChat";
 // import Email from "./features/Email/Email";
-import Drive from "./features/Drive/Drive";
-import { useAppContext } from "./Context/AppContext";
+import Drive from "./Components/AppWidgets/Drive/Drive";
+import { useAppContext } from "./Components/Context/AppContext";
 // import DynamicIcon from "./Common/DynamicIcon";
-import AiAssistant from "../app/features/AiAssistant/AiAssistant";
+import AiAssistant from "./Components/AppWidgets/AiAssistant/AiAssistant";
 
 export default function Home() {
   const { items } = useAppContext();
@@ -22,21 +22,21 @@ export default function Home() {
 
   return (
     <React.Fragment>
-      {items?.applications?.ai && <AiAssistant />}
+      {items?.cards?.ai && <AiAssistant />}
       <Row gutter={16} style={{ marginTop: 10 }}>
-        <Col span={8}>{items?.applications?.docs && <Note />}</Col>
-        <Col span={8}>{items?.applications?.drive && <Drive />}</Col>
-        <Col span={8}>{items?.applications?.ocs && <Files />}</Col>
+        <Col span={8}>{items?.cards?.docs && <Note />}</Col>
+        <Col span={8}>{items?.cards?.drive && <Drive />}</Col>
+        <Col span={8}>{items?.cards?.ocs && <Files />}</Col>
       </Row>
       <Row gutter={16} style={{ marginTop: 10 }}>
         <Col span={8}>
-          {items?.applications?.meet && <Chat />}
+          {items?.cards?.conversation && <Chat />}
 
           {/* <Email /> */}
         </Col>
-        <Col span={8}>{items?.applications?.meet && <VideoChat />}</Col>
+        <Col span={8}>{items?.cards?.meet && <VideoChat />}</Col>
         <Col span={8}>
-          {items?.applications?.calendar && (
+          {items?.cards?.calendar && (
             <Card title="Agenda" variant="borderless">
               <div style={wrapperStyle}>
                 <Calendar fullscreen={false} onPanelChange={undefined} />
