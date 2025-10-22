@@ -72,7 +72,10 @@ function AiAssistant() {
               <Timeline items={items} mode="left" reverse={true} />
             </div>
             {aiResult?.length > 6 && (
-              <div className="position-scrol-down" style={{visibility: showArrow ? "visible" : "hidden"}}>
+              <div
+                className="position-scrol-down"
+                style={{ visibility: showArrow ? "visible" : "hidden" }}
+              >
                 <ArrowDownOutlined className="scrol-down-icon" />
               </div>
             )}
