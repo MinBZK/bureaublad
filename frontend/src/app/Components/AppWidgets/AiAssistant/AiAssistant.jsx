@@ -67,34 +67,19 @@ function AiAssistant() {
     >
       <React.Fragment>
         {aiResult?.length > 0 && (
-          <>
-            <div
-              ref={timelineRef}
-              style={{
-                marginTop: 30,
-                maxHeight: 250,
-                overflowY: "auto",
-                paddingRight: 8,
-              }}
-            >
+          <React.Fragment>
+            <div className="position-timeline ">
               <Timeline items={items} mode="left" reverse={true} />
             </div>
-            <div
-              style={{
-                textAlign: "center",
-                marginLeft: "-6px",
-                visibility: showArrow ? "visible" : "hidden",
-              }}
-            >
-              <ArrowDownOutlined
-                style={{
-                  fontSize: 24,
-                  color: "#888",
-                  animation: "bounce 1.2s infinite",
-                }}
-              />
-            </div>
-          </>
+            {aiResult?.length > 6 && (
+              <div className="position-scrol-down" style={{visibility: showArrow ? "visible" : "hidden"}}>
+                <ArrowDownOutlined className="scrol-down-icon" />
+              </div>
+            )}
+          </React.Fragment>
+        )}
+        {error && (
+          <Result status="warning" title={error} className="space-min-up" />
         )}
       </React.Fragment>
     </Widget>

@@ -23,12 +23,12 @@ export default function Home() {
   return (
     <React.Fragment>
       {items?.cards?.ai && <AiAssistant />}
-      <Row gutter={16} style={{ marginTop: 10 }}>
+      <Row gutter={16} className="space-up">
         <Col span={8}>{items?.cards?.docs && <Note />}</Col>
         <Col span={8}>{items?.cards?.drive && <Drive />}</Col>
         <Col span={8}>{items?.cards?.ocs && <Files />}</Col>
       </Row>
-      <Row gutter={16} style={{ marginTop: 10 }}>
+      <Row gutter={16} className="space-up">
         <Col span={8}>
           {items?.cards?.conversation && <Chat />}
 

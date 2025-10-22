@@ -4,6 +4,7 @@ import { Avatar, List } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import axios from "axios";
+import Link from "next/link";
 
 // meet
 function VideoChat() {
@@ -15,7 +16,7 @@ function VideoChat() {
     setLoading(true);
     const fetchMeet = async () => {
       try {
-        const res = await axios.get(`/api/v1/meet/rooms`);
+        const res = await axios.get(`/api/v1/meet/rooms?page=1`);
         setMeet(res.data);
       } catch (err) {
         setError(err.message);
@@ -34,22 +35,16 @@ function VideoChat() {
             <List.Item key={item.slug}>
               <List.Item.Meta
                 avatar={
-                  <Avatar
-                    style={{
-                      backgroundColor: "#f56a00",
-                      verticalAlign: "middle",
-                    }}
-                  >
+                  <Avatar className="avt-name">
                     {item?.name?.at(0)?.toUpperCase()}
                   </Avatar>
                 }
-                title={<a href="/#">{item.name}</a>}
-                description={<span>Hostsleutel:{item.slug}</span>}
+                title={<Link href={item.url}>{item.name}</Link>}
+                description={<span>Hostsleutel:{item.pin_code}</span>}
               />
-              <Avatar
-                style={{ backgroundColor: "#87d068" }}
-                icon={<PhoneOutlined />}
-              />
+              <Link href={item.url}>
+                <Avatar className="avt-call" icon={<PhoneOutlined />} />
+              </Link>
             </List.Item>
           )
         }
