@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "next-env.d.ts",
     "dist/types/**/*.ts",
-    "src/app/Components/AppWidgets/Chat/Chat.jsx",
+    "src/app/Components/AppWidgets/Conversations/Conversations.jsx",
     "src/app/Components/AppWidgets/Email/Email.jsx",
     "src/app/Components/AppWidgets/Files/Files.jsx",
     "src/app/Components/AppWidgets/VideoChat/VideoChat.jsx"

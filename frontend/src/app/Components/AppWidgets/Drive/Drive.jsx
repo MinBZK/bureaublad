@@ -39,18 +39,20 @@ function Drive() {
     >
       <List
         dataSource={drive}
-        renderItem={(item) => (
-          <List.Item key={item.description}>
-            <List.Item.Meta
-              avatar={
-                <Avatar icon={<FileImageOutlined />} className="avt-name" />
-              }
-              title={<Link href={item?.url || ""}>{item.title}</Link>}
-              description={`Gemaakt:
+        renderItem={(item, index) =>
+          index <= 2 && (
+            <List.Item key={item.description}>
+              <List.Item.Meta
+                avatar={
+                  <Avatar icon={<FileImageOutlined />} className="avt-name" />
+                }
+                title={<Link href={item?.url || ""}>{item.title}</Link>}
+                description={`Gemaakt:
                   ${moment(item.created_at).format("DD-MM-YYYY, mm:ss")}`}
-            />
-          </List.Item>
-        )}
+              />
+            </List.Item>
+          )
+        }
       />
     </Widget>
   );

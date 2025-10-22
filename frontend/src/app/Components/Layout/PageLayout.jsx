@@ -5,11 +5,13 @@ import SiderLayout from "./Components/SiderLayout";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import axios from "axios";
+
 const { Content } = Layout;
 
 export default function PageLayout({ children }) {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const { items, error } = useAppContext();
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export default function PageLayout({ children }) {
     setLoading(true);
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(baseUrl + "/api/v1/ocs/activities");
+        const res = await axios.get("/api/v1/auth/profile");
         setProfile(res.data);
       } catch (err) {
         console.error(err.message);
@@ -44,7 +46,7 @@ export default function PageLayout({ children }) {
 
   return (
     <Layout>
-      <HeaderLayout isProfile={!!error} />
+      <HeaderLayout isProfile={!!error} profile={profile?.name} />
       {error ? (
         children
       ) : (

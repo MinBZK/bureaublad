@@ -6,6 +6,7 @@ from app.core.config import settings
 class Conversation(BaseModel):
     id: str
     title: str
+    created_at: str
 
     @computed_field
     @property

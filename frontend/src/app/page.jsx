@@ -2,7 +2,7 @@
 import React from "react";
 import { Col, Row, Card, Calendar, theme } from "antd";
 import Files from "./Components/AppWidgets/Files/Files";
-import Chat from "./Components/AppWidgets/Chat/Chat";
+import Chat from "./Components/AppWidgets/Conversations/Conversations";
 import Note from "./Components/AppWidgets/Notes/Notes";
 import VideoChat from "./Components/AppWidgets/VideoChat/VideoChat";
 // import Email from "./features/Email/Email";
