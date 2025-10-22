@@ -42,35 +42,18 @@ function AiAssistant() {
         />
         {aiResult?.length > 0 && (
           <React.Fragment>
-            <div
-              style={{
-                marginTop: 30,
-                maxHeight: 250,
-                overflowY: "auto",
-                paddingRight: 8,
-              }}
-            >
+            <div className="position-timeline ">
               <Timeline items={items} mode="left" reverse={true} />
             </div>
             {aiResult?.length > 6 && (
-              <div style={{ textAlign: "center", marginTop: 20 }}>
-                <ArrowDownOutlined
-                  style={{
-                    fontSize: 24,
-                    color: "#888",
-                    animation: "bounce 1.2s infinite",
-                  }}
-                />
+              <div className="position-scrol-down">
+                <ArrowDownOutlined className="scrol-down-icon" />
               </div>
             )}
           </React.Fragment>
         )}
         {error && (
-          <Result
-            status="warning"
-            title={error}
-            style={{ marginTop: "-10%" }}
-          />
+          <Result status="warning" title={error} className="space-min-up" />
         )}
       </React.Fragment>
     </Card>

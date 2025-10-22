@@ -3,8 +3,8 @@ import React from "react";
 
 function Loading({ loading, children }) {
   return loading ? (
-    <div style={{ marginTop: 200 }}>
-      <Spin size="large" style={{ display: "block", margin: "auto" }} />
+    <div className="loading-space-up">
+      <Spin size="large" className="position-middle" />
     </div>
   ) : (
     children

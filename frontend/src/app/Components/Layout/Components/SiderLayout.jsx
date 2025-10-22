@@ -6,20 +6,19 @@ import { menuItem } from "../../../Common/pageConfig";
 const { Search } = Input;
 const { Sider } = Layout;
 
-function SiderLayout({ items, colorBgContainer }) {
+function SiderLayout({ items }) {
   return (
-    <Sider width={250} style={{ background: colorBgContainer }}>
+    <Sider width={250} className="sider">
       <Search
         placeholder="Zoeken"
         // onSearch={onSearch}
-        style={{ width: "100%", padding: 10 }}
+        className="sider-search"
       />
 
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}
-        style={{ height: "100%", borderInlineEnd: 0 }}
         items={items && menuItem(items?.applications)}
       />
     </Sider>
