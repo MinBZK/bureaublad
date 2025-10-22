@@ -7,16 +7,16 @@ import Image from "next/image";
 
 const { Header } = Layout;
 
-function HeaderLayout({ isProfile = true }) {
+function HeaderLayout({ isProfile = true, profile }) {
   const items = [
     {
       key: "1",
-      label: <Link href={`/profile`}>Profiel</Link>,
+      label: profile,
       icon: <UserOutlined />,
     },
     {
       key: "2",
-      label: <Link href={`/api//v1/auth/logout`}>Uitloggen</Link>,
+      label: <Link href={`/api/v1/auth/logout`}>Uitloggen</Link>,
       icon: <LogoutOutlined />,
       danger: true,
     },
@@ -30,9 +30,9 @@ function HeaderLayout({ isProfile = true }) {
             alt="logo"
             width="50"
             height="50"
-            style={{ marginTop: 5 }}
+            className="logo"
           />
-          <span style={{ color: "white" }}>Mijn Bureau</span>
+          <span className="logo-txt">Mijn Bureau</span>
         </div>
         {!isProfile && (
           <Dropdown menu={{ items }}>
