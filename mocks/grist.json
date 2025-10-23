@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/orgs"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": [
+        {
+          "name": "Personal",
+          "createdAt": "2025-10-22T13:07:00.000Z",
+          "updatedAt": "2025-10-22T13:07:00.428Z",
+          "id": 2,
+          "domain": "docs-5",
+          "host": null,
+          "owner": {
+            "id": 5,
+            "name": "You",
+            "picture": null,
+            "ref": "dmMmcty3jD35jaiNJLz5vG",
+            "createdAt": "2025-10-22T13:07:00.000Z"
+          },
+          "access": "owners"
+        },
+        {
+          "name": "bzk",
+          "createdAt": "2025-10-23T06:52:00.000Z",
+          "updatedAt": "2025-10-23T06:52:00.706Z",
+          "id": 3,
+          "domain": "bzk",
+          "host": null,
+          "owner": null,
+          "access": "owners"
+        }
+      ]
+    }
+  }
+]
