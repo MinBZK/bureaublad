@@ -2,6 +2,7 @@
 Gitlint extra rule to validate that the message title is of the form
 "<gitmoji>(<scope>) <subject>"
 """
+
 from __future__ import unicode_literals
 
 import re
@@ -47,7 +48,9 @@ class GitmojiTitle(LineRule):
         scopes.append("policies")
         scopes.append("ci")
         scopes.append("other")
-        pattern = r"^({:s})\({:s}\)\s[a-zA-Z].*$".format("|".join(emojis), "|".join(scopes))
+        pattern = r"^({:s})\({:s}\)\s[a-zA-Z].*$".format(
+            "|".join(emojis), "|".join(scopes)
+        )
         if not re.search(pattern, title):
-            violation_msg = 'The scope should be one of: {:s}'.format(", ".join(scopes))
+            violation_msg = "The scope should be one of: {:s}".format(", ".join(scopes))
             return [RuleViolation(self.id, violation_msg, title)]
