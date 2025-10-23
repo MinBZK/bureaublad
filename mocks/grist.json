@@ -12,29 +12,344 @@
       "body": [
         {
           "name": "Personal",
-          "createdAt": "2025-10-22T13:07:00.000Z",
-          "updatedAt": "2025-10-22T13:07:00.428Z",
+          "createdAt": "2025-10-23T10:39:30.000Z",
+          "updatedAt": "2025-10-23T10:39:30.042Z",
           "id": 2,
           "domain": "docs-5",
           "host": null,
           "owner": {
             "id": 5,
-            "name": "You",
+            "name": "test@test.com",
             "picture": null,
-            "ref": "dmMmcty3jD35jaiNJLz5vG",
-            "createdAt": "2025-10-22T13:07:00.000Z"
+            "ref": "aHMCVR8t24hoUC29W43nVn",
+            "createdAt": "2025-10-23T10:39:30.000Z"
           },
           "access": "owners"
         },
         {
           "name": "bzk",
-          "createdAt": "2025-10-23T06:52:00.000Z",
-          "updatedAt": "2025-10-23T06:52:00.706Z",
+          "createdAt": "2025-10-23T10:39:30.000Z",
+          "updatedAt": "2025-10-23T10:39:30.056Z",
           "id": 3,
           "domain": "bzk",
           "host": null,
           "owner": null,
           "access": "owners"
+        }
+      ]
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/orgs/2/workspaces"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": [
+        {
+          "name": "Home",
+          "createdAt": "2025-10-23T10:39:30.000Z",
+          "updatedAt": "2025-10-23T10:39:30.048Z",
+          "id": 2,
+          "isSupportWorkspace": false,
+          "docs": [],
+          "access": "owners",
+          "owner": {
+            "id": 5,
+            "name": "test@test.com",
+            "picture": null,
+            "ref": "aHMCVR8t24hoUC29W43nVn",
+            "createdAt": "2025-10-23T10:39:30.000Z"
+          },
+          "orgDomain": "docs-5"
+        }
+      ]
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/orgs/3/workspaces"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": [
+        {
+          "name": "Home",
+          "createdAt": "2025-10-23T10:39:30.000Z",
+          "updatedAt": "2025-10-23T10:39:30.060Z",
+          "id": 3,
+          "isSupportWorkspace": false,
+          "docs": [
+            {
+              "name": "Home document 1",
+              "createdAt": "2025-10-23T10:40:05.000Z",
+              "updatedAt": "2025-10-23T10:40:34.947Z",
+              "id": "uKVNUnqcvD2TbkkPFQsY1Q",
+              "isPinned": false,
+              "urlId": "uKVNUnqcvD2T",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#D3E7FE",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            },
+            {
+              "name": "Home document 2",
+              "createdAt": "2025-10-23T10:40:41.000Z",
+              "updatedAt": "2025-10-23T10:40:53.834Z",
+              "id": "2NFiFGixbqkHfCG49Ws47x",
+              "isPinned": false,
+              "urlId": "2NFiFGixbqkH",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FEE7C3",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            }
+          ],
+          "access": "owners",
+          "owner": null,
+          "orgDomain": "bzk"
+        },
+        {
+          "name": "Workspace 1",
+          "createdAt": "2025-10-23T10:39:46.000Z",
+          "updatedAt": "2025-10-23T10:39:46.326Z",
+          "id": 4,
+          "isSupportWorkspace": false,
+          "docs": [
+            {
+              "name": "Workspace 1 document 1",
+              "createdAt": "2025-10-23T10:40:58.000Z",
+              "updatedAt": "2025-10-23T10:41:09.915Z",
+              "id": "6LbmGrvLZiBwVYRpzKoTLh",
+              "isPinned": false,
+              "urlId": "6LbmGrvLZiBw",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FED6FB",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            }
+          ],
+          "access": "owners",
+          "owner": null,
+          "orgDomain": "bzk"
+        },
+        {
+          "name": "Workspace 2",
+          "createdAt": "2025-10-23T10:39:51.000Z",
+          "updatedAt": "2025-10-23T10:39:51.987Z",
+          "id": 5,
+          "isSupportWorkspace": false,
+          "docs": [
+            {
+              "name": "Workspace 2 document 1",
+              "createdAt": "2025-10-23T10:41:14.000Z",
+              "updatedAt": "2025-10-23T10:41:52.529Z",
+              "id": "sQUwPkHou9SMwga4haURDJ",
+              "isPinned": false,
+              "urlId": "sQUwPkHou9SM",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FEE7C3",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            },
+            {
+              "name": "Workspace 2 document 2",
+              "createdAt": "2025-10-23T10:41:20.000Z",
+              "updatedAt": "2025-10-23T10:42:08.472Z",
+              "id": "cGBP87TMk2jFzhhEbt48vt",
+              "isPinned": false,
+              "urlId": "cGBP87TMk2jF",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#E8D0FE",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            },
+            {
+              "name": "Workspace 2 document 3",
+              "createdAt": "2025-10-23T10:41:26.000Z",
+              "updatedAt": "2025-10-23T10:42:19.669Z",
+              "id": "iMDjcQbtfcusuSSv2PabCE",
+              "isPinned": false,
+              "urlId": "iMDjcQbtfcus",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FFFACD",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            },
+            {
+              "name": "Workspace 2 document 4",
+              "createdAt": "2025-10-23T10:41:31.000Z",
+              "updatedAt": "2025-10-23T10:42:59.403Z",
+              "id": "a6CY1DeFrM7gUqqSntvHcu",
+              "isPinned": false,
+              "urlId": "a6CY1DeFrM7g",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#E8D0FE",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            },
+            {
+              "name": "Workspace 2 document 5",
+              "createdAt": "2025-10-23T10:41:39.000Z",
+              "updatedAt": "2025-10-23T10:42:44.531Z",
+              "id": "xnUaouioPqD4Akfquvr1fZ",
+              "isPinned": false,
+              "urlId": "xnUaouioPqD4",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#F3E1D2",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            }
+          ],
+          "access": "owners",
+          "owner": null,
+          "orgDomain": "bzk"
+        },
+        {
+          "name": "Workspace 3",
+          "createdAt": "2025-10-23T10:39:57.000Z",
+          "updatedAt": "2025-10-23T10:39:57.788Z",
+          "id": 6,
+          "isSupportWorkspace": false,
+          "docs": [
+            {
+              "name": "Workspace 3 document 1",
+              "createdAt": "2025-10-23T10:43:17.000Z",
+              "updatedAt": "2025-10-23T10:43:44.781Z",
+              "id": "45q9vVf2VurvVt7ZcoWcSm",
+              "isPinned": false,
+              "urlId": "45q9vVf2Vurv",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FECBCC",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            }
+          ],
+          "access": "owners",
+          "owner": null,
+          "orgDomain": "bzk"
+        },
+        {
+          "name": "Workspace 4",
+          "createdAt": "2025-10-23T10:40:04.000Z",
+          "updatedAt": "2025-10-23T10:40:04.088Z",
+          "id": 7,
+          "isSupportWorkspace": false,
+          "docs": [
+            {
+              "name": "Workspace 4 document 1",
+              "createdAt": "2025-10-23T10:43:24.000Z",
+              "updatedAt": "2025-10-23T10:43:35.500Z",
+              "id": "jVdKdYe1QMidBVayBrAEvX",
+              "isPinned": false,
+              "urlId": "jVdKdYe1QMid",
+              "options": {
+                "appearance": {
+                  "icon": {
+                    "backgroundColor": "#FEE7C3",
+                    "color": "#494949",
+                    "emoji": null
+                  }
+                }
+              },
+              "trunkId": null,
+              "type": null,
+              "forks": [],
+              "access": "owners"
+            }
+          ],
+          "access": "owners",
+          "owner": null,
+          "orgDomain": "bzk"
         }
       ]
     }
