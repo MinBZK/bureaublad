@@ -1,6 +1,10 @@
 import logging
 
+from fastapi import Request
+
+from app.core import session
 from app.core.config import settings
+from app.exceptions import CredentialError
 
 logger = logging.getLogger(__name__)
 
@@ -27,4 +31,14 @@ async def exchange_token(
     if settings.OIDC_ISSUER:
         payload.update({"subject_issuer": settings.OIDC_ISSUER})
 
+    return token
+
+
+async def get_token(request: Request, audience: str) -> str:
+    # Get auth from session (already refreshed by get_current_user dependency)
+    auth = session.get_auth(request)
+    if not auth:
+        raise CredentialError("Not authenticated")
+
+    token = await exchange_token(auth.access_token, audience=audience) or ""
     return token
