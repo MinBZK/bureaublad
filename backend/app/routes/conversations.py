@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 
-async def get_conversations_client(request, http_client):
+async def get_conversations_client(request: Request, http_client: HTTPClient) -> ConversationClient:
     if not settings.conversation_enabled or not settings.CONVERSATION_URL:
         raise ServiceUnavailableError("Conversation")
 

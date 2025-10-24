@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/drive", tags=["drive"])
 
 
-async def get_drive_client(request, http_client):
+async def get_drive_client(request: Request, http_client: HTTPClient) -> DriveClient:
     if not settings.drive_enabled or not settings.DRIVE_URL:
         raise ServiceUnavailableError("Drive")
 
@@ -22,6 +22,7 @@ async def get_drive_client(request, http_client):
 
     client = DriveClient(http_client, settings.DRIVE_URL, token)
     return client
+
 
 @router.get("/documents", response_model=list[Document])
 async def drive_documents(

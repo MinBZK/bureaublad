@@ -25,7 +25,7 @@ def generate_random_room_name() -> str:
     return f"{rand_str(3)}-{rand_str(4)}-{rand_str(3)}"
 
 
-async def get_meet_client(request, http_client):
+async def get_meet_client(request: Request, http_client: HTTPClient) -> MeetClient:
     if not settings.meet_enabled or not settings.MEET_URL:
         raise ServiceUnavailableError("Meet")
 

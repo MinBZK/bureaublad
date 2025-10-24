@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/caldav", tags=["caldav"])
 
 
-async def get_caldav_client(request):
+async def get_caldav_client(request: Request) -> CaldavClient:
     if not settings.task_enabled or not settings.TASK_URL:
         raise ServiceUnavailableError("Task")
 

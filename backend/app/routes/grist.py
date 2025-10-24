@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/grist", tags=["grist"])
 
 
-async def get_grist_client(request, http_client):
+async def get_grist_client(request: Request, http_client: HTTPClient) -> GristClient:
     if not settings.grist_enabled or not settings.GRIST_URL:
         raise ServiceUnavailableError("Grist")
 

@@ -7,7 +7,9 @@
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"]
+        "Content-Type": [
+          "application/json"
+        ]
       },
       "body": {
         "ocs": {
@@ -148,13 +150,17 @@
       "method": "GET",
       "path": "/ocs/v2.php/search/providers/files/search",
       "queryStringParameters": {
-            "term": ["[A-Z0-9\\-]+"]
-        }
+        "term": [
+          "[A-Z0-9\\-]+"
+        ]
+      }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"]
+        "Content-Type": [
+          "application/json"
+        ]
       },
       "body": {
         "ocs": {

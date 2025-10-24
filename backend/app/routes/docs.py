@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/docs", tags=["docs"])
 
 
-async def get_docs_client(request, http_client):
+async def get_docs_client(request: Request, http_client: HTTPClient) -> DocsClient:
     if not settings.docs_enabled or not settings.DOCS_URL:
         raise ServiceUnavailableError("Docs")
 
