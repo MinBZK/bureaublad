@@ -142,5 +142,48 @@
         }
       }
     }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/search/providers/files/search",
+      "queryStringParameters": {
+            "term": ["[A-Z0-9\\-]+"]
+        }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "status": "ok",
+            "statuscode": "200",
+            "message": "OK"
+          },
+          "data": {
+            "name": "Bestanden",
+            "isPaginated": true,
+            "entries": [
+              {
+                "thumbnailUrl": "https:\/\/localhost\/core\/preview?x=32&y=32&fileId=5075",
+                "title": "search.md",
+                "subline": "",
+                "resourceUrl": "https:\/\/localhost\/f\/5075",
+                "icon": "https:\/\/localhost\/apps\/theming\/img\/core\/filetypes\/text.svg?v=63c76887",
+                "rounded": "false",
+                "attributes": {
+                  "fileId": "5075",
+                  "path": "/search.md"
+                }
+              }
+            ],
+            "cursor": 5
+          }
+        }
+      }
+    }
   }
 ]

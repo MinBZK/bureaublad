@@ -5,16 +5,27 @@ import logging
 from fastapi import APIRouter, Request
 
 from app.clients.grist import GristClient
-from app.core import session
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
-from app.exceptions import CredentialError, ServiceUnavailableError
+from app.exceptions import ServiceUnavailableError
 from app.models.grist import GristDocument, GristOrganization
-from app.token_exchange import exchange_token
+from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/grist", tags=["grist"])
+
+
+async def get_grist_client(request, http_client):
+    if not settings.grist_enabled or not settings.GRIST_URL:
+        raise ServiceUnavailableError("Grist")
+
+    # Get auth from session (already refreshed by get_current_user dependency)
+    token = await get_token(request, settings.GRIST_AUDIENCE)
+
+    # Create client and fetch organizations
+    client = GristClient(http_client, settings.GRIST_URL, token)
+    return client
 
 
 @router.get("/orgs", response_model=list[GristOrganization])
@@ -27,18 +38,7 @@ async def get_organizations(
     Note: Auth is already validated by get_current_user() at router level.
     """
 
-    if not settings.grist_enabled or not settings.GRIST_URL:
-        raise ServiceUnavailableError("Grist")
-
-    # Get auth from session (already refreshed by get_current_user dependency)
-    auth = session.get_auth(request)
-    if not auth:
-        raise CredentialError("Not authenticated")
-
-    token = await exchange_token(auth.access_token, audience=settings.GRIST_AUDIENCE) or ""
-
-    # Create client and fetch organizations
-    client = GristClient(http_client, settings.GRIST_URL, token)
+    client = await get_grist_client(request, http_client)
     return await client.get_organizations()
 
 
@@ -55,16 +55,5 @@ async def get_documents(
     Note: Auth is already validated by get_current_user() at router level.
     """
 
-    if not settings.grist_enabled or not settings.GRIST_URL:
-        raise ServiceUnavailableError("Grist")
-
-    # Get auth from session (already refreshed by get_current_user dependency)
-    auth = session.get_auth(request)
-    if not auth:
-        raise CredentialError("Not authenticated")
-
-    token = await exchange_token(auth.access_token, audience=settings.GRIST_AUDIENCE) or ""
-
-    client = GristClient(http_client, settings.GRIST_URL, token)
-
+    client = await get_grist_client(request, http_client)
     return await client.get_all_documents(page, page_size)
