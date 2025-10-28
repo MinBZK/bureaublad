@@ -1,17 +1,15 @@
 "use client";
-
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "../../Common/Loading";
-import { useRouter } from "next/navigation";
+import ErrorResult from "../../Common/ErrorResult";
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [items, setitems] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const [error, setError] = useState(null);
   useEffect(() => {
     setLoading(true);
     const fetchConfig = async () => {
@@ -19,24 +17,38 @@ export function AppProvider({ children }) {
         const res = await axios.get("/api/v1/config");
         setitems(res?.data);
       } catch (err) {
-        if (err?.response?.status === 401) {
-          router.push("/login");
-        } else {
-          router.push("/not-found");
-        }
-        setError(err);
+        setError(err?.response);
       } finally {
         setLoading(false);
       }
     };
     fetchConfig();
   }, []);
-
   return (
     <Loading loading={loading}>
-      <AppContext.Provider value={{ items, error }}>
-        {children}
-      </AppContext.Provider>
+      {items ? (
+        <AppContext.Provider value={{ items, error }}>
+          {children}
+        </AppContext.Provider>
+      ) : error?.status === 401 ? (
+        <ErrorResult
+          errorStatus="warning"
+          title="Inloggen"
+          subTitle="Helaas, u bent niet bevoegd om deze pagina te bezoeken."
+          btnTitle={"Inloggen"}
+          btnLink={`/api/v1/auth/login`}
+        />
+      ) : (
+        error && (
+          <ErrorResult
+            errorStatus="404"
+            title="404"
+            subTitle="Er is iets mis gegaan"
+            btnTitle={"Terug naar homepagina"}
+            btnLink={`/`}
+          />
+        )
+      )}
     </Loading>
   );
 }

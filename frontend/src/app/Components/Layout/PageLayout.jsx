@@ -50,7 +50,7 @@ export default function PageLayout({ children }) {
       {error ? (
         children
       ) : (
-        <Layout>
+        <Layout hasSider>
           <SiderLayout items={items} />
           <Layout className="layout-content">
             <Content className="content">

@@ -11,7 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -31,7 +31,8 @@
     "src/app/Components/AppWidgets/Conversations/Conversations.jsx",
     "src/app/Components/AppWidgets/Email/Email.jsx",
     "src/app/Components/AppWidgets/Files/Files.jsx",
-    "src/app/Components/AppWidgets/VideoChat/VideoChat.jsx"
+    "src/app/Components/AppWidgets/VideoChat/VideoChat.jsx",
+    "dist/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
