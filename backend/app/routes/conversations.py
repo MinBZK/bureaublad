@@ -21,8 +21,7 @@ async def get_conversations_client(request: Request, http_client: HTTPClient) ->
     # Get auth from session (already refreshed by get_current_user dependency)
     token = await get_token(request, settings.CONVERSATION_AUDIENCE)
 
-    client = ConversationClient(http_client, settings.CONVERSATION_URL, token)
-    return client
+    return ConversationClient(http_client, settings.CONVERSATION_URL, token)
 
 
 @router.get("/chats", response_model=list[Conversation])

@@ -20,8 +20,7 @@ async def get_drive_client(request: Request, http_client: HTTPClient) -> DriveCl
 
     token = await get_token(request, settings.DRIVE_AUDIENCE)
 
-    client = DriveClient(http_client, settings.DRIVE_URL, token)
-    return client
+    return DriveClient(http_client, settings.DRIVE_URL, token)
 
 
 @router.get("/documents", response_model=list[Document])

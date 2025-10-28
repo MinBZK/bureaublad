@@ -31,8 +31,7 @@ async def get_meet_client(request: Request, http_client: HTTPClient) -> MeetClie
 
     token = await get_token(request, settings.MEET_AUDIENCE)
 
-    client = MeetClient(http_client, settings.MEET_URL, token)
-    return client
+    return MeetClient(http_client, settings.MEET_URL, token)
 
 
 @router.get("/rooms", response_model=list[Room])

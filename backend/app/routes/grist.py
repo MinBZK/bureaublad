@@ -24,8 +24,7 @@ async def get_grist_client(request: Request, http_client: HTTPClient) -> GristCl
     token = await get_token(request, settings.GRIST_AUDIENCE)
 
     # Create client and fetch organizations
-    client = GristClient(http_client, settings.GRIST_URL, token)
-    return client
+    return GristClient(http_client, settings.GRIST_URL, token)
 
 
 @router.get("/orgs", response_model=list[GristOrganization])

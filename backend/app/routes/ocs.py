@@ -21,8 +21,7 @@ async def get_ocs_client(request: Request, http_client: HTTPClient) -> OCSClient
 
     token = await get_token(request, settings.OCS_AUDIENCE)
 
-    client = OCSClient(http_client, settings.OCS_URL, token)
-    return client
+    return OCSClient(http_client, settings.OCS_URL, token)
 
 
 @router.get("/activities", response_model=list[Activity])
@@ -50,5 +49,4 @@ async def ocs_search(request: Request, http_client: HTTPClient, term: str) -> li
 
     client = await get_ocs_client(request, http_client)
 
-    search_results_files: list[SearchResults] = await client.search_files(term=term)
-    return search_results_files
+    return await client.search_files(term=term)

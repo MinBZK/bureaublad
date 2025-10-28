@@ -20,8 +20,7 @@ async def get_docs_client(request: Request, http_client: HTTPClient) -> DocsClie
 
     token = await get_token(request, settings.DOCS_AUDIENCE)
 
-    client = DocsClient(http_client, settings.DOCS_URL, token)
-    return client
+    return DocsClient(http_client, settings.DOCS_URL, token)
 
 
 @router.get("/documents", response_model=list[Note])

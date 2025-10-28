@@ -22,8 +22,7 @@ async def get_caldav_client(request: Request) -> CaldavClient:
     # Get auth from session (already refreshed by get_current_user dependency)
     new_token = await get_token(request, settings.TASK_AUDIENCE)
 
-    client = CaldavClient(base_url=settings.TASK_URL, token=new_token)
-    return client
+    return CaldavClient(base_url=settings.TASK_URL, token=new_token)
 
 
 @router.get("/calendars/{calendar_date}")

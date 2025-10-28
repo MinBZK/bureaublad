@@ -40,5 +40,4 @@ async def get_token(request: Request, audience: str) -> str:
     if not auth:
         raise CredentialError("Not authenticated")
 
-    token = await exchange_token(auth.access_token, audience=audience) or ""
-    return token
+    return await exchange_token(auth.access_token, audience=audience) or ""
