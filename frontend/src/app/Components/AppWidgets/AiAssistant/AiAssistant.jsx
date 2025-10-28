@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Widget from "@/app/Common/Widget";
 
 function AiAssistant() {
@@ -57,7 +57,7 @@ function AiAssistant() {
               setAiResult([data.content || ""]);
             }
           } catch (err) {
-            console.warn("Skipping invalid chunk:", raw);
+            console.error("Skipping invalid chunk:", raw, err);
           }
         }
       }

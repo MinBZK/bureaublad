@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppContext } from "../Context/AppContext";
 
 export default function ThemeLoader() {

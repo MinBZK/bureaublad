@@ -1,5 +1,4 @@
-import { Flex, Spin } from "antd";
-import React from "react";
+import { Spin } from "antd";
 
 function Loading({ loading, children }) {
   return loading ? (
