@@ -46,13 +46,13 @@ function AiAssistant() {
 
           try {
             const data = JSON.parse(raw);
-            if (data.finish_reason === "stop") break;
+            if (data?.finish_reason === "stop") break;
 
             // Append streamed content
-            if (data.content) {
+            if (data?.content) {
               finalText += data.content;
-              setAiResult((prev) => [...prev.slice(0, -1), finalText]);
-            } else if (prev.length === 0) {
+              setAiResult((prev) => [...prev?.slice(0, -1), finalText]);
+            } else if (data?.length === 0) {
               // Initialize first chunk
               setAiResult([data.content || ""]);
             }
