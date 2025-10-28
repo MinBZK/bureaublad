@@ -8,10 +8,19 @@
   padding: 24px;
   margin: 0;
   background: #f5f5f5;
+   overflow: initial
 }
 
 .sider {
   background-color: white;
+  overflow: auto;
+  height: 100vh;
+  position: sticky;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
 }
 
 .sider-search {

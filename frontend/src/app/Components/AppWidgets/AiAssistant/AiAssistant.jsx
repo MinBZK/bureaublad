@@ -1,62 +1,71 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { Card, Result, Input, Timeline } from "antd";
-import axios from "axios";
-import { ArrowDownOutlined, SendOutlined } from "@ant-design/icons";
-import moment from "moment";
+import React, { useState } from "react";
 import Widget from "@/app/Common/Widget";
 
-const { Search } = Input;
 function AiAssistant() {
   const [aiResult, setAiResult] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showArrow, setShowArrow] = useState(false);
-  const timelineRef = useRef(null);
 
-  useEffect(() => {
-    // Show arrow only if there are more than 6 items
-    if (aiResult?.length > 6) {
-      setShowArrow(true);
-    }
+  const postAi = async (text) => {
+    setError(null);
+    setAiResult([]);
 
-    const handleScroll = () => {
-      const el = timelineRef.current;
-      if (!el) return;
+    try {
+      const response = await fetch("/api/v1/ai/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "text/event-stream",
+        },
+        body: JSON.stringify({ prompt: text }),
+      });
 
-      // Check if user scrolled to bottom (with a small tolerance)
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 5;
-      setShowArrow(!atBottom);
-    };
-
-    const el = timelineRef.current;
-    if (el) el.addEventListener("scroll", handleScroll);
-
-    return () => {
-      if (el) el.removeEventListener("scroll", handleScroll);
-    };
-  }, [aiResult]);
-
-  const postAi = (text) => {
-    setLoading(true);
-    const fetchDocs = async () => {
-      try {
-        const res = await axios.post("/api/v1/ai/chat/completions", {
-          prompt: text,
-        });
-        setAiResult((arr) => [...arr, res.data]);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.body) {
+        throw new Error("No response body (SSE not supported?)");
       }
-    };
-    fetchDocs();
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      let finalText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+
+        // Each SSE message ends with \n\n
+        let boundary = buffer.indexOf("\n\n");
+        while (boundary !== -1) {
+          const raw = buffer.slice(0, boundary).trim();
+          buffer = buffer.slice(boundary + 2);
+          boundary = buffer.indexOf("\n\n");
+
+          if (!raw) continue;
+
+          try {
+            const data = JSON.parse(raw);
+            if (data.finish_reason === "stop") break;
+
+            // Append streamed content
+            if (data.content) {
+              finalText += data.content;
+              setAiResult((prev) => [...prev.slice(0, -1), finalText]);
+            } else if (prev.length === 0) {
+              // Initialize first chunk
+              setAiResult([data.content || ""]);
+            }
+          } catch (err) {
+            console.warn("Skipping invalid chunk:", raw);
+          }
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
   };
-  const items = aiResult?.map((value) => ({
-    children: value,
-    label: moment().format("DD-MM-YYYY HH:mm"),
-  }));
 
   return (
     <Widget
@@ -65,26 +74,11 @@ function AiAssistant() {
       error={error}
       setSearch={(t) => postAi(t)}
     >
-      <React.Fragment>
-        {aiResult?.length > 0 && (
-          <React.Fragment>
-            <div className="position-timeline ">
-              <Timeline items={items} mode="left" reverse={true} />
-            </div>
-            {aiResult?.length > 6 && (
-              <div
-                className="position-scrol-down"
-                style={{ visibility: showArrow ? "visible" : "hidden" }}
-              >
-                <ArrowDownOutlined className="scrol-down-icon" />
-              </div>
-            )}
-          </React.Fragment>
-        )}
-        {error && (
-          <Result status="warning" title={error} className="space-min-up" />
-        )}
-      </React.Fragment>
+      {aiResult.map((msg, i) => (
+        <div key={i} className="message">
+          {msg}
+        </div>
+      ))}
     </Widget>
   );
 }
