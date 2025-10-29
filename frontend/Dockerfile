@@ -20,10 +20,10 @@ FROM dev AS build
 
 RUN npm run build
 
-FROM --platform=$BUILDPLATFORM nginx:1.27.4-alpine AS prod
+FROM --platform=$BUILDPLATFORM nginxinc/nginx-unprivileged:1.28-alpine3.21 AS prod
 
 COPY --from=build /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
