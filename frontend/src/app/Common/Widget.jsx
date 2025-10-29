@@ -12,6 +12,7 @@ function Widget({
   favorite,
   setFavorite,
   setSearch,
+  placeholder = "",
 }) {
   const [value, setValue] = useState("");
   return (
@@ -25,7 +26,7 @@ function Widget({
               {setSearch && (
                 <React.Fragment>
                   <Search
-                    placeholder={`${title} zoeken`}
+                    placeholder={placeholder || `${title} zoeken`}
                     onSearch={(t) => setSearch(t)}
                     onChange={(e) => setValue(e.target.value)}
                     value={value}

@@ -1,20 +1,12 @@
 "use client";
-import React from "react";
-
-import { Layout, Menu, Input } from "antd";
+import { Layout, Menu } from "antd";
 import { menuItem } from "../../../Common/pageConfig";
-const { Search } = Input;
+
 const { Sider } = Layout;
 
 function SiderLayout({ items }) {
   return (
     <Sider width={250} className="sider">
-      <Search
-        placeholder="Zoeken"
-        // onSearch={onSearch}
-        className="sider-search"
-      />
-
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}

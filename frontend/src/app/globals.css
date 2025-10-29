@@ -5,7 +5,7 @@
 }
 
 .content {
-  padding: 24px;
+  padding: 10px;
   margin: 0;
   background: #f5f5f5;
   overflow: initial;
@@ -24,8 +24,17 @@
 }
 
 .sider-search {
-  width: 100%;
-  padding: 10px;
+  width: 70%;
+  margin-top: 3px;
+}
+
+.side-search-error {
+  margin-top: 10px;
+  color: red;
+}
+
+.ant-menu {
+  margin-top: 35px;
 }
 
 /* AI */
