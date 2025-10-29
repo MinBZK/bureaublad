@@ -9,6 +9,7 @@ function AiAssistant() {
   const postAi = async (text) => {
     setError(null);
     setAiResult([]);
+    if (text === "") return;
 
     try {
       const response = await fetch("/api/v1/ai/chat/completions", {
@@ -35,7 +36,6 @@ function AiAssistant() {
 
         buffer += decoder.decode(value, { stream: true });
 
-        // Each SSE message ends with \n\n
         let boundary = buffer.indexOf("\n\n");
         while (boundary !== -1) {
           const raw = buffer.slice(0, boundary).trim();
@@ -47,13 +47,10 @@ function AiAssistant() {
           try {
             const data = JSON.parse(raw);
             if (data.finish_reason === "stop") break;
-
-            // Append streamed content
             if (data.content) {
               finalText += data.content;
               setAiResult((prev) => [...prev.slice(0, -1), finalText]);
-            } else if (prev.length === 0) {
-              // Initialize first chunk
+            } else if (data.length === 0) {
               setAiResult([data.content || ""]);
             }
           } catch (err) {
@@ -73,6 +70,7 @@ function AiAssistant() {
       loading={false}
       error={error}
       setSearch={(t) => postAi(t)}
+      placeholder="Typ je vraag hier..."
     >
       {aiResult.map((msg, i) => (
         <div key={i} className="message">
