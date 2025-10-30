@@ -45,14 +45,15 @@ async def get_organizations(
 async def get_documents(
     request: Request,
     http_client: HTTPClient,
+    organization_id: int,
     page: int = 1,
     page_size: int = 5,
 ) -> list[GristDocument]:
-    """Get all documents across all organizations with pagination.
+    """Get all documents given organization with organization_id with pagination.
     Documents are sorted by updated date (most recent first).
 
     Note: Auth is already validated by get_current_user() at router level.
     """
 
     client = await get_grist_client(request, http_client)
-    return await client.get_all_documents(page, page_size)
+    return await client.get_documents(organization_id, page, page_size)

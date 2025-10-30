@@ -1,4 +1,3 @@
-import asyncio
 import logging
 
 import httpx
@@ -42,9 +41,14 @@ class GristClient:
         url = f"{self.base_url}/api/orgs/{organization_id}/workspaces"
         return await self._fetch_list(url, GristWorkspace, "workspaces")
 
-    async def get_all_documents(self, page: int = 1, page_size: int = 5) -> list[GristDocument]:
+    async def get_documents(
+        self,
+        organization_id: int,
+        page: int = 1,
+        page_size: int = 5,
+    ) -> list[GristDocument]:
         """
-        Fetch all documents across all organizations, sorted by updated date (most recent first).
+        Fetch all documents for organization with organization_id, sorted by updated date (most recent first).
         """
 
         if page < 1:
@@ -53,15 +57,10 @@ class GristClient:
         if page_size < 1:
             page_size = 1
 
-        # NOTE: The Girst API does not support pagination, so we have to fetch all documents
-        # for all workspaces for all organizations.
-        orgs = await self.get_organizations()
-
-        workspace_tasks = [self.get_workspaces(org.id) for org in orgs]
-        all_workspaces_nested = await asyncio.gather(*workspace_tasks)
+        workspace_tasks = await self.get_workspaces(organization_id)
 
         docs = sorted(
-            [doc for workspaces in all_workspaces_nested for workspace in workspaces for doc in workspace.docs],
+            [doc for workspace in workspace_tasks for doc in workspace.docs],
             key=lambda d: d.updated_at,
             reverse=True,
         )
