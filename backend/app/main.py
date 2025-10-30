@@ -5,7 +5,6 @@ import httpx
 from fastapi import Depends, FastAPI
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.types import ExceptionHandler
 
@@ -89,6 +88,3 @@ app.add_middleware(
 )
 app.add_middleware(RequestIDMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.TRUSTED_HOSTS)
-
-if settings.ENVIRONMENT == "prod":
-    app.add_middleware(HTTPSRedirectMiddleware)
