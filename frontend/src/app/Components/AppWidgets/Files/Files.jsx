@@ -55,7 +55,7 @@ function Files() {
                 title={<Link href={item?.url}>{item.object_filename}</Link>}
                 description={
                   <span>
-                    Gemaakt op:
+                    Laatste wijziging:{" "}
                     {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
                   </span>
                 }

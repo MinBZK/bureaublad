@@ -32,9 +32,9 @@ export function AppProvider({ children }) {
         </AppContext.Provider>
       ) : error?.status === 401 ? (
         <ErrorResult
-          errorStatus="warning"
+          errorStatus="info"
           title="Inloggen"
-          subTitle="Helaas, u bent niet bevoegd om deze pagina te bezoeken."
+          subTitle="Meld u aan om toegang te krijgen tot deze applicatie."
           btnTitle={"Inloggen"}
           btnLink={`/api/v1/auth/login`}
         />
