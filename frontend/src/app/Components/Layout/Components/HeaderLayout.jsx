@@ -25,13 +25,6 @@ function HeaderLayout({ isProfile = true, profile }) {
     <Header>
       <Flex justify={"space-between"}>
         <div>
-          <Image
-            src="/mijnbureau.svg"
-            alt="logo"
-            width="50"
-            height="50"
-            className="logo"
-          />
           <span className="logo-txt">Mijn Bureau</span>
         </div>
         {!isProfile && (
