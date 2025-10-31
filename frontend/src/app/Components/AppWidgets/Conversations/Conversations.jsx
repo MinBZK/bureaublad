@@ -29,7 +29,7 @@ function Conversations() {
     fetchChat();
   }, []);
   return (
-    <Widget title="Gesprekken" loading={loading} error={error}>
+    <Widget title="AI gesprek" loading={loading} error={error}>
       <List
         dataSource={conv}
         renderItem={(item, index) =>
@@ -39,7 +39,7 @@ function Conversations() {
                 title={<Link href={item?.url}>{item.title}</Link>}
                 description={
                   <span>
-                    Gemaakt op:
+                    Laatste wijziging:{" "}
                     {moment(item.created_at)?.format("DD-mm-YYYY HH:mm")}
                   </span>
                 }

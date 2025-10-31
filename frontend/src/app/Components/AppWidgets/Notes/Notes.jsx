@@ -48,7 +48,7 @@ function Note() {
               <List.Item.Meta
                 avatar={<Avatar icon={<FileTextOutlined />} />}
                 title={<Link href={item?.url}>{item.title}</Link>}
-                description={`Geüpdatet: ${item.updated_date}`}
+                description={`Laatste wijziging: ${item.updated_date}`}
               />
               <Link href={item?.url}>
                 <EditOutlined />

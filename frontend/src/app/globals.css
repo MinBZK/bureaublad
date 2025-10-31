@@ -33,6 +33,11 @@
   color: red;
 }
 
+.sider-search-input {
+  margin-block-start: 8px;
+  inline-size: clamp(80px, 20vw + 1rem, 420px);
+}
+
 .ant-menu {
   margin-top: 35px;
 }
@@ -87,6 +92,11 @@
 
 .logo-txt {
   color: white;
+}
+
+.profile-link {
+  color: white;
+  text-decoration: none;
 }
 
 /* AVATAR */

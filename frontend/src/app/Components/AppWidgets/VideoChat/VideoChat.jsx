@@ -27,7 +27,7 @@ function VideoChat() {
     fetchMeet();
   }, []);
   return (
-    <Widget title="Video Chat" loading={loading} error={error}>
+    <Widget title="Videoconferentie" loading={loading} error={error}>
       <List
         dataSource={meet}
         renderItem={(item, index) =>
@@ -40,7 +40,7 @@ function VideoChat() {
                   </Avatar>
                 }
                 title={<Link href={item.url}>{item.name}</Link>}
-                description={<span>Hostsleutel:{item.pin_code}</span>}
+                description={<span>Pincode: {item.pin_code}</span>}
               />
               <Link href={item.url}>
                 <Avatar className="avt-call" icon={<PhoneOutlined />} />
