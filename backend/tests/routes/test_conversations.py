@@ -44,11 +44,13 @@ class TestConversationsEndpoints:
                 id="conv-123",
                 title="Project Discussion",
                 created_at="2024-11-01T10:00:00Z",
+                updated_at="2024-11-01T11:00:00Z",
             ),
             Conversation(
                 id="conv-456",
                 title="Team Standup",
                 created_at="2024-11-02T09:00:00Z",
+                updated_at="2024-11-02T10:00:00Z",
             ),
         ]
 
@@ -96,6 +98,7 @@ class TestConversationsEndpoints:
                 id="conv-789",
                 title="Client Meeting",
                 created_at="2024-10-30T14:00:00Z",
+                updated_at="2024-10-30T15:00:00Z",
             ),
         ]
 
@@ -229,6 +232,7 @@ class TestConversationsEndpoints:
                 id="conv-123",
                 title="Project Discussion",
                 created_at="2024-11-01T10:00:00Z",
+                updated_at="2024-11-01T11:00:00Z",
             ),
         ]
 

@@ -71,12 +71,13 @@ function SearchFiles() {
         className="sider-search"
       >
         <Search
+          className="sider-search-input"
           allowClear
           value={inputValue}
           onChange={onChangeInput}
           onSearch={handleSearchClick}
           loading={loading}
-          placeholder="Bestanden zoeken..."
+          placeholder="zoeken..."
           variant="underlined"
           size="large"
         />
