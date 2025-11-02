@@ -4,3 +4,4 @@ dist
 .venv
 __pycache__
 *.pyc
+htmlcov/

@@ -3,7 +3,7 @@ name = "app"
 description = "API voor bureaublad"
 readme = "README.md"
 license = "EUPL-1.2"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "authlib>=1.6.5",
     "caldav>=1.4.0",
@@ -23,10 +23,12 @@ repository = "https://github.com/MinBZK/bureaublad"
 
 [dependency-groups]
 dev = [
+    "coverage>=7.11.0",
     "pyright>=1.1.406",
+    "pytest>=8.4.2",
+    "pytest-asyncio>=1.2.0",
     "ruff>=0.13.3",
 ]
-
 
 [tool.uv]
 package = true
@@ -45,12 +47,44 @@ ignore = ["TRY003", "C901"]
 [tool.ruff.lint.mccabe]
 max-complexity = 8
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S106", "S105", "DTZ001", "ANN202"]
+
 [tool.pyright]
 pythonVersion = "3.13"
 typeCheckingMode = "strict"
 reportMissingImports = true
 reportMissingTypeStubs = true
 reportUnnecessaryIsInstance = false
+include = ["app"]
 exclude = [
     ".venv",
+    "tests"
 ]
+
+[tool.coverage.run]
+source = ["app"]
+relative_files = true
+command_line = "-m pytest"
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 87
+sort = "-Cover"
+
+[tool.coverage.html]
+show_contexts = true
+
+[tool.pytest.ini_options]
+testpaths = [
+  "tests"
+]
+addopts = "--strict-markers --strict-config --nf "
+filterwarnings = [
+  "ignore::UserWarning"
+]
+log_cli = true
+log_cli_level = "INFO"
+faulthandler_timeout = 60
+asyncio_mode = "auto"

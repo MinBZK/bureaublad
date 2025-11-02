@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     )
     SECRET_KEY: str = secrets.token_urlsafe(32)
     DEBUG: bool = False
-    ENVIRONMENT: Literal["dev", "prod"] = "prod"
+    ENVIRONMENT: Literal["dev", "test", "prod"] = "prod"
 
     # Session configuration
     SESSION_MAX_AGE: int = 2 * 60 * 60  # 2 hours (should be >= refresh token lifetime)
@@ -127,6 +127,66 @@ class Settings(BaseSettings):
     CORS_ALLOW_HEADERS: list[str] = ["*"]
 
     TRUSTED_HOSTS: Annotated[list[str], BeforeValidator(parse_string_or_list)] = ["*"]
+
+    @computed_field
+    @property
+    def is_development(self) -> bool:
+        """Check if running in development environment."""
+        return self.ENVIRONMENT == "dev"
+
+    @computed_field
+    @property
+    def is_testing(self) -> bool:
+        """Check if running in test environment."""
+        return self.ENVIRONMENT == "test"
+
+    @computed_field
+    @property
+    def is_production(self) -> bool:
+        """Check if running in production environment."""
+        return self.ENVIRONMENT == "prod"
+
+    def __init__(self, **kwargs: Any) -> None:  # noqa: ANN401
+        super().__init__(**kwargs)
+        self._apply_environment_defaults()
+
+    def _apply_environment_defaults(self) -> None:
+        """Apply environment-specific default values after initialization."""
+        if self.ENVIRONMENT == "test":
+            # Test environment defaults - always include testserver for test client
+            if "testserver" not in self.TRUSTED_HOSTS:
+                self.TRUSTED_HOSTS = ["testserver", *self.TRUSTED_HOSTS]  # pyright: ignore[reportConstantRedefinition]
+
+            # Override DEBUG for tests unless explicitly set
+            if not hasattr(self, "_debug_set"):
+                self.DEBUG = True  # pyright: ignore[reportConstantRedefinition]
+
+            # Use a more verbose logging level for tests
+            if self.LOGGING_LEVEL == "INFO":
+                self.LOGGING_LEVEL = "DEBUG"  # pyright: ignore[reportConstantRedefinition]
+
+        elif self.ENVIRONMENT == "dev":
+            # Development environment defaults
+            if not hasattr(self, "_debug_set"):
+                self.DEBUG = True  # pyright: ignore[reportConstantRedefinition]
+
+        elif self.ENVIRONMENT == "prod":
+            # Production environment defaults - ensure security
+            if not hasattr(self, "_debug_set"):
+                self.DEBUG = False  # pyright: ignore[reportConstantRedefinition]
+
+    @classmethod
+    def for_testing(cls, **overrides: Any) -> "Settings":  # noqa: ANN401
+        """Create settings instance specifically for testing with safe defaults."""
+        test_defaults = {
+            "ENVIRONMENT": "test",
+            "DEBUG": True,
+            "TRUSTED_HOSTS": ["testserver", "localhost", "127.0.0.1"],
+            "LOGGING_LEVEL": "DEBUG",
+            "SECRET_KEY": "test-secret-key-not-for-production",
+            **overrides,
+        }
+        return cls(**test_defaults)
 
     @computed_field
     @property

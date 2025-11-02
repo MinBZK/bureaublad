@@ -18,6 +18,7 @@ node_modules
 
 # testing
 coverage
+coverage.lcov
 
 # next.js
 .next/
@@ -49,3 +50,6 @@ next-env.d.ts
 
 bureaublad-backend.log*
 .claude
+.coverage
+pytestdebug.log
+.pytest_cache
