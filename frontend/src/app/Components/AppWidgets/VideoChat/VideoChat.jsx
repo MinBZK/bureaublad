@@ -11,7 +11,7 @@ function VideoChat() {
   const [meet, setMeet] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     setLoading(true);
     const fetchMeet = async () => {
@@ -27,9 +27,17 @@ function VideoChat() {
     fetchMeet();
   }, []);
   return (
-    <Widget title="Video Chat" loading={loading} error={error}>
+    <Widget
+      title="Video Chat"
+      loading={loading}
+      error={error}
+      search={search}
+      setSearch={setSearch}
+    >
       <List
-        dataSource={meet}
+        dataSource={meet.filter((item) =>
+          item.name.toLowerCase().includes(search.toLowerCase()),
+        )}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.slug}>

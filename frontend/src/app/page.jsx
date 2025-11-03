@@ -1,50 +1,43 @@
 "use client";
 import React from "react";
-import { Col, Row, Card, Calendar, theme } from "antd";
+import { Col, Row } from "antd";
 import Files from "./Components/AppWidgets/Files/Files";
 import Chat from "./Components/AppWidgets/Conversations/Conversations";
 import Note from "./Components/AppWidgets/Notes/Notes";
 import VideoChat from "./Components/AppWidgets/VideoChat/VideoChat";
-// import Email from "./features/Email/Email";
 import Drive from "./Components/AppWidgets/Drive/Drive";
 import { useAppContext } from "./Components/Context/AppContext";
-// import DynamicIcon from "./Common/DynamicIcon";
 import AiAssistant from "./Components/AppWidgets/AiAssistant/AiAssistant";
+import Sheets from "./Components/AppWidgets/Sheets/Sheets";
 
 export default function Home() {
   const { items } = useAppContext();
-  const { token } = theme.useToken();
-  const wrapperStyle = {
-    width: 300,
-    border: `1px solid ${token.colorBorderSecondary}`,
-    borderRadius: token.borderRadiusLG,
-  };
+  const components = [
+    items?.cards?.docs && <Note key="docs" />,
+    items?.cards?.drive && <Drive key="drive" />,
+    items?.cards?.ocs && <Files key="ocs" />,
+    items?.cards?.grist && <Sheets key="sheet" />,
+    items?.cards?.conversation && <Chat key="conversation" />,
+    items?.cards?.meet && <VideoChat key="meet" />,
+  ].filter(Boolean);
+
+  const rows = [];
+  for (let i = 0; i < components.length; i += 3) {
+    rows.push(components.slice(i, i + 3));
+  }
 
   return (
     <React.Fragment>
-      {items?.cards?.ai && <AiAssistant />}
-      <Row gutter={16} className="space-up">
-        <Col span={8}>{items?.cards?.docs && <Note />}</Col>
-        <Col span={8}>{items?.cards?.drive && <Drive />}</Col>
-        <Col span={8}>{items?.cards?.ocs && <Files />}</Col>
-      </Row>
-      <Row gutter={16} className="space-up">
-        <Col span={8}>
-          {items?.cards?.conversation && <Chat />}
-
-          {/* <Email /> */}
-        </Col>
-        <Col span={8}>{items?.cards?.meet && <VideoChat />}</Col>
-        <Col span={8}>
-          {items?.cards?.calendar && (
-            <Card title="Agenda" variant="borderless">
-              <div style={wrapperStyle}>
-                <Calendar fullscreen={false} onPanelChange={undefined} />
-              </div>
-            </Card>
-          )}
-        </Col>
-      </Row>
+      {items?.cards?.ai && <AiAssistant key="ai" />}
+      {rows.map((row, rowIndex) => (
+        <Row gutter={16} className="space-up" key={rowIndex}>
+          {row.map((Component, colIndex) => (
+            <Col span={8} key={colIndex}>
+              {Component}
+            </Col>
+          ))}
+        </Row>
+      ))}
     </React.Fragment>
   );
 }

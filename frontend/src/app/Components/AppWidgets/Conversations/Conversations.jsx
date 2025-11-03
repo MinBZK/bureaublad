@@ -13,7 +13,7 @@ function Conversations() {
   const [conv, setConv] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const [search, setSearch] = useState("");
   useEffect(() => {
     setLoading(true);
     const fetchChat = async () => {
@@ -29,9 +29,17 @@ function Conversations() {
     fetchChat();
   }, []);
   return (
-    <Widget title="Gesprekken" loading={loading} error={error}>
+    <Widget
+      title="Gesprekken"
+      loading={loading}
+      error={error}
+      search={search}
+      setSearch={setSearch}
+    >
       <List
-        dataSource={conv}
+        dataSource={conv.filter((item) =>
+          item.title.toLowerCase().includes(search.toLowerCase()),
+        )}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.id}>
