@@ -1,6 +1,6 @@
 // grist
 import { useState, useEffect } from "react";
-import { Avatar, Divider, List, Radio } from "antd";
+import { Avatar, Divider, List, Select } from "antd";
 import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
@@ -8,19 +8,43 @@ import Widget from "../../../Common/Widget";
 import moment from "moment";
 
 function Sheets() {
+  const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [sheets, setSheets] = useState([]);
   const [orgs, setOrgs] = useState([]);
   const [loadingOrgs, setLoadingOrgs] = useState(false);
   const [errorOrgs, setErrorOrgs] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
+  const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
 
   useEffect(() => {
+    setLoadingOrgs(true);
+    const fetchOrgs = async () => {
+      try {
+        const res = await axios.get(`/api/v1/grist/orgs`);
+        setOrgs(res.data);
+        if (!selectedOrg && res.data.length > 0) {
+          setSelectedOrg(res.data[0]?.id);
+          localStorage.setItem("sheets_selected_org", res.data[0]?.id);
+        }
+      } catch (err) {
+        setErrorOrgs(err.message);
+      } finally {
+        setLoadingOrgs(false);
+      }
+    };
+    fetchOrgs();
+  }, [selectedOrg]);
+
+  useEffect(() => {
+    if (!selectedOrg) return;
+
     setLoading(true);
     const fetchSheets = async () => {
       try {
-        const res = await axios.get(`/api/v1/grist/docs?page=1&page_size=3`);
+        const res = await axios.get(
+          `/api/v1/grist/docs?organization_id=${selectedOrg}&page=1&page_size=3`,
+        );
         setSheets(res.data);
       } catch (err) {
         setError(err.message);
@@ -29,43 +53,34 @@ function Sheets() {
       }
     };
     fetchSheets();
-  }, []);
+  }, [selectedOrg]);
 
-  useEffect(() => {
-    setLoadingOrgs(true);
-    const fetchOrgs = async () => {
-      try {
-        const res = await axios.get(`/api/v1/grist/orgs?page=1&page_size=3`);
-        setOrgs(res.data);
-      } catch (err) {
-        setErrorOrgs(err.message);
-      } finally {
-        setLoadingOrgs(false);
-      }
-    };
-    fetchOrgs();
-  }, []);
+  const handleOrgChange = (value) => {
+    setSelectedOrg(value);
+    localStorage.setItem("sheets_selected_org", value);
+  };
+
+  const orgOptions = orgs.slice(0, 2).map((org) => ({
+    label: org.name,
+    value: org.id,
+  }));
 
   return (
-    <Widget
-      title="Sheets"
-      loading={loading || loadingOrgs}
-      error={error || errorOrgs}
-    >
-      <Radio.Group
-        block
-        options={orgs.map((org) => ({
-          label: org.name,
-          value: org.id,
-        }))}
-        defaultValue="Pear"
-        optionType="button"
+    <Widget title="Sheets" loading={loadingOrgs} error={error || errorOrgs}>
+      <Select
+        showSearch
+        placeholder="Organisatie selecteren"
+        optionFilterProp="label"
+        onChange={handleOrgChange}
+        defaultValue={parseInt(selectedOrg)}
+        value={parseInt(selectedOrg)}
+        className="sheets-org-select"
+        options={orgOptions}
       />
       <Divider />
       <List
-        dataSource={sheets.filter((item) =>
-          item.name.toLowerCase().includes(search.toLowerCase()),
-        )}
+        loading={loading}
+        dataSource={sheets}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.description}>
