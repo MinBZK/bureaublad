@@ -1,37 +1,26 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
-import axios from "axios";
+import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
 
 // Conversation
 function Conversations() {
-  const [conv, setConv] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    setLoading(true);
-    const fetchChat = async () => {
-      try {
-        const res = await axios.get(`/api/v1/conversations/chats?page=1`);
-        setConv(res.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchChat();
-  }, []);
+  const {
+    data: conv,
+    loading,
+    error,
+    refetch,
+  } = useFetchWithRefresh("/api/v1/conversations/chats", { page: 1 });
   return (
-    <Widget title="Gesprekken" loading={loading} error={error}>
+    <Widget title="Gesprekken" error={error} onRefresh={refetch}>
       <List
         dataSource={conv}
+        loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.id}>
