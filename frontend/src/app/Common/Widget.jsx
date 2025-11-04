@@ -38,7 +38,7 @@ function Widget({
       ) : (
         <React.Fragment>
           <Row>
-            <Col span={22}>
+            <Col span={setFavorite ? 22 : 24}>
               {setSearch && (
                 <React.Fragment>
                   <Search

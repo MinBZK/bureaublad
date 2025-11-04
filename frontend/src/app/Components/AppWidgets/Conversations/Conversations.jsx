@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 
 import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
@@ -7,17 +6,29 @@ import Link from "next/link";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
+import { useState } from "react";
 
 // Conversation
 function Conversations() {
+  // TODO search functionality is not implemented in the backend yet
+  const [search, setSearch] = useState("");
   const {
     data: conv,
     loading,
     error,
-    refetch,
-  } = useFetchWithRefresh("/api/v1/conversations/chats", { page: 1 });
+    onRefresh,
+  } = useFetchWithRefresh("/api/v1/conversations/chats", {
+    page: 1,
+    title: search,
+  });
+
   return (
-    <Widget title="Gesprekken" error={error} onRefresh={refetch}>
+    <Widget
+      title="Gesprekken"
+      error={error}
+      onRefresh={onRefresh}
+      setSearch={setSearch}
+    >
       <List
         dataSource={conv}
         loading={loading}

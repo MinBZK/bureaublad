@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import { useAutoRefresh } from "./useAutoRefresh";
 
-export function useFetchWithRefresh(url, params = {}, interval = 30000) {
+export function useFetchWithRefresh(url, params = {}) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -39,12 +39,12 @@ export function useFetchWithRefresh(url, params = {}, interval = 30000) {
   }, [fullUrl]);
 
   // Auto-refresh every specified interval
-  useAutoRefresh(fetchData, interval);
+  useAutoRefresh(fetchData, 30000);
 
   return {
     data,
     loading,
     error,
-    refetch: fetchData,
+    onRefresh: fetchData,
   };
 }

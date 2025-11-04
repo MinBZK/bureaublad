@@ -15,7 +15,7 @@ function Note() {
     data: docs,
     loading,
     error,
-    refetch,
+    onRefresh,
   } = useFetchWithRefresh("/api/v1/docs/documents", {
     favorite,
     title: search,
@@ -28,9 +28,8 @@ function Note() {
       setFavorite={setFavorite}
       search={search}
       setSearch={setSearch}
-      loading={loading}
       error={error}
-      onRefresh={refetch}
+      onRefresh={onRefresh}
     >
       <List
         dataSource={docs}

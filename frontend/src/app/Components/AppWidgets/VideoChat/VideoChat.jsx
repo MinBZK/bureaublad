@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import { useState } from "react";
 import { Avatar, List } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
@@ -8,18 +8,20 @@ import Link from "next/link";
 
 // meet
 function VideoChat() {
+  // TODO search functionality is not implemented in the backend yet
+  const [search, setSearch] = useState("");
   const {
     data: meet,
     loading,
     error,
-    refetch,
-  } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1 });
+    onRefresh,
+  } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
   return (
     <Widget
       title="Video Chat"
-      loading={loading}
       error={error}
-      onRefresh={refetch}
+      onRefresh={onRefresh}
+      setSearch={setSearch}
     >
       <List
         dataSource={meet}

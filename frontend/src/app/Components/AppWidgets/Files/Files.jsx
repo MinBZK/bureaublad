@@ -14,7 +14,7 @@ function Files() {
     data: files,
     loading,
     error,
-    refetch,
+    onRefresh,
   } = useFetchWithRefresh(
     searchTerm ? "/api/v1/ocs/search" : "/api/v1/ocs/activities",
     searchTerm ? { term: searchTerm } : {},
@@ -27,9 +27,8 @@ function Files() {
     <Widget
       title="Bestanden"
       setSearch={onSearch}
-      loading={loading}
       error={error}
-      onRefresh={refetch}
+      onRefresh={onRefresh}
     >
       <List
         dataSource={files}

@@ -15,7 +15,7 @@ function Drive() {
     data: drive,
     loading,
     error,
-    refetch,
+    onRefresh,
   } = useFetchWithRefresh("/api/v1/drive/documents", {
     title: search,
     favorite,
@@ -27,9 +27,8 @@ function Drive() {
       favorite={favorite}
       setFavorite={setFavorite}
       setSearch={setSearch}
-      loading={loading}
       error={error}
-      onRefresh={refetch}
+      onRefresh={onRefresh}
     >
       <List
         dataSource={drive}
