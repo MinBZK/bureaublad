@@ -1,4 +1,4 @@
-import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { StarFilled, StarOutlined, ReloadOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Result, Input, Row, Col } from "antd";
 import React, { useState } from "react";
 
@@ -8,21 +8,37 @@ function Widget({
   children,
   title,
   error,
-  loading,
+  loading = false,
   favorite,
-  setFavorite,
-  setSearch,
+  setFavorite = undefined,
+  setSearch = undefined,
   placeholder = "",
+  onRefresh = undefined,
 }) {
   const [value, setValue] = useState("");
   return (
-    <Card title={title} variant="borderless" loading={loading} type="inner">
+    <Card
+      title={title}
+      variant="borderless"
+      loading={loading}
+      type="inner"
+      extra={
+        onRefresh && (
+          <Button
+            onClick={onRefresh}
+            type="text"
+            icon={<ReloadOutlined />}
+            title="Vernieuwen"
+          />
+        )
+      }
+    >
       {error ? (
         <Result status="warning" title={error} className="space-min-up" />
       ) : (
         <React.Fragment>
           <Row>
-            <Col span={22}>
+            <Col span={setFavorite ? 22 : 24}>
               {setSearch && (
                 <React.Fragment>
                   <Search

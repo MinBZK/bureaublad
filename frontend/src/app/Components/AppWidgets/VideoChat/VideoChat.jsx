@@ -1,43 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { Avatar, List } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
-import axios from "axios";
+import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
 
 // meet
 function VideoChat() {
-  const [meet, setMeet] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
-  useEffect(() => {
-    setLoading(true);
-    const fetchMeet = async () => {
-      try {
-        const res = await axios.get(`/api/v1/meet/rooms?page=1`);
-        setMeet(res.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMeet();
-  }, []);
+  const {
+    data: meet,
+    loading,
+    error,
+    onRefresh,
+  } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
   return (
     <Widget
       title="Video Chat"
-      loading={loading}
       error={error}
-      search={search}
+      onRefresh={onRefresh}
       setSearch={setSearch}
     >
       <List
-        dataSource={meet.filter((item) =>
-          item.name.toLowerCase().includes(search.toLowerCase()),
-        )}
+        dataSource={meet}
+        loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.slug}>

@@ -1,45 +1,37 @@
 "use client";
-import React, { useState, useEffect } from "react";
 
 import { Avatar, List } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
-import axios from "axios";
+import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
+import { useState } from "react";
 
 // Conversation
 function Conversations() {
-  const [conv, setConv] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
-  useEffect(() => {
-    setLoading(true);
-    const fetchChat = async () => {
-      try {
-        const res = await axios.get(`/api/v1/conversations/chats?page=1`);
-        setConv(res.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchChat();
-  }, []);
+  const {
+    data: conv,
+    loading,
+    error,
+    onRefresh,
+  } = useFetchWithRefresh("/api/v1/conversations/chats", {
+    page: 1,
+    title: search,
+  });
+
   return (
     <Widget
       title="Gesprekken"
-      loading={loading}
       error={error}
-      search={search}
+      onRefresh={onRefresh}
       setSearch={setSearch}
     >
       <List
-        dataSource={conv.filter((item) =>
-          item.title.toLowerCase().includes(search.toLowerCase()),
-        )}
+        dataSource={conv}
+        loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.id}>

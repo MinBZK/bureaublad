@@ -1,32 +1,25 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Avatar, List } from "antd";
 import { FileImageOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import moment from "moment";
-import axios from "axios";
 import Widget from "@/app/Common/Widget";
+import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 
 function Drive() {
-  const [drive, setDrive] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
-  useEffect(() => {
-    setLoading(true);
-    const fetchDocs = async () => {
-      try {
-        const res = await axios.get("/api/v1/drive/documents");
-        setDrive(res.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchDocs();
-  }, [favorite, search]);
+
+  const {
+    data: drive,
+    loading,
+    error,
+    onRefresh,
+  } = useFetchWithRefresh("/api/v1/drive/documents", {
+    title: search,
+    favorite,
+  });
 
   return (
     <Widget
@@ -34,11 +27,12 @@ function Drive() {
       favorite={favorite}
       setFavorite={setFavorite}
       setSearch={setSearch}
-      loading={loading}
       error={error}
+      onRefresh={onRefresh}
     >
       <List
         dataSource={drive}
+        loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.description}>
