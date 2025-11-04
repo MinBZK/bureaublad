@@ -56,7 +56,9 @@ function SearchFiles() {
 
   const onChangeInput = (e) => {
     setInputValue(e?.target?.value);
-    e?.target?.value === "" && setOpen(false);
+    if (e?.target?.value === "") {
+      setOpen(false);
+    }
   };
 
   return (

@@ -8,6 +8,7 @@ import VideoChat from "./Components/AppWidgets/VideoChat/VideoChat";
 import Drive from "./Components/AppWidgets/Drive/Drive";
 import { useAppContext } from "./Components/Context/AppContext";
 import AiAssistant from "./Components/AppWidgets/AiAssistant/AiAssistant";
+import Sheets from "./Components/AppWidgets/Sheets/Sheets";
 
 export default function Home() {
   const { items } = useAppContext();
@@ -15,9 +16,9 @@ export default function Home() {
     items?.cards?.docs && <Note key="docs" />,
     items?.cards?.drive && <Drive key="drive" />,
     items?.cards?.ocs && <Files key="ocs" />,
+    items?.cards?.grist && <Sheets key="sheet" />,
     items?.cards?.conversation && <Chat key="conversation" />,
     items?.cards?.meet && <VideoChat key="meet" />,
-    items?.cards?.ai && <AiAssistant key="ai" />,
   ].filter(Boolean);
 
   const rows = [];
@@ -27,6 +28,7 @@ export default function Home() {
 
   return (
     <React.Fragment>
+      {items?.cards?.ai && <AiAssistant key="ai" />}
       {rows.map((row, rowIndex) => (
         <Row gutter={16} className="space-up" key={rowIndex}>
           {row.map((Component, colIndex) => (
