@@ -65,7 +65,7 @@ jobs:
       - name: pyright typecheck
         run: |
           cd backend/
-          uv run pyright
+          ./scripts/typecheck.sh
 
   lint:
     runs-on: ubuntu-latest
@@ -97,8 +97,31 @@ jobs:
           format: json
           failure-threshold: warning
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "backend/pyproject.toml"
+
+      - name: Install uv
+        run: pipx install uv
+
+      - name: Install dependencies
+        run: |
+          cd backend/
+          uv run sync
+
+      - name: test
+        run: |
+          cd backend/
+          ./scripts/test.sh
+
   build:
-    needs: [format, lint, typecheck]
+    needs: [format, lint, typecheck, test]
     if: github.event_name != 'pull_request'
     name: Push Docker image to github registries
     runs-on: ubuntu-latest
