@@ -1,10 +1,7 @@
 "use client";
-import React from "react";
 import { Avatar, Dropdown, Flex, Layout } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import Image from "next/image";
-import SearchFiles from "../../../Common/SearchFiles";
 
 const { Header } = Layout;
 
@@ -28,8 +25,6 @@ function HeaderLayout({ isProfile = true, profile }) {
         <div>
           <span className="logo-txt">Mijn Bureau</span>
         </div>
-
-        <SearchFiles className="header-search" />
         {!isProfile && (
           <Dropdown menu={{ items }}>
             <Link className="profile-link" href="/#">
