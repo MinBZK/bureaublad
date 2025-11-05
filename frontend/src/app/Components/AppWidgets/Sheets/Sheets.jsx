@@ -11,15 +11,15 @@ function Sheets() {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
 
-  const effectiveSelectedOrg =
-    selectedOrg || (orgs.length > 0 ? orgs[0]?.id : null);
-
   const {
     data: orgs,
     loading: loadingOrgs,
     error: errorOrgs,
     onRefresh: refetchOrgs,
   } = useFetchWithRefresh("/api/v1/grist/orgs");
+
+  const effectiveSelectedOrg =
+    selectedOrg || (orgs.length > 0 ? orgs[0]?.id : null);
 
   const {
     data: sheets,
