@@ -1,7 +1,5 @@
 import DynamicIcon from "./DynamicIcon";
 
-
-
 export const menuItem = (sideBarLinks) => [
   {
     key: 0,
