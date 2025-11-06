@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Col, Row } from "antd";
+import { List } from "antd";
 import Files from "./Components/AppWidgets/Files/Files";
 import Chat from "./Components/AppWidgets/Conversations/Conversations";
 import Note from "./Components/AppWidgets/Notes/Notes";
@@ -21,23 +21,15 @@ export default function Home() {
     items?.cards?.meet && <VideoChat key="meet" />,
   ].filter(Boolean);
 
-  const rows = [];
-  for (let i = 0; i < components.length; i += 3) {
-    rows.push(components.slice(i, i + 3));
-  }
-
   return (
     <React.Fragment>
       {items?.cards?.ai && <AiAssistant key="ai" />}
-      {rows.map((row, rowIndex) => (
-        <Row gutter={16} className="space-up" key={rowIndex}>
-          {row.map((Component, colIndex) => (
-            <Col span={8} key={colIndex}>
-              {Component}
-            </Col>
-          ))}
-        </Row>
-      ))}
+      <List
+        className="dashboard-list"
+        grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
+        dataSource={components}
+        renderItem={(item) => <List.Item>{item}</List.Item>}
+      />
     </React.Fragment>
   );
 }

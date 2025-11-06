@@ -2,21 +2,14 @@ import DynamicIcon from "./DynamicIcon";
 
 export const menuItem = (sideBarLinks) => [
   {
-    key: "1",
+    key: 0,
     label: "Home",
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
-  {
-    type: "divider",
-  },
-  {
-    key: "grp",
-    label: "Favoriete Apps",
-    type: "group",
-    children: sideBarLinks?.map((value) => ({
-      key: value?.title,
-      label: value?.title,
-      icon: <DynamicIcon name={value?.icon} />,
-    })),
-  },
+
+  ...sideBarLinks?.map((value, index) => ({
+    key: index + 1,
+    label: value?.title,
+    icon: <DynamicIcon name={value?.icon} />,
+  })),
 ];
