@@ -64,7 +64,7 @@ class TestDriveEndpoints:
         assert data[1]["mimetype"] == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 
         # Verify DriveClient was called correctly
-        mock_client_instance.get_documents.assert_called_once_with(title=None, is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -101,7 +101,9 @@ class TestDriveEndpoints:
         assert data[0]["mimetype"] == "application/pdf"
 
         # Verify DriveClient was called with title filter
-        mock_client_instance.get_documents.assert_called_once_with(title="Filtered Document", is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(
+            page=1, page_size=5, title="Filtered Document", is_favorite=False
+        )
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -138,7 +140,7 @@ class TestDriveEndpoints:
         assert data[0]["mimetype"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
         # Verify DriveClient was called with is_favorite=True
-        mock_client_instance.get_documents.assert_called_once_with(title=None, is_favorite=True)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -174,7 +176,9 @@ class TestDriveEndpoints:
         assert data[0]["title"] == "Important Document.pdf"
 
         # Verify DriveClient was called with both filters
-        mock_client_instance.get_documents.assert_called_once_with(title="Important", is_favorite=True)
+        mock_client_instance.get_documents.assert_called_once_with(
+            page=1, page_size=5, title="Important", is_favorite=True
+        )
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")

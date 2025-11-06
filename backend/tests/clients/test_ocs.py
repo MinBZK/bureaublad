@@ -167,7 +167,7 @@ class TestOCSClient:
             await client.get_activities()
 
         assert "OCS" in str(exc_info.value)
-        assert "Failed to fetch activities (status 404)" in str(exc_info.value)
+        assert "Failed to fetch ocs/v2.php/apps/activity/api/v2/activity/files (status 404)" in str(exc_info.value)
 
     async def test_get_activities_multiple_activities(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test retrieval of multiple activities."""
@@ -321,7 +321,7 @@ class TestOCSClient:
             await client.search_files(term="test")
 
         assert "OCS" in str(exc_info.value)
-        assert "Failed to search files (status 500)" in str(exc_info.value)
+        assert "Failed to fetch ocs/v2.php/search/providers/files/search (status 500)" in str(exc_info.value)
 
     async def test_search_files_multiple_results(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test file search with multiple results."""

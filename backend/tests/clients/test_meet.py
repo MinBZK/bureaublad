@@ -73,7 +73,7 @@ class TestMeetClient:
         mock_http_client.get.assert_called_once()
         call_args = mock_http_client.get.call_args
         assert call_args[0][0] == "https://meet.example.com/api/v1.0/rooms/"
-        assert call_args[1]["params"] == {"page": 1}
+        assert call_args[1]["params"] == {"page": 1, "page_size": 5}
         assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
     async def test_get_rooms_with_custom_params(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
@@ -89,7 +89,7 @@ class TestMeetClient:
         # Verify HTTP call with custom parameters
         call_args = mock_http_client.get.call_args
         assert call_args[0][0] == "https://meet.example.com/custom/rooms/"
-        assert call_args[1]["params"] == {"page": 2}
+        assert call_args[1]["params"] == {"page": 2, "page_size": 5}
 
     async def test_get_rooms_strips_leading_slash_from_path(
         self, client: MeetClient, mock_http_client: AsyncMock
@@ -113,9 +113,9 @@ class TestMeetClient:
         mock_http_client.get.return_value = mock_response
 
         # Test with None page
-        await client.get_rooms(page=None)
+        await client.get_rooms()
         call_args = mock_http_client.get.call_args
-        assert call_args[1]["params"] == {"page": 1}
+        assert call_args[1]["params"] == {"page": 1, "page_size": 5}
 
         # Reset mock
         mock_http_client.reset_mock()
@@ -124,7 +124,7 @@ class TestMeetClient:
         # Test with page < 1
         await client.get_rooms(page=0)
         call_args = mock_http_client.get.call_args
-        assert call_args[1]["params"] == {"page": 1}
+        assert call_args[1]["params"] == {"page": 1, "page_size": 5}
 
     async def test_get_rooms_error_response(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test room retrieval with error response."""
@@ -132,11 +132,12 @@ class TestMeetClient:
         mock_response.status_code = 404
         mock_http_client.get.return_value = mock_response
 
-        # Test
-        result = await client.get_rooms()
+        # Test - should raise exception for non-200 status codes
+        with pytest.raises(ExternalServiceError) as exc_info:
+            await client.get_rooms()
 
-        # Should return empty list for non-200 status codes
-        assert result == []
+        assert "Meet" in str(exc_info.value)
+        assert "Failed to fetch api/v1.0/rooms/ (status 404)" in str(exc_info.value)
 
     async def test_get_rooms_multiple_rooms(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test retrieval of multiple rooms."""

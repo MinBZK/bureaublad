@@ -27,17 +27,14 @@ async def get_drive_client(request: Request, http_client: HTTPClient) -> DriveCl
 async def drive_documents(
     request: Request,
     http_client: HTTPClient,
+    page: int = 1,
+    page_size: int = 5,
     title: str | None = None,
     is_favorite: bool = False,
 ) -> list[Document]:
-    """Get documents from Drive service.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get documents from Drive service."""
     if not settings.drive_enabled or not settings.DRIVE_URL:
         raise ServiceUnavailableError("Drive")
 
-    # Get auth from session (already refreshed by get_current_user dependency)
-
     client = await get_drive_client(request, http_client)
-    return await client.get_documents(title=title, is_favorite=is_favorite)
+    return await client.get_documents(page=page, page_size=page_size, title=title, is_favorite=is_favorite)

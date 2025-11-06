@@ -76,7 +76,7 @@ class TestMeetEndpoints:
         assert data[1]["name"] == "Project Review"
 
         # Verify MeetClient was called correctly
-        mock_client_instance.get_rooms.assert_called_once_with(page=None)
+        mock_client_instance.get_rooms.assert_called_once_with(page=1, page_size=5)
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
     @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
@@ -104,7 +104,7 @@ class TestMeetEndpoints:
         ]
         mock_meet_client.return_value = mock_client_instance
 
-        response = authenticated_client.get("/api/v1/meet/rooms?page=2")
+        response = authenticated_client.get("/api/v1/meet/rooms?page=2&page_size=1")
 
         assert response.status_code == 200
         data = response.json()
@@ -112,7 +112,7 @@ class TestMeetEndpoints:
         assert data[0]["id"] == "room-123"
 
         # Verify MeetClient was called correctly with page parameter
-        mock_client_instance.get_rooms.assert_called_once_with(page=2)
+        mock_client_instance.get_rooms.assert_called_once_with(page=2, page_size=1)
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
     @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")

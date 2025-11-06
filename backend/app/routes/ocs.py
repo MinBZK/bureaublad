@@ -28,22 +28,18 @@ async def get_ocs_client(request: Request, http_client: HTTPClient) -> OCSClient
 async def ocs_activities(
     request: Request,
     http_client: HTTPClient,
+    limit: int = 5,
+    since: int = 0,
 ) -> list[Activity]:
-    """Get activities from OCS service.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get activities from OCS service."""
     client = await get_ocs_client(request, http_client)
 
-    return await client.get_activities()
+    return await client.get_activities(limit=limit, since=since)
 
 
 @router.get("/search", response_model=list[SearchResults])
 async def ocs_search(request: Request, http_client: HTTPClient, term: str) -> list[SearchResults]:
-    """Get file search results from OCS service.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get file search results from OCS service."""
     if len(term) < 4:
         return []
 

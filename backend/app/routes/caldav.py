@@ -30,10 +30,7 @@ async def caldav_calendar(
     calendar_date: date,
     request: Request,
 ) -> list[Calendar | None]:
-    """Get calendar events for a specific date.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get calendar events for a specific date."""
     client = await get_caldav_client(request)
 
     calendar_items: list[Calendar | None] = client.get_calendars(
@@ -45,12 +42,6 @@ async def caldav_calendar(
 
 @router.get("/tasks", response_model=list[Task])
 async def caldav_tasks(request: Request) -> list[Task]:
-    """Get tasks from CalDAV service.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get tasks from CalDAV service."""
     client = await get_caldav_client(request)
-
-    activities: list[Task] = client.get_tasks()
-
-    return activities
+    return client.get_tasks()
