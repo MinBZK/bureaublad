@@ -43,8 +43,19 @@
   border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
-.ant-menu {
-  margin-top: 35px;
+.ant-layout-header {
+  height: 40px;
+  padding: 0 50px;
+  line-height: 40px;
+  background: #001529;
+}
+
+.ant-menu-item-selected {
+  height: 40px;
+}
+
+.dashboard-list {
+  margin-top: 20px;
 }
 
 /* AI */
@@ -101,7 +112,12 @@
 
 .logo-txt {
   color: white;
-  font-size: 1.5rem;
+  font-size: 1rem;
+}
+
+.logo {
+  margin-right: 10%;
+  margin-top: -1px;
 }
 
 .profile-link {

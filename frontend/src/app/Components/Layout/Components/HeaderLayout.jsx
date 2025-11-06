@@ -1,11 +1,12 @@
 "use client";
-import { Avatar, Dropdown, Flex, Layout } from "antd";
+import { Avatar, Dropdown, Flex, Layout, Menu } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { menuItem } from "../../../Common/pageConfig";
 
 const { Header } = Layout;
 
-function HeaderLayout({ isProfile = true, profile }) {
+function HeaderLayout({ isProfile = true, profile, applications }) {
   const items = [
     {
       key: "1",
@@ -19,12 +20,22 @@ function HeaderLayout({ isProfile = true, profile }) {
       danger: true,
     },
   ];
+
   return (
     <Header>
-      <Flex justify={"space-between"}>
-        <div>
+      <Flex>
+        <div className="logo">
           <span className="logo-txt">Mijn Bureau</span>
         </div>
+        {applications && (
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={["0"]}
+            items={menuItem(applications)}
+            style={{ flex: 1, minWidth: 0 }}
+          />
+        )}
         {!isProfile && (
           <Dropdown menu={{ items }}>
             <Link className="profile-link" href="/#">
