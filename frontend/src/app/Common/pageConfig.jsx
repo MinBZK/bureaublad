@@ -3,7 +3,7 @@ import DynamicIcon from "./DynamicIcon";
 export const menuItem = (sideBarLinks) => [
   {
     key: "1",
-    label: "Homepagina",
+    label: "Home",
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
   {
@@ -11,7 +11,7 @@ export const menuItem = (sideBarLinks) => [
   },
   {
     key: "grp",
-    label: "Mijn Favoriete Apps",
+    label: "Favoriete Apps",
     type: "group",
     children: sideBarLinks?.map((value) => ({
       key: value?.title,

@@ -41,8 +41,7 @@ function Drive() {
                   <Avatar icon={<FileImageOutlined />} className="avt-name" />
                 }
                 title={<Link href={item?.url || ""}>{item.title}</Link>}
-                description={`Gemaakt:
-                  ${moment(item.created_at).format("DD-MM-YYYY, mm:ss")}`}
+                description={`Laatste wijziging: ${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
               />
             </List.Item>
           )

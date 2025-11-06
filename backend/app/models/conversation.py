@@ -7,6 +7,7 @@ class Conversation(BaseModel):
     id: str
     title: str
     created_at: str
+    updated_at: str
 
     @computed_field
     @property

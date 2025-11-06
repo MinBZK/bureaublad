@@ -24,7 +24,7 @@ function Conversations() {
 
   return (
     <Widget
-      title="Gesprekken"
+      title="AI gesprek"
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -39,8 +39,8 @@ function Conversations() {
                 title={<Link href={item?.url}>{item.title}</Link>}
                 description={
                   <span>
-                    Gemaakt op:
-                    {moment(item.created_at)?.format("DD-mm-YYYY HH:mm")}
+                    Laatste wijziging:{" "}
+                    {moment(item.updated_at)?.format("DD-mm-YYYY HH:mm")}
                   </span>
                 }
               />

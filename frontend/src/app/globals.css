@@ -33,6 +33,16 @@
   color: red;
 }
 
+.sider-search-input {
+  margin-block-start: 8px;
+  inline-size: clamp(80px, 20vw + 1rem, 420px);
+}
+.sider-search .ant-input-search-button {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 .ant-menu {
   margin-top: 35px;
 }
@@ -92,6 +102,11 @@
 .logo-txt {
   color: white;
   font-size: 1.5rem;
+}
+
+.profile-link {
+  color: white;
+  text-decoration: none;
 }
 
 /* AVATAR */

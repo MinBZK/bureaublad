@@ -33,12 +33,12 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/public:/app/public
+      - ./frontend/src:/app/src:cached
       - ./.next:/app/.next
       - /app/node_modules # prevent host from overwriting node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true # ensures file watching inside Docker
+      - WATCHPACK_POLLING=true # additional polling for better file watching
     depends_on:
       - backend
     networks:
@@ -209,6 +209,9 @@ services:
 
 volumes:
   postgres:
+  frontend_next_cache:
+  frontend_node_modules:
+  frontend_turbo_cache:
 
 networks:
   proxy:

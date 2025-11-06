@@ -18,7 +18,7 @@ function VideoChat() {
   } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
   return (
     <Widget
-      title="Video Chat"
+      title="Videoconferentie"
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -36,7 +36,7 @@ function VideoChat() {
                   </Avatar>
                 }
                 title={<Link href={item.url}>{item.name}</Link>}
-                description={<span>Hostsleutel:{item.pin_code}</span>}
+                description={<span>Pincode: {item.pin_code}</span>}
               />
               <Link href={item.url}>
                 <Avatar className="avt-call" icon={<PhoneOutlined />} />

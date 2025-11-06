@@ -1,9 +1,7 @@
 "use client";
-import React from "react";
 import { Avatar, Dropdown, Flex, Layout } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import Image from "next/image";
 
 const { Header } = Layout;
 
@@ -29,8 +27,8 @@ function HeaderLayout({ isProfile = true, profile }) {
         </div>
         {!isProfile && (
           <Dropdown menu={{ items }}>
-            <Link href="/#">
-              <Avatar icon={<UserOutlined />} />
+            <Link className="profile-link" href="/#">
+              <Avatar icon={<UserOutlined />} /> {profile}
             </Link>
           </Dropdown>
         )}
