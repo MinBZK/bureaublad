@@ -38,14 +38,12 @@ async def get_meet_client(request: Request, http_client: HTTPClient) -> MeetClie
 async def meet_get_rooms(
     request: Request,
     http_client: HTTPClient,
-    page: int | None = None,
+    page: int = 1,
+    page_size: int = 5,
 ) -> list[Room]:
-    """Get meetings from Meet service.
-
-    Note: Auth is validated by get_current_user() at router level.
-    """
+    """Get meetings from Meet service."""
     client = await get_meet_client(request, http_client)
-    return await client.get_rooms(page=page)
+    return await client.get_rooms(page=page, page_size=page_size)
 
 
 @router.post("/rooms", response_model=Room)

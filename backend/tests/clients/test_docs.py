@@ -147,11 +147,12 @@ class TestDocsClient:
         mock_response.status_code = 404
         mock_http_client.get.return_value = mock_response
 
-        # Test
-        result = await client.get_documents()
+        # Test - should raise exception for non-200 status codes
+        with pytest.raises(ExternalServiceError) as exc_info:
+            await client.get_documents()
 
-        # Should return empty list for non-200 status codes
-        assert result == []
+        assert "Docs" in str(exc_info.value)
+        assert "Failed to fetch api/v1.0/documents/ (status 404)" in str(exc_info.value)
 
     async def test_get_documents_multiple_documents(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test retrieval of multiple documents."""

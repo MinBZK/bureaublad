@@ -1,18 +1,15 @@
 import logging
 from typing import Any
 
-import httpx
+from app.clients.base import BaseAPIClient
 from app.models.document import Document
 from pydantic import TypeAdapter
 
 logger = logging.getLogger(__name__)
 
 
-class DriveClient:
-    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
-        self.client = http_client
-        self.base_url = base_url.rstrip("/")
-        self.token = token
+class DriveClient(BaseAPIClient):
+    service_name = "Drive"
 
     async def get_documents(
         self,
@@ -24,6 +21,9 @@ class DriveClient:
         is_creator_me: bool = False,
         is_favorite: bool = False,
     ) -> list[Document]:
+        page = max(1, page)
+        page_size = max(1, page_size)
+
         params: dict[str, Any] = {"page": page, "page_size": page_size, "ordering": ordering}
 
         if title:
@@ -33,12 +33,12 @@ class DriveClient:
         if is_favorite:
             params["is_favorite"] = str(is_favorite)
 
-        url = f"{self.base_url}/{path.lstrip('/')}"
+        url = self._build_url(path)
 
         response = await self.client.get(
             url,
             params=params,
-            headers={"Authorization": f"Bearer {self.token}"},
+            headers=self._auth_headers(),
         )
         if response.status_code != 200:
             return TypeAdapter(list[Document]).validate_python([])
@@ -51,10 +51,10 @@ class DriveClient:
         workspace_id = results[0]["id"]
 
         item_path = f"api/v1.0/items/{workspace_id}/children/"
-        item_url = f"{self.base_url}/{item_path.lstrip('/')}"
+        item_url = self._build_url(item_path)
         response = await self.client.get(
             item_url,
-            headers={"Authorization": f"Bearer {self.token}"},
+            headers=self._auth_headers(),
         )
 
         if response.status_code != 200:

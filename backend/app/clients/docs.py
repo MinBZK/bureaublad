@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-import httpx
+from app.clients.base import BaseAPIClient
 from app.exceptions import ExternalServiceError
 from app.models.note import Note
 from pydantic import TypeAdapter
@@ -11,11 +11,8 @@ from pydantic import TypeAdapter
 logger = logging.getLogger(__name__)
 
 
-class DocsClient:
-    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
-        self.client = http_client
-        self.base_url = base_url.rstrip("/")
-        self.token = token
+class DocsClient(BaseAPIClient):
+    service_name = "Docs"
 
     async def get_documents(
         self,
@@ -27,6 +24,9 @@ class DocsClient:
         is_creator_me: bool = False,
         ordering: str = "-updated_at",
     ) -> list[Note]:
+        page = max(1, page)
+        page_size = max(1, page_size)
+
         params: dict[str, Any] = {"page": page, "page_size": page_size, "ordering": ordering}
 
         if title:
@@ -38,26 +38,16 @@ class DocsClient:
         if is_creator_me:
             params["is_creator_me"] = str(is_creator_me)
 
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        response = await self.client.get(
-            url,
-            params=params,
-            headers={"Authorization": f"Bearer {self.token}"},
+        notes = await self._get_resource(
+            path=path, model_type=list[Note], params=params, response_parser=lambda data: data.get("results", [])
         )
-
-        if response.status_code != 200:
-            return TypeAdapter(list[Note]).validate_python([])
-
-        results = response.json().get("results", [])
-        notes: list[Note] = TypeAdapter(list[Note]).validate_python(results)
-
         return notes
 
     async def post_document(self, path: str = "api/v1.0/documents/") -> Note:
-        url = f"{self.base_url}/{path.lstrip('/')}"
+        url = self._build_url(path)
         response = await self.client.post(
             url,
-            headers={"Authorization": f"Bearer {self.token}"},
+            headers=self._auth_headers(),
         )
 
         if response.status_code != 201:

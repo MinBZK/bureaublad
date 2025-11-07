@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-import httpx
+from app.clients.base import BaseAPIClient
 from app.exceptions import ExternalServiceError
 from app.models.room import Room
 from pydantic import TypeAdapter
@@ -11,25 +11,12 @@ from pydantic import TypeAdapter
 logger = logging.getLogger(__name__)
 
 
-class MeetClient:
-    """Client for Meet service API.
+class MeetClient(BaseAPIClient):
+    """Client for Meet service API."""
 
-    Handles business logic for fetching and managing meetings.
-    """
+    service_name = "Meet"
 
-    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
-        """Initialize MeetClient.
-
-        Args:
-            http_client: Shared httpx.AsyncClient instance
-            base_url: Base URL for the Meet service
-            token: Authentication token for this request
-        """
-        self.client = http_client
-        self.base_url = base_url.rstrip("/")
-        self.token = token
-
-    async def get_rooms(self, path: str = "api/v1.0/rooms/", page: int | None = 1) -> list[Room]:
+    async def get_rooms(self, path: str = "api/v1.0/rooms/", page: int = 1, page_size: int = 5) -> list[Room]:
         """Fetch meetings from Meet service.
 
         Args:
@@ -39,32 +26,22 @@ class MeetClient:
         Returns:
             List of Meeting objects
         """
-        if page is None or page < 1:
-            page = 1
+        page = max(1, page)
+        page_size = max(1, page_size)
 
-        params: dict[str, Any] = {"page": page}
+        params: dict[str, Any] = {"page": page, "page_size": page_size}
 
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        response = await self.client.get(
-            url,
-            params=params,
-            headers={"Authorization": f"Bearer {self.token}"},
+        rooms = await self._get_resource(
+            path=path, model_type=list[Room], params=params, response_parser=lambda data: data.get("results", [])
         )
-
-        if response.status_code != 200:
-            return TypeAdapter(list[Room]).validate_python([])
-
-        results = response.json().get("results", [])
-        rooms: list[Room] = TypeAdapter(list[Room]).validate_python(results)
-
         return rooms
 
     async def post_room(self, name: str, path: str = "api/v1.0/rooms/") -> Room:
-        url = f"{self.base_url}/{path.lstrip('/')}"
+        url = self._build_url(path)
         response = await self.client.post(
             url,
             json={"name": name},
-            headers={"Authorization": f"Bearer {self.token}"},
+            headers=self._auth_headers(),
         )
 
         if response.status_code != 201:

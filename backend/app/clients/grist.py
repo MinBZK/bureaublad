@@ -1,45 +1,20 @@
 import logging
 
-import httpx
-from app.exceptions import ExternalServiceError
+from app.clients.base import BaseAPIClient
 from app.models.grist import GristDocument, GristOrganization, GristWorkspace
-from pydantic import TypeAdapter
 
 logger = logging.getLogger(__name__)
 
 
-class GristClient:
-    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
-        self.client = http_client
-        self.base_url = base_url.rstrip("/")
-        self.token = token
-
-    async def _fetch_list[T](self, url: str, model_type: type[T], resource_name: str) -> list[T]:
-        """Generic method to fetch a list of resources from the Grist API."""
-        try:
-            response = await self.client.get(
-                url,
-                headers={"Authorization": f"Bearer {self.token}"},
-            )
-
-            if response.status_code != 200:
-                logger.error(f"Grist API returned status {response.status_code}: {response.text}")
-                raise ExternalServiceError("Grist", f"Failed to fetch {resource_name} (status {response.status_code})")
-
-            data = response.json()
-            return TypeAdapter(list[model_type]).validate_python(data)
-
-        except httpx.HTTPError as e:
-            logger.exception("HTTP error calling Grist API")
-            raise ExternalServiceError("Grist", f"HTTP error: {e}") from e
+class GristClient(BaseAPIClient):
+    service_name = "Grist"
 
     async def get_organizations(self, path: str = "api/orgs") -> list[GristOrganization]:
-        url = f"{self.base_url}/{path.lstrip('/')}"
-        return await self._fetch_list(url, GristOrganization, "organizations")
+        return await self._get_resource(path=path, model_type=list[GristOrganization])
 
     async def get_workspaces(self, organization_id: int) -> list[GristWorkspace]:
-        url = f"{self.base_url}/api/orgs/{organization_id}/workspaces"
-        return await self._fetch_list(url, GristWorkspace, "workspaces")
+        path = f"api/orgs/{organization_id}/workspaces"
+        return await self._get_resource(path=path, model_type=list[GristWorkspace])
 
     async def get_documents(
         self,
@@ -50,12 +25,8 @@ class GristClient:
         """
         Fetch all documents for organization with organization_id, sorted by updated date (most recent first).
         """
-
-        if page < 1:
-            page = 1
-
-        if page_size < 1:
-            page_size = 1
+        page = max(1, page)
+        page_size = max(1, page_size)
 
         workspace_tasks = await self.get_workspaces(organization_id)
 

@@ -27,16 +27,14 @@ async def get_docs_client(request: Request, http_client: HTTPClient) -> DocsClie
 async def docs_get_documents(
     request: Request,
     http_client: HTTPClient,
+    page: int = 1,
+    page_size: int = 5,
     title: str | None = None,
     is_favorite: bool = False,
 ) -> list[Note]:
-    """Get documents from Docs service.
-
-    Note: Auth is already validated by get_current_user() at router level.
-    The auth state (including refreshed tokens) is available in request.session.
-    """
+    """Get documents from Docs service."""
     client = await get_docs_client(request, http_client)
-    return await client.get_documents(title=title, is_favorite=is_favorite)
+    return await client.get_documents(page=page, page_size=page_size, title=title, is_favorite=is_favorite)
 
 
 @router.post("/documents", response_model=Note)

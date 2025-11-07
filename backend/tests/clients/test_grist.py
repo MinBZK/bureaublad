@@ -68,9 +68,10 @@ class TestGristClient:
         result = await grist_client.get_organizations()
 
         # Verify request was made correctly
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/api/orgs", headers={"Authorization": "Bearer test-token"}
-        )
+        mock_http_client.get.assert_called_once()
+        call_args = mock_http_client.get.call_args
+        assert call_args[0][0] == "https://grist.example.com/api/orgs"
+        assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
         # Verify result
         assert len(result) == 2
@@ -92,9 +93,10 @@ class TestGristClient:
 
         await grist_client.get_organizations("custom/path")
 
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/custom/path", headers={"Authorization": "Bearer test-token"}
-        )
+        mock_http_client.get.assert_called_once()
+        call_args = mock_http_client.get.call_args
+        assert call_args[0][0] == "https://grist.example.com/custom/path"
+        assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
     @pytest.mark.asyncio
     async def test_get_organizations_with_leading_slash_path(
@@ -108,9 +110,10 @@ class TestGristClient:
 
         await grist_client.get_organizations("/custom/path")
 
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/custom/path", headers={"Authorization": "Bearer test-token"}
-        )
+        mock_http_client.get.assert_called_once()
+        call_args = mock_http_client.get.call_args
+        assert call_args[0][0] == "https://grist.example.com/custom/path"
+        assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
     @pytest.mark.asyncio
     async def test_get_organizations_http_error(self, grist_client: GristClient, mock_http_client: AsyncMock) -> None:
@@ -135,7 +138,7 @@ class TestGristClient:
             await grist_client.get_organizations()
 
         assert "Grist service error" in str(exc_info.value.detail)
-        assert "Failed to fetch organizations (status 404)" in str(exc_info.value.detail)
+        assert "Failed to fetch api/orgs (status 404)" in str(exc_info.value.detail)
 
     @pytest.mark.asyncio
     async def test_get_workspaces_success(self, grist_client: GristClient, mock_http_client: AsyncMock) -> None:
@@ -168,9 +171,10 @@ class TestGristClient:
         result = await grist_client.get_workspaces(organization_id=123)
 
         # Verify request
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/api/orgs/123/workspaces", headers={"Authorization": "Bearer test-token"}
-        )
+        mock_http_client.get.assert_called_once()
+        call_args = mock_http_client.get.call_args
+        assert call_args[0][0] == "https://grist.example.com/api/orgs/123/workspaces"
+        assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
         # Verify result
         assert len(result) == 1
@@ -252,9 +256,10 @@ class TestGristClient:
         result = await grist_client.get_documents(organization_id=123, page=1, page_size=2)
 
         # Verify request
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/api/orgs/123/workspaces", headers={"Authorization": "Bearer test-token"}
-        )
+        mock_http_client.get.assert_called_once()
+        call_args = mock_http_client.get.call_args
+        assert call_args[0][0] == "https://grist.example.com/api/orgs/123/workspaces"
+        assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
         # Verify result - should be sorted by updated_at descending and paginated
         assert len(result) == 2
@@ -403,56 +408,6 @@ class TestGristClient:
         # Should default to page=1, page_size=1 and return first document
         assert len(result) == 1
         assert result[0].id == "doc1"
-
-    @pytest.mark.asyncio
-    async def test_fetch_list_generic_method(self, grist_client: GristClient, mock_http_client: AsyncMock) -> None:
-        """Test the generic _fetch_list method directly."""
-        mock_response_data = [
-            {
-                "id": 1,
-                "name": "Test Organization",
-                "domain": "test.grist.com",
-                "access": "owners",
-                "createdAt": "2024-01-01T10:00:00Z",
-                "updatedAt": "2024-01-15T10:00:00Z",
-            }
-        ]
-
-        mock_response = MagicMock()
-        mock_response.status_code = 200
-        mock_response.json.return_value = mock_response_data
-        mock_http_client.get.return_value = mock_response
-
-        result = await grist_client._fetch_list(
-            "https://grist.example.com/test", GristOrganization, "test organizations"
-        )
-
-        # Verify request
-        mock_http_client.get.assert_called_once_with(
-            "https://grist.example.com/test", headers={"Authorization": "Bearer test-token"}
-        )
-
-        # Verify result
-        assert len(result) == 1
-        assert isinstance(result[0], GristOrganization)
-        assert result[0].id == 1
-        assert result[0].name == "Test Organization"
-
-    @pytest.mark.asyncio
-    async def test_fetch_list_api_error_with_resource_name(
-        self, grist_client: GristClient, mock_http_client: AsyncMock
-    ) -> None:
-        """Test _fetch_list method with API error including resource name."""
-        mock_response = MagicMock()
-        mock_response.status_code = 500
-        mock_response.text = "Internal Server Error"
-        mock_http_client.get.return_value = mock_response
-
-        with pytest.raises(ExternalServiceError) as exc_info:
-            await grist_client._fetch_list("https://grist.example.com/test", GristOrganization, "test resources")
-
-        assert "Grist service error" in str(exc_info.value.detail)
-        assert "Failed to fetch test resources (status 500)" in str(exc_info.value.detail)
 
     @pytest.mark.parametrize(
         ("page", "page_size", "expected_page", "expected_page_size"),

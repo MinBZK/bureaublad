@@ -76,7 +76,7 @@ class TestConversationsEndpoints:
         mock_conversation_client.assert_called_once()
 
         # Verify get_chats was called with default pagination
-        mock_client_instance.get_chats.assert_called_once_with(page=1)
+        mock_client_instance.get_chats.assert_called_once_with(page=1, page_size=5)
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
     @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
@@ -107,7 +107,7 @@ class TestConversationsEndpoints:
         mock_client_instance.get_chats.return_value = test_conversations
         mock_conversation_client.return_value = mock_client_instance
 
-        response = authenticated_client.get("/api/v1/conversations/chats?page=2")
+        response = authenticated_client.get("/api/v1/conversations/chats?page=2&page_size=1")
 
         assert response.status_code == 200
         data = response.json()
@@ -116,7 +116,7 @@ class TestConversationsEndpoints:
         assert data[0]["title"] == "Client Meeting"
 
         # Verify get_chats was called with page=2
-        mock_client_instance.get_chats.assert_called_once_with(page=2)
+        mock_client_instance.get_chats.assert_called_once_with(page=2, page_size=1)
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
     @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
@@ -197,20 +197,6 @@ class TestConversationsEndpoints:
         """Test chats endpoint with invalid pagination parameter types."""
         response = authenticated_client.get(f"/api/v1/conversations/chats?page={invalid_page}")
         assert response.status_code == 422  # Unprocessable Entity - type conversion failed
-
-    @pytest.mark.parametrize(
-        "invalid_page",
-        [
-            "-1",
-            "0",
-        ],
-    )
-    def test_conversations_chats_invalid_pagination_value(
-        self, authenticated_client: TestClient, invalid_page: str
-    ) -> None:
-        """Test chats endpoint with invalid pagination parameter values."""
-        response = authenticated_client.get(f"/api/v1/conversations/chats?page={invalid_page}")
-        assert response.status_code == 503  # Service Unavailable - external service call fails
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
     @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")

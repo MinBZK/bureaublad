@@ -59,7 +59,7 @@ class TestDocsEndpoints:
         assert data[0]["user_role"] == "owner"
 
         # Verify DocsClient was called correctly
-        mock_client_instance.get_documents.assert_called_once_with(title=None, is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
     @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
@@ -97,7 +97,9 @@ class TestDocsEndpoints:
         assert data[0]["title"] == "Filtered Document"
 
         # Verify DocsClient was called with title filter
-        mock_client_instance.get_documents.assert_called_once_with(title="Filtered Document", is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(
+            page=1, page_size=5, title="Filtered Document", is_favorite=False
+        )
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
     @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
@@ -135,7 +137,7 @@ class TestDocsEndpoints:
         assert data[0]["title"] == "Favorite Document"
 
         # Verify DocsClient was called with is_favorite=True
-        mock_client_instance.get_documents.assert_called_once_with(title=None, is_favorite=True)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
     @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
