@@ -7,7 +7,7 @@ class Room(BaseModel):
     id: str
     name: str
     slug: str
-    pin_code: str
+    pin_code: str | None = None
 
     @computed_field
     @property
