@@ -5,6 +5,7 @@ from typing import Any
 
 from app.clients.base import BaseAPIClient
 from app.exceptions import ExternalServiceError
+from app.models.pagination import PaginatedResponse
 from app.models.room import Room
 from pydantic import TypeAdapter
 
@@ -16,7 +17,9 @@ class MeetClient(BaseAPIClient):
 
     service_name = "Meet"
 
-    async def get_rooms(self, path: str = "api/v1.0/rooms/", page: int = 1, page_size: int = 5) -> list[Room]:
+    async def get_rooms(
+        self, path: str = "api/v1.0/rooms/", page: int = 1, page_size: int = 5
+    ) -> PaginatedResponse[Room]:
         """Fetch meetings from Meet service.
 
         Args:
@@ -32,7 +35,10 @@ class MeetClient(BaseAPIClient):
         params: dict[str, Any] = {"page": page, "page_size": page_size}
 
         rooms = await self._get_resource(
-            path=path, model_type=list[Room], params=params, response_parser=lambda data: data.get("results", [])
+            path=path,
+            model_type=PaginatedResponse[Room],
+            params=params,
+            response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
         )
         return rooms
 

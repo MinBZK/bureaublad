@@ -4,6 +4,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
 from app.models.note import Note
+from app.models.pagination import PaginatedResponse
 from fastapi.testclient import TestClient
 
 
@@ -37,26 +38,30 @@ class TestDocsEndpoints:
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Note(
-                id="doc-123",
-                created_at="2024-11-01T10:00:00Z",
-                path="/documents/doc-123",
-                title="Test Document",
-                updated_at="2024-11-01T10:00:00Z",
-                user_role="owner",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Note(
+                    id="doc-123",
+                    created_at="2024-11-01T10:00:00Z",
+                    path="/documents/doc-123",
+                    title="Test Document",
+                    updated_at="2024-11-01T10:00:00Z",
+                    user_role="owner",
+                )
+            ],
+        )
         mock_docs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/docs/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["id"] == "doc-123"
-        assert data[0]["title"] == "Test Document"
-        assert data[0]["user_role"] == "owner"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["id"] == "doc-123"
+        assert data["results"][0]["title"] == "Test Document"
+        assert data["results"][0]["user_role"] == "owner"
 
         # Verify DocsClient was called correctly
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
@@ -77,24 +82,28 @@ class TestDocsEndpoints:
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Note(
-                id="doc-456",
-                created_at="2024-11-01T11:00:00Z",
-                path="/documents/doc-456",
-                title="Filtered Document",
-                updated_at="2024-11-01T11:00:00Z",
-                user_role="editor",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Note(
+                    id="doc-456",
+                    created_at="2024-11-01T11:00:00Z",
+                    path="/documents/doc-456",
+                    title="Filtered Document",
+                    updated_at="2024-11-01T11:00:00Z",
+                    user_role="editor",
+                )
+            ],
+        )
         mock_docs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/docs/documents?title=Filtered%20Document")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Filtered Document"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Filtered Document"
 
         # Verify DocsClient was called with title filter
         mock_client_instance.get_documents.assert_called_once_with(
@@ -117,24 +126,28 @@ class TestDocsEndpoints:
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Note(
-                id="doc-789",
-                created_at="2024-11-01T12:00:00Z",
-                path="/documents/doc-789",
-                title="Favorite Document",
-                updated_at="2024-11-01T12:00:00Z",
-                user_role="owner",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Note(
+                    id="doc-789",
+                    created_at="2024-11-01T12:00:00Z",
+                    path="/documents/doc-789",
+                    title="Favorite Document",
+                    updated_at="2024-11-01T12:00:00Z",
+                    user_role="owner",
+                )
+            ],
+        )
         mock_docs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/docs/documents?is_favorite=true")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Favorite Document"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Favorite Document"
 
         # Verify DocsClient was called with is_favorite=True
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
@@ -155,14 +168,15 @@ class TestDocsEndpoints:
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = []
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Note](count=0, results=[])
         mock_docs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/docs/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert data == []
+        assert data["count"] == 0
+        assert data["results"] == []
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
     @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
@@ -221,32 +235,36 @@ class TestDocsEndpoints:
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Note(
-                id="doc-computed",
-                created_at="2024-11-01T10:00:00Z",
-                path="/documents/doc-computed",
-                title="Test Computed Fields",
-                updated_at="2024-11-01T10:30:00Z",
-                user_role="owner",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Note(
+                    id="doc-computed",
+                    created_at="2024-11-01T10:00:00Z",
+                    path="/documents/doc-computed",
+                    title="Test Computed Fields",
+                    updated_at="2024-11-01T10:30:00Z",
+                    user_role="owner",
+                )
+            ],
+        )
         mock_docs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/docs/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["id"] == "doc-computed"
-        assert data[0]["title"] == "Test Computed Fields"
-        assert data[0]["updated_at"] == "2024-11-01T10:30:00Z"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["id"] == "doc-computed"
+        assert data["results"][0]["title"] == "Test Computed Fields"
+        assert data["results"][0]["updated_at"] == "2024-11-01T10:30:00Z"
 
         # Verify computed fields are included
-        assert "url" in data[0]
-        assert data[0]["url"] == "https://docs.example.com/docs/doc-computed/"
-        assert "updated_date" in data[0]
-        assert data[0]["updated_date"] == "01 Nov 2024 10:30"
+        assert "url" in data["results"][0]
+        assert data["results"][0]["url"] == "https://docs.example.com/docs/doc-computed/"
+        assert "updated_date" in data["results"][0]
+        assert data["results"][0]["updated_date"] == "01 Nov 2024 10:30"
 
     # POST /docs/documents tests
 
