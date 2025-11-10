@@ -18,6 +18,7 @@ class ConversationClient(BaseAPIClient):
         path: str = "api/v1.0/chats/",
         page: int = 1,
         page_size: int = 5,
+        title: str | None = None,
         ordering: str = "-updated_at",
     ) -> list[Conversation]:
         """Fetch chats from conversation service.
@@ -34,6 +35,8 @@ class ConversationClient(BaseAPIClient):
         page = max(1, page)
         page_size = max(1, page_size)
         params: dict[str, int | str] = {"page": page, "page_size": page_size, "ordering": ordering}
+        if title:
+            params["title"] = title
 
         chats = await self._get_resource(
             path=path,
