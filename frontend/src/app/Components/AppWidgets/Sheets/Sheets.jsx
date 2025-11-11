@@ -10,7 +10,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 function Sheets() {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
-
+  const [page, setPage] = useState(1);
   const {
     data: orgs,
     loading: loadingOrgs,
@@ -28,7 +28,7 @@ function Sheets() {
     onRefresh: refetchSheets,
   } = useFetchWithRefresh("/api/v1/grist/docs", {
     organization_id: effectiveSelectedOrg,
-    page: 1,
+    page,
     page_size: 3,
   });
 
@@ -58,6 +58,9 @@ function Sheets() {
       title="Sheets"
       onRefresh={onRefresh}
       error={errorSheets || errorOrgs}
+      page={page}
+      setPage={setPage}
+      total={sheets?.length || 0}
     >
       <Select
         loading={loadingOrgs}

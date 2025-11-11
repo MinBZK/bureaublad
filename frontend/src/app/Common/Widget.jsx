@@ -1,5 +1,14 @@
 import { StarFilled, StarOutlined, ReloadOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Result, Input, Row, Col } from "antd";
+import {
+  Button,
+  Card,
+  Divider,
+  Result,
+  Input,
+  Row,
+  Col,
+  Pagination,
+} from "antd";
 import React, { useState } from "react";
 
 const { Search } = Input;
@@ -14,6 +23,9 @@ function Widget({
   setSearch = undefined,
   placeholder = "",
   onRefresh = undefined,
+  page = 1,
+  setPage = undefined,
+  total=10,
 }) {
   const [value, setValue] = useState("");
   return (
@@ -65,6 +77,15 @@ function Widget({
           </Row>
 
           {children}
+          <Divider />
+          <Pagination
+            defaultCurrent={page}
+            current={page}
+            onChange={(page) => setPage(page)}
+            total={total}
+            align="end"
+            pageSizeOptions={[5]}
+          />
         </React.Fragment>
       )}
     </Card>

@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 export default function PageLayout({ children }) {
   const { items, error } = useAppContext();
@@ -16,9 +16,12 @@ export default function PageLayout({ children }) {
         profile={data?.name}
         applications={items?.applications}
       />
-      <Layout className="layout-content">
-        <Content className="content">{children}</Content>
-      </Layout>
+      <Content className="layout-content">
+        <div className="content">{children}</div>
+      </Content>
+      <Footer>
+        Mijn Bureau ©{new Date().getFullYear()}
+      </Footer>
     </Layout>
   );
 }
