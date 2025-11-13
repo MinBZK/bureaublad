@@ -4,6 +4,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import httpx
 from app.models.document import Document
+from app.models.pagination import PaginatedResponse
 from fastapi.testclient import TestClient
 
 
@@ -37,31 +38,42 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Project Report.docx",
-                url="https://drive.example.com/files/doc-123",
-                mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                updated_at="2024-11-01T10:00:00Z",
-            ),
-            Document(
-                title="Presentation.pptx",
-                url="https://drive.example.com/files/doc-456",
-                mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                updated_at="2024-11-01T11:00:00Z",
-            ),
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=2,
+            results=[
+                Document(
+                    id="doc-123",
+                    title="Project Report.docx",
+                    url="https://drive.example.com/files/doc-123",
+                    mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    updated_at="2024-11-01T10:00:00Z",
+                ),
+                Document(
+                    id="doc-456",
+                    title="Presentation.pptx",
+                    url="https://drive.example.com/files/doc-456",
+                    mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    updated_at="2024-11-01T11:00:00Z",
+                ),
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
-        assert data[0]["title"] == "Project Report.docx"
-        assert data[0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        assert data[1]["title"] == "Presentation.pptx"
-        assert data[1]["mimetype"] == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        assert data["count"] == 2
+        assert len(data["results"]) == 2
+        assert data["results"][0]["title"] == "Project Report.docx"
+        assert (
+            data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+        assert data["results"][1]["title"] == "Presentation.pptx"
+        assert (
+            data["results"][1]["mimetype"]
+            == "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        )
 
         # Verify DriveClient was called correctly
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
@@ -82,23 +94,28 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Filtered Document.pdf",
-                url="https://drive.example.com/files/doc-789",
-                mimetype="application/pdf",
-                updated_at="2024-11-01T12:00:00Z",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=1,
+            results=[
+                Document(
+                    id="doc-789",
+                    title="Filtered Document.pdf",
+                    url="https://drive.example.com/files/doc-789",
+                    mimetype="application/pdf",
+                    updated_at="2024-11-01T12:00:00Z",
+                )
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents?title=Filtered%20Document")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Filtered Document.pdf"
-        assert data[0]["mimetype"] == "application/pdf"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Filtered Document.pdf"
+        assert data["results"][0]["mimetype"] == "application/pdf"
 
         # Verify DriveClient was called with title filter
         mock_client_instance.get_documents.assert_called_once_with(
@@ -121,23 +138,28 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Favorite Spreadsheet.xlsx",
-                url="https://drive.example.com/files/doc-101",
-                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                updated_at="2024-11-01T13:00:00Z",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=1,
+            results=[
+                Document(
+                    id="doc-101",
+                    title="Favorite Spreadsheet.xlsx",
+                    url="https://drive.example.com/files/doc-101",
+                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    updated_at="2024-11-01T13:00:00Z",
+                )
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents?is_favorite=true")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Favorite Spreadsheet.xlsx"
-        assert data[0]["mimetype"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Favorite Spreadsheet.xlsx"
+        assert data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
         # Verify DriveClient was called with is_favorite=True
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
@@ -158,22 +180,27 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Important Document.pdf",
-                url="https://drive.example.com/files/doc-202",
-                mimetype="application/pdf",
-                updated_at="2024-11-01T14:00:00Z",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=1,
+            results=[
+                Document(
+                    id="doc-202",
+                    title="Important Document.pdf",
+                    url="https://drive.example.com/files/doc-202",
+                    mimetype="application/pdf",
+                    updated_at="2024-11-01T14:00:00Z",
+                )
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents?title=Important&is_favorite=true")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Important Document.pdf"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Important Document.pdf"
 
         # Verify DriveClient was called with both filters
         mock_client_instance.get_documents.assert_called_once_with(
@@ -196,14 +223,14 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = []
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](count=0, results=[])
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert data == []
+        assert data == {"count": 0, "results": []}
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -262,29 +289,36 @@ class TestDriveEndpoints:
 
         # Mock DriveClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Test Computed Fields.docx",
-                url="https://drive.example.com/files/doc-computed",
-                mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                updated_at="2024-11-01T15:30:00Z",
-            )
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=1,
+            results=[
+                Document(
+                    id="doc-computed",
+                    title="Test Computed Fields.docx",
+                    url="https://drive.example.com/files/doc-computed",
+                    mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    updated_at="2024-11-01T15:30:00Z",
+                )
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["title"] == "Test Computed Fields.docx"
-        assert data[0]["url"] == "https://drive.example.com/files/doc-computed"
-        assert data[0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        assert data[0]["updated_at"] == "2024-11-01T15:30:00Z"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Test Computed Fields.docx"
+        assert data["results"][0]["url"] == "https://drive.example.com/files/doc-computed"
+        assert (
+            data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+        assert data["results"][0]["updated_at"] == "2024-11-01T15:30:00Z"
 
         # Verify computed field is included
-        assert "updated_date" in data[0]
-        assert data[0]["updated_date"] == "01 Nov 2024 15:30"
+        assert "updated_date" in data["results"][0]
+        assert data["results"][0]["updated_date"] == "01 Nov 2024 15:30"
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -302,42 +336,50 @@ class TestDriveEndpoints:
 
         # Mock DriveClient with various document types
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = [
-            Document(
-                title="Document.pdf",
-                url="https://drive.example.com/files/pdf-1",
-                mimetype="application/pdf",
-                updated_at="2024-11-01T16:00:00Z",
-            ),
-            Document(
-                title="Spreadsheet.xlsx",
-                url="https://drive.example.com/files/excel-1",
-                mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                updated_at="2024-11-01T16:15:00Z",
-            ),
-            Document(
-                title="Presentation.pptx",
-                url="https://drive.example.com/files/powerpoint-1",
-                mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-                updated_at="2024-11-01T16:30:00Z",
-            ),
-            Document(
-                title="Text.txt",
-                url="https://drive.example.com/files/text-1",
-                mimetype="text/plain",
-                updated_at="2024-11-01T16:45:00Z",
-            ),
-        ]
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=4,
+            results=[
+                Document(
+                    id="pdf-1",
+                    title="Document.pdf",
+                    url="https://drive.example.com/files/pdf-1",
+                    mimetype="application/pdf",
+                    updated_at="2024-11-01T16:00:00Z",
+                ),
+                Document(
+                    id="excel-1",
+                    title="Spreadsheet.xlsx",
+                    url="https://drive.example.com/files/excel-1",
+                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    updated_at="2024-11-01T16:15:00Z",
+                ),
+                Document(
+                    id="powerpoint-1",
+                    title="Presentation.pptx",
+                    url="https://drive.example.com/files/powerpoint-1",
+                    mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                    updated_at="2024-11-01T16:30:00Z",
+                ),
+                Document(
+                    id="text-1",
+                    title="Text.txt",
+                    url="https://drive.example.com/files/text-1",
+                    mimetype="text/plain",
+                    updated_at="2024-11-01T16:45:00Z",
+                ),
+            ],
+        )
         mock_drive_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/drive/documents")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 4
+        assert data["count"] == 4
+        assert len(data["results"]) == 4
 
         # Verify different file types
-        file_types = {doc["title"]: doc["mimetype"] for doc in data}
+        file_types = {doc["title"]: doc["mimetype"] for doc in data["results"]}
         assert file_types["Document.pdf"] == "application/pdf"
         assert file_types["Spreadsheet.xlsx"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         assert (
