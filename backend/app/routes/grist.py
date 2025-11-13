@@ -9,6 +9,7 @@ from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.grist import GristDocument, GristOrganization
+from app.models.pagination import PaginatedResponse
 from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
@@ -41,14 +42,14 @@ async def get_organizations(
     return await client.get_organizations()
 
 
-@router.get("/docs", response_model=list[GristDocument])
+@router.get("/docs", response_model=PaginatedResponse[GristDocument])
 async def get_documents(
     request: Request,
     http_client: HTTPClient,
     organization_id: int,
     page: int = 1,
     page_size: int = 5,
-) -> list[GristDocument]:
+) -> PaginatedResponse[GristDocument]:
     """Get all documents given organization with organization_id with pagination.
     Documents are sorted by updated date (most recent first).
 

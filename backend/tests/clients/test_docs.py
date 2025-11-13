@@ -47,6 +47,7 @@ class TestDocsClient:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
+            "count": 1,
             "results": [
                 {
                     "id": "1",
@@ -56,7 +57,7 @@ class TestDocsClient:
                     "updated_at": "2024-01-15T11:00:00Z",
                     "user_role": "owner",
                 }
-            ]
+            ],
         }
         mock_http_client.get.return_value = mock_response
 
@@ -64,8 +65,9 @@ class TestDocsClient:
         result = await client.get_documents()
 
         # Assertions
-        assert len(result) == 1
-        note = result[0]
+        assert result.count == 1
+        assert len(result.results) == 1
+        note = result.results[0]
         assert isinstance(note, Note)
         assert note.id == "1"
         assert note.title == "Test Document"
@@ -159,6 +161,7 @@ class TestDocsClient:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
+            "count": 2,
             "results": [
                 {
                     "id": "1",
@@ -176,17 +179,18 @@ class TestDocsClient:
                     "path": "/test/doc.md",
                     "user_role": "owner",
                 },
-            ]
+            ],
         }
         mock_http_client.get.return_value = mock_response
 
         result = await client.get_documents()
 
-        assert len(result) == 2
-        assert result[0].id == "1"
-        assert result[0].title == "Document 1"
-        assert result[1].id == "2"
-        assert result[1].title == "Document 2"
+        assert result.count == 2
+        assert len(result.results) == 2
+        assert result.results[0].id == "1"
+        assert result.results[0].title == "Document 1"
+        assert result.results[1].id == "2"
+        assert result.results[1].title == "Document 2"
 
     async def test_get_documents_no_results(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval when no results returned."""
@@ -197,7 +201,8 @@ class TestDocsClient:
 
         result = await client.get_documents()
 
-        assert result == []
+        assert result.count == 0
+        assert result.results == []
 
     async def test_get_documents_missing_results_key(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval when results key is missing."""
@@ -208,7 +213,8 @@ class TestDocsClient:
 
         result = await client.get_documents()
 
-        assert result == []
+        assert result.count == 0
+        assert result.results == []
 
     async def test_post_document_success(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test successful document creation."""

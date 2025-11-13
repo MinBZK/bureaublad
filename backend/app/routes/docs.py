@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.note import Note
+from app.models.pagination import PaginatedResponse
 from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
@@ -23,7 +24,7 @@ async def get_docs_client(request: Request, http_client: HTTPClient) -> DocsClie
     return DocsClient(http_client, settings.DOCS_URL, token)
 
 
-@router.get("/documents", response_model=list[Note])
+@router.get("/documents", response_model=PaginatedResponse[Note])
 async def docs_get_documents(
     request: Request,
     http_client: HTTPClient,
@@ -31,7 +32,7 @@ async def docs_get_documents(
     page_size: int = 5,
     title: str | None = None,
     is_favorite: bool = False,
-) -> list[Note]:
+) -> PaginatedResponse[Note]:
     """Get documents from Docs service."""
     client = await get_docs_client(request, http_client)
     return await client.get_documents(page=page, page_size=page_size, title=title, is_favorite=is_favorite)

@@ -3,7 +3,7 @@ from typing import Any
 
 from app.clients.base import BaseAPIClient
 from app.models.document import Document
-from pydantic import TypeAdapter
+from app.models.pagination import PaginatedResponse
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,12 @@ class DriveClient(BaseAPIClient):
         title: str | None = None,
         is_creator_me: bool = False,
         is_favorite: bool = False,
-    ) -> list[Document]:
+    ) -> PaginatedResponse[Document]:
+        # NOTE: Documents in Drive can be nested. Currently, we do not support retrieving all
+        # documents in a sensible manner. The current implementation get's the documents in
+        # the (arbitrary) first workspace it encounters. This needs to be refactored so such that
+        # this endpoint returns all documents.
+
         page = max(1, page)
         page_size = max(1, page_size)
 
@@ -33,34 +38,25 @@ class DriveClient(BaseAPIClient):
         if is_favorite:
             params["is_favorite"] = str(is_favorite)
 
-        url = self._build_url(path)
+        try:
+            result = await self._get_resource(
+                path=path,
+                model_type=PaginatedResponse[Document],
+                params=params,
+                response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
+            )
 
-        response = await self.client.get(
-            url,
-            params=params,
-            headers=self._auth_headers(),
-        )
-        if response.status_code != 200:
-            return TypeAdapter(list[Document]).validate_python([])
+            if len(result.results) < 1:
+                return PaginatedResponse[Document](count=0, results=[])
 
-        results = response.json().get("results", [])
-
-        if len(results) < 1:
-            return TypeAdapter(list[Document]).validate_python([])
-
-        workspace_id = results[0]["id"]
-
-        item_path = f"api/v1.0/items/{workspace_id}/children/"
-        item_url = self._build_url(item_path)
-        response = await self.client.get(
-            item_url,
-            headers=self._auth_headers(),
-        )
-
-        if response.status_code != 200:
-            return TypeAdapter(list[Document]).validate_python([])
-
-        results = response.json().get("results", [])
-        documents: list[Document] = TypeAdapter(list[Document]).validate_python(results)
-
-        return documents
+            workspace_id = result.results[0].id
+            item_path = f"api/v1.0/items/{workspace_id}/children/"
+            return await self._get_resource(
+                path=item_path,
+                model_type=PaginatedResponse[Document],
+                params=params,
+                response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
+            )
+        except Exception:
+            logger.exception(f"Error fetching documents from {self.service_name}")
+            return PaginatedResponse[Document](count=0, results=[])

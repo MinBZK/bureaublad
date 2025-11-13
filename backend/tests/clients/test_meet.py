@@ -46,6 +46,7 @@ class TestMeetClient:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
+            "count": 1,
             "results": [
                 {
                     "id": "room1",
@@ -55,7 +56,7 @@ class TestMeetClient:
                     "slug": "test-room-slug",
                     "pin_code": "123456",
                 }
-            ]
+            ],
         }
         mock_http_client.get.return_value = mock_response
 
@@ -63,8 +64,9 @@ class TestMeetClient:
         result = await client.get_rooms()
 
         # Assertions
-        assert len(result) == 1
-        room = result[0]
+        assert result.count == 1
+        assert len(result.results) == 1
+        room = result.results[0]
         assert isinstance(room, Room)
         assert room.id == "room1"
         assert room.name == "Test Room"
@@ -144,6 +146,7 @@ class TestMeetClient:
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
+            "count": 2,
             "results": [
                 {
                     "id": "room1",
@@ -161,17 +164,18 @@ class TestMeetClient:
                     "slug": "test-room-slug",
                     "pin_code": "123456",
                 },
-            ]
+            ],
         }
         mock_http_client.get.return_value = mock_response
 
         result = await client.get_rooms()
 
-        assert len(result) == 2
-        assert result[0].id == "room1"
-        assert result[0].name == "Room 1"
-        assert result[1].id == "room2"
-        assert result[1].name == "Room 2"
+        assert result.count == 2
+        assert len(result.results) == 2
+        assert result.results[0].id == "room1"
+        assert result.results[0].name == "Room 1"
+        assert result.results[1].id == "room2"
+        assert result.results[1].name == "Room 2"
 
     async def test_get_rooms_no_results(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test room retrieval when no results returned."""
@@ -182,7 +186,8 @@ class TestMeetClient:
 
         result = await client.get_rooms()
 
-        assert result == []
+        assert result.count == 0
+        assert result.results == []
 
     async def test_get_rooms_missing_results_key(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test room retrieval when results key is missing."""
@@ -193,7 +198,8 @@ class TestMeetClient:
 
         result = await client.get_rooms()
 
-        assert result == []
+        assert result.count == 0
+        assert result.results == []
 
     async def test_post_room_success(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test successful room creation."""

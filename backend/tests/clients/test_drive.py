@@ -6,6 +6,7 @@ import httpx
 import pytest
 from app.clients.drive import DriveClient
 from app.models.document import Document
+from app.models.pagination import PaginatedResponse
 
 
 class TestDriveClient:
@@ -45,12 +46,24 @@ class TestDriveClient:
         # Mock first response (workspace)
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         # Mock second response (documents)
         documents_response = Mock()
         documents_response.status_code = 200
         documents_response.json.return_value = {
+            "count": 1,
             "results": [
                 {
                     "id": "doc1",
@@ -60,7 +73,7 @@ class TestDriveClient:
                     "url": "https://drive.example.com/doc",
                     "mimetype": "application/pdf",
                 }
-            ]
+            ],
         }
 
         # Configure mock to return different responses for different calls
@@ -70,8 +83,9 @@ class TestDriveClient:
         result = await client.get_documents()
 
         # Assertions
-        assert len(result) == 1
-        document = result[0]
+        assert result.count == 1
+        assert len(result.results) == 1
+        document = result.results[0]
         assert isinstance(document, Document)
         assert document.title == "Test Document"
 
@@ -92,11 +106,22 @@ class TestDriveClient:
         """Test document retrieval with custom parameters."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
-        documents_response.json.return_value = {"results": []}
+        documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
@@ -129,11 +154,22 @@ class TestDriveClient:
         """Test document retrieval with minimal parameters."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
-        documents_response.json.return_value = {"results": []}
+        documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
@@ -155,11 +191,22 @@ class TestDriveClient:
         """Test that leading slash is stripped from path."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
-        documents_response.json.return_value = {"results": []}
+        documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
@@ -178,7 +225,7 @@ class TestDriveClient:
         result = await client.get_documents()
 
         # Should return empty list for non-200 status codes
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
 
         # Should only make one HTTP call
         assert mock_http_client.get.call_count == 1
@@ -187,14 +234,14 @@ class TestDriveClient:
         """Test document retrieval when no workspace found."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": []}
+        workspace_response.json.return_value = {"count": 0, "results": []}
         mock_http_client.get.return_value = workspace_response
 
         # Test
         result = await client.get_documents()
 
         # Should return empty list when no workspace found
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
 
         # Should only make one HTTP call
         assert mock_http_client.get.call_count == 1
@@ -205,19 +252,30 @@ class TestDriveClient:
         """Test document retrieval when first response has no results key."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {}  # No results key
+        workspace_response.json.return_value = {"count": 0, "results": []}  # Empty results
         mock_http_client.get.return_value = workspace_response
 
         result = await client.get_documents()
 
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
         assert mock_http_client.get.call_count == 1
 
     async def test_get_documents_second_request_error(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval when second request fails."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 500
@@ -228,24 +286,35 @@ class TestDriveClient:
         result = await client.get_documents()
 
         # Should return empty list when second request fails
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
         assert mock_http_client.get.call_count == 2
 
     async def test_get_documents_no_document_results(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval when no documents found."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
-        documents_response.json.return_value = {"results": []}
+        documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
         result = await client.get_documents()
 
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
         assert mock_http_client.get.call_count == 2
 
     async def test_get_documents_missing_results_key_second_request(
@@ -254,28 +323,51 @@ class TestDriveClient:
         """Test document retrieval when second response has no results key."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
-        documents_response.json.return_value = {}  # No results key
+        documents_response.json.return_value = {"count": 0, "results": []}  # Empty results
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
         result = await client.get_documents()
 
-        assert result == []
+        assert result == PaginatedResponse[Document](count=0, results=[])
         assert mock_http_client.get.call_count == 2
 
     async def test_get_documents_multiple_documents(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
         """Test retrieval of multiple documents."""
         workspace_response = Mock()
         workspace_response.status_code = 200
-        workspace_response.json.return_value = {"results": [{"id": "workspace123"}]}
+        workspace_response.json.return_value = {
+            "count": 1,
+            "results": [
+                {
+                    "id": "workspace123",
+                    "title": "Workspace",
+                    "url": None,
+                    "mimetype": None,
+                    "updated_at": "2024-01-15T10:00:00Z",
+                }
+            ],
+        }
 
         documents_response = Mock()
         documents_response.status_code = 200
         documents_response.json.return_value = {
+            "count": 2,
             "results": [
                 {
                     "id": "doc1",
@@ -293,13 +385,14 @@ class TestDriveClient:
                     "url": "https://drive.example.com/doc",
                     "mimetype": "application/pdf",
                 },
-            ]
+            ],
         }
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
 
         result = await client.get_documents()
 
-        assert len(result) == 2
-        assert result[0].title == "Document 1"
-        assert result[1].title == "Document 2"
+        assert result.count == 2
+        assert len(result.results) == 2
+        assert result.results[0].title == "Document 1"
+        assert result.results[1].title == "Document 2"

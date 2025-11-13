@@ -2,6 +2,7 @@
 
 from unittest.mock import AsyncMock, MagicMock, patch
 
+from app.models.pagination import PaginatedResponse
 from app.models.room import Room
 from fastapi.testclient import TestClient
 
@@ -47,33 +48,37 @@ class TestMeetEndpoints:
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_rooms.return_value = [
-            Room(
-                id="room-123",
-                name="Daily Standup",
-                slug="daily-standup-123",
-                pin_code="123456",
-            ),
-            Room(
-                id="room-456",
-                name="Project Review",
-                slug="project-review-456",
-                pin_code="789012",
-            ),
-        ]
+        mock_client_instance.get_rooms.return_value = PaginatedResponse(
+            count=2,
+            results=[
+                Room(
+                    id="room-123",
+                    name="Daily Standup",
+                    slug="daily-standup-123",
+                    pin_code="123456",
+                ),
+                Room(
+                    id="room-456",
+                    name="Project Review",
+                    slug="project-review-456",
+                    pin_code="789012",
+                ),
+            ],
+        )
         mock_meet_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/meet/rooms")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
-        assert data[0]["id"] == "room-123"
-        assert data[0]["name"] == "Daily Standup"
-        assert data[0]["slug"] == "daily-standup-123"
-        assert data[0]["pin_code"] == "123456"
-        assert data[1]["id"] == "room-456"
-        assert data[1]["name"] == "Project Review"
+        assert data["count"] == 2
+        assert len(data["results"]) == 2
+        assert data["results"][0]["id"] == "room-123"
+        assert data["results"][0]["name"] == "Daily Standup"
+        assert data["results"][0]["slug"] == "daily-standup-123"
+        assert data["results"][0]["pin_code"] == "123456"
+        assert data["results"][1]["id"] == "room-456"
+        assert data["results"][1]["name"] == "Project Review"
 
         # Verify MeetClient was called correctly
         mock_client_instance.get_rooms.assert_called_once_with(page=1, page_size=5)
@@ -94,22 +99,26 @@ class TestMeetEndpoints:
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_rooms.return_value = [
-            Room(
-                id="room-123",
-                name="Daily Standup",
-                slug="daily-standup-123",
-                pin_code="123456",
-            ),
-        ]
+        mock_client_instance.get_rooms.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Room(
+                    id="room-123",
+                    name="Daily Standup",
+                    slug="daily-standup-123",
+                    pin_code="123456",
+                ),
+            ],
+        )
         mock_meet_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/meet/rooms?page=2&page_size=1")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 1
-        assert data[0]["id"] == "room-123"
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["id"] == "room-123"
 
         # Verify MeetClient was called correctly with page parameter
         mock_client_instance.get_rooms.assert_called_once_with(page=2, page_size=1)
@@ -130,14 +139,15 @@ class TestMeetEndpoints:
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_rooms.return_value = []
+        mock_client_instance.get_rooms.return_value = PaginatedResponse[Room](count=0, results=[])
         mock_meet_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/meet/rooms")
 
         assert response.status_code == 200
         data = response.json()
-        assert data == []
+        assert data["count"] == 0
+        assert data["results"] == []
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
     @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
