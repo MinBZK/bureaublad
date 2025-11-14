@@ -37,14 +37,14 @@ async def get_current_user(
         raise CredentialError("Not authenticated")
 
     if _needs_refresh(auth.expires_at):
-        # Use session ID as lock key to prevent concurrent refreshes for same session
-        session_id = request.session.get("_session_id", id(request.session))
+        # Use user sub as lock key to prevent concurrent refreshes for same session
+        user_id = auth.sub
 
         # Get or create lock for this session
-        if session_id not in _refresh_locks:
-            _refresh_locks[session_id] = asyncio.Lock()
+        if user_id not in _refresh_locks:
+            _refresh_locks[user_id] = asyncio.Lock()
 
-        lock = _refresh_locks[session_id]
+        lock = _refresh_locks[user_id]
 
         async with lock:
             # Re-check after acquiring lock (another request may have refreshed)
@@ -60,7 +60,7 @@ async def get_current_user(
                     raise CredentialError("Session lost after refresh")
 
         # Clean up lock after refresh to prevent memory leak
-        _refresh_locks.pop(session_id, None)
+        _refresh_locks.pop(user_id, None)
 
     request.state.user = auth.user
     return auth.user
