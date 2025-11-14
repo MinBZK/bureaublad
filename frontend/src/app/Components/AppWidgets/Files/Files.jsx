@@ -10,6 +10,7 @@ import moment from "moment";
 // NextCloud
 function Files() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
   const {
     data: files,
     loading,
@@ -17,7 +18,9 @@ function Files() {
     onRefresh,
   } = useFetchWithRefresh(
     searchTerm ? "/api/v1/ocs/search" : "/api/v1/ocs/activities",
-    searchTerm ? { term: searchTerm } : {},
+    searchTerm
+      ? { term: searchTerm, page, page_size: 3 }
+      : { page, page_size: 3 },
   );
 
   const onSearch = (value) => {
@@ -29,6 +32,9 @@ function Files() {
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}
+      page={page}
+      setPage={setPage}
+      total={files?.length || 0}
     >
       <List
         dataSource={files}

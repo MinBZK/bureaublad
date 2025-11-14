@@ -10,7 +10,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 function Drive() {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
-
+  const [page, setPage] = useState(1);
   const {
     data: drive,
     loading,
@@ -19,6 +19,8 @@ function Drive() {
   } = useFetchWithRefresh("/api/v1/drive/documents", {
     title: search,
     favorite,
+    page,
+    page_size: 3,
   });
 
   return (
@@ -29,6 +31,9 @@ function Drive() {
       setSearch={setSearch}
       error={error}
       onRefresh={onRefresh}
+      page={page}
+      setPage={setPage}
+      total={drive?.length || 0}
     >
       <List
         dataSource={drive}

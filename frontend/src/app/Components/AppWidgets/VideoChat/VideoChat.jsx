@@ -10,6 +10,7 @@ import Link from "next/link";
 function VideoChat() {
   // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const {
     data: meet,
     loading,
@@ -22,6 +23,9 @@ function VideoChat() {
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
+      page={page}
+      setPage={setPage}
+      total={meet?.length || 0}
     >
       <List
         dataSource={meet}
