@@ -71,7 +71,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: Literal["dev", "test", "prod"] = "prod"
 
     # Session configuration
-    SESSION_MAX_AGE: int = 2 * 60 * 60  # 2 hours (should be >= refresh token lifetime)
+    SESSION_MAX_AGE: int = 1 * 60 * 60  # 1 hours (should be >= refresh token lifetime)
 
     LOGGING_LEVEL: LoggingLevelType = "INFO"
     LOGGING_CONFIG: dict[str, Any] | None = None
