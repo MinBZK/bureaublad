@@ -8,6 +8,7 @@ from starlette.datastructures import URL
 from app.core import session
 from app.core.config import settings
 from app.core.oauth import oauth
+from app.core.translate import _
 from app.exceptions import CredentialError
 from app.models.user import AuthState, User
 
@@ -29,7 +30,7 @@ async def login(request: Request, redirect_to: str | None = None) -> RedirectRes
     if redirect_to:
         # Validate redirect_to to prevent open redirect vulnerability
         if not _is_safe_redirect(redirect_to):
-            raise CredentialError("Invalid redirect URL")
+            raise CredentialError(_("Invalid redirect URL"))
         request.session["redirect_to"] = redirect_to
     else:
         request.session["redirect_to"] = settings.OIDC_POST_LOGIN_REDIRECT_URI
@@ -65,7 +66,7 @@ async def profile(request: Request) -> User:
     """Get current user profile from session."""
     auth = session.get_auth(request)
     if not auth:
-        raise CredentialError("Not authenticated")
+        raise CredentialError(_("Not authenticated"))
     return auth.user
 
 
@@ -108,7 +109,7 @@ def _is_safe_redirect(url: str) -> bool:
 def _build_logout_url() -> str:
     """Build OIDC logout URL with required parameters."""
     if not settings.OIDC_POST_LOGOUT_REDIRECT_URI:
-        raise CredentialError("OIDC_POST_LOGOUT_REDIRECT_URI must be configured")
+        raise CredentialError(_("OIDC_POST_LOGOUT_REDIRECT_URI must be configured"))
 
     logout_url = URL(settings.OIDC_LOGOUT_ENDPOINT)
     return str(

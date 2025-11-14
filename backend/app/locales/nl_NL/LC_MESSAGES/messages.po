@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: mijn-bureau-bureaublad\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-14 22:26+0100\n"
+"PO-Revision-Date: 2025-11-15 07:13\n"
+"Last-Translator: \n"
+"Language-Team: Dutch\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: mijn-bureau-bureaublad\n"
+"X-Crowdin-Project-ID: 834534\n"
+"X-Crowdin-Language: nl\n"
+"X-Crowdin-File: backend-bureaublad.pot\n"
+"X-Crowdin-File-ID: 168\n"
+"Language: nl_NL\n"
+
+#: app/exceptions.py:10
+msgid "Could not validate credentials"
+msgstr "De inloggegevens konden niet worden gevalideerd"
+
+#: app/exceptions.py:21
+msgid "Token exchange failed"
+msgstr "Tokenuitwisseling mislukt"
+
+#: app/core/authentication.py:37 app/core/authentication.py:53
+#: app/routes/authentication.py:69 app/token_exchange.py:42
+msgid "Not authenticated"
+msgstr "Niet geauthenticeerd"
+
+#: app/clients/ai.py:50
+msgid "Connection failed"
+msgstr "Verbinding mislukt"
+
+#: app/clients/ai.py:53
+msgid "Authentication failed"
+msgstr "Authenticatie mislukt"
+
+#: app/clients/ai.py:56
+msgid "Service temporarily unavailable"
+msgstr "Service tijdelijk niet beschikbaar"
+
+#: app/core/authentication.py:60
+msgid "Session lost after refresh"
+msgstr "Sessie verloren na vernieuwing"
+
+#: app/core/authentication.py:80 app/core/authentication.py:100
+msgid "Session expired. Please log in again."
+msgstr "Sessie verlopen. Meld u opnieuw aan."
+
+#: app/core/exception_handlers.py:35
+msgid "Validation error"
+msgstr "Validatiefout"
+
+#: app/core/exception_handlers.py:52
+msgid "External service timeout"
+msgstr "Time-out van externe service"
+
+#: app/core/exception_handlers.py:58
+msgid "External service unavailable"
+msgstr "Externe service niet beschikbaar"
+
+#: app/core/exception_handlers.py:63
+msgid "External service error"
+msgstr "Externe servicefout"
+
+#: app/core/exception_handlers.py:77
+msgid "Internal server error"
+msgstr "Interne serverfout"
+
+#: app/models/user.py:46
+msgid "Missing userinfo in token"
+msgstr "Ontbrekende gebruikersinfo in token"
+
+#: app/routes/authentication.py:33
+msgid "Invalid redirect URL"
+msgstr "Ongeldige omleidings-URL"
+
+#: app/routes/authentication.py:112
+msgid "OIDC_POST_LOGOUT_REDIRECT_URI must be configured"
+msgstr "OIDC_POST_LOGOUT_REDIRECT_URI moet geconfigureerd zijn"
+

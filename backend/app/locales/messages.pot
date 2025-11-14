@@ -1,0 +1,84 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-14 22:26+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: app/exceptions.py:10
+msgid "Could not validate credentials"
+msgstr ""
+
+#: app/exceptions.py:21
+msgid "Token exchange failed"
+msgstr ""
+
+#: app/core/authentication.py:37 app/core/authentication.py:53
+#: app/routes/authentication.py:69 app/token_exchange.py:42
+msgid "Not authenticated"
+msgstr ""
+
+#: app/clients/ai.py:50
+msgid "Connection failed"
+msgstr ""
+
+#: app/clients/ai.py:53
+msgid "Authentication failed"
+msgstr ""
+
+#: app/clients/ai.py:56
+msgid "Service temporarily unavailable"
+msgstr ""
+
+#: app/core/authentication.py:60
+msgid "Session lost after refresh"
+msgstr ""
+
+#: app/core/authentication.py:80 app/core/authentication.py:100
+msgid "Session expired. Please log in again."
+msgstr ""
+
+#: app/core/exception_handlers.py:35
+msgid "Validation error"
+msgstr ""
+
+#: app/core/exception_handlers.py:52
+msgid "External service timeout"
+msgstr ""
+
+#: app/core/exception_handlers.py:58
+msgid "External service unavailable"
+msgstr ""
+
+#: app/core/exception_handlers.py:63
+msgid "External service error"
+msgstr ""
+
+#: app/core/exception_handlers.py:77
+msgid "Internal server error"
+msgstr ""
+
+#: app/models/user.py:46
+msgid "Missing userinfo in token"
+msgstr ""
+
+#: app/routes/authentication.py:33
+msgid "Invalid redirect URL"
+msgstr ""
+
+#: app/routes/authentication.py:112
+msgid "OIDC_POST_LOGOUT_REDIRECT_URI must be configured"
+msgstr ""
+

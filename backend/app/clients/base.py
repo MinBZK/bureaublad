@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing import Any
 
 import httpx
+from app.core.translate import _
 from app.exceptions import ExternalServiceError
 from pydantic import TypeAdapter
 
@@ -43,7 +44,9 @@ class BaseAPIClient:
             )
 
             if response.status_code != 200:
-                raise ExternalServiceError(self.service_name, f"Failed to fetch {path} (status {response.status_code})")
+                raise ExternalServiceError(
+                    self.service_name, _(f"Failed to fetch {path} (status {response.status_code})")
+                )
 
             json_data = response.json()
             data = response_parser(json_data) if response_parser else json_data
