@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:3.5.4
+    image: traefik:3.6.2
     command:
       - "--api.dashboard=false"
       - "--api.insecure=true"
@@ -86,6 +86,8 @@ services:
     command: start-dev --import-realm
     volumes:
       - ./keycloak/import:/opt/keycloak/data/import
+    ports:
+      - "8080:8080"
     depends_on:
       - postgres
     networks:
