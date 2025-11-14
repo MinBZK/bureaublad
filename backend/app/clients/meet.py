@@ -4,6 +4,7 @@ import logging
 from typing import Any
 
 from app.clients.base import BaseAPIClient
+from app.core.translate import _
 from app.exceptions import ExternalServiceError
 from app.models.pagination import PaginatedResponse
 from app.models.room import Room
@@ -51,7 +52,7 @@ class MeetClient(BaseAPIClient):
         )
 
         if response.status_code != 201:
-            raise ExternalServiceError("Meet", f"Failed to create room (status {response.status_code})")
+            raise ExternalServiceError("Meet", _(f"Failed to create room (status {response.status_code})"))
 
         result = response.json()
         room: Room = TypeAdapter(Room).validate_python(result)

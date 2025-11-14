@@ -9,6 +9,7 @@ from fastapi.security import OAuth2AuthorizationCodeBearer
 from app.core import session
 from app.core.config import settings
 from app.core.oauth import oauth
+from app.core.translate import _
 from app.exceptions import CredentialError
 from app.models.user import User
 
@@ -34,7 +35,7 @@ async def get_current_user(
     auth = session.get_auth(request)
 
     if not auth:
-        raise CredentialError("Not authenticated")
+        raise CredentialError(_("Not authenticated"))
 
     if _needs_refresh(auth.expires_at):
         # Use user sub as lock key to prevent concurrent refreshes for same session
@@ -50,14 +51,14 @@ async def get_current_user(
             # Re-check after acquiring lock (another request may have refreshed)
             auth = session.get_auth(request)
             if not auth:
-                raise CredentialError("Not authenticated")
+                raise CredentialError(_("Not authenticated"))
 
             # Only refresh if still needed (another request may have already refreshed)
             if _needs_refresh(auth.expires_at):
                 await _refresh_token(request, auth.refresh_token)
                 auth = session.get_auth(request)
                 if not auth:
-                    raise CredentialError("Session lost after refresh")
+                    raise CredentialError(_("Session lost after refresh"))
 
         # Clean up lock after refresh to prevent memory leak
         _refresh_locks.pop(user_id, None)
@@ -77,7 +78,7 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
     """Refresh access token using refresh token."""
     if not refresh_token:
         logger.warning("No refresh token available")
-        raise CredentialError("Session expired. Please log in again.")
+        raise CredentialError(_("Session expired. Please log in again."))
 
     try:
         logger.info("Refreshing access token")
@@ -97,4 +98,4 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
     except Exception as e:
         logger.exception("Token refresh failed")
         session.clear_auth(request)
-        raise CredentialError("Session expired. Please log in again.") from e
+        raise CredentialError(_("Session expired. Please log in again.")) from e
