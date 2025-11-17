@@ -19,9 +19,7 @@ export default function PageLayout({ children }) {
       <Content className="layout-content">
         <div className="content">{children}</div>
       </Content>
-      <Footer>
-        Mijn Bureau ©{new Date().getFullYear()}
-      </Footer>
+      <Footer>Mijn Bureau ©{new Date().getFullYear()}</Footer>
     </Layout>
   );
 }

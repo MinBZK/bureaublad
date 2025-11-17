@@ -25,7 +25,7 @@ function Widget({
   onRefresh = undefined,
   page = 1,
   setPage = undefined,
-  total=10,
+  total = 10,
 }) {
   const [value, setValue] = useState("");
   return (
