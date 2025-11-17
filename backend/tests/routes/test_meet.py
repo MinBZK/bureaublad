@@ -151,7 +151,7 @@ class TestMeetEndpoints:
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
     @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.settings.CONVERSATION_URL", "https://conversation.example.com")
+    @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
     @patch("app.routes.meet.get_token")
     @patch("app.routes.meet.MeetClient")
     @patch("app.routes.meet.generate_random_room_name")
@@ -187,7 +187,7 @@ class TestMeetEndpoints:
         assert data["name"] == "abc-defg-hij"
         assert data["slug"] == "abc-defg-hij-789"
         assert data["pin_code"] == "345678"
-        assert data["url"] == "https://conversation.example.com/abc-defg-hij-789"
+        assert data["url"] == "https://meet.example.com/abc-defg-hij-789"
 
         # Verify MeetClient was called correctly
         mock_client_instance.post_room.assert_called_once_with(name="abc-defg-hij")
