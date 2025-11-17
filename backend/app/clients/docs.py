@@ -4,6 +4,7 @@ import logging
 from typing import Any
 
 from app.clients.base import BaseAPIClient
+from app.core.translate import _
 from app.exceptions import ExternalServiceError
 from app.models.note import Note
 from app.models.pagination import PaginatedResponse
@@ -56,7 +57,7 @@ class DocsClient(BaseAPIClient):
         )
 
         if response.status_code != 201:
-            raise ExternalServiceError("Docs", f"Failed to create document (status {response.status_code})")
+            raise ExternalServiceError("Docs", _(f"Failed to create document (status {response.status_code})"))
 
         result = response.json()
         note: Note = TypeAdapter(Note).validate_python(result)

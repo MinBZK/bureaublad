@@ -24,6 +24,9 @@ RUN --mount=type=bind,source=uv.lock,target=uv.lock \
         --no-dev \
         --no-editable
 
+ENV PATH="/venv/bin:$PATH"
+RUN pybabel compile -d app/locales
+
 # Runtime stage
 FROM python:3.13-slim
 

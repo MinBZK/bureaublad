@@ -4,6 +4,7 @@ from fastapi import Request
 
 from app.core import session
 from app.core.config import settings
+from app.core.translate import _
 from app.exceptions import CredentialError
 
 logger = logging.getLogger(__name__)
@@ -38,6 +39,6 @@ async def get_token(request: Request, audience: str) -> str:
     # Get auth from session (already refreshed by get_current_user dependency)
     auth = session.get_auth(request)
     if not auth:
-        raise CredentialError("Not authenticated")
+        raise CredentialError(_("Not authenticated"))
 
     return await exchange_token(auth.access_token, audience=audience) or ""

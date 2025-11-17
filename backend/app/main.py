@@ -22,6 +22,7 @@ from app.core.logging import configure_logging
 from app.middleware.logging import RequestLoggingMiddleware
 from app.middleware.request_id import RequestIDMiddleware
 from app.middleware.session import SessionMiddleware
+from app.middleware.translate import LanguageMiddleware
 from app.routes.authentication import router as auth_router
 from app.routes.health import router as health_router
 from app.routes.main import api_router
@@ -70,6 +71,7 @@ app.include_router(health_router, tags=["health"])
 
 # Middleware execution order (reverse of add order):
 app.add_middleware(RequestLoggingMiddleware)
+
 app.add_middleware(
     SessionMiddleware,
     secret_key=settings.SECRET_KEY,
@@ -88,3 +90,4 @@ app.add_middleware(
 )
 app.add_middleware(RequestIDMiddleware)
 app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.TRUSTED_HOSTS)
+app.add_middleware(LanguageMiddleware)
