@@ -1,4 +1,5 @@
 import "./globals.css";
+import "./custom-style.css";
 import PageLayout from "./Components/Layout/PageLayout";
 import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
 import { AppProvider } from "./Components/Context/AppContext";

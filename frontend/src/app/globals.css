@@ -1,53 +1,85 @@
+/* CSS CUSTOM VARIABLES FOR CLIENT THEMING */
+/* -------------------------------------------------- */
+:root {
+  /* Base/Generic colors - reused across components */
+  --color-primary: #1677ff;
+  --color-primary-hover: #4096ff;
+  --color-primary-active: #0958d9;
+  --color-text-light: #ffffff;
+  --color-text-dark: #000000;
+  --color-background-light: #ffffff;
+  --color-background-neutral: #f5f5f5;
+  --color-border-default: #d9d9d9;
+  --color-border-subtle: #bfbfbf;
+
+  /* Header colors */
+  --header-background: #001529;
+  --header-text-color: var(--color-text-light);
+
+  /* Button colors */
+  --button-primary-bg: var(--color-primary);
+  --button-primary-hover: var(--color-primary-hover);
+  --button-primary-active: var(--color-primary-active);
+  --button-primary-text: var(--color-text-light);
+
+  /* Layout colors */
+  --layout-background: var(--color-background-neutral);
+  --layout-content-background: var(--color-background-neutral);
+
+  /* Menu colors */
+  --menu-item-selected-bg: var(--color-primary);
+  --menu-item-hover-bg: var(--color-primary);
+  --menu-item-active-bg: var(--color-primary-active);
+  --menu-item-selected-text: var(--color-text-light);
+
+  /* Avatar colors */
+  --avatar-name-bg: #f56a00;
+  --avatar-call-bg: #87d068;
+  --avatar-doc-bg: #4096ff;
+  --avatar-ai-bg: var(--color-primary);
+
+  /* Card colors */
+  --card-background: var(--color-background-light);
+  --card-text-color: var(--color-text-dark);
+  --card-border-color: var(--color-border-default);
+
+  /* Input colors */
+  --input-background: var(--color-background-light);
+  --input-text-color: var(--color-text-dark);
+  --input-border-color: var(--color-border-default);
+  --input-placeholder-color: var(--color-border-subtle);
+
+  /* Icon colors */
+  --icon-color: var(--color-text-dark);
+}
+
 /* LAYOUT */
 /* -------------------------------------------------- */
+
+html {
+  background: var(--layout-background);
+}
+
 .layout-content {
-  padding: 0 24px 24px;
+  padding: 24px 24px;
 }
 
 .content {
   padding: 10px;
   margin: 0;
-  background: #f5f5f5;
+  background: var(--layout-content-background);
   overflow: initial;
 }
 
-.sider {
-  background-color: white;
-  overflow: auto;
-  height: 100vh;
-  position: sticky;
-  inset-inline-start: 0;
-  top: 0;
-  bottom: 0;
-  scrollbar-width: thin;
-  scrollbar-gutter: stable;
-}
-
-.sider-search {
-  width: 70%;
-  margin-top: 3px;
-}
-
-.side-search-error {
-  margin-top: 10px;
-  color: red;
-}
-
-.sider-search-input {
-  margin-block-start: 8px;
-  inline-size: clamp(80px, 20vw + 1rem, 420px);
-}
-.sider-search .ant-input-search-button {
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.12) !important;
+.ant-layout {
+  background: var(--layout-background) !important;
 }
 
 .ant-layout-header {
   height: 40px;
   padding: 0 50px;
   line-height: 40px;
-  background: #001529;
+  background: var(--header-background);
 }
 
 .ant-menu-item-selected {
@@ -56,31 +88,6 @@
 
 .dashboard-list {
   margin-top: 20px;
-}
-
-/* AI */
-/* -------------------------------------------------- */
-.position-timeline {
-  margin-top: 30px;
-  max-height: 250px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-.position-scrol-down {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.scrol-down-icon {
-  font-size: 24px;
-  color: #888;
-  animation: bounce 1.2s infinite;
-  margin-left: -7px;
-}
-
-.sheets-org-select {
-  width: 100%;
 }
 
 /* COMMON */
@@ -102,16 +109,12 @@
   margin: auto;
 }
 
-.profile {
-  color: #4096ff;
-}
-
 .logo {
   margin-top: 5px;
 }
 
 .logo-txt {
-  color: white;
+  color: var(--header-text-color);
   font-size: 1rem;
 }
 
@@ -121,32 +124,189 @@
 }
 
 .profile-link {
-  color: white;
+  color: var(--header-text-color);
   text-decoration: none;
+}
+
+.header-menu {
+  flex: 1;
+  min-width: 0;
+}
+
+.widget-search {
+  width: 100%;
+}
+
+.sheets-org-select {
+  width: 100%;
 }
 
 /* AVATAR */
 /* -------------------------------------------------- */
 .avt-name {
-  background-color: #f56a00;
+  background-color: var(--avatar-name-bg);
   vertical-align: middle;
 }
 
 .avt-call {
-  background-color: #87d068;
+  background-color: var(--avatar-call-bg);
 }
 
 .avt-doc {
-  background-color: #4096ff;
+  background-color: var(--avatar-doc-bg);
+}
+
+.avt-ai {
+  background-color: var(--avatar-ai-bg);
 }
 /* -------------------------------------------------- */
 
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
+/* ANT DESIGN OVERRIDES WITH CUSTOM VARIABLES */
+/* -------------------------------------------------- */
+
+/* Button overrides */
+.ant-btn-primary {
+  background-color: var(--button-primary-bg) !important;
+  border-color: var(--button-primary-bg) !important;
+  color: var(--button-primary-text) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--button-primary-hover) !important;
+  border-color: var(--button-primary-hover) !important;
+}
+
+.ant-btn-primary:active,
+.ant-btn-primary.active {
+  background-color: var(--button-primary-active) !important;
+  border-color: var(--button-primary-active) !important;
+}
+
+/* Menu overrides */
+.ant-menu-dark {
+  background: var(--header-background) !important;
+}
+
+.ant-menu-item-selected,
+.ant-menu-item:hover {
+  background-color: var(--menu-item-selected-bg) !important;
+  color: var(--menu-item-selected-text) !important;
+}
+
+.ant-menu-dark.ant-menu-horizontal > .ant-menu-item-selected {
+  background-color: var(--menu-item-selected-bg) !important;
+}
+
+.ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover {
+  background-color: var(--menu-item-hover-bg) !important;
+}
+
+.ant-menu-dark.ant-menu-horizontal > .ant-menu-item-active {
+  background-color: var(--menu-item-active-bg) !important;
+}
+
+/* Card overrides */
+.ant-card {
+  background: var(--card-background) !important;
+  color: var(--card-text-color) !important;
+  border: 1px solid var(--card-border-color) !important;
+}
+
+.ant-card-head {
+  background: var(--card-background) !important;
+  color: var(--card-text-color) !important;
+  border-bottom: 1px solid var(--card-border-color) !important;
+}
+
+.ant-card-body {
+  color: var(--card-text-color) !important;
+}
+
+/* List overrides - ensure text inherits card colors */
+.ant-list-item-meta-title,
+.ant-list-item-meta-title > a {
+  color: var(--card-text-color) !important;
+}
+
+.ant-list-item-meta-description {
+  color: var(--card-text-color) !important;
+  opacity: 0.7;
+}
+
+/* Input overrides */
+.ant-input,
+.ant-input-search input,
+.ant-input-affix-wrapper {
+  background: var(--input-background) !important;
+  color: var(--input-text-color) !important;
+  border-color: var(--input-border-color) !important;
+}
+
+.ant-input::placeholder,
+.ant-input-search input::placeholder {
+  color: var(--input-placeholder-color) !important;
+}
+
+.ant-input-search-button {
+  background: var(--input-background) !important;
+  border-color: var(--input-border-color) !important;
+}
+
+.ant-input-search-button {
+  color: var(--icon-color) !important;
+}
+
+/* Icon overrides */
+.ant-btn-text {
+  color: var(--icon-color) !important;
+}
+
+/* Header icons should always be white (on dark background) */
+.ant-layout-header .anticon,
+.ant-layout-header .ant-avatar .anticon {
+  color: var(--header-text-color) !important;
+}
+
+/* Dropdown menu icons from header */
+.ant-dropdown-menu .anticon {
+  color: var(--icon-color) !important;
+}
+
+/* Divider overrides */
+.ant-divider {
+  border-color: var(--card-border-color) !important;
+}
+
+/* Select overrides */
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  background: var(--input-background) !important;
+  color: var(--input-text-color) !important;
+  border-color: var(--input-border-color) !important;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-item,
+.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  color: var(--input-text-color) !important;
+}
+
+.ant-select-arrow {
+  color: var(--icon-color) !important;
+}
+
+/* Select dropdown */
+.ant-select-dropdown {
+  background: var(--input-background) !important;
+}
+
+.ant-select-item {
+  color: var(--input-text-color) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--menu-item-selected-bg) !important;
+  color: var(--menu-item-selected-text) !important;
+}
+
+.ant-select-item-option-active {
+  background-color: var(--menu-item-hover-bg) !important;
 }

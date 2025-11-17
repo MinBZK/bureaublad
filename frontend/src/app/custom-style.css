@@ -1,0 +1,120 @@
+/**
+ * CUSTOM STYLE OVERRIDES
+ *
+ * This file is for local development and testing only.
+ * In production, custom themes are loaded from the config API via ThemeLoader.
+ *
+ * To create a custom theme:
+ * 1. Uncomment and modify the variables below
+ * 2. Test locally
+ * 3. Host the CSS file on a public URL
+ * 4. Configure the backend API to return the theme_css URL
+ *
+ * See THEMING.md for complete documentation.
+ */
+
+/* :root { */
+/* ============================================
+     BASE/GENERIC COLORS (Recommended)
+     Override these to automatically update all components
+     ============================================ */
+/* --color-primary: #1677ff; */
+/* --color-primary-hover: #4096ff; */
+/* --color-primary-active: #0958d9; */
+/* --color-text-light: #ffffff; */
+/* --color-text-dark: #000000; */
+/* --color-background-light: #ffffff; */
+/* --color-background-neutral: #f5f5f5; */
+/* --color-border-default: #d9d9d9; */
+/* --color-border-subtle: #bfbfbf; */
+
+/* ============================================
+     COMPONENT-SPECIFIC OVERRIDES (Optional)
+     Override these for fine-grained control
+     ============================================ */
+/* --header-background: #001529; */
+/* --avatar-name-bg: #f56a00; */
+/* --avatar-call-bg: #87d068; */
+/* --avatar-doc-bg: #4096ff; */
+/* } */
+
+/* ============================================
+   EXAMPLE THEMES
+   ============================================
+
+   Copy and paste one of these example themes above
+   to quickly apply a pre-made color scheme.
+   ============================================ */
+
+/* EXAMPLE 1: Blue Corporate Theme
+   ============================================ */
+
+/* :root {
+
+  --color-primary: #1976d2;
+  --color-primary-hover: #42a5f5;
+  --color-primary-active: #0d47a1;
+  --color-background-neutral: #eceff1;
+  --color-border-default: #e3f2fd;
+
+
+  --header-background: #0d47a1;
+  --avatar-name-bg: #f57c00;
+  --avatar-call-bg: #388e3c;
+} */
+
+/* EXAMPLE 2: Green Nature Theme
+   ============================================ */
+/*
+:root {
+
+  --color-primary: #43a047;
+  --color-primary-hover: #66bb6a;
+  --color-primary-active: #2e7d32;
+  --color-background-neutral: #e8f5e9;
+  --color-border-default: #c8e6c9;
+
+
+  --header-background: #2e7d32;
+  --avatar-name-bg: #ef6c00;
+  --avatar-call-bg: #66bb6a;
+  --avatar-doc-bg: #43a047;
+} */
+
+/* EXAMPLE 3: Purple Modern Theme
+   ============================================ */
+/*
+:root {
+  --color-primary: #7b1fa2;
+  --color-primary-hover: #9c27b0;
+  --color-primary-active: #4a148c;
+  --color-background-neutral: #f3e5f5;
+  --color-border-default: #e1bee7;
+
+  --header-background: #4a148c;
+  --avatar-name-bg: #e65100;
+  --avatar-call-bg: #8e24aa;
+  --avatar-doc-bg: #7b1fa2;
+}
+*/
+
+/* EXAMPLE 4: Dark Theme
+   ============================================ */
+/*
+:root {
+  --color-primary: #424242;
+  --color-primary-hover: #616161;
+  --color-primary-active: #212121;
+  --color-text-dark: #ffffff;
+  --color-background-light: #1a1a1a;
+  --color-background-neutral: #303030;
+  --color-border-default: #616161;
+  --color-border-subtle: #8c8c8c;
+
+  --header-background: #1a1a1a;
+  --avatar-name-bg: #d84315;
+  --avatar-call-bg: #558b2f;
+  --avatar-doc-bg: #1565c0;
+  --avatar-ai-bg: #424242;
+}
+*/

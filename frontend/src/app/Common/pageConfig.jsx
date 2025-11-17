@@ -1,9 +1,10 @@
+import Link from "next/link";
 import DynamicIcon from "./DynamicIcon";
 
 export const menuItem = (sideBarLinks) => [
   {
     key: 0,
-    label: "Home",
+    label: <Link href={"/"}>{"Home"}</Link>,
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
 
