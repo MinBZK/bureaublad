@@ -2,6 +2,7 @@ import logging
 
 from app.clients.base import BaseAPIClient
 from app.models.grist import GristDocument, GristOrganization, GristWorkspace
+from app.models.pagination import PaginatedResponse
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +22,7 @@ class GristClient(BaseAPIClient):
         organization_id: int,
         page: int = 1,
         page_size: int = 5,
-    ) -> list[GristDocument]:
+    ) -> PaginatedResponse[GristDocument]:
         """
         Fetch all documents for organization with organization_id, sorted by updated date (most recent first).
         """
@@ -37,4 +38,4 @@ class GristClient(BaseAPIClient):
         )
 
         offset = (page - 1) * page_size
-        return docs[offset : offset + page_size]
+        return PaginatedResponse[GristDocument](count=len(docs), results=docs[offset : offset + page_size])

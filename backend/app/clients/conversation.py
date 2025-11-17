@@ -4,6 +4,7 @@ import logging
 
 from app.clients.base import BaseAPIClient
 from app.models.conversation import Conversation
+from app.models.pagination import PaginatedResponse
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +20,7 @@ class ConversationClient(BaseAPIClient):
         page: int = 1,
         page_size: int = 5,
         ordering: str = "-updated_at",
-    ) -> list[Conversation]:
+    ) -> PaginatedResponse[Conversation]:
         """Fetch chats from conversation service.
 
         Args:
@@ -37,8 +38,8 @@ class ConversationClient(BaseAPIClient):
 
         chats = await self._get_resource(
             path=path,
-            model_type=list[Conversation],
+            model_type=PaginatedResponse[Conversation],
             params=params,
-            response_parser=lambda data: data.get("results", []),
+            response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
         )
         return chats
