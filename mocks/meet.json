@@ -10,7 +10,7 @@
         "Content-Type": ["application/json"]
       },
       "body": {
-        "count": 123,
+        "count": 3,
         "next": "http://api.example.org/accounts/?page=2",
         "previous": "",
         "results": [
