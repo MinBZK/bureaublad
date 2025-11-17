@@ -262,9 +262,10 @@ class TestGristClient:
         assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
         # Verify result - should be sorted by updated_at descending and paginated
-        assert len(result) == 2
-        assert result[0].id == "doc1"  # Most recent (2024-01-20)
-        assert result[1].id == "doc3"  # Middle (2024-01-18)
+        assert result.count == 3
+        assert len(result.results) == 2
+        assert result.results[0].id == "doc1"  # Most recent (2024-01-20)
+        assert result.results[1].id == "doc3"  # Middle (2024-01-18)
         # doc2 should not be included due to page_size=2
 
     @pytest.mark.asyncio
@@ -318,8 +319,9 @@ class TestGristClient:
         result = await grist_client.get_documents(organization_id=123, page=2, page_size=2)
 
         # Should get the third document (page 2, offset 2)
-        assert len(result) == 1
-        assert result[0].id == "doc3"
+        assert result.count == 3
+        assert len(result.results) == 1
+        assert result.results[0].id == "doc3"
 
     @pytest.mark.asyncio
     async def test_get_documents_empty_result(self, grist_client: GristClient, mock_http_client: AsyncMock) -> None:
@@ -335,7 +337,8 @@ class TestGristClient:
 
         result = await grist_client.get_documents(organization_id=123)
 
-        assert len(result) == 0
+        assert result.count == 0
+        assert len(result.results) == 0
 
     @pytest.mark.asyncio
     async def test_get_documents_page_out_of_bounds(
@@ -370,7 +373,8 @@ class TestGristClient:
         result = await grist_client.get_documents(organization_id=123, page=10, page_size=5)
 
         # Should return empty list when page is out of bounds
-        assert len(result) == 0
+        assert result.count == 1
+        assert len(result.results) == 0
 
     @pytest.mark.asyncio
     async def test_get_documents_invalid_page_defaults(
@@ -406,8 +410,9 @@ class TestGristClient:
         result = await grist_client.get_documents(organization_id=123, page=-1, page_size=0)
 
         # Should default to page=1, page_size=1 and return first document
-        assert len(result) == 1
-        assert result[0].id == "doc1"
+        assert result.count == 1
+        assert len(result.results) == 1
+        assert result.results[0].id == "doc1"
 
     @pytest.mark.parametrize(
         ("page", "page_size", "expected_page", "expected_page_size"),
@@ -462,4 +467,5 @@ class TestGristClient:
         offset = (expected_page - 1) * expected_page_size
         expected_count = min(expected_page_size, max(0, 5 - offset))
 
-        assert len(result) == expected_count
+        assert result.count == 5
+        assert len(result.results) == expected_count

@@ -5,6 +5,8 @@ from fastapi import Request, status
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
 
+from app.core.translate import _
+
 logger = logging.getLogger(__name__)
 
 
@@ -30,7 +32,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
         content={
-            "msg": "Validation error",
+            "msg": _("Validation error"),
             "errors": exc.errors(),
         },
     )
@@ -47,18 +49,18 @@ async def httpx_exception_handler(request: Request, exc: httpx.HTTPError) -> JSO
     if isinstance(exc, httpx.TimeoutException):
         return JSONResponse(
             status_code=status.HTTP_504_GATEWAY_TIMEOUT,
-            content={"msg": "External service timeout"},
+            content={"msg": _("External service timeout")},
         )
 
     if isinstance(exc, httpx.ConnectError):
         return JSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            content={"msg": "External service unavailable"},
+            content={"msg": _("External service unavailable")},
         )
 
     return JSONResponse(
         status_code=status.HTTP_502_BAD_GATEWAY,
-        content={"msg": "External service error"},
+        content={"msg": _("External service error")},
     )
 
 
@@ -72,5 +74,5 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        content={"msg": "Internal server error"},
+        content={"msg": _("Internal server error")},
     )

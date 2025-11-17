@@ -2,6 +2,7 @@ import logging
 from collections.abc import AsyncGenerator
 from typing import Any
 
+from app.core.translate import _
 from app.exceptions import ExternalServiceError
 from app.models.ai import ChatCompletionRequest, StreamChunk
 from openai import APIConnectionError, AuthenticationError, OpenAI
@@ -46,10 +47,10 @@ class AIClient:
 
         except APIConnectionError as e:
             logger.exception("AI provider connection error")
-            raise ExternalServiceError("AI", "Connection failed") from e
+            raise ExternalServiceError("AI", _("Connection failed")) from e
         except AuthenticationError as e:
             logger.exception("AI provider authentication failed")
-            raise ExternalServiceError("AI", "Authentication failed") from e
+            raise ExternalServiceError("AI", _("Authentication failed")) from e
         except Exception as e:
             logger.exception("AI provider error")
-            raise ExternalServiceError("AI", "Service temporarily unavailable") from e
+            raise ExternalServiceError("AI", _("Service temporarily unavailable")) from e

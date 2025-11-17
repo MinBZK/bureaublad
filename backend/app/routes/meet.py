@@ -8,6 +8,7 @@ from app.clients.meet import MeetClient
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
+from app.models.pagination import PaginatedResponse
 from app.models.room import Room
 from app.token_exchange import get_token
 
@@ -34,13 +35,13 @@ async def get_meet_client(request: Request, http_client: HTTPClient) -> MeetClie
     return MeetClient(http_client, settings.MEET_URL, token)
 
 
-@router.get("/rooms", response_model=list[Room])
+@router.get("/rooms", response_model=PaginatedResponse[Room])
 async def meet_get_rooms(
     request: Request,
     http_client: HTTPClient,
     page: int = 1,
     page_size: int = 5,
-) -> list[Room]:
+) -> PaginatedResponse[Room]:
     """Get meetings from Meet service."""
     client = await get_meet_client(request, http_client)
     return await client.get_rooms(page=page, page_size=page_size)

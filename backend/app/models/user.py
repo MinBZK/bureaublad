@@ -3,6 +3,7 @@ from typing import Any, cast
 
 from pydantic import BaseModel
 
+from app.core.translate import _
 from app.exceptions import CredentialError
 
 logger = logging.getLogger(__name__)
@@ -42,12 +43,12 @@ class AuthState(BaseModel):
     def _get_userinfo(token: dict[str, Any]) -> dict[str, Any]:
         userinfo = token.get("userinfo")
         if not userinfo or not isinstance(userinfo, dict):
-            raise CredentialError("Missing userinfo in token")
+            raise CredentialError(_("Missing userinfo in token"))
         return cast(dict[str, Any], userinfo)
 
     @staticmethod
     def _require_string(data: dict[str, Any], key: str) -> str:
         value = data.get(key)
         if not isinstance(value, str) or not value.strip():
-            raise CredentialError(f"Missing or invalid {key}")
+            raise CredentialError(_(f"Missing or invalid {key}"))
         return value

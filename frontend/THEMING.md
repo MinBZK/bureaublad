@@ -211,6 +211,7 @@ You can use any valid CSS color format:
 - RGBA: `rgba(46, 125, 50, 0.9)`
 - HSL: `hsl(122, 39%, 49%)`
 - Color names: `green`
+
   ```
 
   ```
