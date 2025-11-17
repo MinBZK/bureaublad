@@ -257,10 +257,9 @@ html {
 }
 
 /* Icon overrides */
-.ant-btn-text{
+.ant-btn-text {
   color: var(--icon-color) !important;
 }
-
 
 /* Header icons should always be white (on dark background) */
 .ant-layout-header .anticon,

@@ -44,6 +44,7 @@ Create a CSS file with your custom theme. You can use this template:
 ### Step 2: Host Your CSS File
 
 Host your custom CSS file on a publicly accessible URL, for example:
+
 - `https://yourdomain.com/assets/custom-theme.css`
 - `https://cdn.yourdomain.com/theme.css`
 
@@ -75,6 +76,7 @@ For local development and testing:
 ## Pre-made Theme Examples
 
 The [custom-style.css](src/app/custom-style.css) file includes ready-to-use theme examples at the bottom:
+
 - **Blue Corporate Theme** - Professional blue tones
 - **Green Nature Theme** - Fresh green palette
 - **Purple Modern Theme** - Modern purple design
@@ -85,6 +87,7 @@ Simply copy one of these example themes and paste it at the top of the file (unc
 ## Available CSS Variables
 
 ### Base/Generic Colors (Foundation)
+
 These generic colors are reused across multiple components to ensure consistency:
 
 - `--color-primary` - Primary brand color (default: #1677ff)
@@ -100,43 +103,51 @@ These generic colors are reused across multiple components to ensure consistency
 **Note:** You can override the base colors to automatically update all components that use them, or override individual component colors for fine-grained control.
 
 ### Header Colors
+
 - `--header-background` - Background color of the header and dark menu
 - `--header-text-color` - Text color in the header (uses `--color-text-light` by default)
 
 ### Button Colors
+
 - `--button-primary-bg` - Primary button background (uses `--color-primary`)
 - `--button-primary-hover` - Primary button on hover (uses `--color-primary-hover`)
 - `--button-primary-active` - Primary button when clicked (uses `--color-primary-active`)
 - `--button-primary-text` - Primary button text color (uses `--color-text-light`)
 
 ### Layout Colors
+
 - `--layout-background` - Overall layout background (uses `--color-background-neutral`)
 - `--layout-content-background` - Content area background (uses `--color-background-neutral`)
 
 ### Menu Colors
+
 - `--menu-item-selected-bg` - Selected menu item background (uses `--color-primary`)
 - `--menu-item-hover-bg` - Menu item on hover (uses `--color-primary`)
 - `--menu-item-active-bg` - Menu item when active (uses `--color-primary-active`)
 - `--menu-item-selected-text` - Selected menu item text color (uses `--color-text-light`)
 
 ### Avatar Colors
+
 - `--avatar-name-bg` - Background color for name/profile avatars (default: #f56a00)
 - `--avatar-call-bg` - Background color for call/phone avatars (default: #87d068)
 - `--avatar-doc-bg` - Background color for document avatars (default: #4096ff)
 - `--avatar-ai-bg` - Background color for AI conversation avatars (uses `--color-primary`)
 
 ### Card Colors
+
 - `--card-background` - Background color for cards/widgets (uses `--color-background-light`)
 - `--card-text-color` - Text color inside cards (uses `--color-text-dark`)
 - `--card-border-color` - Border color for cards (uses `--color-border-default`)
 
 ### Input Colors
+
 - `--input-background` - Background color for input fields (uses `--color-background-light`)
 - `--input-text-color` - Text color in input fields (uses `--color-text-dark`)
 - `--input-border-color` - Border color for input fields (uses `--color-border-default`)
 - `--input-placeholder-color` - Placeholder text color (uses `--color-border-subtle`)
 
 ### Icon Colors
+
 - `--icon-color` - Color for icons (uses `--color-text-dark`)
 
 ## Customization Approaches
@@ -144,6 +155,7 @@ These generic colors are reused across multiple components to ensure consistency
 There are two ways to customize the theme:
 
 ### Approach 1: Override Base Colors (Recommended for Simple Themes)
+
 Change the base/generic colors to automatically update all components:
 
 ```css
@@ -160,6 +172,7 @@ Change the base/generic colors to automatically update all components:
 This approach is ideal when you want a consistent color scheme across the entire application.
 
 ### Approach 2: Override Individual Component Colors (Fine-grained Control)
+
 Override specific component colors for more control:
 
 ```css
@@ -174,6 +187,7 @@ Override specific component colors for more control:
 This approach gives you maximum flexibility to customize each component independently.
 
 ### Approach 3: Hybrid (Best of Both)
+
 Combine both approaches - set base colors and override specific components:
 
 ```css
@@ -183,14 +197,15 @@ Combine both approaches - set base colors and override specific components:
   --color-text-light: #ffffff;
 
   /* Override specific components that need different colors */
-  --avatar-ai-bg: #1565c0;  /* Different from primary */
-  --header-background: #1b5e20;  /* Darker than primary */
+  --avatar-ai-bg: #1565c0; /* Different from primary */
+  --header-background: #1b5e20; /* Darker than primary */
 }
 ```
 
 ## Color Format
 
 You can use any valid CSS color format:
+
 - Hex: `#2e7d32`
 - RGB: `rgb(46, 125, 50)`
 - RGBA: `rgba(46, 125, 50, 0.9)`
@@ -198,3 +213,4 @@ You can use any valid CSS color format:
 - Color names: `green`
   ```
 
+  ```
