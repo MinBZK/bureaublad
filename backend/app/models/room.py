@@ -12,4 +12,4 @@ class Room(BaseModel):
     @computed_field
     @property
     def url(self) -> str:
-        return f"{settings.CONVERSATION_URL}/{self.slug}"
+        return f"{settings.MEET_URL}/{self.slug}"

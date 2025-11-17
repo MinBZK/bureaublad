@@ -33,7 +33,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
             mode="horizontal"
             defaultSelectedKeys={["0"]}
             items={menuItem(applications)}
-            style={{ flex: 1, minWidth: 0 }}
+            className="header-menu"
           />
         )}
         {!isProfile && (

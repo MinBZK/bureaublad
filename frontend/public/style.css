@@ -1,0 +1,30 @@
+/**
+ * CUSTOM THEME - Dark Theme Example
+ *
+ * This file is accessible via HTTP at: http://bureaublad.localhost/style.css
+ *
+ * Use this URL in your backend config API response:
+ * {
+ *   "theme_css": "http://bureaublad.localhost/style.css",
+ *   ...
+ * }
+ */
+
+:root {
+  /* Base colors - automatically updates all components */
+  --color-primary: #424242;
+  --color-primary-hover: #616161;
+  --color-primary-active: #212121;
+  --color-text-dark: #ffffff;
+  --color-background-light: #1a1a1a;
+  --color-background-neutral: #303030;
+  --color-border-default: #616161;
+  --color-border-subtle: #8c8c8c;
+
+  /* Component-specific overrides */
+  --header-background: #1a1a1a;
+  --avatar-name-bg: #d84315;
+  --avatar-call-bg: #558b2f;
+  --avatar-doc-bg: #1565c0;
+  --avatar-ai-bg: #424242;
+}

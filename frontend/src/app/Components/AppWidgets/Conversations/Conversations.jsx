@@ -50,10 +50,7 @@ function Conversations() {
                 }
               />
               <Link href={item?.url}>
-                <Avatar
-                  style={{ backgroundColor: "#1677ff" }}
-                  icon={<WechatOutlined />}
-                />
+                <Avatar className="avt-ai" icon={<WechatOutlined />} />
               </Link>
             </List.Item>
           )
