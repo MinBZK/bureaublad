@@ -47,7 +47,7 @@ function Widget({
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
                     allowClear
-                    style={{ width: "100%" }}
+                    className="widget-search"
                   />
                   <Divider />
                 </React.Fragment>
