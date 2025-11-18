@@ -12,13 +12,15 @@ import { useState } from "react";
 function Conversations() {
   // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const {
     data: conv,
     loading,
     error,
     onRefresh,
   } = useFetchWithRefresh("/api/v1/conversations/chats", {
-    page: 1,
+    page,
+    page_size: 3,
     title: search,
   });
 
@@ -28,9 +30,12 @@ function Conversations() {
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
+      page={page}
+      setPage={setPage}
+      total={conv?.count}
     >
       <List
-        dataSource={conv}
+        dataSource={conv?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (

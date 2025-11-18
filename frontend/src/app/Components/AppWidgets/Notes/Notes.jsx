@@ -10,7 +10,7 @@ import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRef
 function Note() {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
-
+  const [page, setPage] = useState(1);
   const {
     data: docs,
     loading,
@@ -19,8 +19,9 @@ function Note() {
   } = useFetchWithRefresh("/api/v1/docs/documents", {
     favorite,
     title: search,
+    page,
+    page_size: 3,
   });
-
   return (
     <Widget
       title="Notities"
@@ -30,9 +31,12 @@ function Note() {
       setSearch={setSearch}
       error={error}
       onRefresh={onRefresh}
+      page={page}
+      setPage={setPage}
+      total={docs?.count}
     >
       <List
-        dataSource={docs}
+        dataSource={docs?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (

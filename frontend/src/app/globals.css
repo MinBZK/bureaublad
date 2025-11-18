@@ -90,6 +90,35 @@ html {
   margin-top: 20px;
 }
 
+footer {
+  text-align: center;
+}
+
+/* AI */
+/* -------------------------------------------------- */
+.position-timeline {
+  margin-top: 30px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.position-scrol-down {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.scrol-down-icon {
+  font-size: 24px;
+  color: #888;
+  animation: bounce 1.2s infinite;
+  margin-left: -7px;
+}
+
+.sheets-org-select {
+  width: 100%;
+}
+
 /* COMMON */
 /* -------------------------------------------------- */
 .space-up {

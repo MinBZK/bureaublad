@@ -10,21 +10,26 @@ import Link from "next/link";
 function VideoChat() {
   // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
   const {
     data: meet,
     loading,
     error,
     onRefresh,
   } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
+
   return (
     <Widget
       title="Videoconferentie"
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
+      page={page}
+      setPage={setPage}
+      total={meet?.count || 0}
     >
       <List
-        dataSource={meet}
+        dataSource={meet?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
