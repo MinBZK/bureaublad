@@ -17,6 +17,7 @@ function VideoChat() {
     error,
     onRefresh,
   } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
+
   return (
     <Widget
       title="Videoconferentie"
@@ -25,10 +26,10 @@ function VideoChat() {
       setSearch={setSearch}
       page={page}
       setPage={setPage}
-      total={meet?.length || 0}
+      total={meet?.count || 0}
     >
       <List
-        dataSource={meet}
+        dataSource={meet?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (

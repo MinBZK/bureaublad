@@ -33,10 +33,10 @@ function Drive() {
       onRefresh={onRefresh}
       page={page}
       setPage={setPage}
-      total={drive?.length || 0}
+      total={drive?.count}
     >
       <List
-        dataSource={drive}
+        dataSource={drive?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (

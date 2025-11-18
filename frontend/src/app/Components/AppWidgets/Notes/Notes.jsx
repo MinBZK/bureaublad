@@ -22,7 +22,6 @@ function Note() {
     page,
     page_size: 3,
   });
-
   return (
     <Widget
       title="Notities"
@@ -34,10 +33,10 @@ function Note() {
       onRefresh={onRefresh}
       page={page}
       setPage={setPage}
-      total={docs?.length || 0}
+      total={docs?.count}
     >
       <List
-        dataSource={docs}
+        dataSource={docs?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (

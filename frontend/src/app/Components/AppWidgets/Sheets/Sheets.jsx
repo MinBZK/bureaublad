@@ -60,7 +60,7 @@ function Sheets() {
       error={errorSheets || errorOrgs}
       page={page}
       setPage={setPage}
-      total={sheets?.length || 0}
+      total={sheets?.count}
     >
       <Select
         loading={loadingOrgs}
@@ -76,7 +76,7 @@ function Sheets() {
       <Divider />
       <List
         loading={loadingSheets}
-        dataSource={sheets}
+        dataSource={sheets?.results || []}
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.description}>

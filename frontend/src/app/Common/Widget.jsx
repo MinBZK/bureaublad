@@ -77,15 +77,20 @@ function Widget({
           </Row>
 
           {children}
-          <Divider />
-          <Pagination
-            defaultCurrent={page}
-            current={page}
-            onChange={(page) => setPage(page)}
-            total={total}
-            align="end"
-            pageSizeOptions={[5]}
-          />
+
+          {page && setPage && (
+            <React.Fragment>
+              <Divider />
+              <Pagination
+                defaultCurrent={page}
+                current={page}
+                onChange={(page) => setPage(page)}
+                total={total}
+                align="end"
+                pageSizeOptions={[5]}
+              />
+            </React.Fragment>
+          )}
         </React.Fragment>
       )}
     </Card>

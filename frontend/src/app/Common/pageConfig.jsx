@@ -10,7 +10,11 @@ export const menuItem = (sideBarLinks) => [
 
   ...sideBarLinks?.map((value, index) => ({
     key: index + 1,
-    label: value?.title,
+    label: (
+      <Link href={value?.url} rel="noopener noreferrer" target="_blank">
+        {value?.title}
+      </Link>
+    ),
     icon: <DynamicIcon name={value?.icon} />,
   })),
 ];

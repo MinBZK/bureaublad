@@ -32,10 +32,10 @@ function Conversations() {
       setSearch={setSearch}
       page={page}
       setPage={setPage}
-      total={conv?.length || 0}
+      total={conv?.count}
     >
       <List
-        dataSource={conv}
+        dataSource={conv?.results || []}
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
