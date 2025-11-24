@@ -10,7 +10,6 @@ import { useState } from "react";
 
 // Conversation
 function Conversations() {
-  // TODO search functionality is not implemented in the backend yet
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const {

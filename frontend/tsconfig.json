@@ -31,7 +31,7 @@
     "src/app/Components/AppWidgets/Conversations/Conversations.jsx",
     "src/app/Components/AppWidgets/Email/Email.jsx",
     "src/app/Components/AppWidgets/Files/Files.jsx",
-    "src/app/Components/AppWidgets/VideoChat/VideoChat.jsx",
+    "src/app/Components/AppWidgets/Meet/Meet.jsx",
     "dist/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
