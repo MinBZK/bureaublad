@@ -81,7 +81,51 @@ class TestConversationsEndpoints:
         mock_conversation_client.assert_called_once()
 
         # Verify get_chats was called with default pagination
-        mock_client_instance.get_chats.assert_called_once_with(page=1, page_size=5)
+        mock_client_instance.get_chats.assert_called_once_with(page=1, page_size=5, title=None)
+
+    @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
+    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
+    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.ConversationClient")
+    def test_docs_get_conversations_chats_with_title_filter(
+        self,
+        mock_conversation_client: MagicMock,
+        mock_get_token: MagicMock,
+        authenticated_client: TestClient,
+    ) -> None:
+        """Test conversations retrieval with title filter."""
+        # Mock token exchange
+        mock_get_token.return_value = "test-conversation-token"
+
+        # Mock DocsClient
+        mock_client_instance = AsyncMock()
+        mock_client_instance.get_chats.return_value = PaginatedResponse(
+            count=1,
+            results=[
+                Conversation(
+                    id="conv-456",
+                    title="Filtered Document",
+                    created_at="2024-11-01T11:00:00Z",
+                    updated_at="2024-11-01T11:00:00Z",
+                )
+            ],
+        )
+        mock_conversation_client.return_value = mock_client_instance
+
+        response = authenticated_client.get("/api/v1/conversations/chats?title=Filtered%20Document")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["count"] == 1
+        assert len(data["results"]) == 1
+        assert data["results"][0]["title"] == "Filtered Document"
+
+        # Verify DocsClient was called with title filter
+        mock_client_instance.get_chats.assert_called_once_with(
+            page=1,
+            page_size=5,
+            title="Filtered Document",
+        )
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
     @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
@@ -125,7 +169,7 @@ class TestConversationsEndpoints:
         assert data["results"][0]["title"] == "Client Meeting"
 
         # Verify get_chats was called with page=2
-        mock_client_instance.get_chats.assert_called_once_with(page=2, page_size=1)
+        mock_client_instance.get_chats.assert_called_once_with(page=2, page_size=1, title=None)
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
     @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")

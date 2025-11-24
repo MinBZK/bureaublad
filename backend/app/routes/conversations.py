@@ -27,8 +27,12 @@ async def get_conversations_client(request: Request, http_client: HTTPClient) ->
 
 @router.get("/chats", response_model=PaginatedResponse[Conversation])
 async def conversations_get_chat(
-    request: Request, http_client: HTTPClient, page: int = 1, page_size: int = 5
+    request: Request,
+    http_client: HTTPClient,
+    page: int = 1,
+    page_size: int = 5,
+    title: str | None = None,
 ) -> PaginatedResponse[Conversation]:
     """Get meetings from Meet service."""
     client = await get_conversations_client(request, http_client)
-    return await client.get_chats(page=page, page_size=page_size)
+    return await client.get_chats(page=page, page_size=page_size, title=title)
