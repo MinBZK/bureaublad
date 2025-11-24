@@ -25,7 +25,7 @@ def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
     if not isinstance(link, dict):
         raise TypeError(f"Link at index {idx} must be an object")
 
-    required = {"icon", "url", "title"}
+    required = {"id", "icon", "url", "title"}
     if not required.issubset(link.keys()):  # pyright: ignore[reportUnknownArgumentType]
         raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
 

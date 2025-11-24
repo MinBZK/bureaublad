@@ -11,10 +11,12 @@ class Service(BaseModel):
     enabled: bool
 
 
-class SidebarLink(BaseModel):
-    icon: str
-    url: str
-    title: str
+class ApplicationsConfig(BaseModel):
+    enabled: bool = False
+    id: str
+    icon: str | None = None
+    url: str | None = None
+    title: str | None = None
     iframe: bool = False
 
 
@@ -23,20 +25,7 @@ class OIDCConfig(BaseModel):
     username_claim: str
 
 
-class ApplicationsConfig(BaseModel):
-    ai: bool = False
-    docs: bool = False
-    drive: bool = False
-    calendar: bool = False
-    task: bool = False
-    meet: bool = False
-    ocs: bool = False
-    grist: bool = False
-    conversation: bool = False
-
-
 class ConfigResponse(BaseModel):
-    applications: list[SidebarLink]
+    applications: list[ApplicationsConfig]
     theme_css: str
-    cards: ApplicationsConfig
     silent_login: bool = False
