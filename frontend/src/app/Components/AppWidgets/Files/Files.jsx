@@ -77,6 +77,7 @@ function Files() {
       <List
         dataSource={files}
         loading={loading}
+        className="widget-list"
         renderItem={(item, index) =>
           index <= 2 && (
             <List.Item key={item.datetime}>

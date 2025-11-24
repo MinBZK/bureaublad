@@ -26,7 +26,7 @@ export default function Home() {
       {items?.cards?.ai && <AiAssistant key="ai" />}
       <List
         className="dashboard-list"
-        grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
+        grid={{ gutter: 16, xs: 1, sm: 1, md: 2, lg: 2, xl: 3, xxl: 3 }}
         dataSource={components}
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />

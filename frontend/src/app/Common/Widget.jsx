@@ -31,9 +31,7 @@ function Widget({
   return (
     <Card
       title={title}
-      variant="borderless"
       loading={loading}
-      type="inner"
       extra={
         onRefresh && (
           <Button

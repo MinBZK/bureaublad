@@ -35,6 +35,7 @@ function Conversations() {
       total={conv?.count}
     >
       <List
+        className="widget-list"
         dataSource={conv?.results || []}
         loading={loading}
         renderItem={(item, index) =>

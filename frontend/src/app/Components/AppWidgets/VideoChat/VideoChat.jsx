@@ -29,6 +29,7 @@ function VideoChat() {
       total={meet?.count || 0}
     >
       <List
+        className="widget-list"
         dataSource={meet?.results || []}
         loading={loading}
         renderItem={(item, index) =>
@@ -41,7 +42,9 @@ function VideoChat() {
                   </Avatar>
                 }
                 title={<Link href={item.url}>{item.name}</Link>}
-                description={<span>Pincode: {item.pin_code}</span>}
+                description={
+                  item.pin_code ? <span>Pincode: {item.pin_code}</span> : null
+                }
               />
               <Link href={item.url}>
                 <Avatar className="avt-call" icon={<PhoneOutlined />} />

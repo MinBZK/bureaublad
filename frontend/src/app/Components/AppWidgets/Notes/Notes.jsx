@@ -36,6 +36,7 @@ function Note() {
       total={docs?.count}
     >
       <List
+        className="widget-list"
         dataSource={docs?.results || []}
         loading={loading}
         renderItem={(item, index) =>

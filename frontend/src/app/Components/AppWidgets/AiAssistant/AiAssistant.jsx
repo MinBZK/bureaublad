@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
-import Widget from "@/app/Common/Widget";
-
+import React, { useState } from "react";
+import { Button, Divider, Drawer, Input, Result } from "antd";
+import { RobotOutlined } from "@ant-design/icons";
+const { Search } = Input;
 function AiAssistant() {
+  const [open, setOpen] = useState(false);
   const [aiResult, setAiResult] = useState([]);
   const [error, setError] = useState("");
 
@@ -59,25 +61,48 @@ function AiAssistant() {
         }
       }
     } catch (err) {
-      console.error(err);
       setError(err.message);
     }
   };
 
   return (
-    <Widget
-      title="AI Assistant"
-      loading={false}
-      error={error}
-      setSearch={(t) => postAi(t)}
-      placeholder="Typ je vraag hier..."
-    >
-      {aiResult.map((msg, i) => (
-        <div key={i} className="message">
-          {msg}
-        </div>
-      ))}
-    </Widget>
+    <>
+      <Button
+        color="default"
+        variant="link"
+        className="profile-link"
+        onClick={() => setOpen(true)}
+        size="large"
+      >
+        <RobotOutlined />
+      </Button>
+      <Drawer
+        title="Ai Assistent"
+        closable={{ "aria-label": "Close Button" }}
+        onClose={() => setOpen(false)}
+        open={open}
+      >
+        {error ? (
+          <Result status="warning" title={error} className="space-min-up" />
+        ) : (
+          <React.Fragment>
+            <Search
+              placeholder={"Typ je vraag hier..."}
+              onSearch={(t) => postAi(t)}
+              allowClear
+              className="widget-search"
+            />
+            <Divider />
+
+            {aiResult.map((msg, i) => (
+              <div key={i} className="message">
+                {msg}
+              </div>
+            ))}
+          </React.Fragment>
+        )}
+      </Drawer>
+    </>
   );
 }
 

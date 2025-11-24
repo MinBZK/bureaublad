@@ -36,6 +36,7 @@ function Drive() {
       total={drive?.count}
     >
       <List
+        className="widget-list"
         dataSource={drive?.results || []}
         loading={loading}
         renderItem={(item, index) =>

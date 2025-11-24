@@ -75,6 +75,7 @@ function Sheets() {
       />
       <Divider />
       <List
+        className="widget-list"
         loading={loadingSheets}
         dataSource={sheets?.results || []}
         renderItem={(item, index) =>

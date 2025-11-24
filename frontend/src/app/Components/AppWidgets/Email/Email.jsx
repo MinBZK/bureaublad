@@ -9,6 +9,7 @@ function Email() {
   return (
     <Card title="Email" variant="borderless">
       <List
+        className="widget-list"
         dataSource={data}
         renderItem={(item) => (
           <List.Item key={item.email}>
