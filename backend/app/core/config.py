@@ -25,7 +25,7 @@ def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
     if not isinstance(link, dict):
         raise TypeError(f"Link at index {idx} must be an object")
 
-    required = {"icon", "url", "title"}
+    required = {"id", "icon", "url", "title"}
     if not required.issubset(link.keys()):  # pyright: ignore[reportUnknownArgumentType]
         raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
 
@@ -36,23 +36,23 @@ def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
 
 
 def parse_sidebar_links(v: Any) -> list[dict[str, str | bool]]:  # noqa: ANN401
+    # Parse input into a list
     if isinstance(v, list):
-        return cast(list[dict[str, str | bool]], v)
-
-    if not isinstance(v, str):
+        parsed = v  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
+    elif isinstance(v, str):
+        if not v.strip():
+            return []
+        try:
+            parsed = json.loads(v)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
+    else:
         raise TypeError(f"SIDEBAR_LINKS_JSON must be string or list, got {type(v)}")
-
-    if not v.strip():
-        return []
-
-    try:
-        parsed: Any = json.loads(v)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
 
     if not isinstance(parsed, list):
         raise TypeError("SIDEBAR_LINKS_JSON must be a JSON array")
 
+    # Validate all entries (runs for both string and list inputs)
     for idx, link in enumerate(parsed):  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
         _validate_sidebar_link(link, idx)
 

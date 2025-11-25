@@ -17,19 +17,26 @@ def test_config_get_authenticated(authenticated_client: TestClient) -> None:
     data = response.json()
     assert "applications" in data
     assert "theme_css" in data
-    assert "cards" in data
     assert "silent_login" in data
     assert data["silent_login"] is True
 
-    # Verify cards structure - all should be boolean values
-    cards = data["cards"]
-    expected_keys = ["ai", "docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation"]
-    for key in expected_keys:
-        assert key in cards
-        assert isinstance(cards[key], bool)
-
     # Verify applications is a list
     assert isinstance(data["applications"], list)
+
+    # Verify each application has the correct structure
+    for app in data["applications"]:
+        assert "id" in app
+        assert "enabled" in app
+        assert "icon" in app
+        assert "url" in app
+        assert "title" in app
+        assert "iframe" in app
+        assert isinstance(app["id"], str)
+        assert isinstance(app["enabled"], bool)
+        assert app["icon"] is None or isinstance(app["icon"], str)
+        assert app["url"] is None or isinstance(app["url"], str)
+        assert app["title"] is None or isinstance(app["title"], str)
+        assert isinstance(app["iframe"], bool)
 
     # Verify theme_css is a string
     assert isinstance(data["theme_css"], str)
