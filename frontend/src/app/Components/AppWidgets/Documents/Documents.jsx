@@ -7,7 +7,7 @@ import Widget from "../../../Common/Widget";
 import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRefresh";
 
 // Docs
-function Note() {
+function Documents() {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -57,4 +57,4 @@ function Note() {
   );
 }
 
-export default Note;
+export default Documents;

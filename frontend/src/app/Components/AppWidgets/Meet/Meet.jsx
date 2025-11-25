@@ -7,8 +7,8 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import Link from "next/link";
 
 // meet
-function VideoChat() {
-  // TODO search functionality is not implemented in the backend yet
+function Meet() {
+  // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const {
@@ -16,7 +16,7 @@ function VideoChat() {
     loading,
     error,
     onRefresh,
-  } = useFetchWithRefresh("/api/v1/meet/rooms", { page: 1, title: search });
+  } = useFetchWithRefresh("/api/v1/meet/rooms", { page, page_size: 3 });
 
   return (
     <Widget
@@ -29,7 +29,11 @@ function VideoChat() {
       total={meet?.count || 0}
     >
       <List
-        dataSource={meet?.results || []}
+        dataSource={
+          meet?.results?.filter((value) =>
+            value?.name?.toUpperCase()?.includes(search.toUpperCase()),
+          ) || []
+        }
         loading={loading}
         renderItem={(item, index) =>
           index <= 2 && (
@@ -54,4 +58,4 @@ function VideoChat() {
   );
 }
 
-export default VideoChat;
+export default Meet;
