@@ -7,7 +7,7 @@ import Widget from "../../../Common/Widget";
 import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRefresh";
 
 // Docs
-function Documents() {
+function Documents({ title = "Docs" }) {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -24,7 +24,7 @@ function Documents() {
   });
   return (
     <Widget
-      title="Notities"
+      title={title}
       favorite={favorite}
       setFavorite={setFavorite}
       search={search}
@@ -36,22 +36,21 @@ function Documents() {
       total={docs?.count}
     >
       <List
+        className="widget-list"
         dataSource={docs?.results || []}
         loading={loading}
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.description}>
-              <List.Item.Meta
-                avatar={<Avatar icon={<FileTextOutlined />} />}
-                title={<Link href={item?.url}>{item.title}</Link>}
-                description={`Laatste wijziging: ${item.updated_date}`}
-              />
-              <Link href={item?.url}>
-                <EditOutlined />
-              </Link>
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.description}>
+            <List.Item.Meta
+              avatar={<Avatar icon={<FileTextOutlined />} />}
+              title={<Link href={item?.url}>{item.title}</Link>}
+              description={`Laatste wijziging: ${item.updated_date}`}
+            />
+            <Link href={item?.url}>
+              <EditOutlined />
+            </Link>
+          </List.Item>
+        )}
       />
     </Widget>
   );

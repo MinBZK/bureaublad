@@ -1,8 +1,9 @@
 "use client";
-import { Avatar, Dropdown, Flex, Layout, Menu } from "antd";
+import { Affix, Avatar, Dropdown, Flex, Layout, Menu } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { menuItem } from "../../../Common/pageConfig";
+import AiAssistant from "../../AppWidgets/AiAssistant/AiAssistant";
 
 const { Header } = Layout;
 
@@ -22,29 +23,32 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   ];
 
   return (
-    <Header>
-      <Flex>
-        <div className="logo">
-          <span className="logo-txt">Mijn Bureau</span>
-        </div>
-        {applications && (
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["0"]}
-            items={menuItem(applications)}
-            className="header-menu"
-          />
-        )}
-        {!isProfile && (
-          <Dropdown menu={{ items }}>
-            <Link className="profile-link" href="/#">
-              <Avatar icon={<UserOutlined />} /> {profile}
-            </Link>
-          </Dropdown>
-        )}
-      </Flex>
-    </Header>
+    <Affix>
+      <Header>
+        <Flex>
+          <div className="logo">
+            <span className="logo-txt">Mijn Bureau</span>
+          </div>
+          {applications && (
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={["0"]}
+              items={menuItem(applications)}
+              className="header-menu"
+            />
+          )}
+          {applications?.some((value) => value?.id === "ai") && <AiAssistant />}
+          {!isProfile && (
+            <Dropdown menu={{ items }}>
+              <Link className="profile-link" href="/#">
+                <Avatar icon={<UserOutlined />} /> {profile}
+              </Link>
+            </Dropdown>
+          )}
+        </Flex>
+      </Header>
+    </Affix>
   );
 }
 

@@ -7,7 +7,7 @@ import moment from "moment";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 
-function Drive() {
+function Drive({ title = "Drive" }) {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -25,7 +25,7 @@ function Drive() {
 
   return (
     <Widget
-      title="Drive"
+      title={title}
       favorite={favorite}
       setFavorite={setFavorite}
       setSearch={setSearch}
@@ -36,21 +36,20 @@ function Drive() {
       total={drive?.count}
     >
       <List
+        className="widget-list"
         dataSource={drive?.results || []}
         loading={loading}
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.description}>
-              <List.Item.Meta
-                avatar={
-                  <Avatar icon={<FileImageOutlined />} className="avt-name" />
-                }
-                title={<Link href={item?.url || ""}>{item.title}</Link>}
-                description={`Laatste wijziging: ${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
-              />
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.description}>
+            <List.Item.Meta
+              avatar={
+                <Avatar icon={<FileImageOutlined />} className="avt-name" />
+              }
+              title={<Link href={item?.url || ""}>{item.title}</Link>}
+              description={`Laatste wijziging: ${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
+            />
+          </List.Item>
+        )}
       />
     </Widget>
   );

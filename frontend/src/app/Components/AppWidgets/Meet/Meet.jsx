@@ -7,7 +7,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import Link from "next/link";
 
 // meet
-function Meet() {
+function Meet({ title = "Videoconferentie" }) {
   // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -20,7 +20,7 @@ function Meet() {
 
   return (
     <Widget
-      title="Videoconferentie"
+      title={title}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -35,24 +35,24 @@ function Meet() {
           ) || []
         }
         loading={loading}
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.slug}>
-              <List.Item.Meta
-                avatar={
-                  <Avatar className="avt-name">
-                    {item?.name?.at(0)?.toUpperCase()}
-                  </Avatar>
-                }
-                title={<Link href={item.url}>{item.name}</Link>}
-                description={<span>Pincode: {item.pin_code}</span>}
-              />
-              <Link href={item.url}>
-                <Avatar className="avt-call" icon={<PhoneOutlined />} />
-              </Link>
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.slug}>
+            <List.Item.Meta
+              avatar={
+                <Avatar className="avt-name">
+                  {item?.name?.at(0)?.toUpperCase()}
+                </Avatar>
+              }
+              title={<Link href={item.url}>{item.name}</Link>}
+              description={
+                item.pin_code ? <span>Pincode: {item.pin_code}</span> : null
+              }
+            />
+            <Link href={item.url}>
+              <Avatar className="avt-call" icon={<PhoneOutlined />} />
+            </Link>
+          </List.Item>
+        )}
       />
     </Widget>
   );

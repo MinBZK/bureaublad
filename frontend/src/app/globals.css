@@ -60,12 +60,16 @@ html {
   background: var(--layout-background);
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .layout-content {
-  padding: 24px 24px;
+  padding: 20px;
 }
 
 .content {
-  padding: 10px;
   margin: 0;
   background: var(--layout-content-background);
   overflow: initial;
@@ -164,6 +168,10 @@ footer {
 
 .widget-search {
   width: 100%;
+}
+
+.widget-list {
+  min-height: 220px;
 }
 
 .sheets-org-select {

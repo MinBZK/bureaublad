@@ -6,15 +6,14 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 const { Content, Footer } = Layout;
 
 export default function PageLayout({ children }) {
-  const { items, error } = useAppContext();
+  const { appConfig, error } = useAppContext();
   const { data } = useFetchWithRefresh("/api/v1/auth/profile");
-
   return (
     <Layout>
       <HeaderLayout
         isProfile={!!error}
         profile={data?.name}
-        applications={items?.applications}
+        applications={appConfig?.applications}
       />
       <Content className="layout-content">
         <div className="content">{children}</div>
