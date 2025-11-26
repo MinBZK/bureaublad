@@ -1,20 +1,48 @@
 import Link from "next/link";
 import DynamicIcon from "./DynamicIcon";
+import Documents from "../Components/AppWidgets/Documents/Documents";
+import Drive from "../Components/AppWidgets/Drive/Drive";
+import Files from "../Components/AppWidgets/Files/Files";
+import Sheets from "../Components/AppWidgets/Sheets/Sheets";
+import Conversations from "../Components/AppWidgets/Conversations/Conversations";
+import Meet from "../Components/AppWidgets/Meet/Meet";
 
-export const menuItem = (sideBarLinks) => [
+export const menuItem = (applications) => [
   {
     key: 0,
     label: <Link href={"/"}>{"Home"}</Link>,
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
 
-  ...sideBarLinks?.map((value, index) => ({
-    key: index + 1,
-    label: (
-      <Link href={value?.url} rel="noopener noreferrer" target="_blank">
-        {value?.title}
-      </Link>
-    ),
-    icon: <DynamicIcon name={value?.icon} />,
-  })),
+  ...applications?.map(
+    (value, index) =>
+      value?.url &&
+      value?.title && {
+        key: index + 1,
+        label: (
+          <Link href={value?.url} rel="noopener noreferrer" target="_blank">
+            {value?.title}
+          </Link>
+        ),
+        icon: <DynamicIcon name={value?.icon} />,
+      },
+  ),
 ];
+
+export const availableWidgetComponents = (applications) => {
+  const componentMap = {
+    docs: Documents,
+    drive: Drive,
+    ocs: Files,
+    grist: Sheets,
+    conversation: Conversations,
+    meet: Meet,
+  };
+
+  return applications
+    .map((app) => {
+      const Component = componentMap[app.id];
+      return Component ? <Component key={app.id} title={app?.title} /> : null;
+    })
+    .filter(Boolean);
+};

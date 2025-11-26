@@ -3,17 +3,17 @@ import { useEffect } from "react";
 import { useAppContext } from "../Context/AppContext";
 
 export default function ThemeLoader() {
-  const { items } = useAppContext();
+  const { appConfig } = useAppContext();
   useEffect(() => {
-    if (!items?.theme_css) return;
+    if (!appConfig?.theme_css) return;
 
     // Check if we already added this link (avoid duplicates)
-    if (document.querySelector(`link[href="${items.theme_css}"]`)) return;
+    if (document.querySelector(`link[href="${appConfig.theme_css}"]`)) return;
 
-    // Create a new <link> element for the user’s custom stylesheet
+    // Create a new <link> element for the user's custom stylesheet
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = items.theme_css;
+    link.href = appConfig.theme_css;
     link.type = "text/css";
     link.setAttribute("precedence", "default");
 
@@ -22,7 +22,7 @@ export default function ThemeLoader() {
     return () => {
       if (link.parentNode) link.parentNode.removeChild(link);
     };
-  }, [items?.theme_css]);
+  }, [appConfig?.theme_css]);
 
   return null;
 }

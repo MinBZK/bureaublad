@@ -7,7 +7,7 @@ import ErrorResult from "../../Common/ErrorResult";
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
-  const [items, setitems] = useState(null);
+  const [appConfig, setAppConfig] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -15,7 +15,7 @@ export function AppProvider({ children }) {
     const fetchConfig = async () => {
       try {
         const res = await axios.get("/api/v1/config");
-        setitems(res?.data);
+        setAppConfig(res?.data);
       } catch (err) {
         setError(err?.response);
       } finally {
@@ -26,8 +26,8 @@ export function AppProvider({ children }) {
   }, []);
   return (
     <Loading loading={loading}>
-      {items ? (
-        <AppContext.Provider value={{ items, error }}>
+      {appConfig ? (
+        <AppContext.Provider value={{ appConfig, error }}>
           {children}
         </AppContext.Provider>
       ) : error?.status === 401 ? (

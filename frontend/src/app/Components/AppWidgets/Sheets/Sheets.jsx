@@ -7,7 +7,7 @@ import Widget from "../../../Common/Widget";
 import moment from "moment";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 
-function Sheets() {
+function Sheets({ title = "Sheets" }) {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
   const [page, setPage] = useState(1);
@@ -55,7 +55,7 @@ function Sheets() {
 
   return (
     <Widget
-      title="Sheets"
+      title={title}
       onRefresh={onRefresh}
       error={errorSheets || errorOrgs}
       page={page}
@@ -78,20 +78,18 @@ function Sheets() {
         className="widget-list"
         loading={loadingSheets}
         dataSource={sheets?.results || []}
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.description}>
-              <List.Item.Meta
-                avatar={<Avatar icon={<FileTextOutlined />} />}
-                title={<Link href={item?.url}>{item.name}</Link>}
-                description={`Geüpdatet: ${moment(item.updatedAt).format("DD-MM-YYYY")}`}
-              />
-              <Link href={item?.url}>
-                <EditOutlined />
-              </Link>
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.description}>
+            <List.Item.Meta
+              avatar={<Avatar icon={<FileTextOutlined />} />}
+              title={<Link href={item?.url}>{item.name}</Link>}
+              description={`Geüpdatet: ${moment(item.updatedAt).format("DD-MM-YYYY")}`}
+            />
+            <Link href={item?.url}>
+              <EditOutlined />
+            </Link>
+          </List.Item>
+        )}
       />
     </Widget>
   );

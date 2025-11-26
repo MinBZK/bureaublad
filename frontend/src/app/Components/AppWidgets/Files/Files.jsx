@@ -13,7 +13,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import moment from "moment";
 
 // NextCloud
-function Files() {
+function Files({ title = "Bestanden" }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [since, setSince] = useState(null);
   const [sinceHistory, setSinceHistory] = useState([]); // Stack to track previous 'since' values
@@ -69,7 +69,7 @@ function Files() {
 
   return (
     <Widget
-      title="Bestanden"
+      title={title}
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}
@@ -78,25 +78,23 @@ function Files() {
         dataSource={files}
         loading={loading}
         className="widget-list"
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.datetime}>
-              <List.Item.Meta
-                avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
-                title={<Link href={item?.url}>{item.object_filename}</Link>}
-                description={
-                  <span>
-                    Laatste wijziging:{" "}
-                    {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
-                  </span>
-                }
-              />
-              <Link href="/#">
-                <EditOutlined />
-              </Link>
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.datetime}>
+            <List.Item.Meta
+              avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
+              title={<Link href={item?.url}>{item.object_filename}</Link>}
+              description={
+                <span>
+                  Laatste wijziging:{" "}
+                  {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
+                </span>
+              }
+            />
+            <Link href="/#">
+              <EditOutlined />
+            </Link>
+          </List.Item>
+        )}
       />
       <Divider />
       <Flex justify="end">

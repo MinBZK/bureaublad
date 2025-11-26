@@ -38,8 +38,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
               className="header-menu"
             />
           )}
-
-          <AiAssistant />
+          {applications?.some((value) => value?.id === "ai") && <AiAssistant />}
           {!isProfile && (
             <Dropdown menu={{ items }}>
               <Link className="profile-link" href="/#">

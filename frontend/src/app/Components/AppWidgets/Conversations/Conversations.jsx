@@ -9,8 +9,7 @@ import moment from "moment";
 import { useState } from "react";
 
 // Conversation
-function Conversations() {
-  // TODO search functionality is not implemented in the backend yet
+function Conversations({ title = "AI gesprek" }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const {
@@ -26,7 +25,7 @@ function Conversations() {
 
   return (
     <Widget
-      title="AI gesprek"
+      title={title}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -38,24 +37,22 @@ function Conversations() {
         className="widget-list"
         dataSource={conv?.results || []}
         loading={loading}
-        renderItem={(item, index) =>
-          index <= 2 && (
-            <List.Item key={item.id}>
-              <List.Item.Meta
-                title={<Link href={item?.url}>{item.title}</Link>}
-                description={
-                  <span>
-                    Laatste wijziging:{" "}
-                    {moment(item.updated_at)?.format("DD-mm-YYYY HH:mm")}
-                  </span>
-                }
-              />
-              <Link href={item?.url}>
-                <Avatar className="avt-ai" icon={<WechatOutlined />} />
-              </Link>
-            </List.Item>
-          )
-        }
+        renderItem={(item) => (
+          <List.Item key={item.id}>
+            <List.Item.Meta
+              title={<Link href={item?.url}>{item.title}</Link>}
+              description={
+                <span>
+                  Laatste wijziging:{" "}
+                  {moment(item.updated_at)?.format("DD-mm-YYYY HH:mm")}
+                </span>
+              }
+            />
+            <Link href={item?.url}>
+              <Avatar className="avt-ai" icon={<WechatOutlined />} />
+            </Link>
+          </List.Item>
+        )}
       />
     </Widget>
   );
