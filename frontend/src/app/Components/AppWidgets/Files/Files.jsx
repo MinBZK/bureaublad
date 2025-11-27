@@ -90,7 +90,7 @@ function Files({ title = "Bestanden" }) {
                 </span>
               }
             />
-            <Link href="/#">
+            <Link href={item?.url}>
               <EditOutlined />
             </Link>
           </List.Item>
