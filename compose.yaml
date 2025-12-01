@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:3.5.4
+    image: traefik:3.6.2
     command:
       - "--api.dashboard=false"
       - "--api.insecure=true"
@@ -72,7 +72,7 @@ services:
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.4.2
+    image: quay.io/keycloak/keycloak:26.4.6
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
@@ -96,7 +96,7 @@ services:
       - "traefik.http.routers.keycloak.entrypoints=web"
 
   postgres:
-    image: postgres:18.0
+    image: postgres:18.1
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
