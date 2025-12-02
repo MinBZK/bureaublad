@@ -2,12 +2,22 @@
 import { Affix, Avatar, Dropdown, Flex, Layout, Menu } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { menuItem } from "../../../Common/pageConfig";
 import AiAssistant from "../../AppWidgets/AiAssistant/AiAssistant";
 
 const { Header } = Layout;
 
 function HeaderLayout({ isProfile = true, profile, applications }) {
+  const pathname = usePathname();
+
+  // Determine selected key based on current path
+  const getSelectedKey = () => {
+    if (pathname === "/") return ["home"];
+    const pathSegment = pathname.slice(1); // Remove leading slash
+    return [pathSegment];
+  };
+
   const items = [
     {
       key: "1",
@@ -33,7 +43,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
             <Menu
               theme="dark"
               mode="horizontal"
-              defaultSelectedKeys={["0"]}
+              selectedKeys={getSelectedKey()}
               items={menuItem(applications)}
               className="header-menu"
             />
