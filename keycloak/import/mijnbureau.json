@@ -475,5 +475,93 @@
       "enabled": true
     }
   ],
+  "defaultRoles": ["offline_access", "uma_authorization", "tokenexchange-role"],
+  "roles": {
+    "realm": [
+      {
+        "name": "tokenexchange-role",
+        "description": "Allow bureau clients to exchange tokens",
+        "composite": true,
+        "composites": {
+          "client": {
+            "nextcloud": ["token-exchange-role"],
+            "openxchange": ["token-exchange-role"],
+            "docs": ["token-exchange-role"],
+            "meet": ["token-exchange-role"],
+            "drive": ["token-exchange-role"],
+            "conversation": ["token-exchange-role"],
+            "grist": ["token-exchange-role"]
+          }
+        },
+        "clientRole": false,
+        "attributes": {}
+      }
+    ],
+    "client": {
+      "nextcloud": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "openxchange": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "docs": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "meet": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "drive": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "conversation": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ],
+      "grist": [
+        {
+          "name": "token-exchange-role",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "attributes": {}
+        }
+      ]
+    }
+  },
   "keycloakVersion": "26.3.5"
 }

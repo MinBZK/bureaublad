@@ -44,7 +44,13 @@ class TestAuthCallback:
             "access_token": "test-access-token",
             "refresh_token": "test-refresh-token",
             "expires_at": 9999999999,
-            "userinfo": {"sub": "test-user-123", "name": "Test User", "email": "test@example.com"},
+            "userinfo": {
+                "sub": "test-user-123",
+                "name": "Test User",
+                "email": "test@example.com",
+                "azp": "bureaublad",
+                "aud": "bureaublad",
+            },
         }
         mock_token_exchange.return_value = mock_token
 
