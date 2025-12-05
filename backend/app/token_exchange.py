@@ -19,7 +19,6 @@ async def exchange_token(
     scope: str = "openid",
 ) -> str | None:
     logger.info(f"Exchanging token for audience={audience}")
-    logger.info(f"Token exchange request: {token}")
 
     data = {
         "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
@@ -35,25 +34,23 @@ async def exchange_token(
         data=data,
         auth=(settings.OIDC_CLIENT_ID, settings.OIDC_CLIENT_SECRET or ""),
     )
-    logger.info(f"Token exchange HTTP response status: {response.status_code}")
 
     if response.status_code == 400:
-        logger.error(f"Token exchange failed with 400: {response.text}")
+        logger.error(f"Token exchange failed with 400 for audience={audience}")
         raise CredentialError("Unable to authenticate. Please try logging in again.")
 
     if response.status_code == 401:
-        logger.warning(f"Token exchange failed with 401: {response.text}")
+        logger.warning(f"Token exchange failed with 401 for audience={audience}")
         raise CredentialError("Your session has expired. Please log in again.")
 
     if response.status_code == 403:
-        logger.warning(f"Token exchange forbidden for {audience=}: {response.text}")
+        logger.warning(f"Token exchange forbidden for audience={audience}")
         raise CredentialError("Access denied. You may not have permission to access this service.")
 
     # Raise for any other HTTP errors
     response.raise_for_status()
 
     exchanged_token: str = token
-    logger.info(f"Token exchange response: {exchanged_token}")
     logger.info(f"Successfully exchanged token for audience={audience}")
 
     return exchanged_token
