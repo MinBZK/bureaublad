@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import time
 from typing import Annotated
@@ -10,13 +9,10 @@ from app.core import session
 from app.core.config import settings
 from app.core.oauth import oauth
 from app.core.translate import _
-from app.exceptions import CredentialError
+from app.exceptions import CredentialError, TokenRefreshConflictError
 from app.models.user import User
 
 logger = logging.getLogger(__name__)
-
-# Global lock to prevent concurrent token refreshes for the same session
-_refresh_locks: dict[str, asyncio.Lock] = {}
 
 oauth2_scheme = OAuth2AuthorizationCodeBearer(
     authorizationUrl="/api/v1/auth/login",
@@ -38,30 +34,12 @@ async def get_current_user(
         raise CredentialError(_("Not authenticated"))
 
     if _needs_refresh(auth.expires_at):
-        # Use user sub as lock key to prevent concurrent refreshes for same session
-        user_id = auth.sub
+        await _refresh_token(request, auth.refresh_token)
 
-        # Get or create lock for this session
-        if user_id not in _refresh_locks:
-            _refresh_locks[user_id] = asyncio.Lock()
-
-        lock = _refresh_locks[user_id]
-
-        async with lock:
-            # Re-check after acquiring lock (another request may have refreshed)
-            auth = session.get_auth(request)
-            if not auth:
-                raise CredentialError(_("Not authenticated"))
-
-            # Only refresh if still needed (another request may have already refreshed)
-            if _needs_refresh(auth.expires_at):
-                await _refresh_token(request, auth.refresh_token)
-                auth = session.get_auth(request)
-                if not auth:
-                    raise CredentialError(_("Session lost after refresh"))
-
-        # Clean up lock after refresh to prevent memory leak
-        _refresh_locks.pop(user_id, None)
+        # Re-read auth to get updated tokens
+        auth = session.get_auth(request)
+        if not auth:
+            raise CredentialError(_("Session expired. Please log in again."))
 
     request.state.user = auth.user
     return auth.user
@@ -75,18 +53,21 @@ def _needs_refresh(expires_at: int | None) -> bool:
 
 
 async def _refresh_token(request: Request, refresh_token: str | None) -> None:
-    """Refresh access token using refresh token."""
+    """Perform OAuth token refresh and update the session."""
     if not refresh_token:
         logger.warning("No refresh token available")
         raise CredentialError(_("Session expired. Please log in again."))
 
     try:
-        logger.info("Refreshing access token")
+        logger.info("Refreshing access token via OAuth")
         token = await oauth.oidc.fetch_access_token(  # type: ignore[reportUnknownMemberType]
             grant_type="refresh_token",
             refresh_token=refresh_token,
         )
 
+        logger.info("Access token refreshed successfully")
+
+        # Update session with new tokens
         session.update_tokens(
             request,
             access_token=str(token["access_token"]),  # type: ignore[reportUnknownArgumentType]
@@ -94,8 +75,24 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
             refresh_token=token.get("refresh_token"),  # type: ignore[reportUnknownMemberType, reportUnknownArgumentType]
         )
 
-        logger.info("Access token refreshed successfully")
+        logger.info("Refreshed access token updated successfully")
+
     except Exception as e:
-        logger.exception("Token refresh failed")
+        error_str = str(e).lower()
+
+        # Check if this is a "refresh token reuse" error from Keycloak
+        # This happens when concurrent requests try to refresh the same token.
+        if "maximum allowed refresh token reuse exceeded" in error_str:
+            logger.warning(f"Refresh token conflict detected. Token already used by concurrent request: {e}")
+            raise TokenRefreshConflictError("Refresh token already used") from e
+
+        # Check if this is an expired/inactive token (expected session expiration)
+        if "token is not active" in error_str or "token expired" in error_str:
+            logger.info(f"Session expired - token no longer valid: {e}")
+            session.clear_auth(request)
+            raise CredentialError(_("Session expired. Please log in again.")) from e
+
+        # Other unexpected OAuth errors (corrupted session, network issues, etc.)
+        logger.exception("Unexpected OAuth token refresh error")
         session.clear_auth(request)
         raise CredentialError(_("Session expired. Please log in again.")) from e
