@@ -1,9 +1,8 @@
-import json
 import secrets
 from typing import Annotated, Any, Literal, cast
 
 from jose.constants import ALGORITHMS
-from pydantic import AnyUrl, BeforeValidator, HttpUrl, computed_field
+from pydantic import AnyUrl, BeforeValidator, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.types import LoggingLevelType
@@ -18,45 +17,6 @@ def parse_string_or_list(v: Any) -> list[str]:  # noqa: ANN401
                 raise TypeError(f"List item at index {idx} must be string, got {type(item)}")  # pyright: ignore[reportUnknownArgumentType]
         return cast(list[str], v)
     raise ValueError(f"Must be string or list, got {type(v)}")
-
-
-def _validate_sidebar_link(link: Any, idx: int) -> None:  # noqa: ANN401
-    """Validate that a single sidebar link has correct structure and valid URL."""
-    if not isinstance(link, dict):
-        raise TypeError(f"Link at index {idx} must be an object")
-
-    required = {"id", "icon", "url", "title"}
-    if not required.issubset(link.keys()):  # pyright: ignore[reportUnknownArgumentType]
-        raise ValueError(f"Link at index {idx} missing fields: {required - link.keys()}")
-
-    try:
-        HttpUrl(link["url"])  # pyright: ignore[reportUnknownArgumentType]
-    except Exception as e:
-        raise ValueError(f"Link at index {idx} has invalid URL: {e}") from e
-
-
-def parse_sidebar_links(v: Any) -> list[dict[str, str | bool]]:  # noqa: ANN401
-    # Parse input into a list
-    if isinstance(v, list):
-        parsed = v  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
-    elif isinstance(v, str):
-        if not v.strip():
-            return []
-        try:
-            parsed = json.loads(v)
-        except json.JSONDecodeError as e:
-            raise ValueError(f"Invalid JSON in SIDEBAR_LINKS_JSON: {e}") from e
-    else:
-        raise TypeError(f"SIDEBAR_LINKS_JSON must be string or list, got {type(v)}")
-
-    if not isinstance(parsed, list):
-        raise TypeError("SIDEBAR_LINKS_JSON must be a JSON array")
-
-    # Validate all entries (runs for both string and list inputs)
-    for idx, link in enumerate(parsed):  # pyright: ignore[reportUnknownVariableType, reportUnknownArgumentType]
-        _validate_sidebar_link(link, idx)
-
-    return cast(list[dict[str, str | bool]], parsed)
 
 
 class Settings(BaseSettings):
@@ -96,30 +56,76 @@ class Settings(BaseSettings):
 
     # La Suite Services
     OCS_URL: str | None = None
-    OCS_AUDIENCE: str = "files"
+    OCS_AUDIENCE: str = "nextcloud"
+    OCS_ICON: str = "folder"
+    OCS_TITLE: str = "NextCloud"
+    OCS_IFRAME: bool = False
+    OCS_CARD: bool = True
+
     DOCS_URL: str | None = None
     DOCS_AUDIENCE: str = "docs"
+    DOCS_ICON: str = "description"
+    DOCS_TITLE: str = "Docs"
+    DOCS_IFRAME: bool = False
+    DOCS_CARD: bool = True
+
     CALENDAR_URL: str | None = None
     CALENDAR_AUDIENCE: str = "openxchange"
+    CALENDAR_ICON: str = "calendar_today"
+    CALENDAR_TITLE: str = "Calendar"
+    CALENDAR_IFRAME: bool = False
+    CALENDAR_CARD: bool = False
+
     TASK_URL: str | None = None
     TASK_AUDIENCE: str = "openxchange"
+    TASK_ICON: str = "check_circle"
+    TASK_TITLE: str = "Tasks"
+    TASK_IFRAME: bool = False
+    TASK_CARD: bool = False
+
     DRIVE_URL: str | None = None
     DRIVE_AUDIENCE: str = "drive"
+    DRIVE_ICON: str = "cloud_drive"
+    DRIVE_TITLE: str = "Drive"
+    DRIVE_IFRAME: bool = False
+    DRIVE_CARD: bool = True
+
     MEET_URL: str | None = None
     MEET_AUDIENCE: str = "meet"
+    MEET_ICON: str = "video_call"
+    MEET_TITLE: str = "Meet"
+    MEET_IFRAME: bool = False
+    MEET_CARD: bool = True
+
     GRIST_URL: str | None = None
     GRIST_AUDIENCE: str = "grist"
+    GRIST_ICON: str = "table_chart"
+    GRIST_TITLE: str = "Grist"
+    GRIST_IFRAME: bool = False
+    GRIST_CARD: bool = False
+
     CONVERSATION_URL: str | None = None
     CONVERSATION_AUDIENCE: str = "conversation"
+    CONVERSATION_ICON: str = "chat"
+    CONVERSATION_TITLE: str = "Conversation"
+    CONVERSATION_IFRAME: bool = False
+    CONVERSATION_CARD: bool = True
+
+    MATRIX_URL: str | None = None
+    MATRIX_AUDIENCE: str = "matrix"
+    MATRIX_ICON: str = "forum"
+    MATRIX_TITLE: str = "Matrix"
+    MATRIX_IFRAME: bool = False
+    MATRIX_CARD: bool = False
 
     # AI Integration
-    AI_BASE_URL: str | None = "https://api.openai.com/v1/"
+    AI_URL: str | None = "https://api.openai.com/v1/"
+    AI_ICON: str = "smart_toy"
+    AI_CARD: bool = True
     AI_MODEL: str | None = "gpt-4o"
     AI_API_KEY: str | None = None
 
     THEME_CSS_URL: str = ""
-
-    SIDEBAR_LINKS_JSON: Annotated[list[dict[str, str | bool]], BeforeValidator(parse_sidebar_links)] = []
 
     CORS_ALLOW_ORIGINS: Annotated[list[AnyUrl], BeforeValidator(parse_string_or_list)] = []
     CORS_ALLOW_CREDENTIALS: bool = False
@@ -226,12 +232,17 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def ai_enabled(self) -> bool:
-        return self.AI_BASE_URL is not None and self.AI_MODEL is not None and self.AI_API_KEY is not None
+        return self.AI_URL is not None and self.AI_MODEL is not None and self.AI_API_KEY is not None
 
     @computed_field
     @property
     def grist_enabled(self) -> bool:
         return self.GRIST_URL is not None
+
+    @computed_field
+    @property
+    def matrix_enabled(self) -> bool:
+        return self.MATRIX_URL is not None
 
     @computed_field
     @property

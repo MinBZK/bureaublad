@@ -11,7 +11,7 @@ class TestAIChatCompletions:
         response = client.post("/api/v1/ai/chat/completions", json={"prompt": "Hello, world!"})
         assert response.status_code == 401
 
-    @patch("app.core.config.settings.AI_BASE_URL", None)
+    @patch("app.core.config.settings.AI_URL", None)
     def test_chat_completions_service_disabled(self, authenticated_client: TestClient) -> None:
         """Test that endpoint returns 503 when AI service is disabled."""
         response = authenticated_client.post("/api/v1/ai/chat/completions", json={"prompt": "Hello, world!"})
@@ -37,7 +37,7 @@ class TestAIChatCompletions:
         response = authenticated_client.post("/api/v1/ai/chat/completions", json={"prompt": 123})
         assert response.status_code == 422
 
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_MODEL", "test-model")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     @patch("app.clients.ai.AIClient.stream_response")
@@ -62,7 +62,7 @@ class TestAIChatCompletions:
         call_args = mock_stream_response.call_args[1]
         assert call_args["chat_request"].prompt == "Hello, world!"
 
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_MODEL", "test-model")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     @patch("app.clients.ai.AIClient.stream_response")
@@ -82,7 +82,7 @@ class TestAIChatCompletions:
         mock_stream_response.assert_called_once()
 
     @patch("app.core.config.settings.AI_MODEL", "test-model")
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     @patch("app.clients.ai.AIClient.stream_response")
     def test_chat_completions_long_prompt(
@@ -104,7 +104,7 @@ class TestAIChatCompletions:
         assert call_args["chat_request"].prompt == long_prompt
 
     @patch("app.core.config.settings.AI_MODEL", "test-model")
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     @patch("app.clients.ai.AIClient.stream_response")
     def test_chat_completions_ai_connection_error(
@@ -122,7 +122,7 @@ class TestAIChatCompletions:
         assert "AI service error" in data["msg"]
 
     @patch("app.core.config.settings.AI_MODEL", "test-model")
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     @patch("app.clients.ai.AIClient.stream_response")
     def test_chat_completions_ai_auth_error(
@@ -140,7 +140,7 @@ class TestAIChatCompletions:
         assert "AI service error" in data["msg"]
 
     @patch("app.core.config.settings.AI_MODEL", "test-model")
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     def test_chat_completions_special_characters(self, authenticated_client: TestClient) -> None:
         """Test chat completions with special characters in prompt."""
@@ -161,7 +161,7 @@ class TestAIChatCompletions:
             assert call_args["chat_request"].prompt == special_prompt
 
     @patch("app.core.config.settings.AI_MODEL", "test-model")
-    @patch("app.core.config.settings.AI_BASE_URL", "https://api.test.com")
+    @patch("app.core.config.settings.AI_URL", "https://api.test.com")
     @patch("app.core.config.settings.AI_API_KEY", "test-key")
     def test_chat_completions_response_format(self, authenticated_client: TestClient) -> None:
         """Test that the response format is correct for streaming."""

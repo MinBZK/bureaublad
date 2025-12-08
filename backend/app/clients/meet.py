@@ -41,6 +41,13 @@ class MeetClient(BaseAPIClient):
             params=params,
             response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
         )
+
+        # honor pagination from Page and page_size params
+        start = (page - 1) * page_size
+        end = start + page_size
+        rooms.results = rooms.results[start:end]
+        rooms.count = len(rooms.results)
+
         return rooms
 
     async def post_room(self, name: str, path: str = "api/v1.0/rooms/") -> Room:
