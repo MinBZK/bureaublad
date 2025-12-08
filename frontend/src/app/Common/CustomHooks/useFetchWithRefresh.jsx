@@ -15,10 +15,10 @@ export function useFetchWithRefresh(url, params = {}) {
 
     const queryString = Object.entries(params)
       .filter(
-        ([value, index]) =>
-          index !== undefined && index !== null && index !== "",
+        ([, value]) =>
+          value !== undefined && value !== null && value !== "",
       )
-      .map(([val, i]) => `${val}=${encodeURIComponent(i)}`)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
       .join("&");
 
     return queryString ? `${url}?${queryString}` : url;

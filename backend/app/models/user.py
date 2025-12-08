@@ -3,6 +3,7 @@ from typing import Any, cast
 
 from pydantic import BaseModel
 
+from app.core.config import settings
 from app.core.translate import _
 from app.exceptions import CredentialError
 
@@ -27,6 +28,15 @@ class AuthState(BaseModel):
     def from_token(cls, token: dict[str, Any], name_claim: str, email_claim: str) -> "AuthState":
         """Construct AuthState from OAuth token response."""
         userinfo = cls._get_userinfo(token)
+
+        logger.info("Verifying token for subject: %s", userinfo.get("aud"))
+
+        # verify token
+        if settings.OIDC_AUDIENCE not in str(userinfo.get("aud")):
+            raise CredentialError("Invalid token audience")
+
+        if userinfo.get("azp") != settings.OIDC_AUDIENCE:
+            raise CredentialError("Invalid token azp")
 
         return cls(
             sub=cls._require_string(userinfo, "sub"),

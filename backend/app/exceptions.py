@@ -54,3 +54,17 @@ class BadRequestError(HTTPException):
 
     def __init__(self, detail: str) -> None:
         super().__init__(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
+
+
+class TokenRefreshConflictError(HTTPException):
+    """Raised when a refresh token has already been used by a concurrent request.
+
+    This happens during race conditions where multiple requests try to refresh
+    the same token. The client should retry the request, which will see the
+    fresh token from the successful refresh.
+    """
+
+    def __init__(
+        self, detail: str = _("Token refresh conflict. Another request is refreshing the token. Please retry.")
+    ) -> None:
+        super().__init__(status_code=status.HTTP_409_CONFLICT, detail=detail)

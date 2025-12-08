@@ -1,5 +1,6 @@
 import logging
 
+import httpx
 from fastapi import Request
 
 from app.core import session
@@ -15,24 +16,44 @@ async def exchange_token(
     audience: str,
     subject_token_type: str = "urn:ietf:params:oauth:token-type:access_token",  # noqa: S107
     requested_token_type: str = "urn:ietf:params:oauth:token-type:access_token",  # noqa: S107
-    scope: str = "openid profile email",
+    scope: str = "openid",
 ) -> str | None:
-    payload = {
+    logger.info(f"Exchanging token for audience={audience}")
+
+    data = {
         "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
-        "client_id": settings.OIDC_CLIENT_ID,
         "subject_token": token,
         "subject_token_type": subject_token_type,
         "requested_token_type": requested_token_type,
-        "audience": audience,
         "scope": scope,
+        "audience": audience,
     }
-    if settings.OIDC_CLIENT_SECRET:
-        payload.update({"client_secret": settings.OIDC_CLIENT_SECRET})
 
-    if settings.OIDC_ISSUER:
-        payload.update({"subject_issuer": settings.OIDC_ISSUER})
+    response = httpx.post(  # todo reuse http_client
+        settings.OIDC_TOKEN_ENDPOINT,
+        data=data,
+        auth=(settings.OIDC_CLIENT_ID, settings.OIDC_CLIENT_SECRET or ""),
+    )
 
-    return token
+    if response.status_code == 400:
+        logger.error(f"Token exchange failed with 400 for audience={audience}")
+        raise CredentialError("Unable to authenticate. Please try logging in again.")
+
+    if response.status_code == 401:
+        logger.warning(f"Token exchange failed with 401 for audience={audience}")
+        raise CredentialError("Your session has expired. Please log in again.")
+
+    if response.status_code == 403:
+        logger.warning(f"Token exchange forbidden for audience={audience}")
+        raise CredentialError("Access denied. You may not have permission to access this service.")
+
+    # Raise for any other HTTP errors
+    response.raise_for_status()
+
+    exchanged_token: str = token
+    logger.info(f"Successfully exchanged token for audience={audience}")
+
+    return exchanged_token
 
 
 async def get_token(request: Request, audience: str) -> str:
@@ -41,4 +62,4 @@ async def get_token(request: Request, audience: str) -> str:
     if not auth:
         raise CredentialError(_("Not authenticated"))
 
-    return await exchange_token(auth.access_token, audience=audience) or ""
+    return await exchange_token(token=auth.access_token, audience=audience) or ""
