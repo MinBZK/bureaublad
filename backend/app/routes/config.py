@@ -1,5 +1,4 @@
 import logging
-from typing import cast
 
 from fastapi import APIRouter
 
@@ -13,37 +12,33 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/config", tags=["config"])
 
-ALL_SERVICES = ["ai", "docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation"]
+ALL_SERVICES = ["ai", "docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation", "matrix"]
 
 
 @router.get("")
 async def get_config() -> ConfigResponse:
     """Get application configuration.
-
-    Returns all enabled services. If a service is in SIDEBAR_LINKS_JSON,
-    uses those display values (icon, url, title). Otherwise uses None.
+    Returns all enabled services.
     """
-    # Create lookup for sidebar link customizations
-    sidebar_links_by_id = {cast(str, link["id"]): link for link in settings.SIDEBAR_LINKS_JSON}
-
     applications: list[ApplicationsConfig] = []
 
     for service_id in ALL_SERVICES:
         # Check if service is enabled
-        enabled = getattr(settings, f"{service_id}_enabled", False)
+        enabled = getattr(settings, f"{service_id.upper()}_CARD", False)
+        icon = getattr(settings, f"{service_id.upper()}_ICON", None)
+        title = getattr(settings, f"{service_id.upper()}_TITLE", None)
+        url = getattr(settings, f"{service_id.upper()}_URL", None)
+        iframe = getattr(settings, f"{service_id.upper()}_IFRAME", False)
 
-        if enabled:
-            # Get customization from SIDEBAR_LINKS_JSON if present
-            link = sidebar_links_by_id.get(service_id, {})
-
+        if url is not None:
             applications.append(
                 ApplicationsConfig(
                     id=service_id,
                     enabled=enabled,
-                    icon=cast(str | None, link.get("icon")),
-                    url=cast(str | None, link.get("url")),
-                    title=cast(str | None, link.get("title")),
-                    iframe=cast(bool, link.get("iframe", False)),
+                    icon=icon,
+                    url=url,
+                    title=title,
+                    iframe=iframe,
                 )
             )
 

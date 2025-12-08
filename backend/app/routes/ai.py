@@ -19,6 +19,6 @@ async def ai_post_chat_completions(chat_request: ChatCompletionRequest) -> Strea
     if not settings.ai_enabled or not settings.AI_MODEL:
         raise ServiceUnavailableError("AI")
 
-    client = AIClient(model=settings.AI_MODEL, base_url=settings.AI_BASE_URL, api_key=settings.AI_API_KEY)
+    client = AIClient(model=settings.AI_MODEL, base_url=settings.AI_URL, api_key=settings.AI_API_KEY)
 
     return StreamingResponse(client.stream_response(chat_request=chat_request), media_type="text/event-stream")
