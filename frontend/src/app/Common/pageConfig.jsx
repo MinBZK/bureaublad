@@ -9,24 +9,24 @@ import Meet from "../Components/AppWidgets/Meet/Meet";
 
 export const menuItem = (applications) => [
   {
-    key: 0,
+    key: "home",
     label: <Link href={"/"}>{"Home"}</Link>,
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
 
-  ...applications?.map(
-    (value, index) =>
-      value?.url &&
-      value?.title && {
-        key: index + 1,
-        label: (
-          <Link href={value?.url} rel="noopener noreferrer" target="_blank">
-            {value?.title}
-          </Link>
-        ),
-        icon: <DynamicIcon name={value?.icon} />,
-      },
-  ),
+  ...applications
+    ?.filter((app) => app?.url && app?.title)
+    .map((app) => ({
+      key: app.id,
+      label: app.iframe ? (
+        <Link href={`/${app.id}`}>{app.title}</Link>
+      ) : (
+        <Link href={app.url} rel="noopener noreferrer" target="_blank">
+          {app.title}
+        </Link>
+      ),
+      icon: <DynamicIcon name={app.icon} />,
+    })),
 ];
 
 export const availableWidgetComponents = (applications) => {
@@ -40,6 +40,7 @@ export const availableWidgetComponents = (applications) => {
   };
 
   return applications
+    .filter((app) => app.enabled)
     .map((app) => {
       const Component = componentMap[app.id];
       return Component ? <Component key={app.id} title={app?.title} /> : null;
