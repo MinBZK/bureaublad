@@ -43,10 +43,18 @@ function Documents({ title = "Docs" }) {
           <List.Item key={item.description}>
             <List.Item.Meta
               avatar={<Avatar icon={<FileTextOutlined />} />}
-              title={<Link href={item?.url}>{item.title}</Link>}
+              title={
+                <Link
+                  href={item?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.title}
+                </Link>
+              }
               description={`Laatste wijziging: ${item.updated_date}`}
             />
-            <Link href={item?.url}>
+            <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
           </List.Item>

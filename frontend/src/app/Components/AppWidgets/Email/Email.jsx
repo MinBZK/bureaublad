@@ -15,10 +15,18 @@ function Email() {
           <List.Item key={item.email}>
             <List.Item.Meta
               avatar={<Avatar src={item.avatar} />}
-              title={<a href="https://ant.design">{item.name}</a>}
+              title={
+                <a
+                  href="https://ant.design"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.name}
+                </a>
+              }
               description={item.email}
             />
-            <Link href="/#">
+            <Link href="/#" target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
           </List.Item>

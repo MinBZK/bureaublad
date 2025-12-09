@@ -1,54 +1,47 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import Loading from "../../Common/Loading";
-import ErrorResult from "../../Common/ErrorResult";
+import { useSearchParams } from "next/navigation";
 
 const AppContext = createContext();
 
 export function AppProvider({ children }) {
   const [appConfig, setAppConfig] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   useEffect(() => {
-    setLoading(true);
     const fetchConfig = async () => {
       try {
         const res = await axios.get("/api/v1/config");
         setAppConfig(res?.data);
       } catch (err) {
         setError(err?.response);
+        // Redirect based on error
+        if (err?.response?.status === 401) {
+          const params = searchParams.toString();
+          const redirectUrl = params ? `/login?${params}` : "/login";
+          router.push(redirectUrl);
+        } else {
+          router.push("/404");
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchConfig();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <Loading loading={loading}>
-      {appConfig ? (
-        <AppContext.Provider value={{ appConfig, error }}>
-          {children}
-        </AppContext.Provider>
-      ) : error?.status === 401 ? (
-        <ErrorResult
-          errorStatus="info"
-          title="Inloggen"
-          subTitle="Meld u aan om toegang te krijgen tot deze applicatie."
-          btnTitle={"Inloggen"}
-          btnLink={`/api/v1/auth/login`}
-        />
-      ) : (
-        error && (
-          <ErrorResult
-            errorStatus="404"
-            title="404"
-            subTitle="Er is iets mis gegaan"
-            btnTitle={"Terug naar homepagina"}
-            btnLink={`/`}
-          />
-        )
-      )}
+      <AppContext.Provider value={{ appConfig, error }}>
+        {children}
+      </AppContext.Provider>
     </Loading>
   );
 }

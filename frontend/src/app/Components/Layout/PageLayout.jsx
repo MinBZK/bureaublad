@@ -8,6 +8,7 @@ const { Content, Footer } = Layout;
 export default function PageLayout({ children }) {
   const { appConfig, error } = useAppContext();
   const { data } = useFetchWithRefresh("/api/v1/auth/profile");
+
   return (
     <Layout>
       <HeaderLayout

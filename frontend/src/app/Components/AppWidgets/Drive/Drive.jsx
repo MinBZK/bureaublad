@@ -45,7 +45,15 @@ function Drive({ title = "Drive" }) {
               avatar={
                 <Avatar icon={<FileImageOutlined />} className="avt-name" />
               }
-              title={<Link href={item?.url || ""}>{item.title}</Link>}
+              title={
+                <Link
+                  href={item?.url || ""}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.title}
+                </Link>
+              }
               description={`Laatste wijziging: ${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
             />
           </List.Item>

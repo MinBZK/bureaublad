@@ -49,7 +49,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
             />
           )}
           {applications?.some(
-            (value) => value?.id === "ai" && value.enabled,
+            (value) => value?.id === "ai" && value?.enabled,
           ) && <AiAssistant />}
           {!isProfile && (
             <Dropdown menu={{ items }}>
