@@ -33,7 +33,7 @@ class MeetClient(BaseAPIClient):
         page = max(1, page)
         page_size = max(1, page_size)
 
-        params: dict[str, Any] = {"page": page, "page_size": page_size}
+        params: dict[str, Any] = {}
 
         rooms = await self._get_resource(
             path=path,
@@ -46,7 +46,6 @@ class MeetClient(BaseAPIClient):
         start = (page - 1) * page_size
         end = start + page_size
         rooms.results = rooms.results[start:end]
-        rooms.count = len(rooms.results)
 
         return rooms
 
