@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import { List } from "antd";
 import { useAppContext } from "./Components/Context/AppContext";
 import { availableWidgetComponents } from "./Common/pageConfig";
+import PageLayout from "./Components/Layout/PageLayout";
 
 export default function Home() {
   const { appConfig } = useAppContext();
@@ -12,13 +12,13 @@ export default function Home() {
   );
 
   return (
-    <React.Fragment>
+    <PageLayout>
       <List
         className="dashboard-list"
         grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
         dataSource={appComponents}
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
-    </React.Fragment>
+    </PageLayout>
   );
 }
