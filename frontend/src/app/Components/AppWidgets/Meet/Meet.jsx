@@ -43,7 +43,11 @@ function Meet({ title = "Videoconferentie" }) {
                   {item?.name?.at(0)?.toUpperCase()}
                 </Avatar>
               }
-              title={<Link href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</Link>}
+              title={
+                <Link href={item.url} target="_blank" rel="noopener noreferrer">
+                  {item.name}
+                </Link>
+              }
               description={
                 item.pin_code ? <span>Pincode: {item.pin_code}</span> : null
               }

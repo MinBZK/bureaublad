@@ -24,21 +24,24 @@ export function useFetchWithRefresh(url, params = {}) {
   }, [url, params]);
 
   // Fetch function
-  const fetchData = useCallback(async (isAutoRefresh = false) => {
-    setLoading(true);
-    try {
-      const res = await axios.get(fullUrl);
-      setData(res.data);
-      setError("");
-    } catch (err) {
-      // Only set error if it's NOT an auto-refresh
-      if (!isAutoRefresh) {
-        setError(err.message);
+  const fetchData = useCallback(
+    async (isAutoRefresh = false) => {
+      setLoading(true);
+      try {
+        const res = await axios.get(fullUrl);
+        setData(res.data);
+        setError("");
+      } catch (err) {
+        // Only set error if it's NOT an auto-refresh
+        if (!isAutoRefresh) {
+          setError(err.message);
+        }
+      } finally {
+        setLoading(false);
       }
-    } finally {
-      setLoading(false);
-    }
-  }, [fullUrl]);
+    },
+    [fullUrl],
+  );
 
   // Auto-refresh fetch that doesn't set errors
   const autoRefreshFetch = useCallback(() => {

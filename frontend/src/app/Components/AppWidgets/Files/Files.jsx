@@ -82,7 +82,15 @@ function Files({ title = "Bestanden" }) {
           <List.Item key={item.datetime}>
             <List.Item.Meta
               avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
-              title={<Link href={item?.url} target="_blank" rel="noopener noreferrer">{item.object_filename}</Link>}
+              title={
+                <Link
+                  href={item?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.object_filename}
+                </Link>
+              }
               description={
                 <span>
                   Laatste wijziging:{" "}

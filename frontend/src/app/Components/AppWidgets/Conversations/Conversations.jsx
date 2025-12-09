@@ -40,7 +40,15 @@ function Conversations({ title = "AI gesprek" }) {
         renderItem={(item) => (
           <List.Item key={item.id}>
             <List.Item.Meta
-              title={<Link href={item?.url} target="_blank" rel="noopener noreferrer">{item.title}</Link>}
+              title={
+                <Link
+                  href={item?.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.title}
+                </Link>
+              }
               description={
                 <span>
                   Laatste wijziging:{" "}
