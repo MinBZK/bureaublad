@@ -20,7 +20,7 @@ export default function ExternalApp() {
           border: "none",
         }}
         title={app?.title}
-        allow="fullscreen"
+        allow="camera; microphone; fullscreen; display-capture"
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
       />
     </div>
