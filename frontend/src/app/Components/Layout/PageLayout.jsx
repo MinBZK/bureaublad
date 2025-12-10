@@ -10,7 +10,7 @@ export default function PageLayout({ children }) {
   const { appConfig, error } = useAppContext();
   const { data } = useFetchWithRefresh("/api/v1/auth/profile");
   const pathname = usePathname();
-  
+
   const isLayoutHidden = ["/login", "/404"].includes(pathname);
 
   return !isLayoutHidden ? (
