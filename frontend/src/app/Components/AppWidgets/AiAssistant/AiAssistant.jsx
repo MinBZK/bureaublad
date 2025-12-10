@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button, Divider, Drawer, Input, Result } from "antd";
 import { RobotOutlined } from "@ant-design/icons";
+import ReactMarkdown from "react-markdown";
 const { Search } = Input;
 function AiAssistant() {
   const [open, setOpen] = useState(false);
@@ -93,10 +94,9 @@ function AiAssistant() {
               className="widget-search"
             />
             <Divider />
-
             {aiResult.map((msg, i) => (
               <div key={i} className="message">
-                {msg}
+                <ReactMarkdown>{msg}</ReactMarkdown>
               </div>
             ))}
           </React.Fragment>
