@@ -3,6 +3,9 @@ import "./custom-style.css";
 
 import { AppProvider } from "./Components/Context/AppContext";
 import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
+import PageLayout from "./Components/Layout/PageLayout";
+
+
 
 export const metadata = {
   title: "Mijn Bureaublad",
@@ -10,13 +13,16 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body suppressHydrationWarning>
-        <AppProvider>
-          <ThemeLoader />
-          {children}
-        </AppProvider>
+
+          <AppProvider>
+            <ThemeLoader />
+            <PageLayout>{children}</PageLayout>
+          </AppProvider>
+
       </body>
     </html>
   );
