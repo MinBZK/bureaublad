@@ -1,0 +1,78 @@
+"use client";
+import React from "react";
+import { Spin, Flex, Typography } from "antd";
+
+const { Text } = Typography;
+
+const CustomList = ({
+  className = "",
+  dataSource = [],
+  loading = false,
+  renderItem,
+  ...restProps
+}) => {
+  if (loading) {
+    return (
+      <Flex
+        justify="center"
+        align="center"
+        className={`custom-list ${className}`}
+        style={{ minHeight: 220 }}
+      >
+        <Spin size="large" />
+      </Flex>
+    );
+  }
+
+  return (
+    <div className={`custom-list ${className}`} {...restProps}>
+      {dataSource.map((item, index) => {
+        const renderedItem = renderItem(item, index);
+        return renderedItem;
+      })}
+    </div>
+  );
+};
+
+const CustomListItem = ({ children, className = "", ...props }) => {
+  return (
+    <Flex
+      className={`custom-list-item ${className}`}
+      align="center"
+      justify="space-between"
+      {...props}
+    >
+      {children}
+    </Flex>
+  );
+};
+
+const CustomListItemMeta = ({ avatar, title, description, className = "" }) => {
+  return (
+    <Flex
+      className={`custom-list-item-meta ${className}`}
+      align="flex-start"
+      gap="middle"
+      style={{ flex: 1 }}
+    >
+      {avatar && <Flex className="custom-list-item-meta-avatar">{avatar}</Flex>}
+      <Flex vertical gap={4} style={{ flex: 1, minWidth: 0 }}>
+        {title && (
+          <Text strong className="custom-list-item-meta-title">
+            {title}
+          </Text>
+        )}
+        {description && (
+          <Text type="secondary" className="custom-list-item-meta-description">
+            {description}
+          </Text>
+        )}
+      </Flex>
+    </Flex>
+  );
+};
+
+CustomList.Item = CustomListItem;
+CustomList.Item.Meta = CustomListItemMeta;
+
+export default CustomList;
