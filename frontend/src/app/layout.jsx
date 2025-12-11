@@ -3,6 +3,7 @@ import "./custom-style.css";
 
 import { AppProvider } from "./Components/Context/AppContext";
 import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
+import PageLayout from "./Components/Layout/PageLayout";
 
 export const metadata = {
   title: "Mijn Bureaublad",
@@ -15,7 +16,7 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning>
         <AppProvider>
           <ThemeLoader />
-          {children}
+          <PageLayout>{children}</PageLayout>
         </AppProvider>
       </body>
     </html>
