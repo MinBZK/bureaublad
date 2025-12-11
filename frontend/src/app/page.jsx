@@ -11,12 +11,12 @@ export default function Home() {
   );
 
   return (
-      <Row gutter={16} className="dashboard-list">
-        {appComponents.map((item, index) => (
-          <Col key={index} xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
-            {item}
-          </Col>
-        ))}
-      </Row>
+    <Row gutter={16} className="dashboard-list">
+      {appComponents.map((item, index) => (
+        <Col key={index} xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
+          {item}
+        </Col>
+      ))}
+    </Row>
   );
 }
