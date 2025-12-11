@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Avatar, List } from "antd";
+import { Avatar } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
+import CustomList from "@/app/Common/CustomList";
 
 // meet
 function Meet({ title = "Videoconferentie" }) {
@@ -28,7 +29,7 @@ function Meet({ title = "Videoconferentie" }) {
       setPage={setPage}
       total={meet?.count || 0}
     >
-      <List
+      <CustomList
         dataSource={
           meet?.results?.filter((value) =>
             value?.name?.toUpperCase()?.includes(search.toUpperCase()),
@@ -36,8 +37,8 @@ function Meet({ title = "Videoconferentie" }) {
         }
         loading={loading}
         renderItem={(item) => (
-          <List.Item key={item.slug}>
-            <List.Item.Meta
+          <CustomList.Item key={item.slug}>
+            <CustomList.Item.Meta
               avatar={
                 <Avatar className="avt-name">
                   {item?.name?.at(0)?.toUpperCase()}
@@ -55,7 +56,7 @@ function Meet({ title = "Videoconferentie" }) {
             <Link href={item.url} target="_blank" rel="noopener noreferrer">
               <Avatar className="avt-call" icon={<PhoneOutlined />} />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Widget>

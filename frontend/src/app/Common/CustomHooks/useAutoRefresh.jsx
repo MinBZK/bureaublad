@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export function useAutoRefresh(fetchFunction, interval = 30000) {
+export function useAutoRefresh(fetchFunction, interval = 300000000) {
   // Store refs for cleanup
   const timeoutIdRef = useRef(null);
   const intervalIdRef = useRef(null);

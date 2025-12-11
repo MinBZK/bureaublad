@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar, Button, Divider, Flex, List } from "antd";
+import { Avatar, Button, Divider, Flex } from "antd";
 import {
   EditOutlined,
   FileOutlined,
@@ -11,6 +11,7 @@ import Link from "next/link";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
+import CustomList from "@/app/Common/CustomList";
 
 // NextCloud
 function Files({ title = "Bestanden" }) {
@@ -74,13 +75,13 @@ function Files({ title = "Bestanden" }) {
       error={error}
       onRefresh={onRefresh}
     >
-      <List
+      <CustomList
         dataSource={files}
         loading={loading}
         className="widget-list"
         renderItem={(item) => (
-          <List.Item key={item.datetime}>
-            <List.Item.Meta
+          <CustomList.Item key={item.activity_id}>
+            <CustomList.Item.Meta
               avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
               title={
                 <Link
@@ -101,7 +102,7 @@ function Files({ title = "Bestanden" }) {
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
       <Divider />
