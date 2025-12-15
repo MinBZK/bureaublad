@@ -1,12 +1,13 @@
 "use client";
 
-import { Avatar, List } from "antd";
+import { Avatar } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
 import { useState } from "react";
+import CustomList from "@/app/Common/CustomList";
 
 // Conversation
 function Conversations({ title = "AI gesprek" }) {
@@ -33,13 +34,13 @@ function Conversations({ title = "AI gesprek" }) {
       setPage={setPage}
       total={conv?.count}
     >
-      <List
+      <CustomList
         className="widget-list"
         dataSource={conv?.results || []}
         loading={loading}
         renderItem={(item) => (
-          <List.Item key={item.id}>
-            <List.Item.Meta
+          <CustomList.Item key={item.id}>
+            <CustomList.Item.Meta
               title={
                 <Link
                   href={item?.url}
@@ -59,7 +60,7 @@ function Conversations({ title = "AI gesprek" }) {
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <Avatar className="avt-ai" icon={<WechatOutlined />} />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Widget>

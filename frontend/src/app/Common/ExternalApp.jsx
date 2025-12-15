@@ -73,8 +73,8 @@ export default function ExternalApp() {
           border: "none",
         }}
         title={app?.title}
-        allow="camera; microphone; fullscreen; display-capture"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
+        allow="fullscreen"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-storage-access-by-user-activation"
       />
     </div>
   );

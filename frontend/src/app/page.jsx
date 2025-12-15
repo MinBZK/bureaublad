@@ -1,5 +1,5 @@
 "use client";
-import { List } from "antd";
+import { Row, Col } from "antd";
 import { useAppContext } from "./Components/Context/AppContext";
 import { availableWidgetComponents } from "./Common/pageConfig";
 
@@ -11,11 +11,12 @@ export default function Home() {
   );
 
   return (
-    <List
-      className="dashboard-list"
-      grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 2, xxl: 3 }}
-      dataSource={appComponents}
-      renderItem={(item) => <List.Item>{item}</List.Item>}
-    />
+    <Row gutter={16} className="dashboard-list">
+      {appComponents.map((item, index) => (
+        <Col key={index} xs={24} sm={24} md={24} lg={12} xl={12} xxl={8}>
+          {item}
+        </Col>
+      ))}
+    </Row>
   );
 }

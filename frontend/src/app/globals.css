@@ -94,8 +94,133 @@ body {
   margin-top: 20px;
 }
 
+.dashboard-list > .ant-col {
+  margin-bottom: 20px;
+}
+
 footer {
   text-align: center;
+}
+
+/* CUSTOM LIST */
+/* -------------------------------------------------- */
+.custom-list {
+  position: relative;
+  font-size: 14px;
+  line-height: 1.5715;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.custom-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-list-item:last-child {
+  border-bottom: none;
+}
+
+.custom-list-item-meta {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  max-width: 100%;
+}
+
+.custom-list-item-meta-avatar {
+  flex-shrink: 0;
+}
+
+.custom-list-item-meta-content {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+}
+
+.custom-list-item-meta-title {
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.custom-list-item-meta-title a {
+  color: rgba(0, 0, 0, 0.85);
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.custom-list-item-meta-title a:hover {
+  color: #1890ff;
+}
+
+.custom-list-item-meta-description {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  line-height: 1.5715;
+}
+
+.custom-list-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+.custom-list-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1890ff;
+  border-radius: 50%;
+  animation: custom-list-spin 1s linear infinite;
+}
+
+@keyframes custom-list-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .custom-list {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .custom-list-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .custom-list-item-meta-title {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .custom-list-item-meta-title a {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .custom-list-item-meta-title a:hover {
+    color: #40a9ff;
+  }
+
+  .custom-list-item-meta-description {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .custom-list-spinner {
+    border: 3px solid #3a3a3a;
+    border-top: 3px solid #40a9ff;
+  }
 }
 
 /* AI */
