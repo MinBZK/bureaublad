@@ -1,4 +1,3 @@
-
 import Loading from "./Loading";
 
 function StartLoading({ loading, children }) {
