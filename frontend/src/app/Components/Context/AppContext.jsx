@@ -2,8 +2,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import Loading from "../../Common/Loading";
 import { useSearchParams } from "next/navigation";
+import StartLoading from "../../Common/StartLoading";
 
 const AppContext = createContext();
 
@@ -38,11 +38,11 @@ export function AppProvider({ children }) {
   }, []);
 
   return (
-    <Loading loading={loading}>
+    <StartLoading loading={loading}>
       <AppContext.Provider value={{ appConfig, error }}>
         {children}
       </AppContext.Provider>
-    </Loading>
+    </StartLoading>
   );
 }
 
