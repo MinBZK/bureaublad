@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { Input, AutoComplete } from "antd";
-import api from '@/lib/axios';
+import api from "@/lib/axios";
 import { useTranslations } from "../../i18n/TranslationsProvider";
 
 const { Search } = Input;

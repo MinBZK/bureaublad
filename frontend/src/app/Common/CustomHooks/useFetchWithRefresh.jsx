@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import api from '@/lib/axios';
+import api from "@/lib/axios";
 import { useAutoRefresh } from "./useAutoRefresh";
 
 export function useFetchWithRefresh(url, params = {}) {

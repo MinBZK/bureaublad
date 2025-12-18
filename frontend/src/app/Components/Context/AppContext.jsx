@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import api from '@/lib/axios';
+import api from "@/lib/axios";
 
 import Loading from "../../Common/Loading";
 import { useSearchParams } from "next/navigation";

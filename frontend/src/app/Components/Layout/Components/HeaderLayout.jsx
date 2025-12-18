@@ -1,6 +1,10 @@
 "use client";
 import { Affix, Avatar, Dropdown, Flex, Layout, Menu } from "antd";
-import { LogoutOutlined, UserOutlined, GlobalOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  UserOutlined,
+  GlobalOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { menuItem } from "../../../Common/pageConfig";
@@ -24,7 +28,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   };
 
   const handleLanguageChange = () => {
-    const newLocale = locale === 'nl' ? 'en' : 'nl';
+    const newLocale = locale === "nl" ? "en" : "nl";
     setLocale(newLocale);
   };
 
@@ -38,7 +42,9 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       key: "2",
       label: (
         <span onClick={handleLanguageChange}>
-          {locale === 'nl' ? tHeader('languageEnglish') : tHeader('languageDutch')}
+          {locale === "nl"
+            ? tHeader("languageEnglish")
+            : tHeader("languageDutch")}
         </span>
       ),
       icon: <GlobalOutlined />,

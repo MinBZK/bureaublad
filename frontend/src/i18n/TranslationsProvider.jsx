@@ -1,13 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { createTranslator, getTranslations } from './config';
-import { useLanguage } from './LanguageContext';
+import { createContext, useContext, useEffect, useState } from "react";
+import { createTranslator, getTranslations } from "./config";
+import { useLanguage } from "./LanguageContext";
 
 const TranslationsContext = createContext({});
 
 export function TranslationsProvider({ children, initialMessages }) {
-
   const { locale } = useLanguage();
   const [messages, setMessages] = useState(initialMessages);
   useEffect(() => {
