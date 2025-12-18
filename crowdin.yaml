@@ -21,4 +21,9 @@ files:
       dest: "backend-bureaublad.pot",
       translation: "backend/app/locales/%locale_with_underscore%/LC_MESSAGES/messages.po",
     },
+    {
+      source: "frontend/messages/en.json",
+      dest: "frontend-bureaublad.json",
+      translation: "frontend/messages/%two_letters_code%.json",
+    }
   ]
