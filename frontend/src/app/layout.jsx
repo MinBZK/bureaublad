@@ -7,6 +7,8 @@ import PageLayout from "./Components/Layout/PageLayout";
 import { TranslationsProvider } from "../i18n/TranslationsProvider";
 import { LanguageProvider } from "../i18n/LanguageContext";
 import { getTranslations, INITIAL_LOCALE } from "../i18n/config";
+import { Suspense } from "react";
+import Loading from "./Common/Loading";
 
 export const metadata = {
   title: "Mijn Bureaublad",
@@ -18,6 +20,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang={INITIAL_LOCALE}>
       <body suppressHydrationWarning>
+        <Suspense fallback={<Loading />}>
         <LanguageProvider initialLocale={INITIAL_LOCALE}>
           <TranslationsProvider initialMessages={messages}>
             <AppProvider>
@@ -26,6 +29,7 @@ export default async function RootLayout({ children }) {
             </AppProvider>
           </TranslationsProvider>
         </LanguageProvider>
+        </Suspense>
       </body>
     </html>
   );

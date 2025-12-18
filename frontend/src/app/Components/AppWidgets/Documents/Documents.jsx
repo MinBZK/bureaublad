@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar, List } from "antd";
+import { Avatar } from "antd";
 import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "../../../Common/Widget";
 import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRefresh";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
+import CustomList from "../../../Common/CustomList";
 
 // Docs
 function Documents({ title = "Docs" }) {
@@ -37,13 +38,13 @@ function Documents({ title = "Docs" }) {
       setPage={setPage}
       total={docs?.count}
     >
-      <List
+      <CustomList
         className="widget-list"
         dataSource={docs?.results || []}
         loading={loading}
         renderItem={(item) => (
-          <List.Item key={item.description}>
-            <List.Item.Meta
+          <CustomList.Item key={item.id}>
+            <CustomList.Item.Meta
               avatar={<Avatar icon={<FileTextOutlined />} />}
               title={
                 <Link
@@ -59,7 +60,7 @@ function Documents({ title = "Docs" }) {
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Widget>

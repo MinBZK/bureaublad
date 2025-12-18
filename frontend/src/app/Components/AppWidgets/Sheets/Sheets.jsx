@@ -1,12 +1,13 @@
 // grist
 import { useState, useEffect } from "react";
-import { Avatar, Divider, List, Select } from "antd";
+import { Avatar, Divider, Select } from "antd";
 import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "../../../Common/Widget";
 import moment from "moment";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
+import CustomList from "../../../Common/CustomList";
 
 function Sheets({ title = "Sheets" }) {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
@@ -75,13 +76,13 @@ function Sheets({ title = "Sheets" }) {
         options={orgOptions}
       />
       <Divider />
-      <List
+      <CustomList
         className="widget-list"
         loading={loadingSheets}
         dataSource={sheets?.results || []}
         renderItem={(item) => (
-          <List.Item key={item.description}>
-            <List.Item.Meta
+          <CustomList.Item key={item.description}>
+            <CustomList.Item.Meta
               avatar={<Avatar icon={<FileTextOutlined />} />}
               title={
                 <Link
@@ -97,7 +98,7 @@ function Sheets({ title = "Sheets" }) {
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Widget>

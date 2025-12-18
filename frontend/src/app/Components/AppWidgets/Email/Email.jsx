@@ -1,21 +1,19 @@
 "use client";
 import React from "react";
-import { Card } from "antd";
-import { Avatar, List } from "antd";
+import { Card, Avatar } from "antd";
 import { EditOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { useTranslations } from "../../../i18n/TranslationsProvider";
+import CustomList from "@/app/Common/CustomList";
 
 function Email({ title }) {
-  const t = useTranslations("Email");
   return (
-    <Card title={title || t("title")} variant="borderless">
-      <List
+    <Card title={title} variant="borderless">
+      <CustomList
         className="widget-list"
         dataSource={data}
         renderItem={(item) => (
-          <List.Item key={item.email}>
-            <List.Item.Meta
+          <CustomList.Item key={item.email}>
+            <CustomList.Item.Meta
               avatar={<Avatar src={item.avatar} />}
               title={
                 <a
@@ -31,7 +29,7 @@ function Email({ title }) {
             <Link href="/#" target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Card>

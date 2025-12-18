@@ -7,7 +7,7 @@ const LanguageContext = createContext({
   locale: "nl",
   setLocale: () => {},
 });
-
+// Language Provider to manage and provide current locale and set the language in the header
 export function LanguageProvider({ children, initialLocale = INITIAL_LOCALE }) {
   // Initialize locale from localStorage or use initialLocale
   const [locale, setLocaleState] = useState(() => {

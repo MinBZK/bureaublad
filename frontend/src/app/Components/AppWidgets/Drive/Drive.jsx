@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar, List } from "antd";
+import { Avatar } from "antd";
 import { FileImageOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import moment from "moment";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
+import CustomList from "@/app/Common/CustomList";
 
 function Drive({ title = "Drive" }) {
   const [favorite, setFavorite] = useState(false);
@@ -37,13 +38,13 @@ function Drive({ title = "Drive" }) {
       setPage={setPage}
       total={drive?.count}
     >
-      <List
+      <CustomList
         className="widget-list"
         dataSource={drive?.results || []}
         loading={loading}
         renderItem={(item) => (
-          <List.Item key={item.description}>
-            <List.Item.Meta
+          <CustomList.Item key={item.id}>
+            <CustomList.Item.Meta
               avatar={
                 <Avatar icon={<FileImageOutlined />} className="avt-name" />
               }
@@ -58,7 +59,7 @@ function Drive({ title = "Drive" }) {
               }
               description={`${t("lastModified")}:${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
             />
-          </List.Item>
+          </CustomList.Item>
         )}
       />
     </Widget>

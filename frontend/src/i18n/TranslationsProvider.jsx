@@ -6,6 +6,7 @@ import { useLanguage } from "./LanguageContext";
 
 const TranslationsContext = createContext({});
 
+// Translations Provider to use the right messages based on locale
 export function TranslationsProvider({ children, initialMessages }) {
   const { locale } = useLanguage();
   const [messages, setMessages] = useState(initialMessages);
