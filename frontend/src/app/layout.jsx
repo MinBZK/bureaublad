@@ -21,14 +21,14 @@ export default async function RootLayout({ children }) {
     <html lang={INITIAL_LOCALE}>
       <body suppressHydrationWarning>
         <Suspense fallback={<Loading />}>
-        <LanguageProvider initialLocale={INITIAL_LOCALE}>
-          <TranslationsProvider initialMessages={messages}>
-            <AppProvider>
-              <ThemeLoader />
-              <PageLayout>{children}</PageLayout>
-            </AppProvider>
-          </TranslationsProvider>
-        </LanguageProvider>
+          <LanguageProvider initialLocale={INITIAL_LOCALE}>
+            <TranslationsProvider initialMessages={messages}>
+              <AppProvider>
+                <ThemeLoader />
+                <PageLayout>{children}</PageLayout>
+              </AppProvider>
+            </TranslationsProvider>
+          </LanguageProvider>
         </Suspense>
       </body>
     </html>
