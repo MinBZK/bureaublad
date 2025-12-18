@@ -4,11 +4,13 @@ import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "../../../i18n/TranslationsProvider";
 const { Content, Footer } = Layout;
 
 export default function PageLayout({ children }) {
+  const t = useTranslations("Footer");
   const { appConfig, error } = useAppContext();
-  const { data } = useFetchWithRefresh("/api/v1/auth/profile");
+  const { data } = useFetchWithRefresh("/auth/profile");
   const pathname = usePathname();
 
   const isLayoutHidden = ["/login", "/404"].includes(pathname);
@@ -23,7 +25,10 @@ export default function PageLayout({ children }) {
       <Content className="layout-content">
         <div className="content">{children}</div>
       </Content>
-      <Footer>Mijn Bureau ©{new Date().getFullYear()}</Footer>
+      <Footer>
+        {t("copyright")}
+        {new Date().getFullYear()}
+      </Footer>
     </Layout>
   ) : (
     <>{children}</>

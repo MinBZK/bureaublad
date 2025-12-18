@@ -1,11 +1,14 @@
+"use client";
 import React from "react";
 import { useState } from "react";
 import { Input, AutoComplete } from "antd";
-import axios from "axios";
+import api from '@/lib/axios';
+import { useTranslations } from "../../i18n/TranslationsProvider";
 
 const { Search } = Input;
 
 function SearchFiles() {
+  const t = useTranslations("Search");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -21,7 +24,7 @@ function SearchFiles() {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.get(`/api/v1/ocs/search?term=${text}`);
+      const res = await api.get(`/ocs/search?term=${text}`);
       if (res.data.length > 0) {
         setFilteredOptions(
           res.data.map((value) => ({
@@ -39,7 +42,7 @@ function SearchFiles() {
       } else {
         setFilteredOptions([
           {
-            label: "Not Found",
+            label: t("notFound"),
             value: "",
             disabled: true,
           },
@@ -77,7 +80,7 @@ function SearchFiles() {
           onChange={onChangeInput}
           onSearch={handleSearchClick}
           loading={loading}
-          placeholder="zoeken..."
+          placeholder={t("placeholder")}
           variant="underlined"
           size="large"
         />

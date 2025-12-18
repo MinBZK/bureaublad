@@ -9,11 +9,13 @@ import {
   FullscreenExitOutlined,
   ExportOutlined,
 } from "@ant-design/icons";
+import { useTranslations } from "../../i18n/TranslationsProvider";
 
 export default function ExternalApp() {
   const pathname = usePathname();
   const { appConfig } = useAppContext();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const t = useTranslations("ExternalApp");
   const app = appConfig?.applications?.find(
     (application) => application.id === pathname.slice(1),
   );
@@ -48,14 +50,14 @@ export default function ExternalApp() {
           gap: "8px",
         }}
       >
-        <Tooltip title="Open in new tab">
+        <Tooltip title={t("openInNewTab")}>
           <Button
             icon={<ExportOutlined />}
             onClick={openInNewTab}
             type="default"
           />
         </Tooltip>
-        <Tooltip title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}>
+        <Tooltip title={isFullscreen ? t("exitFullscreen") : t("fullscreen")}>
           <Button
             icon={
               isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />

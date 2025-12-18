@@ -4,10 +4,12 @@ import { Card } from "antd";
 import { Avatar, List } from "antd";
 import { EditOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useTranslations } from "../../../i18n/TranslationsProvider";
 
-function Email() {
+function Email({ title }) {
+  const t = useTranslations("Email");
   return (
-    <Card title="Email" variant="borderless">
+    <Card title={title || t("title")} variant="borderless">
       <List
         className="widget-list"
         dataSource={data}

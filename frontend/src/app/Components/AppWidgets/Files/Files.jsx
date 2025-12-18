@@ -11,12 +11,14 @@ import Link from "next/link";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
+import { useTranslations } from "@/i18n/TranslationsProvider";
 
 // NextCloud
 function Files({ title = "Bestanden" }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [since, setSince] = useState(null);
   const [sinceHistory, setSinceHistory] = useState([]); // Stack to track previous 'since' values
+  const t = useTranslations("Files");
   const limit = 3;
 
   const {
@@ -25,7 +27,7 @@ function Files({ title = "Bestanden" }) {
     error,
     onRefresh,
   } = useFetchWithRefresh(
-    searchTerm ? "/api/v1/ocs/search" : "/api/v1/ocs/activities",
+    searchTerm ? "/ocs/search" : "/ocs/activities",
     searchTerm
       ? { term: searchTerm, limit }
       : since
@@ -93,7 +95,7 @@ function Files({ title = "Bestanden" }) {
               }
               description={
                 <span>
-                  Laatste wijziging:{" "}
+                  {t("lastModified")}:
                   {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
                 </span>
               }

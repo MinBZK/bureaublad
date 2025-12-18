@@ -1,3 +1,4 @@
+"use client";
 import { StarFilled, StarOutlined, ReloadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -10,6 +11,7 @@ import {
   Pagination,
 } from "antd";
 import React, { useState } from "react";
+import { useTranslations } from "../../i18n/TranslationsProvider";
 
 const { Search } = Input;
 
@@ -27,6 +29,7 @@ function Widget({
   setPage = undefined,
   total = 10,
 }) {
+  const t = useTranslations("Widget");
   const [value, setValue] = useState("");
   return (
     <Card
@@ -38,7 +41,7 @@ function Widget({
             onClick={onRefresh}
             type="text"
             icon={<ReloadOutlined />}
-            title="Vernieuwen"
+            title={t("refresh")}
           />
         )
       }
@@ -52,7 +55,7 @@ function Widget({
               {setSearch && (
                 <React.Fragment>
                   <Search
-                    placeholder={placeholder || `${title} zoeken`}
+                    placeholder={placeholder || `${title} ${t("search")}`}
                     onSearch={(t) => setSearch(t)}
                     onChange={(e) => setValue(e.target.value)}
                     value={value}

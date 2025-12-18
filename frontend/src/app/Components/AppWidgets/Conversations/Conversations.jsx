@@ -7,17 +7,19 @@ import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import moment from "moment";
 import { useState } from "react";
+import { useTranslations } from "@/i18n/TranslationsProvider";
 
 // Conversation
 function Conversations({ title = "AI gesprek" }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const t = useTranslations("Conversations");
   const {
     data: conv,
     loading,
     error,
     onRefresh,
-  } = useFetchWithRefresh("/api/v1/conversations/chats", {
+  } = useFetchWithRefresh("/conversations/chats", {
     page,
     page_size: 3,
     title: search,
@@ -51,7 +53,7 @@ function Conversations({ title = "AI gesprek" }) {
               }
               description={
                 <span>
-                  Laatste wijziging:{" "}
+                  {t("lastModified")} :
                   {moment(item.updated_at)?.format("DD-mm-YYYY HH:mm")}
                 </span>
               }

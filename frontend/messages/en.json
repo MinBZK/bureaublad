@@ -1,0 +1,71 @@
+{
+  "HomePage": {
+    "title": "Mijn Bureau",
+    "welcome": "Welcome to Mijn Bureau",
+    "logout": "Logout"
+  },
+  "Header": {
+    "languageEnglish": "English",
+    "languageDutch": "Nederlands"
+  },
+  "AiAssistant": {
+    "title": "AI Assistant",
+    "placeholder": "Type your question here..."
+  },
+  "Conversations": {
+    "title": "AI Conversation",
+    "lastModified": "Last modified"
+  },
+  "Email": {
+    "title": "Email"
+  },
+  "Drive": {
+    "title": "Drive",
+    "lastModified": "Last modified"
+  },
+  "Files": {
+    "title": "Files",
+    "lastModified": "Last modified"
+  },
+  "Documents": {
+    "title": "Docs",
+    "lastModified": "Last modified"
+  },
+  "Meet": {
+    "title": "Video Conference",
+    "pincode": "Pin code"
+  },
+  "Sheets": {
+    "title": "Sheets",
+    "selectOrganization": "Select organization",
+    "updated": "Updated"
+  },
+  "Widget": {
+    "refresh": "Refresh"
+  },
+  "Search": {
+    "placeholder": "Search...",
+    "notFound": "Not Found"
+  },
+  "ErrorPage": {
+    "subTitle": "Something went wrong",
+    "backHome": "Back to homepage"
+  },
+  "LoginPage": {
+    "failedTitle": "Login failed",
+    "failedMessage": "Authentication failed. Please try again.",
+    "loginMessage": "Log in to access this application.",
+    "loginButton": "Log in"
+  },
+  "Footer": {
+    "copyright": "My Office ©"
+  },
+  "Navigation": {
+    "home": "Home"
+  },
+  "ExternalApp": {
+    "openNewTab": "Open in new tab",
+    "exitFullscreen": "Exit fullscreen",
+    "fullscreen": "Fullscreen"
+  }
+}

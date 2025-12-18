@@ -1,7 +1,8 @@
 "use client";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import api from '@/lib/axios';
+
 import Loading from "../../Common/Loading";
 import { useSearchParams } from "next/navigation";
 
@@ -17,7 +18,7 @@ export function AppProvider({ children }) {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const res = await axios.get("/api/v1/config");
+        const res = await api.get("/config");
         setAppConfig(res?.data);
       } catch (err) {
         setError(err?.response);

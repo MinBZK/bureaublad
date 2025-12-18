@@ -10,6 +10,7 @@ ENV NEXT_PUBLIC_BACKEND_BASE_URL=$NEXT_PUBLIC_BACKEND_BASE_URL
 
 COPY package.json package-lock.json next.config.ts tsconfig.json /app/
 COPY src /app/src
+COPY messages /app/messages
 
 RUN npm ci
 

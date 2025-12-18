@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
-import axios from "axios";
+import api from '@/lib/axios';
 import { useAutoRefresh } from "./useAutoRefresh";
 
 export function useFetchWithRefresh(url, params = {}) {
@@ -28,7 +28,7 @@ export function useFetchWithRefresh(url, params = {}) {
     async (isAutoRefresh = false) => {
       setLoading(true);
       try {
-        const res = await axios.get(fullUrl);
+        const res = await api.get(fullUrl);
         setData(res.data);
         setError("");
       } catch (err) {
