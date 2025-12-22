@@ -25,5 +25,5 @@ files:
       source: "frontend/messages/en.json",
       dest: "frontend-bureaublad.json",
       translation: "frontend/messages/%two_letters_code%.json",
-    }
+    },
   ]
