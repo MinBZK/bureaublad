@@ -1,0 +1,72 @@
+{
+  "HomePage": {
+    "title": "Mijn Bureau",
+    "welcome": "Welkom bij jouw bureau",
+    "logout": "Uitloggen"
+  },
+  "Header": {
+    "languageEnglish": "English",
+    "languageDutch": "Nederlands"
+  },
+  "AiAssistant": {
+    "title": "AI Assistent",
+    "placeholder": "Typ je vraag hier..."
+  },
+  "Conversations": {
+    "title": "AI gesprek",
+    "lastModified": "Laatste wijziging"
+  },
+  "Email": {
+    "title": "Email"
+  },
+  "Drive": {
+    "title": "Drive",
+    "lastModified": "Laatste wijziging"
+  },
+  "Files": {
+    "title": "Bestanden",
+    "lastModified": "Laatste wijziging"
+  },
+  "Documents": {
+    "title": "Docs",
+    "lastModified": "Laatste wijziging"
+  },
+  "Meet": {
+    "title": "Videoconferentie",
+    "pincode": "Pincode"
+  },
+  "Sheets": {
+    "title": "Sheets",
+    "selectOrganization": "Organisatie selecteren",
+    "updated": "Geüpdatet"
+  },
+  "Widget": {
+    "refresh": "Vernieuwen",
+    "search": "zoeken"
+  },
+  "Search": {
+    "placeholder": "zoeken...",
+    "notFound": "Niet gevonden"
+  },
+  "ErrorPage": {
+    "subTitle": "Er is iets mis gegaan",
+    "backHome": "Terug naar homepagina"
+  },
+  "LoginPage": {
+    "failedTitle": "Inloggen mislukt",
+    "failedMessage": "Authenticatie is mislukt. Probeer het opnieuw.",
+    "loginMessage": "Meld u aan om toegang te krijgen tot deze applicatie.",
+    "loginButton": "Inloggen"
+  },
+  "Footer": {
+    "copyright": "Mijn Bureau ©"
+  },
+  "Navigation": {
+    "home": "Home"
+  },
+  "ExternalApp": {
+    "openNewTab": "Open in nieuw tabblad",
+    "exitFullscreen": "Volledig scherm afsluiten",
+    "fullscreen": "Volledig scherm"
+  }
+}

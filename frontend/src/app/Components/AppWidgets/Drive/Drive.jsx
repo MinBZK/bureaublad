@@ -6,18 +6,20 @@ import Link from "next/link";
 import moment from "moment";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
+import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 function Drive({ title = "Drive" }) {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const t = useTranslations("Drive");
   const {
     data: drive,
     loading,
     error,
     onRefresh,
-  } = useFetchWithRefresh("/api/v1/drive/documents", {
+  } = useFetchWithRefresh("/drive/documents", {
     title: search,
     favorite,
     page,
@@ -55,7 +57,7 @@ function Drive({ title = "Drive" }) {
                   {item.title}
                 </Link>
               }
-              description={`Laatste wijziging: ${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
+              description={`${t("lastModified")}:${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
             />
           </CustomList.Item>
         )}

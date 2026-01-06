@@ -1,21 +1,35 @@
 "use client";
 import { Affix, Avatar, Dropdown, Flex, Layout, Menu } from "antd";
-import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  LogoutOutlined,
+  UserOutlined,
+  GlobalOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { menuItem } from "../../../Common/pageConfig";
 import AiAssistant from "../../AppWidgets/AiAssistant/AiAssistant";
-
+import { useTranslations } from "../../../../i18n/TranslationsProvider";
+import { useLanguage } from "../../../../i18n/LanguageContext";
 const { Header } = Layout;
 
 function HeaderLayout({ isProfile = true, profile, applications }) {
   const pathname = usePathname();
+  const tHome = useTranslations("HomePage");
+  const tHeader = useTranslations("Header");
+  const tNav = useTranslations("Navigation");
+  const { locale, setLocale } = useLanguage();
 
   // Determine selected key based on current path
   const getSelectedKey = () => {
     if (pathname === "/") return ["home"];
     const pathSegment = pathname.slice(1); // Remove leading slash
     return [pathSegment];
+  };
+
+  const handleLanguageChange = () => {
+    const newLocale = locale === "nl" ? "en" : "nl";
+    setLocale(newLocale);
   };
 
   const items = [
@@ -26,7 +40,18 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
     },
     {
       key: "2",
-      label: <Link href={`/api/v1/auth/logout`}>Uitloggen</Link>,
+      label: (
+        <span onClick={handleLanguageChange}>
+          {locale === "nl"
+            ? tHeader("languageEnglish")
+            : tHeader("languageDutch")}
+        </span>
+      ),
+      icon: <GlobalOutlined />,
+    },
+    {
+      key: "3",
+      label: <Link href={`/api/v1/auth/logout`}>{tHome("logout")}</Link>,
       icon: <LogoutOutlined />,
       danger: true,
     },
@@ -37,14 +62,14 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       <Header>
         <Flex>
           <div className="logo">
-            <span className="logo-txt">Mijn Bureau</span>
+            <span className="logo-txt">{tHome("title")}</span>
           </div>
           {applications && (
             <Menu
               theme="dark"
               mode="horizontal"
               selectedKeys={getSelectedKey()}
-              items={menuItem(applications)}
+              items={menuItem(applications, tNav)}
               className="header-menu"
             />
           )}

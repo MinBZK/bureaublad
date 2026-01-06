@@ -5,9 +5,9 @@ import { EditOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import CustomList from "@/app/Common/CustomList";
 
-function Email() {
+function Email({ title }) {
   return (
-    <Card title="Email" variant="borderless">
+    <Card title={title} variant="borderless">
       <CustomList
         className="widget-list"
         dataSource={data}

@@ -5,6 +5,7 @@ import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "../../../Common/Widget";
 import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRefresh";
+import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 
 // Docs
@@ -12,12 +13,13 @@ function Documents({ title = "Docs" }) {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const t = useTranslations("Documents");
   const {
     data: docs,
     loading,
     error,
     onRefresh,
-  } = useFetchWithRefresh("/api/v1/docs/documents", {
+  } = useFetchWithRefresh("/docs/documents", {
     favorite,
     title: search,
     page,
@@ -53,7 +55,7 @@ function Documents({ title = "Docs" }) {
                   {item.title}
                 </Link>
               }
-              description={`Laatste wijziging: ${item.updated_date}`}
+              description={`${t("lastModified")}: ${item.updated_date}`}
             />
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />

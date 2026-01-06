@@ -7,10 +7,10 @@ import Sheets from "../Components/AppWidgets/Sheets/Sheets";
 import Conversations from "../Components/AppWidgets/Conversations/Conversations";
 import Meet from "../Components/AppWidgets/Meet/Meet";
 
-export const menuItem = (applications) => [
+export const menuItem = (applications, t) => [
   {
     key: "home",
-    label: <Link href={"/"}>{"Home"}</Link>,
+    label: <Link href={"/"}>{t ? t("home") : "Home"}</Link>,
     icon: <DynamicIcon name={"HomeOutlined"} />,
   },
 

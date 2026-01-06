@@ -6,18 +6,20 @@ import Link from "next/link";
 import Widget from "../../../Common/Widget";
 import moment from "moment";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
+import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 
 function Sheets({ title = "Sheets" }) {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
   const [page, setPage] = useState(1);
+  const t = useTranslations("Sheets");
   const {
     data: orgs,
     loading: loadingOrgs,
     error: errorOrgs,
     onRefresh: refetchOrgs,
-  } = useFetchWithRefresh("/api/v1/grist/orgs");
+  } = useFetchWithRefresh("/grist/orgs");
 
   const effectiveSelectedOrg =
     selectedOrg || (orgs.length > 0 ? orgs[0]?.id : null);
@@ -27,7 +29,7 @@ function Sheets({ title = "Sheets" }) {
     loading: loadingSheets,
     error: errorSheets,
     onRefresh: refetchSheets,
-  } = useFetchWithRefresh("/api/v1/grist/docs", {
+  } = useFetchWithRefresh("/grist/docs", {
     organization_id: effectiveSelectedOrg,
     page,
     page_size: 3,
@@ -66,8 +68,7 @@ function Sheets({ title = "Sheets" }) {
       <Select
         loading={loadingOrgs}
         showSearch
-        placeholder="Organisatie selecteren"
-        optionFilterProp="label"
+        placeholder={t("selectOrganization")}
         onChange={handleOrgChange}
         defaultValue={parseInt(effectiveSelectedOrg)}
         value={parseInt(effectiveSelectedOrg)}
@@ -92,7 +93,7 @@ function Sheets({ title = "Sheets" }) {
                   {item.name}
                 </Link>
               }
-              description={`Geüpdatet: ${moment(item.updatedAt).format("DD-MM-YYYY")}`}
+              description={`${t("update")}: ${moment(item.updatedAt).format("DD-MM-YYYY")}`}
             />
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />

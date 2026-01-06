@@ -5,6 +5,7 @@ import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
+import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // meet
@@ -12,12 +13,13 @@ function Meet({ title = "Videoconferentie" }) {
   // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const t = useTranslations("Meet");
   const {
     data: meet,
     loading,
     error,
     onRefresh,
-  } = useFetchWithRefresh("/api/v1/meet/rooms", { page, page_size: 3 });
+  } = useFetchWithRefresh("/meet/rooms", { page, page_size: 3 });
 
   return (
     <Widget
@@ -50,7 +52,11 @@ function Meet({ title = "Videoconferentie" }) {
                 </Link>
               }
               description={
-                item.pin_code ? <span>Pincode: {item.pin_code}</span> : null
+                item.pin_code ? (
+                  <span>
+                    {t("pincode")} : {item.pin_code}
+                  </span>
+                ) : null
               }
             />
             <Link href={item.url} target="_blank" rel="noopener noreferrer">

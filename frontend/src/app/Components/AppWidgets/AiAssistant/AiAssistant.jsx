@@ -3,8 +3,14 @@ import React, { useState } from "react";
 import { Button, Divider, Drawer, Input, Result } from "antd";
 import { RobotOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
+import { useTranslations } from "../../../../i18n/TranslationsProvider";
+import {
+  INITIAL_LOCALE,
+  LOCALE_STORAGE_LANG_KEY,
+} from "../../../../i18n/config";
 const { Search } = Input;
 function AiAssistant() {
+  const t = useTranslations("AiAssistant");
   const [open, setOpen] = useState(false);
   const [aiResult, setAiResult] = useState([]);
   const [error, setError] = useState("");
@@ -18,6 +24,10 @@ function AiAssistant() {
       const response = await fetch("/api/v1/ai/chat/completions", {
         method: "POST",
         headers: {
+          "Accept-Language":
+            typeof window !== "undefined"
+              ? localStorage.getItem(LOCALE_STORAGE_LANG_KEY) || INITIAL_LOCALE
+              : INITIAL_LOCALE,
           "Content-Type": "application/json",
           Accept: "text/event-stream",
         },
@@ -78,7 +88,7 @@ function AiAssistant() {
         <RobotOutlined />
       </Button>
       <Drawer
-        title="Ai Assistent"
+        title={t("title")}
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setOpen(false)}
         open={open}
@@ -88,8 +98,8 @@ function AiAssistant() {
         ) : (
           <React.Fragment>
             <Search
-              placeholder={"Typ je vraag hier..."}
-              onSearch={(t) => postAi(t)}
+              placeholder={t("placeholder")}
+              onSearch={(text) => postAi(text)}
               allowClear
               className="widget-search"
             />
