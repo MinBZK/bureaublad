@@ -53,12 +53,25 @@ const CustomListItemMeta = ({ avatar, title, description, className = "" }) => {
       className={`custom-list-item-meta ${className}`}
       align="flex-start"
       gap="middle"
-      style={{ flex: 1 }}
+      style={{ flex: 1, minWidth: 0, overflow: "hidden" }}
     >
       {avatar && <Flex className="custom-list-item-meta-avatar">{avatar}</Flex>}
-      <Flex vertical gap={4} style={{ flex: 1, minWidth: 0 }}>
+      <Flex
+        vertical
+        gap={4}
+        style={{ flex: 1, minWidth: 0, overflow: "hidden" }}
+      >
         {title && (
-          <Text strong className="custom-list-item-meta-title">
+          <Text
+            strong
+            className="custom-list-item-meta-title"
+            style={{
+              display: "block",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
             {title}
           </Text>
         )}
