@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useAppContext } from "../Components/Context/AppContext";
 import { usePathname } from "next/navigation";
-import { Button, Tooltip } from "antd";
+import { Dropdown, Affix } from "antd";
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
   ExportOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import { useTranslations } from "../../i18n/TranslationsProvider";
 
@@ -28,54 +29,47 @@ export default function ExternalApp() {
     window.open(app?.url, "_blank", "noopener,noreferrer");
   };
 
+  const menuItems = [
+    {
+      key: "newTab",
+      label: t("openNewTab"),
+      icon: <ExportOutlined />,
+      onClick: openInNewTab,
+    },
+    {
+      key: "fullscreen",
+      label: isFullscreen ? t("exitFullscreen") : t("fullscreen"),
+      icon: isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />,
+      onClick: toggleFullscreen,
+    },
+  ];
+
   return (
     <div
-      style={{
-        width: "100%",
-        height: isFullscreen ? "100vh" : "calc(100vh - 64px)",
-        position: isFullscreen ? "fixed" : "relative",
-        top: isFullscreen ? 0 : "auto",
-        left: isFullscreen ? 0 : "auto",
-        zIndex: isFullscreen ? 9999 : "auto",
-        backgroundColor: "#fff",
-      }}
+      className={
+        isFullscreen
+          ? "external-app-container-fullscreen"
+          : "external-app-container"
+      }
     >
-      <div
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          zIndex: 10000,
-          display: "flex",
-          gap: "8px",
-        }}
+      <Dropdown
+        menu={{ items: menuItems }}
+        trigger={["hover"]}
+        placement="bottomRight"
+        getPopupContainer={(trigger) => trigger.parentElement}
+        rootClassName="external-app-dropdown-menu"
       >
-        <Tooltip title={t("openInNewTab")}>
-          <Button
-            icon={<ExportOutlined />}
-            onClick={openInNewTab}
-            type="default"
+        <div className="external-app-dropdown-trigger">
+          <DownOutlined
+            style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.8)" }}
           />
-        </Tooltip>
-        <Tooltip title={isFullscreen ? t("exitFullscreen") : t("fullscreen")}>
-          <Button
-            icon={
-              isFullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />
-            }
-            onClick={toggleFullscreen}
-            type="default"
-          />
-        </Tooltip>
-      </div>
+        </div>
+      </Dropdown>
       <iframe
         src={app?.url}
-        style={{
-          width: "100%",
-          height: "100%",
-          border: "none",
-        }}
+        className="external-app-iframe"
         title={app?.title}
-        allow="fullscreen"
+        allow="camera *; microphone *; fullscreen *; display-capture *; autoplay *"
         sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-storage-access-by-user-activation"
       />
     </div>
