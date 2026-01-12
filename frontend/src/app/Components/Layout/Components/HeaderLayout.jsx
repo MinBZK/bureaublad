@@ -62,7 +62,9 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       <Header>
         <Flex>
           <div className="logo">
-            <span className="logo-txt">{tHome("title")}</span>
+            <Link className="logo-txt" href="/">
+              {tHome("title")}
+            </Link>
           </div>
           {applications && (
             <Menu
