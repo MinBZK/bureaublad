@@ -34,6 +34,19 @@ function AiAssistant() {
         body: JSON.stringify({ prompt: text }),
       });
 
+      if (!response.ok) {
+        // Try to parse error message from response
+        let errorMessage = `HTTP error! status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          // If response is not JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
+      }
+
       if (!response.body) {
         throw new Error("No response body (SSE not supported?)");
       }
@@ -93,24 +106,26 @@ function AiAssistant() {
         onClose={() => setOpen(false)}
         open={open}
       >
-        {error ? (
-          <Result status="warning" title={error} className="space-min-up" />
-        ) : (
-          <React.Fragment>
-            <Search
-              placeholder={t("placeholder")}
-              onSearch={(text) => postAi(text)}
-              allowClear
-              className="widget-search"
-            />
-            <Divider />
-            {aiResult.map((msg, i) => (
-              <div key={i} className="message">
-                <ReactMarkdown>{msg}</ReactMarkdown>
-              </div>
-            ))}
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          <Search
+            placeholder={t("placeholder")}
+            onSearch={(text) => postAi(text)}
+            allowClear
+            className="widget-search"
+          />
+          <Divider />
+          {error ? (
+            <Result status="warning" title={error} className="space-min-up" />
+          ) : (
+            <React.Fragment>
+              {aiResult.map((msg, i) => (
+                <div key={i} className="message">
+                  <ReactMarkdown>{msg}</ReactMarkdown>
+                </div>
+              ))}
+            </React.Fragment>
+          )}
+        </React.Fragment>
       </Drawer>
     </>
   );
