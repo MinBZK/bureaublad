@@ -12,13 +12,16 @@ import {
 } from "@ant-design/icons";
 import { useTranslations } from "../../i18n/TranslationsProvider";
 
-export default function ExternalApp() {
+export default function ExternalApp({ appId }) {
   const pathname = usePathname();
   const { appConfig } = useAppContext();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const t = useTranslations("ExternalApp");
+
+  // Use appId prop if provided, otherwise fallback to pathname
+  const appIdToUse = appId || pathname.slice(1);
   const app = appConfig?.applications?.find(
-    (application) => application.id === pathname.slice(1),
+    (application) => application.id === appIdToUse,
   );
 
   const toggleFullscreen = () => {
