@@ -102,6 +102,11 @@ footer {
   text-align: center;
 }
 
+.ant-layout-footer {
+  background: var(--header-background) !important;
+  color: var(--header-text-color) !important;
+}
+
 /* CUSTOM LIST */
 /* -------------------------------------------------- */
 .custom-list {
@@ -116,7 +121,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--color-border-default);
 }
 
 .custom-list-item:last-child {
@@ -502,6 +507,50 @@ footer {
 /* Icon overrides */
 .ant-btn-text {
   color: var(--icon-color) !important;
+  background: transparent !important;
+}
+
+.ant-btn-text:hover {
+  background: var(--color-border-default) !important;
+}
+
+.ant-btn-text:disabled,
+.ant-btn-text[disabled] {
+  color: var(--input-placeholder-color) !important;
+  background: transparent !important;
+}
+
+.ant-btn-text:disabled .anticon,
+.ant-btn-text[disabled] .anticon {
+  color: var(--input-placeholder-color) !important;
+}
+
+/* Outlined button overrides (Files pagination) */
+.ant-btn-variant-outlined {
+  background: transparent !important;
+  border-color: var(--input-border-color) !important;
+  color: var(--icon-color) !important;
+}
+
+.ant-btn-variant-outlined .anticon {
+  color: var(--icon-color) !important;
+}
+
+.ant-btn-variant-outlined:hover {
+  background: var(--color-border-default) !important;
+  border-color: var(--input-border-color) !important;
+}
+
+.ant-btn-variant-outlined:disabled,
+.ant-btn-variant-outlined[disabled] {
+  background: transparent !important;
+  border-color: var(--color-border-subtle) !important;
+  color: var(--input-placeholder-color) !important;
+}
+
+.ant-btn-variant-outlined:disabled .anticon,
+.ant-btn-variant-outlined[disabled] .anticon {
+  color: var(--input-placeholder-color) !important;
 }
 
 /* Header icons should always be white (on dark background) */
@@ -552,4 +601,123 @@ footer {
 
 .ant-select-item-option-active {
   background-color: var(--menu-item-hover-bg) !important;
+}
+
+/* Result component overrides (login page) */
+.ant-result-title {
+  color: var(--card-text-color) !important;
+}
+
+.ant-result-subtitle {
+  color: var(--card-text-color) !important;
+  opacity: 0.7;
+}
+
+/* Typography overrides for CustomList and other text */
+.ant-typography a {
+  color: var(--card-text-color) !important;
+}
+
+.ant-typography-secondary {
+  color: var(--card-text-color) !important;
+  opacity: 0.45;
+}
+
+/* Search button override */
+.ant-input-search-btn,
+.ant-input-search-btn.ant-btn-default {
+  background: var(--button-primary-bg) !important;
+  border-color: var(--button-primary-bg) !important;
+  color: var(--button-primary-text) !important;
+}
+
+.ant-input-search-btn .anticon,
+.ant-input-search-btn.ant-btn-default .anticon {
+  color: var(--button-primary-text) !important;
+}
+
+.ant-input-search-btn:hover,
+.ant-input-search-btn.ant-btn-default:hover {
+  background: var(--button-primary-hover) !important;
+  border-color: var(--button-primary-hover) !important;
+  color: var(--button-primary-text) !important;
+}
+
+/* Pagination overrides */
+.ant-pagination-item {
+  background: var(--input-background) !important;
+  border-color: var(--input-border-color) !important;
+}
+
+.ant-pagination-item a {
+  color: var(--card-text-color) !important;
+}
+
+.ant-pagination-item-active {
+  background: var(--button-primary-bg) !important;
+  border-color: var(--button-primary-bg) !important;
+}
+
+.ant-pagination-item-active a {
+  color: var(--button-primary-text) !important;
+}
+
+.ant-pagination-prev .ant-pagination-item-link,
+.ant-pagination-next .ant-pagination-item-link {
+  background: var(--input-background) !important;
+  border-color: var(--input-border-color) !important;
+  color: var(--icon-color) !important;
+}
+
+.ant-pagination-disabled .ant-pagination-item-link {
+  color: var(--input-placeholder-color) !important;
+}
+
+/* Drawer overrides */
+.ant-drawer-content-wrapper {
+  background: var(--card-background) !important;
+}
+
+.ant-drawer-header {
+  background: var(--card-background) !important;
+  border-bottom: 1px solid var(--card-border-color) !important;
+}
+
+.ant-drawer-title {
+  color: var(--card-text-color) !important;
+}
+
+.ant-drawer-body {
+  background: var(--card-background) !important;
+  color: var(--card-text-color) !important;
+}
+
+.ant-drawer-close {
+  color: var(--icon-color) !important;
+}
+
+/* Dropdown menu overrides */
+.ant-dropdown-menu {
+  background: var(--card-background) !important;
+}
+
+.ant-dropdown-menu-item {
+  color: var(--card-text-color) !important;
+}
+
+.ant-dropdown-menu-item a {
+  color: var(--card-text-color) !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: var(--menu-item-hover-bg) !important;
+}
+
+.ant-dropdown-menu-item-danger {
+  color: #ff4d4f !important;
+}
+
+.ant-dropdown-menu-item-danger:hover {
+  background: rgba(255, 77, 79, 0.1) !important;
+  color: #ff7875 !important;
 }
