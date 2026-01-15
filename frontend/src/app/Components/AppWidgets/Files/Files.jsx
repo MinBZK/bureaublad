@@ -110,16 +110,14 @@ function Files({ title = "Bestanden" }) {
       <Divider />
       <Flex justify="end" gap="small">
         <Button
-          // color="primary"
-          variant="text"
+          variant="outlined"
           onClick={() => handlePageChange("prev")}
           disabled={sinceHistory.length === 0}
         >
           <LeftOutlined />
         </Button>
         <Button
-          // color="primary"
-          variant="text"
+          variant="outlined"
           onClick={() => handlePageChange("next")}
           disabled={
             !files ||

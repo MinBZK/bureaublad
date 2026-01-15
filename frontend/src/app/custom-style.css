@@ -101,7 +101,7 @@
 /* EXAMPLE 4: Dark Theme
    ============================================ */
 
-:root {
+/* :root {
   --color-primary: #424242;
   --color-primary-hover: #616161;
   --color-primary-active: #212121;
@@ -116,4 +116,4 @@
   --avatar-call-bg: #558b2f;
   --avatar-doc-bg: #1565c0;
   --avatar-ai-bg: #424242;
-}
+} */
