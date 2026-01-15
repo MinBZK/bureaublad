@@ -31,6 +31,7 @@ function Widget({
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
+
   return (
     <Card
       title={title}
