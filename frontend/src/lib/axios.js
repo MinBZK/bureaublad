@@ -28,4 +28,21 @@ api.interceptors.request.use(
   },
 );
 
+// Add response interceptor to handle token refresh conflicts (409)
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 409) {
+      const retryCount = error.config._retryCount || 0;
+      if (retryCount < 3) {
+        error.config._retryCount = retryCount + 1;
+        // Exponential backoff: 200ms, 400ms, 800ms
+        await new Promise((r) => setTimeout(r, 200 * Math.pow(2, retryCount)));
+        return api.request(error.config);
+      }
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default api;
