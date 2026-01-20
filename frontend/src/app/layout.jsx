@@ -2,7 +2,7 @@ import "./globals.css";
 import "./custom-style.css";
 
 import { AppProvider } from "./Components/Context/AppContext";
-import ThemeLoader from "./Components/ThemeLoader/ThemeLoader";
+import { ThemeProvider } from "./Components/Context/ThemeContext";
 import PageLayout from "./Components/Layout/PageLayout";
 import { TranslationsProvider } from "../i18n/TranslationsProvider";
 import { LanguageProvider } from "../i18n/LanguageContext";
@@ -24,8 +24,9 @@ export default async function RootLayout({ children }) {
           <LanguageProvider initialLocale={INITIAL_LOCALE}>
             <TranslationsProvider initialMessages={messages}>
               <AppProvider>
-                <ThemeLoader />
-                <PageLayout>{children}</PageLayout>
+                <ThemeProvider>
+                  <PageLayout>{children}</PageLayout>
+                </ThemeProvider>
               </AppProvider>
             </TranslationsProvider>
           </LanguageProvider>
