@@ -97,6 +97,11 @@ body {
 
 .ant-layout {
   background: var(--layout-background) !important;
+  min-height: 100vh;
+}
+
+.ant-layout-content {
+  flex: 1;
 }
 
 .ant-layout-header {
@@ -182,8 +187,17 @@ footer {
   text-overflow: ellipsis;
   max-width: 100%;
 }
+.custom-list-text-copy {
+  margin-bottom: 0;
+  cursor: pointer;
+}
 
-.custom-list-item-meta-title a {
+.custom-list-text-copy:hover {
+  color: #1890ff;
+}
+
+.custom-list-item-meta-title a,
+.ant-typography {
   color: rgba(0, 0, 0, 0.85);
   transition: all 0.3s;
   text-decoration: none;
@@ -402,7 +416,7 @@ footer {
 }
 
 .widget-list {
-  min-height: 220px;
+  min-height: 230px;
 }
 
 .sheets-org-select {

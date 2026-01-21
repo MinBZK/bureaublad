@@ -69,7 +69,6 @@ function Files({ title = "Bestanden" }) {
       }
     }
   };
-
   return (
     <Widget
       title={title}
@@ -97,7 +96,7 @@ function Files({ title = "Bestanden" }) {
               description={
                 <span>
                   {t("lastModified")}:
-                  {moment(item.datetime)?.format("DD-mm-YYYY HH:mm")}
+                  {moment(item.datetime).format("DD-MM-YYYY, HH:mm")}
                 </span>
               }
             />

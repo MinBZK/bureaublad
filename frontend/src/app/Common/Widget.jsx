@@ -84,6 +84,7 @@ function Widget({
             <React.Fragment>
               <Divider />
               <Pagination
+                pageSize={3}
                 defaultCurrent={page}
                 current={page}
                 onChange={(page) => setPage(page)}

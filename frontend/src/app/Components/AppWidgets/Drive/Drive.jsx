@@ -42,25 +42,27 @@ function Drive({ title = "Drive" }) {
         className="widget-list"
         dataSource={drive?.results || []}
         loading={loading}
-        renderItem={(item) => (
-          <CustomList.Item key={item.id}>
-            <CustomList.Item.Meta
-              avatar={
-                <Avatar icon={<FileImageOutlined />} className="avt-name" />
-              }
-              title={
-                <Link
-                  href={item?.url || ""}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item.title}
-                </Link>
-              }
-              description={`${t("lastModified")}:${moment(item.updated_at).format("DD-MM-YYYY, mm:ss")}`}
-            />
-          </CustomList.Item>
-        )}
+        renderItem={(item, index) =>
+          index < 3 && (
+            <CustomList.Item key={item.id}>
+              <CustomList.Item.Meta
+                avatar={
+                  <Avatar icon={<FileImageOutlined />} className="avt-name" />
+                }
+                title={
+                  <Link
+                    href={item?.url || ""}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item.title}
+                  </Link>
+                }
+                description={`${t("lastModified")}: ${moment.utc(item.updated_at).format("DD-MM-YYYY, HH:mm")}`}
+              />
+            </CustomList.Item>
+          )
+        }
       />
     </Widget>
   );
