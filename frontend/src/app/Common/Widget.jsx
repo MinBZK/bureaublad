@@ -31,6 +31,7 @@ function Widget({
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
+
   return (
     <Card
       title={title}
@@ -83,6 +84,7 @@ function Widget({
             <React.Fragment>
               <Divider />
               <Pagination
+                pageSize={3}
                 defaultCurrent={page}
                 current={page}
                 onChange={(page) => setPage(page)}

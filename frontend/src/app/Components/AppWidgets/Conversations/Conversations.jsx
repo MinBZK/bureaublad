@@ -55,7 +55,7 @@ function Conversations({ title = "AI gesprek" }) {
               description={
                 <span>
                   {t("lastModified")} :
-                  {moment(item.updated_at)?.format("DD-mm-YYYY HH:mm")}
+                  {moment.utc(item.updated_at)?.format("DD-MM-YYYY HH:mm")}
                 </span>
               }
             />

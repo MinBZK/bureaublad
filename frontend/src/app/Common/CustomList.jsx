@@ -76,7 +76,7 @@ const CustomListItemMeta = ({ avatar, title, description, className = "" }) => {
           </Text>
         )}
         {description && (
-          <Text type="secondary" className="custom-list-item-meta-description">
+          <Text type="secondary" className="custom-list-item-meta-description ">
             {description}
           </Text>
         )}

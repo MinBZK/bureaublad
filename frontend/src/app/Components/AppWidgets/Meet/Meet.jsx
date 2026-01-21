@@ -1,12 +1,18 @@
 "use client";
 import { useState } from "react";
-import { Avatar } from "antd";
+import { Avatar, message } from "antd";
 import { PhoneOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
 import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
+
+const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text).then(() => {
+    message.success("Copied!");
+  });
+};
 
 // meet
 function Meet({ title = "Videoconferentie" }) {
@@ -37,7 +43,7 @@ function Meet({ title = "Videoconferentie" }) {
             value?.name?.toUpperCase()?.includes(search.toUpperCase()),
           ) || []
         }
-        loading={loading}
+        // loading={loading}
         renderItem={(item) => (
           <CustomList.Item key={item.slug}>
             <CustomList.Item.Meta
@@ -53,7 +59,10 @@ function Meet({ title = "Videoconferentie" }) {
               }
               description={
                 item.pin_code ? (
-                  <span>
+                  <span
+                    className="custom-list-text-copy"
+                    onClick={() => copyToClipboard(item.pin_code)}
+                  >
                     {t("pincode")} : {item.pin_code}
                   </span>
                 ) : null

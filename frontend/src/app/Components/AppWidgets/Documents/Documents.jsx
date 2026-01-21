@@ -7,7 +7,7 @@ import Widget from "../../../Common/Widget";
 import { useFetchWithRefresh } from "../../../Common/CustomHooks/useFetchWithRefresh";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
-
+import moment from "moment";
 // Docs
 function Documents({ title = "Docs" }) {
   const [favorite, setFavorite] = useState(false);
@@ -25,6 +25,7 @@ function Documents({ title = "Docs" }) {
     page,
     page_size: 3,
   });
+
   return (
     <Widget
       title={title}
@@ -55,7 +56,7 @@ function Documents({ title = "Docs" }) {
                   {item.title}
                 </Link>
               }
-              description={`${t("lastModified")}: ${item.updated_date}`}
+              description={`${t("lastModified")}: ${moment.utc(item.updated_at).format("DD-MM-YYYY, HH:mm")}`}
             />
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
