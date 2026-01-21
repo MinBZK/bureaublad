@@ -11,7 +11,7 @@ const CustomList = ({
   renderItem,
   ...restProps
 }) => {
-  if (loading) {
+  if (dataSource?.length <= 0 && loading) {
     return (
       <Flex
         justify="center"
@@ -23,7 +23,6 @@ const CustomList = ({
       </Flex>
     );
   }
-
   return (
     <div className={`custom-list ${className}`} {...restProps}>
       {dataSource.map((item, index) => {

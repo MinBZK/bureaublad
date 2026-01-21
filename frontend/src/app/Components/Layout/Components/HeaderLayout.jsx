@@ -4,6 +4,7 @@ import {
   LogoutOutlined,
   UserOutlined,
   GlobalOutlined,
+  BgColorsOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,6 +12,7 @@ import { menuItem } from "../../../Common/pageConfig";
 import AiAssistant from "../../AppWidgets/AiAssistant/AiAssistant";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import { useLanguage } from "../../../../i18n/LanguageContext";
+import { useTheme } from "../../Context/ThemeContext";
 const { Header } = Layout;
 
 function HeaderLayout({ isProfile = true, profile, applications }) {
@@ -18,7 +20,9 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   const tHome = useTranslations("HomePage");
   const tHeader = useTranslations("Header");
   const tNav = useTranslations("Navigation");
+  const tTheme = useTranslations("theme");
   const { locale, setLocale } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   // Determine selected key based on current path
   const getSelectedKey = () => {
@@ -51,6 +55,15 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
     },
     {
       key: "3",
+      label: (
+        <span onClick={toggleTheme}>
+          {theme === "light" ? tTheme("dark") : tTheme("light")}
+        </span>
+      ),
+      icon: <BgColorsOutlined />,
+    },
+    {
+      key: "4",
       label: <Link href={`/api/v1/auth/logout`}>{tHome("logout")}</Link>,
       icon: <LogoutOutlined />,
       danger: true,

@@ -68,5 +68,9 @@
     "openNewTab": "Open in nieuw tabblad",
     "exitFullscreen": "Volledig scherm afsluiten",
     "fullscreen": "Volledig scherm"
+  },
+  "theme": {
+    "light": "Licht Mode",
+    "dark": "Donker Mode"
   }
 }
