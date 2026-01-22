@@ -46,6 +46,7 @@ class TestDocsClient:
         # Mock response data
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {
             "count": 1,
             "results": [
@@ -82,6 +83,7 @@ class TestDocsClient:
         """Test document retrieval with custom parameters."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {"results": []}
         mock_http_client.get.return_value = mock_response
 
@@ -114,6 +116,7 @@ class TestDocsClient:
         """Test document retrieval with minimal parameters."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {"results": []}
         mock_http_client.get.return_value = mock_response
 
@@ -135,6 +138,7 @@ class TestDocsClient:
         """Test that leading slash is stripped from path."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {"results": []}
         mock_http_client.get.return_value = mock_response
 
@@ -160,6 +164,7 @@ class TestDocsClient:
         """Test retrieval of multiple documents."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {
             "count": 2,
             "results": [
@@ -196,6 +201,7 @@ class TestDocsClient:
         """Test document retrieval when no results returned."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {"results": []}
         mock_http_client.get.return_value = mock_response
 
@@ -208,6 +214,7 @@ class TestDocsClient:
         """Test document retrieval when results key is missing."""
         mock_response = Mock()
         mock_response.status_code = 200
+        mock_response.headers = {}
         mock_response.json.return_value = {}  # No results key
         mock_http_client.get.return_value = mock_response
 
