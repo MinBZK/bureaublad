@@ -22,7 +22,6 @@ function Meet({ title = "Videoconferentie" }) {
   const t = useTranslations("Meet");
   const {
     data: meet,
-    loading,
     error,
     onRefresh,
   } = useFetchWithRefresh("/meet/rooms", { page, page_size: 3 });

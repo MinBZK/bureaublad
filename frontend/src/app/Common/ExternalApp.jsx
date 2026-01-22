@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAppContext } from "../Components/Context/AppContext";
 import { usePathname } from "next/navigation";
-import { Dropdown, Affix } from "antd";
+import { Dropdown } from "antd";
 import {
   FullscreenOutlined,
   FullscreenExitOutlined,
