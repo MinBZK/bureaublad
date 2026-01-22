@@ -20,7 +20,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   const tHome = useTranslations("HomePage");
   const tHeader = useTranslations("Header");
   const tNav = useTranslations("Navigation");
-  const tTheme = useTranslations("theme");
+  const tTheme = useTranslations("Theme");
   const { locale, setLocale } = useLanguage();
   const { theme, toggleTheme } = useTheme();
 
@@ -39,11 +39,6 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   const items = [
     {
       key: "1",
-      label: profile,
-      icon: <UserOutlined />,
-    },
-    {
-      key: "2",
       label: (
         <span onClick={handleLanguageChange}>
           {locale === "nl"
@@ -54,7 +49,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       icon: <GlobalOutlined />,
     },
     {
-      key: "3",
+      key: "2",
       label: (
         <span onClick={toggleTheme}>
           {theme === "light" ? tTheme("dark") : tTheme("light")}
@@ -63,7 +58,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       icon: <BgColorsOutlined />,
     },
     {
-      key: "4",
+      key: "3",
       label: <Link href={`/api/v1/auth/logout`}>{tHome("logout")}</Link>,
       icon: <LogoutOutlined />,
       danger: true,

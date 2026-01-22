@@ -68,7 +68,7 @@
     "exitFullscreen": "Exit fullscreen",
     "fullscreen": "Full screen"
   },
-  "theme": {
+  "Theme": {
     "light": "Light Mode",
     "dark": "Dark Mode"
   }
