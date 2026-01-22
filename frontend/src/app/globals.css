@@ -314,7 +314,6 @@ footer {
   position: absolute;
   top: 0;
   right: 20px;
-  z-index: 10001;
   width: 40px;
   height: 10px;
   background-color: rgba(0, 0, 0, 0.15);
