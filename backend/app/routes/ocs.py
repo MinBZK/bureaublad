@@ -6,7 +6,7 @@ from app.clients.ocs import OCSClient
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
-from app.models.activity import Activity
+from app.models.activity import FileListResponse
 from app.models.search import SearchResults
 from app.token_exchange import get_token
 
@@ -24,17 +24,17 @@ async def get_ocs_client(request: Request, http_client: HTTPClient) -> OCSClient
     return OCSClient(http_client, settings.OCS_URL, token)
 
 
-@router.get("/activities", response_model=list[Activity])
+@router.get("/activities", response_model=FileListResponse)
 async def ocs_activities(
     request: Request,
     http_client: HTTPClient,
-    limit: int = 5,
-    since: int = 0,
-) -> list[Activity]:
-    """Get activities from OCS service."""
+    page: int = 1,
+    page_size: int = 3,
+) -> FileListResponse:
+    """Get unique files sorted by most recent activity."""
     client = await get_ocs_client(request, http_client)
 
-    return await client.get_activities(limit=limit, since=since)
+    return await client.get_files(page=page, page_size=page_size)
 
 
 @router.get("/search", response_model=list[SearchResults])

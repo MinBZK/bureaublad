@@ -7,307 +7,1410 @@
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"]
-      },
-      "body": {
-        "ocs": {
-          "data": [
-            {
-              "activity_id": 1,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test1",
-              "affecteduser": "admin",
-              "subject": "test1 created hello.txt",
-              "subject_rich": {
-                "0": "test1 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello.txt",
-                    "path": "\/test\/hello.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            },
-            {
-              "activity_id": 2,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test1",
-              "affecteduser": "admin",
-              "subject": "test2 created test2.txt",
-              "subject_rich": {
-                "0": "test2 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello2.txt",
-                    "path": "\/test\/hello.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello2.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            },
-            {
-              "activity_id": 3,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            },
-            {
-              "activity_id": 4,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            },
-            {
-              "activity_id": 5,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            },
-            {
-              "activity_id": 6,
-              "timestamp": 1446137950,
-              "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
-                    "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
-                  }
-                }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
-              "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    "httpRequest": {
-      "method": "GET",
-      "path": "/ocs/v2.php/search/providers/files/search",
-      "queryStringParameters": {
-        "term": ["[A-Z0-9\\-]+"]
-      }
-    },
-    "httpResponse": {
-      "statusCode": 200,
-      "headers": {
-        "Content-Type": ["application/json"]
+        "Content-Type": [
+          "application/json"
+        ]
       },
       "body": {
         "ocs": {
           "meta": {
             "status": "ok",
-            "statuscode": "200",
+            "statuscode": 200,
             "message": "OK"
           },
-          "data": {
-            "name": "Bestanden",
-            "isPaginated": true,
-            "entries": [
-              {
-                "thumbnailUrl": "https:\/\/localhost\/core\/preview?x=32&y=32&fileId=5075",
-                "title": "search.md",
-                "subline": "",
-                "resourceUrl": "https:\/\/localhost\/f\/5075",
-                "icon": "https:\/\/localhost\/apps\/theming\/img\/core\/filetypes\/text.svg?v=63c76887",
-                "rounded": "false",
-                "attributes": {
-                  "fileId": "5075",
-                  "path": "/search.md"
+          "data": [
+            {
+              "activity_id": 2282,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826"
+                  }
                 }
-              }
-            ],
-            "cursor": 5
-          }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "\/test-chris.docx",
+              "objects": {
+                "31826": "\/test-chris.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-20T13:15:50+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31826&c=696f80061c1c4",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31826,
+                  "view": "files",
+                  "filename": "test-chris.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/test-chris.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2217,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde AI Assistent.png, Bureaublad.png, element.png, Docs.png en Drive.png",
+              "subject_rich": [
+                "Je cre\u00eberde {file5}, {file4}, {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "33485",
+                    "name": "Drive.png",
+                    "path": "Drive.png",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33485"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "33482",
+                    "name": "Docs.png",
+                    "path": "Docs.png",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33482"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "33483",
+                    "name": "element.png",
+                    "path": "element.png",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33483"
+                  },
+                  "file4": {
+                    "type": "file",
+                    "id": "33481",
+                    "name": "Bureaublad.png",
+                    "path": "Bureaublad.png",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33481"
+                  },
+                  "file5": {
+                    "type": "file",
+                    "id": "33484",
+                    "name": "AI Assistent.png",
+                    "path": "AI Assistent.png",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33484"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 33485,
+              "object_name": "\/Drive.png",
+              "objects": {
+                "33484": "\/AI Assistent.png",
+                "33481": "\/Bureaublad.png",
+                "33483": "\/element.png",
+                "33482": "\/Docs.png",
+                "33485": "\/Drive.png"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2026-01-13T16:07:43+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33484",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=33484&c=69666dcf076ca",
+                  "mimeType": "image\/png",
+                  "isMimeTypeIcon": false,
+                  "fileId": 33484,
+                  "view": "files",
+                  "filename": "AI Assistent.png",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/AI Assistent.png"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33481",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=33481&c=69666dcf06bc7",
+                  "mimeType": "image\/png",
+                  "isMimeTypeIcon": false,
+                  "fileId": 33481,
+                  "view": "files",
+                  "filename": "Bureaublad.png",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Bureaublad.png"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33483",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=33483&c=69666dcf07311",
+                  "mimeType": "image\/png",
+                  "isMimeTypeIcon": false,
+                  "fileId": 33483,
+                  "view": "files",
+                  "filename": "element.png",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/element.png"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33482",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=33482&c=69666dcf06f4e",
+                  "mimeType": "image\/png",
+                  "isMimeTypeIcon": false,
+                  "fileId": 33482,
+                  "view": "files",
+                  "filename": "Docs.png",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Docs.png"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/33485",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=33485&c=69666dcf092ed",
+                  "mimeType": "image\/png",
+                  "isMimeTypeIcon": false,
+                  "fileId": 33485,
+                  "view": "files",
+                  "filename": "Drive.png",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Drive.png"
+                }
+              ]
+            },
+            {
+              "activity_id": 2215,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx en test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "\/test-chris.docx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx",
+                "31826": "\/test-chris.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-13T16:06:23+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31826&c=696f80061c1c4",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31826,
+                  "view": "files",
+                  "filename": "test-chris.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/test-chris.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2206,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-12T09:55:35+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2199,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "31826": "\/test-chris.docx",
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-08T19:57:39+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31826&c=696f80061c1c4",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31826,
+                  "view": "files",
+                  "filename": "test-chris.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/test-chris.docx"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2198,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "\/test-chris.docx",
+              "objects": {
+                "31826": "\/test-chris.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-08T13:41:56+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31826&c=696f80061c1c4",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31826,
+                  "view": "files",
+                  "filename": "test-chris.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/test-chris.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2197,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde test-chris.docx",
+              "subject_rich": [
+                "Je cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "\/test-chris.docx",
+              "objects": {
+                "31826": "\/test-chris.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2026-01-08T13:41:39+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31826",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31826&c=696f80061c1c4",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31826,
+                  "view": "files",
+                  "filename": "test-chris.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/test-chris.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2196,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-08T13:36:46+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2193,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "\/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "\/Draft Cloud Platform Team.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-08T07:52:01+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=5771&c=695f6221026d7",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 5771,
+                  "view": "files",
+                  "filename": "Draft Cloud Platform Team.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Draft Cloud Platform Team.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2191,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je deelde 2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx met @Rik Hooft",
+              "subject_rich": [
+                "Je deelde {file} met {user}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "path": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22137,
+              "object_name": "\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+              "objects": {
+                "22137": "\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/img\/actions\/share.svg",
+              "datetime": "2026-01-07T15:15:54+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22137&c=693837c1078e2",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22137,
+                  "view": "files",
+                  "filename": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2185,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft heeft Roadmap Open BSW.pptx met je gedeeld",
+              "subject_rich": [
+                "{actor} heeft {file} met je gedeeld",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "14371",
+                    "name": "Roadmap Open BSW.pptx",
+                    "path": "Roadmap Open BSW.pptx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/14371"
+                  },
+                  "actor": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 14371,
+              "object_name": "\/Roadmap Open BSW.pptx",
+              "objects": {
+                "14371": "\/Roadmap Open BSW.pptx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/img\/actions\/share.svg",
+              "datetime": "2026-01-07T14:52:53+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/14371",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=14371&c=691c6c607499e",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  "isMimeTypeIcon": false,
+                  "fileId": 14371,
+                  "view": "files",
+                  "filename": "Roadmap Open BSW.pptx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Roadmap Open BSW.pptx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2181,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "\/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "\/Draft Cloud Platform Team.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-07T13:33:28+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=5771&c=695f6221026d7",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 5771,
+                  "view": "files",
+                  "filename": "Draft Cloud Platform Team.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Draft Cloud Platform Team.docx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2174,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx, mijn-bureau-inter-organisatie.drawio en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22040",
+                    "name": "mijn-bureau-inter-organisatie.drawio",
+                    "path": "mijn-bureau-inter-organisatie.drawio",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22040"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "5771": "\/Draft Cloud Platform Team.docx",
+                "22040": "\/mijn-bureau-inter-organisatie.drawio",
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-06T14:37:40+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=5771&c=695f6221026d7",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 5771,
+                  "view": "files",
+                  "filename": "Draft Cloud Platform Team.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Draft Cloud Platform Team.docx"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22040",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/theming\/img\/core\/filetypes\/drawio.svg?v=b681de05",
+                  "mimeType": "application\/x-drawio",
+                  "isMimeTypeIcon": true,
+                  "fileId": 22040,
+                  "view": "files",
+                  "filename": "mijn-bureau-inter-organisatie.drawio",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/mijn-bureau-inter-organisatie.drawio"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2156,
+              "app": "files",
+              "type": "file_created",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft cre\u00eberde EDIC\/DAWO 17 november 2025.pdf",
+              "subject_rich": [
+                "{user} cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31034",
+                    "name": "DAWO 17 november 2025.pdf",
+                    "path": "EDIC\/DAWO 17 november 2025.pdf",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31034"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 31034,
+              "object_name": "\/EDIC\/DAWO 17 november 2025.pdf",
+              "objects": {
+                "31034": "\/EDIC\/DAWO 17 november 2025.pdf"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/EDIC",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2026-01-06T09:50:19+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/31034",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=31034&c=695cdadb9c2b8",
+                  "mimeType": "application\/pdf",
+                  "isMimeTypeIcon": false,
+                  "fileId": 31034,
+                  "view": "files",
+                  "filename": "DAWO 17 november 2025.pdf",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/EDIC\/DAWO 17 november 2025.pdf"
+                }
+              ]
+            },
+            {
+              "activity_id": 2140,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2026-01-05T12:32:49+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2014,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-16T10:15:58+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2002,
+              "app": "files",
+              "type": "file_changed",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "Rik Hooft wijzigde EDIC\/EDIC-presentation.pptx",
+              "subject_rich": [
+                "{user} wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22513",
+                    "name": "EDIC-presentation.pptx",
+                    "path": "EDIC\/EDIC-presentation.pptx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22513"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22513,
+              "object_name": "\/EDIC\/EDIC-presentation.pptx",
+              "objects": {
+                "22513": "\/EDIC\/EDIC-presentation.pptx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/EDIC",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-10T16:02:07+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22513",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22513&c=6939997d5201b",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22513,
+                  "view": "files",
+                  "filename": "EDIC-presentation.pptx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/EDIC\/EDIC-presentation.pptx"
+                }
+              ]
+            },
+            {
+              "activity_id": 2000,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde EDIC\/EDIC-presentation.pptx",
+              "subject_rich": [
+                "Je cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22513",
+                    "name": "EDIC-presentation.pptx",
+                    "path": "EDIC\/EDIC-presentation.pptx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22513"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22513,
+              "object_name": "\/EDIC\/EDIC-presentation.pptx",
+              "objects": {
+                "22513": "\/EDIC\/EDIC-presentation.pptx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/EDIC",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2025-12-10T14:45:00+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22513",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22513&c=6939997d5201b",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22513,
+                  "view": "files",
+                  "filename": "EDIC-presentation.pptx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/EDIC\/EDIC-presentation.pptx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1998,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je deelde EDIC met @Rik Hooft",
+              "subject_rich": [
+                "Je deelde {file} met {user}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22508",
+                    "name": "EDIC",
+                    "path": "EDIC",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22508"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22508,
+              "object_name": "\/EDIC",
+              "objects": {
+                "22508": "\/EDIC"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/EDIC",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/img\/actions\/share.svg",
+              "datetime": "2025-12-10T14:43:36+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22508",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/theming\/img\/core\/filetypes\/folder.svg?v=b681de05",
+                  "mimeType": "dir",
+                  "isMimeTypeIcon": true,
+                  "fileId": 22508,
+                  "view": "files",
+                  "filename": "EDIC"
+                }
+              ]
+            },
+            {
+              "activity_id": 1997,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde EDIC",
+              "subject_rich": [
+                "Je cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22508",
+                    "name": "EDIC",
+                    "path": "EDIC",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22508"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22508,
+              "object_name": "\/EDIC",
+              "objects": {
+                "22508": "\/EDIC"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2025-12-10T14:43:24+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22508",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/theming\/img\/core\/filetypes\/folder.svg?v=b681de05",
+                  "mimeType": "dir",
+                  "isMimeTypeIcon": true,
+                  "fileId": 22508,
+                  "view": "files",
+                  "filename": "EDIC"
+                }
+              ]
+            },
+            {
+              "activity_id": 1994,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-10T14:19:07+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1993,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-10T07:53:19+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1982,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx, mijn-bureau-inter-organisatie.drawio en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22040",
+                    "name": "mijn-bureau-inter-organisatie.drawio",
+                    "path": "mijn-bureau-inter-organisatie.drawio",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22040"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "5771": "\/Draft Cloud Platform Team.docx",
+                "22040": "\/mijn-bureau-inter-organisatie.drawio",
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-09T15:23:15+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/5771",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=5771&c=695f6221026d7",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 5771,
+                  "view": "files",
+                  "filename": "Draft Cloud Platform Team.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Draft Cloud Platform Team.docx"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22040",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/theming\/img\/core\/filetypes\/drawio.svg?v=b681de05",
+                  "mimeType": "application\/x-drawio",
+                  "isMimeTypeIcon": true,
+                  "fileId": 22040,
+                  "view": "files",
+                  "filename": "mijn-bureau-inter-organisatie.drawio",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/mijn-bureau-inter-organisatie.drawio"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1981,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde Open BSW - Haven -2025-10-02.pptx",
+              "subject_rich": [
+                "Je cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22168",
+                    "name": "Open BSW - Haven -2025-10-02.pptx",
+                    "path": "Open BSW - Haven -2025-10-02.pptx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22168"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22168,
+              "object_name": "\/Open BSW - Haven -2025-10-02.pptx",
+              "objects": {
+                "22168": "\/Open BSW - Haven -2025-10-02.pptx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2025-12-09T15:19:19+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22168",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22168&c=69383df72f3fa",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22168,
+                  "view": "files",
+                  "filename": "Open BSW - Haven -2025-10-02.pptx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/Open BSW - Haven -2025-10-02.pptx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1978,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde 2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "path": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "\/tijduiteg.xlsx",
+              "objects": {
+                "22137": "\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                "22075": "\/tijduiteg.xlsx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/change.svg",
+              "datetime": "2025-12-09T14:52:49+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22137&c=693837c1078e2",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22137,
+                  "view": "files",
+                  "filename": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx"
+                },
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22075",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22075&c=69666d7f402ad",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22075,
+                  "view": "files",
+                  "filename": "tijduiteg.xlsx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/tijduiteg.xlsx"
+                }
+              ]
+            },
+            {
+              "activity_id": 1977,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je cre\u00eberde 2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+              "subject_rich": [
+                "Je cre\u00eberde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "path": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                    "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": [
+                "",
+                []
+              ],
+              "object_type": "files",
+              "object_id": 22137,
+              "object_name": "\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+              "objects": {
+                "22137": "\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx"
+              },
+              "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/?dir=\/",
+              "icon": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/apps\/files\/img\/add-color.svg",
+              "datetime": "2025-12-09T14:37:17+00:00",
+              "previews": [
+                {
+                  "link": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/f\/22137",
+                  "source": "https:\/\/nextcloud.icbr.prd1.gn2.quattro.rijksapps.nl\/core\/preview?forceIcon=0&a=0&x=250&y=250&fileId=22137&c=693837c1078e2",
+                  "mimeType": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "isMimeTypeIcon": false,
+                  "fileId": 22137,
+                  "view": "files",
+                  "filename": "2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx",
+                  "filePath": "\/c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7\/files\/2025D49347-Antwoord-op-vragen-van-het-lid-Van-der-Werf-over-de-brief-van-de-staatsecretaris-van-Financi--n-aan-de-kamer-Overstap-kantoorautomatisering-naar-M365----.docx"
+                }
+              ]
+            }
+          ]
         }
       }
     }
