@@ -73,7 +73,6 @@ export default function ExternalApp({ appId }) {
         className="external-app-iframe"
         title={app?.title}
         allow="camera *; microphone *; fullscreen *; display-capture *; autoplay *; clipboard-read *; clipboard-write *;"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals allow-storage-access-by-user-activation"
       />
     </div>
   );
