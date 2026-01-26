@@ -13,29 +13,22 @@ const ThemeContext = createContext({
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setThemeState] = useState(DEFAULT_THEME);
-  const [mounted, setMounted] = useState(false);
-  const { appConfig } = useAppContext();
-
-  // Initialize theme from localStorage on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-    if (savedTheme) {
-      setThemeState(savedTheme);
+  const [theme, setThemeState] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(THEME_STORAGE_KEY) || DEFAULT_THEME;
     }
-    setMounted(true);
-  }, []);
+    return DEFAULT_THEME;
+  });
+  const { appConfig } = useAppContext();
 
   // Apply theme class to html element whenever theme changes
   useEffect(() => {
-    if (mounted) {
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark-theme");
-      } else {
-        document.documentElement.classList.remove("dark-theme");
-      }
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark-theme");
+    } else {
+      document.documentElement.classList.remove("dark-theme");
     }
-  }, [theme, mounted]);
+  }, [theme]);
 
   // Load external CSS from backend config
   useEffect(() => {
