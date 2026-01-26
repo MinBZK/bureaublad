@@ -18,7 +18,7 @@ class DocsClient(BaseAPIClient):
 
     async def get_documents(
         self,
-        path: str = "api/v1.0/documents/",
+        path: str = "api/v1.0/documents/all/",
         page: int = 1,
         page_size: int = 5,
         title: str | None = None,

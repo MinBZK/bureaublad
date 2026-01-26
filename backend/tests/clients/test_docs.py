@@ -75,7 +75,7 @@ class TestDocsClient:
         # Verify HTTP call
         mock_http_client.get.assert_called_once()
         call_args = mock_http_client.get.call_args
-        assert call_args[0][0] == "https://docs.example.com/api/v1.0/documents/"
+        assert call_args[0][0] == "https://docs.example.com/api/v1.0/documents/all/"
         assert call_args[1]["headers"] == {"Authorization": "Bearer test-token"}
 
     async def test_get_documents_with_custom_params(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
@@ -138,10 +138,10 @@ class TestDocsClient:
         mock_response.json.return_value = {"results": []}
         mock_http_client.get.return_value = mock_response
 
-        await client.get_documents(path="/api/v1.0/documents/")
+        await client.get_documents(path="/api/v1.0/documents/all/")
 
         call_args = mock_http_client.get.call_args
-        assert call_args[0][0] == "https://docs.example.com/api/v1.0/documents/"
+        assert call_args[0][0] == "https://docs.example.com/api/v1.0/documents/all/"
 
     async def test_get_documents_error_response(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval with error response."""
@@ -154,7 +154,7 @@ class TestDocsClient:
             await client.get_documents()
 
         assert "Docs" in str(exc_info.value)
-        assert "Failed to fetch api/v1.0/documents/ (status 404)" in str(exc_info.value)
+        assert "Failed to fetch api/v1.0/documents/all/ (status 404)" in str(exc_info.value)
 
     async def test_get_documents_multiple_documents(self, client: DocsClient, mock_http_client: AsyncMock) -> None:
         """Test retrieval of multiple documents."""
