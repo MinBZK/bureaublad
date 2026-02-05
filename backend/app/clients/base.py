@@ -28,13 +28,14 @@ class BaseAPIClient:
         """Generate authentication headers."""
         return {"Authorization": f"Bearer {self.token}"}
 
-    async def _get_resource[T](
+    async def _get_resource_with_headers[T](
         self,
         path: str,
         model_type: type[T],
         params: dict[str, Any] | None = None,
         response_parser: Callable[[dict[str, Any]], Any] | None = None,
-    ) -> T:
+    ) -> tuple[T, dict[str, str]]:
+        """Get resource and return both data and response headers."""
         try:
             url = self._build_url(path)
             response = await self.client.get(
@@ -50,8 +51,19 @@ class BaseAPIClient:
 
             json_data = response.json()
             data = response_parser(json_data) if response_parser else json_data
-            return TypeAdapter(model_type).validate_python(data)
+            validated = TypeAdapter(model_type).validate_python(data)
+            return validated, dict(response.headers)
 
         except httpx.HTTPError as e:
             logger.exception(f"HTTP error calling {self.service_name} API")
             raise ExternalServiceError(self.service_name, f"HTTP error: {e}") from e
+
+    async def _get_resource[T](
+        self,
+        path: str,
+        model_type: type[T],
+        params: dict[str, Any] | None = None,
+        response_parser: Callable[[dict[str, Any]], Any] | None = None,
+    ) -> T:
+        data, _ = await self._get_resource_with_headers(path, model_type, params, response_parser)
+        return data
