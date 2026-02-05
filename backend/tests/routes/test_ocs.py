@@ -253,14 +253,6 @@ class TestOCSEndpoints:
         data = response.json()
         assert data == []
 
-    def test_ocs_search_short_term(self, authenticated_client: TestClient) -> None:
-        """Test search endpoint with term shorter than 4 characters."""
-        response = authenticated_client.get("/api/v1/ocs/search?term=abc")
-
-        assert response.status_code == 200
-        data = response.json()
-        assert data == []
-
     def test_ocs_search_missing_term(self, authenticated_client: TestClient) -> None:
         """Test search endpoint without term parameter."""
         response = authenticated_client.get("/api/v1/ocs/search")

@@ -29,7 +29,7 @@ class OCSClient(BaseAPIClient):
 
     async def get_file_activities(
         self,
-        limit: int = 5,
+        limit: int = 50,
         since: int = 0,
     ) -> FileActivityResponse:
         """Get file activities with cursor-based pagination.
@@ -78,7 +78,7 @@ class OCSClient(BaseAPIClient):
         validated = await self._get_resource(
             path=path,
             model_type=list[FileSearchResult],
-            params={"term": term},
+            params={"format": "json", "term": term},
             response_parser=lambda data: data.get("ocs", {}).get("data", {}).get("entries", []),
         )
         return cast(list[SearchResults], validated)
