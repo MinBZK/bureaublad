@@ -40,9 +40,6 @@ async def ocs_activities(
 @router.get("/search", response_model=list[SearchResults])
 async def ocs_search(request: Request, http_client: HTTPClient, term: str) -> list[SearchResults]:
     """Get file search results from OCS service."""
-    if len(term) < 4:
-        return []
-
     client = await get_ocs_client(request, http_client)
 
     return await client.search_files(term=term)

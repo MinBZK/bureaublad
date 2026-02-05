@@ -2,16 +2,67 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "path": "/ocs/v2.php/search/providers/files/search",
       "queryStringParameters": {
-        "limit": ["50"]
+        "term": [
+          "cat"
+        ]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"],
-        "X-Activity-Last-Given": ["1977"]
+        "Content-Type": [
+          "application/json"
+        ]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "…": "…"
+          },
+          "data": {
+            "name": "Files",
+            "isPaginated": false,
+            "entries": [
+              {
+                "thumbnailUrl": "/core/preview?x=32&y=32&fileId=9261",
+                "title": "my cute cats.jpg",
+                "subline": "/my cute cats.jpg",
+                "resourceUrl": "/apps/files/?dir=/&scrollto=my%20cute%20cats.jpg"
+              },
+              {
+                "thumbnailUrl": "/core/preview?x=32&y=32&fileId=1553",
+                "title": "cat (2).png",
+                "subline": "/cat (2).png",
+                "resourceUrl": "/apps/files/?dir=/&scrollto=cat%20%282%29.png"
+              }
+            ],
+            "cursor": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "queryStringParameters": {
+        "limit": [
+          "50"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": [
+          "application/json"
+        ],
+        "X-Activity-Last-Given": [
+          "1977"
+        ]
       },
       "body": {
         "ocs": {
@@ -40,11 +91,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
-              "objects": { "31826": "/test-chris.docx" },
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-20T13:15:50+00:00",
@@ -97,7 +153,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 33485,
               "object_name": "/Drive.png",
@@ -139,7 +198,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -171,11 +233,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-12T09:55:35+00:00",
@@ -207,7 +274,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -239,11 +309,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
-              "objects": { "31826": "/test-chris.docx" },
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-08T13:41:56+00:00",
@@ -268,11 +343,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
-              "objects": { "31826": "/test-chris.docx" },
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2026-01-08T13:41:39+00:00",
@@ -297,11 +377,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-08T13:36:46+00:00",
@@ -326,11 +411,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
-              "objects": { "5771": "/Draft Cloud Platform Team.docx" },
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-08T07:52:01+00:00",
@@ -360,11 +450,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
-              "objects": { "22137": "/2025D49347-Antwoord-op-vragen.docx" },
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
               "datetime": "2026-01-07T15:15:54+00:00",
@@ -394,11 +489,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 14371,
               "object_name": "/Roadmap Open BSW.pptx",
-              "objects": { "14371": "/Roadmap Open BSW.pptx" },
+              "objects": {
+                "14371": "/Roadmap Open BSW.pptx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
               "datetime": "2026-01-07T14:52:53+00:00",
@@ -423,11 +523,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
-              "objects": { "5771": "/Draft Cloud Platform Team.docx" },
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-07T13:33:28+00:00",
@@ -466,7 +571,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -504,11 +612,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31034,
               "object_name": "/EDIC/DAWO 17 november 2025.pdf",
-              "objects": { "31034": "/EDIC/DAWO 17 november 2025.pdf" },
+              "objects": {
+                "31034": "/EDIC/DAWO 17 november 2025.pdf"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2026-01-06T09:50:19+00:00",
@@ -533,11 +646,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2026-01-05T12:32:49+00:00",
@@ -562,11 +680,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2025-12-16T10:15:58+00:00",
@@ -596,11 +719,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22513,
               "object_name": "/EDIC/EDIC-presentation.pptx",
-              "objects": { "22513": "/EDIC/EDIC-presentation.pptx" },
+              "objects": {
+                "22513": "/EDIC/EDIC-presentation.pptx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2025-12-10T16:02:07+00:00",
@@ -625,11 +753,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22513,
               "object_name": "/EDIC/EDIC-presentation.pptx",
-              "objects": { "22513": "/EDIC/EDIC-presentation.pptx" },
+              "objects": {
+                "22513": "/EDIC/EDIC-presentation.pptx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2025-12-10T14:45:00+00:00",
@@ -659,11 +792,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22508,
               "object_name": "/EDIC",
-              "objects": { "22508": "/EDIC" },
+              "objects": {
+                "22508": "/EDIC"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
               "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
               "datetime": "2025-12-10T14:43:36+00:00",
@@ -688,11 +826,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22508,
               "object_name": "/EDIC",
-              "objects": { "22508": "/EDIC" },
+              "objects": {
+                "22508": "/EDIC"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2025-12-10T14:43:24+00:00",
@@ -717,11 +860,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2025-12-10T14:19:07+00:00",
@@ -746,11 +894,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
-              "objects": { "22075": "/tijduiteg.xlsx" },
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
               "datetime": "2025-12-10T07:53:19+00:00",
@@ -789,7 +942,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -822,11 +978,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22168,
               "object_name": "/Open BSW - Haven -2025-10-02.pptx",
-              "objects": { "22168": "/Open BSW - Haven -2025-10-02.pptx" },
+              "objects": {
+                "22168": "/Open BSW - Haven -2025-10-02.pptx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2025-12-09T15:19:19+00:00",
@@ -858,7 +1019,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -890,11 +1054,16 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
-              "objects": { "22137": "/2025D49347-Antwoord-op-vragen.docx" },
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx"
+              },
               "link": "https://nextcloud.example.com/apps/files/?dir=/",
               "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
               "datetime": "2025-12-09T14:37:17+00:00",
@@ -910,13 +1079,17 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": ["2140"]
+        "since": [
+          "2140"
+        ]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"]
+        "Content-Type": [
+          "application/json"
+        ]
       },
       "body": {
         "ocs": {
@@ -935,14 +1108,20 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": ["2191"]
+        "since": [
+          "2191"
+        ]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"],
-        "X-Activity-Last-Given": ["2140"]
+        "Content-Type": [
+          "application/json"
+        ],
+        "X-Activity-Last-Given": [
+          "2140"
+        ]
       },
       "body": {
         "ocs": {
@@ -976,7 +1155,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 14371,
               "object_name": "/Roadmap Open BSW.pptx",
@@ -1007,7 +1189,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -1052,7 +1237,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1090,7 +1278,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31034,
               "object_name": "/EDIC/DAWO 17 november 2025.pdf",
@@ -1121,7 +1312,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1143,14 +1337,20 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": ["2199"]
+        "since": [
+          "2199"
+        ]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"],
-        "X-Activity-Last-Given": ["2191"]
+        "Content-Type": [
+          "application/json"
+        ],
+        "X-Activity-Last-Given": [
+          "2191"
+        ]
       },
       "body": {
         "ocs": {
@@ -1179,7 +1379,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1210,7 +1413,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1241,7 +1447,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1272,7 +1481,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -1308,7 +1520,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
@@ -1330,15 +1545,23 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "format": ["json"],
-        "limit": ["5"]
+        "format": [
+          "json"
+        ],
+        "limit": [
+          "5"
+        ]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": ["application/json"],
-        "X-Activity-Last-Given": ["2199"]
+        "Content-Type": [
+          "application/json"
+        ],
+        "X-Activity-Last-Given": [
+          "2199"
+        ]
       },
       "body": {
         "ocs": {
@@ -1367,7 +1590,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1426,7 +1652,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 33485,
               "object_name": "/Drive.png",
@@ -1468,7 +1697,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1500,7 +1732,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1538,7 +1773,10 @@
                 }
               ],
               "message": "",
-              "message_rich": ["", []],
+              "message_rich": [
+                "",
+                []
+              ],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",

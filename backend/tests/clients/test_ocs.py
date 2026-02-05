@@ -102,7 +102,7 @@ class TestOCSClient:
             "Accept": "application/json",
         }
         assert call_args[1]["headers"] == expected_headers
-        assert call_args[1]["params"] == {"term": "test"}
+        assert call_args[1]["params"] == {"format": "json", "term": "test"}
 
     async def test_search_files_with_custom_path(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test file search with custom path."""
