@@ -27,5 +27,6 @@ class OIDCConfig(BaseModel):
 
 class ConfigResponse(BaseModel):
     applications: list[ApplicationsConfig]
+    helpdesk_url: str
     theme_css: str
     silent_login: bool = False
