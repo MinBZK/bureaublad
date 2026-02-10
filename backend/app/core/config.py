@@ -2,7 +2,7 @@ import secrets
 from typing import Annotated, Any, Literal, cast
 
 from jose.constants import ALGORITHMS
-from pydantic import AnyUrl, BeforeValidator, computed_field
+from pydantic import AnyUrl, BeforeValidator, RedisDsn, computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.types import LoggingLevelType
@@ -31,10 +31,13 @@ class Settings(BaseSettings):
     ENVIRONMENT: Literal["dev", "test", "prod"] = "prod"
 
     # Session configuration
-    SESSION_MAX_AGE: int = 1 * 60 * 60  # 1 hours (should be >= refresh token lifetime)
+    SESSION_MAX_AGE: int = 24 * 60 * 60 * 7  # 7 days (should be >= refresh token lifetime)
 
     LOGGING_LEVEL: LoggingLevelType = "INFO"
     LOGGING_CONFIG: dict[str, Any] | None = None
+
+    # Redis
+    REDIS_URL: RedisDsn = RedisDsn("redis://redis:6379")
 
     # OpenID Connect
     OIDC_CLIENT_ID: str = "bureaublad"

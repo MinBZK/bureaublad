@@ -28,7 +28,7 @@ async def get_current_user(
     _credentials is unused but required to trigger OAuth2 flow in the swagger UI.
     """
 
-    auth = session.get_auth(request)
+    auth = await session.get_auth(request)
 
     if not auth:
         raise CredentialError(_("Not authenticated"))
@@ -37,7 +37,7 @@ async def get_current_user(
         await _refresh_token(request, auth.refresh_token)
 
         # Re-read auth to get updated tokens
-        auth = session.get_auth(request)
+        auth = await session.get_auth(request)
         if not auth:
             raise CredentialError(_("Session expired. Please log in again."))
 
@@ -68,7 +68,7 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
         logger.info("Access token refreshed successfully")
 
         # Update session with new tokens
-        session.update_tokens(
+        await session.update_tokens(
             request,
             access_token=str(token["access_token"]),  # type: ignore[reportUnknownArgumentType]
             expires_at=int(token["expires_at"]),  # type: ignore[reportUnknownArgumentType]
@@ -89,10 +89,10 @@ async def _refresh_token(request: Request, refresh_token: str | None) -> None:
         # Check if this is an expired/inactive token (expected session expiration)
         if "token is not active" in error_str or "token expired" in error_str:
             logger.info(f"Session expired - token no longer valid: {e}")
-            session.clear_auth(request)
+            await session.clear_auth(request)
             raise CredentialError(_("Session expired. Please log in again.")) from e
 
         # Other unexpected OAuth errors (corrupted session, network issues, etc.)
         logger.exception("Unexpected OAuth token refresh error")
-        session.clear_auth(request)
+        await session.clear_auth(request)
         raise CredentialError(_("Session expired. Please log in again.")) from e

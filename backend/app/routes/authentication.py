@@ -46,7 +46,7 @@ async def callback(request: Request) -> RedirectResponse:
     try:
         token: dict[str, Any] = await oauth.oidc.authorize_access_token(request)  # type: ignore[reportUnknownMemberType]
         auth = AuthState.from_token(token, name_claim=settings.OIDC_NAME_CLAIM, email_claim=settings.OIDC_EMAIL_CLAIM)  # type: ignore[reportUnknownArgumentType]
-        session.set_auth(request, auth)  # type: ignore[reportUnknownArgumentType]
+        await session.set_auth(request, auth)  # type: ignore[reportUnknownArgumentType]
 
         redirect_to = request.session.pop("redirect_to", "/")
         logger.info(f"User {auth.sub} authenticated successfully")  # type: ignore[reportUnknownMemberType]
@@ -64,7 +64,7 @@ async def callback(request: Request) -> RedirectResponse:
 @router.get("/profile")
 async def profile(request: Request) -> User:
     """Get current user profile from session."""
-    auth = session.get_auth(request)
+    auth = await session.get_auth(request)
     if not auth:
         raise CredentialError(_("Not authenticated"))
     return auth.user
@@ -73,7 +73,7 @@ async def profile(request: Request) -> User:
 @router.get("/logout")
 async def logout(request: Request) -> RedirectResponse:
     """Clear session and perform RP-initiated logout with token revocation."""
-    auth = session.get_auth(request)
+    auth = await session.get_auth(request)
 
     # Revoke refresh token before clearing session (best effort, RFC 7009)
     if auth and auth.refresh_token and settings.OIDC_REVOCATION_ENDPOINT:
@@ -91,7 +91,7 @@ async def logout(request: Request) -> RedirectResponse:
         except Exception:
             logger.warning("Token revocation failed during logout", exc_info=True)
 
-    session.clear_auth(request)
+    await session.clear_auth(request)
     return RedirectResponse(_build_logout_url())
 
 
