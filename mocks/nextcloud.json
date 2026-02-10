@@ -4,17 +4,13 @@
       "method": "GET",
       "path": "/ocs/v2.php/search/providers/files/search",
       "queryStringParameters": {
-        "term": [
-          "cat"
-        ]
+        "term": ["cat"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
       "body": {
         "ocs": {
@@ -49,20 +45,14 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "limit": [
-          "50"
-        ]
+        "limit": ["50"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ],
-        "X-Activity-Last-Given": [
-          "1977"
-        ]
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["1977"]
       },
       "body": {
         "ocs": {
@@ -91,10 +81,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -153,10 +140,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 33485,
               "object_name": "/Drive.png",
@@ -198,10 +182,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -233,10 +214,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -274,10 +252,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -309,10 +284,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -343,10 +315,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -377,10 +346,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -411,10 +377,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -450,10 +413,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
@@ -489,10 +449,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 14371,
               "object_name": "/Roadmap Open BSW.pptx",
@@ -523,10 +480,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -571,10 +525,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -612,10 +563,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31034,
               "object_name": "/EDIC/DAWO 17 november 2025.pdf",
@@ -646,10 +594,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -680,10 +625,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -719,10 +661,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22513,
               "object_name": "/EDIC/EDIC-presentation.pptx",
@@ -753,10 +692,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22513,
               "object_name": "/EDIC/EDIC-presentation.pptx",
@@ -792,10 +728,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22508,
               "object_name": "/EDIC",
@@ -826,10 +759,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22508,
               "object_name": "/EDIC",
@@ -860,10 +790,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -894,10 +821,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -942,10 +866,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -978,10 +899,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22168,
               "object_name": "/Open BSW - Haven -2025-10-02.pptx",
@@ -1019,10 +937,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1054,10 +969,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
@@ -1079,17 +991,13 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": [
-          "2140"
-        ]
+        "since": ["2140"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
       "body": {
         "ocs": {
@@ -1108,20 +1016,14 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": [
-          "2191"
-        ]
+        "since": ["2191"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ],
-        "X-Activity-Last-Given": [
-          "2140"
-        ]
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2140"]
       },
       "body": {
         "ocs": {
@@ -1155,10 +1057,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 14371,
               "object_name": "/Roadmap Open BSW.pptx",
@@ -1189,10 +1088,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -1237,10 +1133,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1278,10 +1171,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31034,
               "object_name": "/EDIC/DAWO 17 november 2025.pdf",
@@ -1312,10 +1202,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1337,20 +1224,14 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "since": [
-          "2199"
-        ]
+        "since": ["2199"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ],
-        "X-Activity-Last-Given": [
-          "2191"
-        ]
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2191"]
       },
       "body": {
         "ocs": {
@@ -1379,10 +1260,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1413,10 +1291,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1447,10 +1322,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1481,10 +1353,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 5771,
               "object_name": "/Draft Cloud Platform Team.docx",
@@ -1520,10 +1389,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22137,
               "object_name": "/2025D49347-Antwoord-op-vragen.docx",
@@ -1545,23 +1411,15 @@
       "method": "GET",
       "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "format": [
-          "json"
-        ],
-        "limit": [
-          "5"
-        ]
+        "format": ["json"],
+        "limit": ["5"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ],
-        "X-Activity-Last-Given": [
-          "2199"
-        ]
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2199"]
       },
       "body": {
         "ocs": {
@@ -1590,10 +1448,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1652,10 +1507,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 33485,
               "object_name": "/Drive.png",
@@ -1697,10 +1549,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 31826,
               "object_name": "/test-chris.docx",
@@ -1732,10 +1581,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",
@@ -1773,10 +1619,7 @@
                 }
               ],
               "message": "",
-              "message_rich": [
-                "",
-                []
-              ],
+              "message_rich": ["", []],
               "object_type": "files",
               "object_id": 22075,
               "object_name": "/tijduiteg.xlsx",

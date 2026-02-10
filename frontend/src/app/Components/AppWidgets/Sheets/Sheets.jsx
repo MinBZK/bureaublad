@@ -9,7 +9,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 
-function Sheets({ title = "Sheets" }) {
+function Sheets() {
   const selectedOrgStorage = localStorage.getItem("sheets_selected_org");
   const [selectedOrg, setSelectedOrg] = useState(selectedOrgStorage || null);
   const [page, setPage] = useState(1);
@@ -58,7 +58,7 @@ function Sheets({ title = "Sheets" }) {
 
   return (
     <Widget
-      title={title}
+      title={t("title")}
       onRefresh={onRefresh}
       error={errorSheets || errorOrgs}
       page={page}

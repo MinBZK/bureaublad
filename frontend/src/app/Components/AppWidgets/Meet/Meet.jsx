@@ -15,7 +15,7 @@ const copyToClipboard = (text) => {
 };
 
 // meet
-function Meet({ title = "Videoconferentie" }) {
+function Meet() {
   // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ function Meet({ title = "Videoconferentie" }) {
 
   return (
     <Widget
-      title={title}
+      title={t("title")}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
