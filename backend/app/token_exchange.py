@@ -58,7 +58,7 @@ async def exchange_token(
 
 async def get_token(request: Request, audience: str) -> str:
     # Get auth from session (already refreshed by get_current_user dependency)
-    auth = session.get_auth(request)
+    auth = await session.get_auth(request)
     if not auth:
         raise CredentialError(_("Not authenticated"))
 

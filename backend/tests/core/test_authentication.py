@@ -84,7 +84,7 @@ class TestRefreshToken:
     @pytest.mark.asyncio
     @patch("app.core.authentication.session")
     @patch("app.core.authentication.oauth")
-    async def test_refresh_success(self, mock_oauth: MagicMock, mock_session: MagicMock, mock_request: Request) -> None:
+    async def test_refresh_success(self, mock_oauth: MagicMock, mock_session: AsyncMock, mock_request: Request) -> None:
         """Test successful token refresh."""
         # Mock successful token response
         new_token = {
@@ -93,6 +93,7 @@ class TestRefreshToken:
             "refresh_token": "new_refresh_token",
         }
         mock_oauth.oidc.fetch_access_token = AsyncMock(return_value=new_token)
+        mock_session.update_tokens = AsyncMock()
 
         await _refresh_token(mock_request, "old_refresh_token")
 
@@ -122,6 +123,7 @@ class TestRefreshToken:
             "expires_at": int(time.time()) + 3600,
         }
         mock_oauth.oidc.fetch_access_token = AsyncMock(return_value=new_token)
+        mock_session.update_tokens = AsyncMock()
 
         await _refresh_token(mock_request, "old_refresh_token")
 
@@ -157,6 +159,7 @@ class TestRefreshToken:
         mock_oauth.oidc.fetch_access_token = AsyncMock(
             side_effect=Exception("invalid_grant: Maximum allowed refresh token reuse exceeded")
         )
+        mock_session.clear_auth = AsyncMock()
 
         with pytest.raises(TokenRefreshConflictError):
             await _refresh_token(mock_request, "refresh_token")
@@ -175,6 +178,7 @@ class TestRefreshToken:
         mock_oauth.oidc.fetch_access_token = AsyncMock(
             side_effect=Exception("invalid_grant: Session doesn't have required client")
         )
+        mock_session.clear_auth = AsyncMock()
 
         with pytest.raises(CredentialError) as exc_info:
             await _refresh_token(mock_request, "refresh_token")
@@ -192,6 +196,7 @@ class TestRefreshToken:
         """Test that 'token is not active' errors are logged at INFO level (expected expiration)."""
         # Simulate Keycloak's "token is not active" error (common on service restart)
         mock_oauth.oidc.fetch_access_token = AsyncMock(side_effect=Exception("invalid_grant: Token is not active"))
+        mock_session.clear_auth = AsyncMock()
 
         with pytest.raises(CredentialError) as exc_info:
             await _refresh_token(mock_request, "refresh_token")
@@ -243,7 +248,7 @@ class TestGetCurrentUser:
     @patch("app.core.authentication.session")
     async def test_get_current_user_not_authenticated(self, mock_session: MagicMock, mock_request: Request) -> None:
         """Test get_current_user when not authenticated."""
-        mock_session.get_auth.return_value = None
+        mock_session.get_auth = AsyncMock(return_value=None)
 
         with pytest.raises(CredentialError) as exc_info:
             await get_current_user(mock_request, None)
@@ -256,7 +261,8 @@ class TestGetCurrentUser:
         self, mock_session: MagicMock, mock_request: Request, valid_auth_state: AuthState
     ) -> None:
         """Test get_current_user with valid token that doesn't need refresh."""
-        mock_session.get_auth.return_value = valid_auth_state
+        mock_session.get_auth = AsyncMock(return_value=valid_auth_state)
+        mock_session.update_tokens = AsyncMock()
 
         result = await get_current_user(mock_request, None)
 
@@ -278,11 +284,13 @@ class TestGetCurrentUser:
     ) -> None:
         """Test get_current_user when token refresh is needed."""
         # Configure the flow: initial auth, re-check after lock, auth after refresh
-        mock_session.get_auth.side_effect = [
-            expired_auth_state,  # Initial check
-            expired_auth_state,  # Re-check after acquiring lock
-            valid_auth_state,  # After refresh
-        ]
+        mock_session.get_auth = AsyncMock(
+            side_effect=[
+                expired_auth_state,  # Initial check
+                expired_auth_state,  # Re-check after acquiring lock
+                valid_auth_state,  # After refresh
+            ]
+        )
 
         result = await get_current_user(mock_request, None)
 
@@ -305,10 +313,12 @@ class TestGetCurrentUser:
     ) -> None:
         """Test get_current_user when session is lost after refresh."""
         # Configure flow: initial auth, session lost after refresh
-        mock_session.get_auth.side_effect = [
-            expired_auth_state,  # Initial check
-            None,  # Session lost after refresh
-        ]
+        mock_session.get_auth = AsyncMock(
+            side_effect=[
+                expired_auth_state,  # Initial check
+                None,  # Session lost after refresh
+            ]
+        )
 
         with pytest.raises(CredentialError) as exc_info:
             await get_current_user(mock_request, None)
@@ -338,11 +348,13 @@ class TestGetCurrentUser:
         ]
 
         # Both requests see expired token initially
-        mock_session.get_auth.side_effect = [
-            expired_auth_state,  # Request 1: initial check
-            valid_auth_state,  # Request 1: after refresh
-            expired_auth_state,  # Request 2: initial check
-        ]
+        mock_session.get_auth = AsyncMock(
+            side_effect=[
+                expired_auth_state,  # Request 1: initial check
+                valid_auth_state,  # Request 1: after refresh
+                expired_auth_state,  # Request 2: initial check
+            ]
+        )
 
         # Start two concurrent requests
         task1 = asyncio.create_task(get_current_user(mock_request, None))
@@ -379,6 +391,7 @@ class TestGetCurrentUser:
             expired_auth_state,  # Re-check after lock
             valid_auth_state,  # After refresh
         ]
+        mock_session.get_auth = AsyncMock(side_effect=mock_session.get_auth.side_effect)
 
         result = await get_current_user(request, None)
 
@@ -398,7 +411,7 @@ class TestGetCurrentUser:
     ) -> None:
         """Test that refresh is skipped if token is valid."""
         # Token is valid, no refresh needed
-        mock_session.get_auth.return_value = valid_auth_state
+        mock_session.get_auth = AsyncMock(return_value=valid_auth_state)
 
         result = await get_current_user(mock_request, None)
 
@@ -441,11 +454,13 @@ class TestGetCurrentUser:
                 refresh_token="new_refresh_token",
                 expires_at=int(time.time()) + 3600,
             )
-            mock_session.get_auth.side_effect = [
-                auth_state,  # Initial check
-                auth_state,  # Re-check after lock
-                valid_auth,  # After refresh
-            ]
+            mock_session.get_auth = AsyncMock(
+                side_effect=[
+                    auth_state,  # Initial check
+                    auth_state,  # Re-check after lock
+                    valid_auth,  # After refresh
+                ]
+            )
 
             with patch("app.core.authentication._refresh_token") as mock_refresh:
                 result = await get_current_user(mock_request, None)
@@ -453,7 +468,7 @@ class TestGetCurrentUser:
             mock_refresh.assert_called_once()
         else:
             # No refresh needed
-            mock_session.get_auth.return_value = auth_state
+            mock_session.get_auth = AsyncMock(return_value=auth_state)
             result = await get_current_user(mock_request, None)
 
         assert result == sample_user
@@ -495,7 +510,7 @@ class TestGetCurrentUser:
             if i == 0:
                 get_auth_effects.append(valid_auth_state)  # After successful refresh
 
-        mock_session.get_auth.side_effect = get_auth_effects
+        mock_session.get_auth = AsyncMock(side_effect=get_auth_effects)
 
         # Start 5 concurrent requests
         tasks = [get_current_user(mock_request, None) for _ in range(5)]

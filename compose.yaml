@@ -62,6 +62,7 @@ services:
       - ./backend/app:/app/app/
     depends_on:
       - keycloak
+      - redis
     networks:
       - proxy
     labels:
@@ -113,6 +114,17 @@ services:
       retries: 3
     networks:
       - proxy
+  redis:
+    image: redis:8.4.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 2s
+      retries: 3
+    networks:
+      - proxy
+
   mockserver_docs:
     image: mockserver/mockserver:5.15.0
     environment:

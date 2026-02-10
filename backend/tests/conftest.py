@@ -1,6 +1,6 @@
 import os
 from collections.abc import Generator
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 # Set test environment before importing anything from the app
 os.environ["ENVIRONMENT"] = "test"
@@ -9,7 +9,6 @@ import pytest
 from app.core import session
 from app.main import app
 from app.models.user import AuthState, User
-from fastapi import Request
 from fastapi.testclient import TestClient
 
 
@@ -21,6 +20,16 @@ def setup_test_environment() -> None:
 
     assert settings.ENVIRONMENT == "test", f"Expected test environment, got {settings.ENVIRONMENT}"
     assert settings.is_testing, "Expected is_testing to be True"
+
+
+@pytest.fixture(scope="session", autouse=True)
+def mock_redis_connection() -> Generator[None]:
+    """Mock Redis ping during app startup."""
+    redis_client = AsyncMock()
+    redis_client.ping = AsyncMock(return_value=True)
+
+    with patch("app.core.lifespan.get_redis_client", return_value=redis_client):
+        yield
 
 
 @pytest.fixture(scope="module")
@@ -49,8 +58,5 @@ def mock_auth_state() -> AuthState:
 
 @pytest.fixture
 def authenticated_client(mock_auth_state: AuthState) -> Generator[TestClient]:
-    def mock_get_auth(request: Request) -> AuthState:
-        return mock_auth_state
-
-    with patch.object(session, "get_auth", side_effect=mock_get_auth), TestClient(app) as c:
+    with patch.object(session, "get_auth", new=AsyncMock(return_value=mock_auth_state)), TestClient(app) as c:
         yield c

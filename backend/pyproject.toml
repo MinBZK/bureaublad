@@ -15,6 +15,7 @@ dependencies = [
     "pydantic-settings>=2.8.1",
     "python-jose>=3.4.0",
     "python-ulid>=2.8.0",
+    "redis>=7.1.0",
     "types-authlib>=1.6.5.20251005",
 ]
 dynamic = ["version"]
