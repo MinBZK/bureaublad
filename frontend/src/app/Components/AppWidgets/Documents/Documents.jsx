@@ -53,7 +53,7 @@ function Documents({ title = "Docs" }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {item.title}
+                  {item?.title || t("untitled")}
                 </Link>
               }
               description={`${t("lastModified")}: ${moment.utc(item.updated_at).format("DD-MM-YYYY, HH:mm")}`}
