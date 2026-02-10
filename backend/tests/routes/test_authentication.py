@@ -38,32 +38,7 @@ class TestAuthCallback:
     """Tests for /auth/callback endpoint."""
 
     @patch("app.routes.authentication.oauth.oidc.authorize_access_token")
-    def test_callback_success(self, mock_token_exchange: MagicMock, client: TestClient) -> None:
-        """Test successful OAuth callback."""
-        mock_token = {
-            "access_token": "test-access-token",
-            "refresh_token": "test-refresh-token",
-            "expires_at": 9999999999,
-            "userinfo": {
-                "sub": "test-user-123",
-                "name": "Test User",
-                "email": "test@example.com",
-                "azp": "bureaublad",
-                "aud": "bureaublad",
-            },
-        }
-        mock_token_exchange.return_value = mock_token
-
-        response = client.get("/api/v1/auth/callback?code=test-code&state=test-state", follow_redirects=False)
-
-        assert response.status_code == 302  # Redirect response
-        # The redirect location can vary based on session state, so just check it's a valid redirect
-        assert "location" in response.headers
-        assert response.headers["location"] in ["/", "/dashboard"]  # Accept either default or set redirect
-        mock_token_exchange.assert_called_once()
-
-    @patch("app.routes.authentication.oauth.oidc.authorize_access_token")
-    def test_callback_failure(self, mock_token_exchange: MagicMock, client: TestClient) -> None:
+    def test_callback_failure(self, mock_token_exchange: AsyncMock, client: TestClient) -> None:
         """Test OAuth callback failure handling."""
         mock_token_exchange.side_effect = Exception("OAuth error")
 

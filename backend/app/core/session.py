@@ -4,29 +4,62 @@ This module's responsibility: manage AuthState persistence in session storage.
 Flow control (redirects, etc.) remains in routes.
 """
 
+import json
+import uuid
+
 from fastapi import Request
 
+from app.core.redis import get_redis_client
 from app.exceptions import CredentialError
 from app.models.user import AuthState
 
 
-def get_auth(request: Request) -> AuthState | None:
+def _redis_key(request: Request) -> str | None:
+    """Build a Redis key for the current session."""
+    session_id = request.session.get("session_id")
+    return f"auth:{session_id}" if session_id else None
+
+
+async def get_auth(request: Request) -> AuthState | None:
     """Get auth from session."""
-    data = request.session.get("auth")
-    return AuthState(**data) if data else None
+
+    key = _redis_key(request)
+    if not key:
+        return None
+
+    redis_client = get_redis_client()
+    data = await redis_client.get(key)
+    data_dict = json.loads(data) if data else None
+
+    if data_dict:
+        return AuthState.model_validate(data_dict)
+    return None
 
 
-def set_auth(request: Request, auth: AuthState) -> None:
+async def set_auth(request: Request, auth: AuthState) -> str:
     """Set auth in session."""
-    request.session["auth"] = auth.model_dump()
+
+    key = request.session["session_id"] if "session_id" in request.session else str(uuid.uuid4())
+
+    payload = auth.model_dump()
+
+    redis_client = get_redis_client()
+    await redis_client.set(f"auth:{key}", json.dumps(payload))
+    request.session["session_id"] = key
+    return key
 
 
-def clear_auth(request: Request) -> None:
+async def clear_auth(request: Request) -> None:
     """Clear auth from session."""
-    request.session.pop("auth", None)
+
+    key = _redis_key(request)
+    if key:
+        redis_client = get_redis_client()
+        await redis_client.delete(key)
+        request.session.pop("session_id", None)
 
 
-def update_tokens(
+async def update_tokens(
     request: Request,
     access_token: str,
     expires_at: int,
@@ -36,9 +69,15 @@ def update_tokens(
 
     Note: This only updates token fields, not userinfo.
     """
-    if "auth" not in request.session:
-        raise CredentialError("No session to update")
-    request.session["auth"]["access_token"] = access_token
-    request.session["auth"]["expires_at"] = expires_at
+
+    auth = await get_auth(request)
+
+    if not auth:
+        raise CredentialError("No auth state found for session")
+
+    auth.access_token = access_token
+    auth.expires_at = expires_at
     if refresh_token:
-        request.session["auth"]["refresh_token"] = refresh_token
+        auth.refresh_token = refresh_token
+
+    await set_auth(request, auth)
