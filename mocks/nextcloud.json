@@ -2,7 +2,10 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files"
+      "path": "/ocs/v2.php/search/providers/files/search",
+      "queryStringParameters": {
+        "term": ["cat"]
+      }
     },
     "httpResponse": {
       "statusCode": 200,
@@ -11,258 +14,972 @@
       },
       "body": {
         "ocs": {
+          "meta": {
+            "…": "…"
+          },
+          "data": {
+            "name": "Files",
+            "isPaginated": false,
+            "entries": [
+              {
+                "thumbnailUrl": "/core/preview?x=32&y=32&fileId=9261",
+                "title": "my cute cats.jpg",
+                "subline": "/my cute cats.jpg",
+                "resourceUrl": "/apps/files/?dir=/&scrollto=my%20cute%20cats.jpg"
+              },
+              {
+                "thumbnailUrl": "/core/preview?x=32&y=32&fileId=1553",
+                "title": "cat (2).png",
+                "subline": "/cat (2).png",
+                "resourceUrl": "/apps/files/?dir=/&scrollto=cat%20%282%29.png"
+              }
+            ],
+            "cursor": null
+          }
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "queryStringParameters": {
+        "limit": ["50"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["1977"]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "status": "ok",
+            "statuscode": 200,
+            "message": "OK"
+          },
           "data": [
             {
-              "activity_id": 1,
-              "timestamp": 1446137950,
+              "activity_id": 2282,
               "app": "files",
-              "type": "file_created",
-              "user": "test1",
-              "affecteduser": "admin",
-              "subject": "test1 created hello.txt",
-              "subject_rich": {
-                "0": "test1 created {file1}",
-                "1": {
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
                   "file1": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello.txt",
-                    "path": "\/test\/hello.txt"
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-20T13:15:50+00:00",
+              "previews": []
             },
             {
-              "activity_id": 2,
-              "timestamp": 1446137950,
+              "activity_id": 2217,
               "app": "files",
               "type": "file_created",
-              "user": "test1",
-              "affecteduser": "admin",
-              "subject": "test2 created test2.txt",
-              "subject_rich": {
-                "0": "test2 created {file1}",
-                "1": {
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde AI Assistent.png, Bureaublad.png, element.png, Docs.png en Drive.png",
+              "subject_rich": [
+                "Je creëerde {file5}, {file4}, {file3}, {file2} en {file1}",
+                {
                   "file1": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello2.txt",
-                    "path": "\/test\/hello.txt"
+                    "id": "33485",
+                    "name": "Drive.png",
+                    "path": "Drive.png",
+                    "link": "https://nextcloud.example.com/f/33485"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "33482",
+                    "name": "Docs.png",
+                    "path": "Docs.png",
+                    "link": "https://nextcloud.example.com/f/33482"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "33483",
+                    "name": "element.png",
+                    "path": "element.png",
+                    "link": "https://nextcloud.example.com/f/33483"
+                  },
+                  "file4": {
+                    "type": "file",
+                    "id": "33481",
+                    "name": "Bureaublad.png",
+                    "path": "Bureaublad.png",
+                    "link": "https://nextcloud.example.com/f/33481"
+                  },
+                  "file5": {
+                    "type": "file",
+                    "id": "33484",
+                    "name": "AI Assistent.png",
+                    "path": "AI Assistent.png",
+                    "link": "https://nextcloud.example.com/f/33484"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello2.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
+              "object_id": 33485,
+              "object_name": "/Drive.png",
+              "objects": {
+                "33484": "/AI Assistent.png",
+                "33481": "/Bureaublad.png",
+                "33483": "/element.png",
+                "33482": "/Docs.png",
+                "33485": "/Drive.png"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-13T16:07:43+00:00",
+              "previews": []
             },
             {
-              "activity_id": 3,
-              "timestamp": 1446137950,
+              "activity_id": 2215,
               "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx en test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
                   "file1": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx",
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-13T16:06:23+00:00",
+              "previews": []
             },
             {
-              "activity_id": 4,
-              "timestamp": 1446137950,
+              "activity_id": 2206,
               "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-12T09:55:35+00:00",
+              "previews": []
             },
             {
-              "activity_id": 5,
-              "timestamp": 1446137950,
+              "activity_id": 2199,
               "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
                   "file1": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
-                {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
-                }
-              ]
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "31826": "/test-chris.docx",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T19:57:39+00:00",
+              "previews": []
             },
             {
-              "activity_id": 6,
-              "timestamp": 1446137950,
+              "activity_id": 2198,
               "app": "files",
-              "type": "file_created",
-              "user": "test3",
-              "affecteduser": "admin",
-              "subject": "test3 created hello.txt",
-              "subject_rich": {
-                "0": "test3 created {file1}",
-                "1": {
-                  "file1": {
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
                     "type": "file",
-                    "id": 23,
-                    "name": "hello3.txt",
-                    "path": "\/test\/hello3.txt"
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
                   }
                 }
-              },
-              "message": null,
-              "message_rich": {
-                "0": "",
-                "1": []
-              },
-              "icon": "https:\/\/localhost\/apps\/files\/img\/add-color.svg",
-              "link": "",
+              ],
+              "message": "",
+              "message_rich": ["", []],
               "object_type": "files",
-              "object_id": 23,
-              "object_name": "\/test\/hello3.txt",
-              "datetime": "2025-10-08 16:24:53",
-              "previews": [
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T13:41:56+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2197,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde test-chris.docx",
+              "subject_rich": [
+                "Je creëerde {file}",
                 {
-                  "link": "https:\/\/localhost\/index.php\/apps\/files\/?dir=\/test&scrollto=hello.txt",
-                  "source": "https:\/\/localhost\/index.php\/core\/preview.png?file=\/hello.txt&x=150&y=150",
-                  "mimeType": "text/plain",
-                  "view": "files",
-                  "fileId": 23,
-                  "isMimeTypeIcon": false,
-                  "filename": "hello.txt"
+                  "file": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  }
                 }
-              ]
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-08T13:41:39+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2196,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T13:36:46+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2193,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T07:52:01+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2191,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je deelde 2025D49347-Antwoord-op-vragen.docx met @Rik Hooft",
+              "subject_rich": [
+                "Je deelde {file} met {user}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen.docx",
+                    "path": "2025D49347-Antwoord-op-vragen.docx",
+                    "link": "https://nextcloud.example.com/f/22137"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22137,
+              "object_name": "/2025D49347-Antwoord-op-vragen.docx",
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
+              "datetime": "2026-01-07T15:15:54+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2185,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft heeft Roadmap Open BSW.pptx met je gedeeld",
+              "subject_rich": [
+                "{actor} heeft {file} met je gedeeld",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "14371",
+                    "name": "Roadmap Open BSW.pptx",
+                    "path": "Roadmap Open BSW.pptx",
+                    "link": "https://nextcloud.example.com/f/14371"
+                  },
+                  "actor": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 14371,
+              "object_name": "/Roadmap Open BSW.pptx",
+              "objects": {
+                "14371": "/Roadmap Open BSW.pptx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
+              "datetime": "2026-01-07T14:52:53+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2181,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-07T13:33:28+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2174,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx, mijn-bureau-inter-organisatie.drawio en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22040",
+                    "name": "mijn-bureau-inter-organisatie.drawio",
+                    "path": "mijn-bureau-inter-organisatie.drawio",
+                    "link": "https://nextcloud.example.com/f/22040"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx",
+                "22040": "/mijn-bureau-inter-organisatie.drawio",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-06T14:37:40+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2156,
+              "app": "files",
+              "type": "file_created",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft creëerde EDIC/DAWO 17 november 2025.pdf",
+              "subject_rich": [
+                "{user} creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31034",
+                    "name": "DAWO 17 november 2025.pdf",
+                    "path": "EDIC/DAWO 17 november 2025.pdf",
+                    "link": "https://nextcloud.example.com/f/31034"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31034,
+              "object_name": "/EDIC/DAWO 17 november 2025.pdf",
+              "objects": {
+                "31034": "/EDIC/DAWO 17 november 2025.pdf"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-06T09:50:19+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2140,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-05T12:32:49+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2014,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-16T10:15:58+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2002,
+              "app": "files",
+              "type": "file_changed",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "Rik Hooft wijzigde EDIC/EDIC-presentation.pptx",
+              "subject_rich": [
+                "{user} wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22513",
+                    "name": "EDIC-presentation.pptx",
+                    "path": "EDIC/EDIC-presentation.pptx",
+                    "link": "https://nextcloud.example.com/f/22513"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22513,
+              "object_name": "/EDIC/EDIC-presentation.pptx",
+              "objects": {
+                "22513": "/EDIC/EDIC-presentation.pptx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-10T16:02:07+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2000,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde EDIC/EDIC-presentation.pptx",
+              "subject_rich": [
+                "Je creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22513",
+                    "name": "EDIC-presentation.pptx",
+                    "path": "EDIC/EDIC-presentation.pptx",
+                    "link": "https://nextcloud.example.com/f/22513"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22513,
+              "object_name": "/EDIC/EDIC-presentation.pptx",
+              "objects": {
+                "22513": "/EDIC/EDIC-presentation.pptx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2025-12-10T14:45:00+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1998,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je deelde EDIC met @Rik Hooft",
+              "subject_rich": [
+                "Je deelde {file} met {user}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22508",
+                    "name": "EDIC",
+                    "path": "EDIC",
+                    "link": "https://nextcloud.example.com/f/22508"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22508,
+              "object_name": "/EDIC",
+              "objects": {
+                "22508": "/EDIC"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
+              "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
+              "datetime": "2025-12-10T14:43:36+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1997,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde EDIC",
+              "subject_rich": [
+                "Je creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22508",
+                    "name": "EDIC",
+                    "path": "EDIC",
+                    "link": "https://nextcloud.example.com/f/22508"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22508,
+              "object_name": "/EDIC",
+              "objects": {
+                "22508": "/EDIC"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2025-12-10T14:43:24+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1994,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-10T14:19:07+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1993,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-10T07:53:19+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1982,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx, mijn-bureau-inter-organisatie.drawio en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22040",
+                    "name": "mijn-bureau-inter-organisatie.drawio",
+                    "path": "mijn-bureau-inter-organisatie.drawio",
+                    "link": "https://nextcloud.example.com/f/22040"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx",
+                "22040": "/mijn-bureau-inter-organisatie.drawio",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-09T15:23:15+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1981,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde Open BSW - Haven -2025-10-02.pptx",
+              "subject_rich": [
+                "Je creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22168",
+                    "name": "Open BSW - Haven -2025-10-02.pptx",
+                    "path": "Open BSW - Haven -2025-10-02.pptx",
+                    "link": "https://nextcloud.example.com/f/22168"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22168,
+              "object_name": "/Open BSW - Haven -2025-10-02.pptx",
+              "objects": {
+                "22168": "/Open BSW - Haven -2025-10-02.pptx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2025-12-09T15:19:19+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1978,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde 2025D49347-Antwoord-op-vragen.docx en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen.docx",
+                    "path": "2025D49347-Antwoord-op-vragen.docx",
+                    "link": "https://nextcloud.example.com/f/22137"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2025-12-09T14:52:49+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 1977,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde 2025D49347-Antwoord-op-vragen.docx",
+              "subject_rich": [
+                "Je creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen.docx",
+                    "path": "2025D49347-Antwoord-op-vragen.docx",
+                    "link": "https://nextcloud.example.com/f/22137"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22137,
+              "object_name": "/2025D49347-Antwoord-op-vragen.docx",
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2025-12-09T14:37:17+00:00",
+              "previews": []
             }
           ]
         }
@@ -272,9 +989,9 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/ocs/v2.php/search/providers/files/search",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
       "queryStringParameters": {
-        "term": ["[A-Z0-9\\-]+"]
+        "since": ["2140"]
       }
     },
     "httpResponse": {
@@ -286,28 +1003,636 @@
         "ocs": {
           "meta": {
             "status": "ok",
-            "statuscode": "200",
+            "statuscode": 200,
             "message": "OK"
           },
-          "data": {
-            "name": "Bestanden",
-            "isPaginated": true,
-            "entries": [
-              {
-                "thumbnailUrl": "https:\/\/localhost\/core\/preview?x=32&y=32&fileId=5075",
-                "title": "search.md",
-                "subline": "",
-                "resourceUrl": "https:\/\/localhost\/f\/5075",
-                "icon": "https:\/\/localhost\/apps\/theming\/img\/core\/filetypes\/text.svg?v=63c76887",
-                "rounded": "false",
-                "attributes": {
-                  "fileId": "5075",
-                  "path": "/search.md"
+          "data": []
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "queryStringParameters": {
+        "since": ["2191"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2140"]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "status": "ok",
+            "statuscode": 200,
+            "message": "OK"
+          },
+          "data": [
+            {
+              "activity_id": 2185,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft heeft Roadmap Open BSW.pptx met je gedeeld",
+              "subject_rich": [
+                "{actor} heeft {file} met je gedeeld",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "14371",
+                    "name": "Roadmap Open BSW.pptx",
+                    "path": "Roadmap Open BSW.pptx",
+                    "link": "https://nextcloud.example.com/f/14371"
+                  },
+                  "actor": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
                 }
-              }
-            ],
-            "cursor": 5
-          }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 14371,
+              "object_name": "/Roadmap Open BSW.pptx",
+              "objects": {
+                "14371": "/Roadmap Open BSW.pptx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
+              "datetime": "2026-01-07T14:52:53+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2181,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-07T13:33:28+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2174,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx, mijn-bureau-inter-organisatie.drawio en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22040",
+                    "name": "mijn-bureau-inter-organisatie.drawio",
+                    "path": "mijn-bureau-inter-organisatie.drawio",
+                    "link": "https://nextcloud.example.com/f/22040"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx",
+                "22040": "/mijn-bureau-inter-organisatie.drawio",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-06T14:37:40+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2156,
+              "app": "files",
+              "type": "file_created",
+              "user": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+              "subject": "@Rik Hooft creëerde EDIC/DAWO 17 november 2025.pdf",
+              "subject_rich": [
+                "{user} creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31034",
+                    "name": "DAWO 17 november 2025.pdf",
+                    "path": "EDIC/DAWO 17 november 2025.pdf",
+                    "link": "https://nextcloud.example.com/f/31034"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31034,
+              "object_name": "/EDIC/DAWO 17 november 2025.pdf",
+              "objects": {
+                "31034": "/EDIC/DAWO 17 november 2025.pdf"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/EDIC",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-06T09:50:19+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2140,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-05T12:32:49+00:00",
+              "previews": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "queryStringParameters": {
+        "since": ["2199"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2191"]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "status": "ok",
+            "statuscode": 200,
+            "message": "OK"
+          },
+          "data": [
+            {
+              "activity_id": 2198,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T13:41:56+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2197,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde test-chris.docx",
+              "subject_rich": [
+                "Je creëerde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-08T13:41:39+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2196,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T13:36:46+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2193,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde Draft Cloud Platform Team.docx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "5771",
+                    "name": "Draft Cloud Platform Team.docx",
+                    "path": "Draft Cloud Platform Team.docx",
+                    "link": "https://nextcloud.example.com/f/5771"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 5771,
+              "object_name": "/Draft Cloud Platform Team.docx",
+              "objects": {
+                "5771": "/Draft Cloud Platform Team.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T07:52:01+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2191,
+              "app": "files_sharing",
+              "type": "shared",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je deelde 2025D49347-Antwoord-op-vragen.docx met @Rik Hooft",
+              "subject_rich": [
+                "Je deelde {file} met {user}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22137",
+                    "name": "2025D49347-Antwoord-op-vragen.docx",
+                    "path": "2025D49347-Antwoord-op-vragen.docx",
+                    "link": "https://nextcloud.example.com/f/22137"
+                  },
+                  "user": {
+                    "type": "user",
+                    "id": "1cd1a29886a6f031a67ef3c409f2209f132d24fa9ed09c43635102aee1826387",
+                    "name": "Rik Hooft"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22137,
+              "object_name": "/2025D49347-Antwoord-op-vragen.docx",
+              "objects": {
+                "22137": "/2025D49347-Antwoord-op-vragen.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/core/img/actions/share.svg",
+              "datetime": "2026-01-07T15:15:54+00:00",
+              "previews": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/apps/activity/api/v2/activity/files",
+      "queryStringParameters": {
+        "format": ["json"],
+        "limit": ["5"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"],
+        "X-Activity-Last-Given": ["2199"]
+      },
+      "body": {
+        "ocs": {
+          "meta": {
+            "status": "ok",
+            "statuscode": 200,
+            "message": "OK"
+          },
+          "data": [
+            {
+              "activity_id": 2282,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-20T13:15:50+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2217,
+              "app": "files",
+              "type": "file_created",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je creëerde AI Assistent.png, Bureaublad.png, element.png, Docs.png en Drive.png",
+              "subject_rich": [
+                "Je creëerde {file5}, {file4}, {file3}, {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "33485",
+                    "name": "Drive.png",
+                    "path": "Drive.png",
+                    "link": "https://nextcloud.example.com/f/33485"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "33482",
+                    "name": "Docs.png",
+                    "path": "Docs.png",
+                    "link": "https://nextcloud.example.com/f/33482"
+                  },
+                  "file3": {
+                    "type": "file",
+                    "id": "33483",
+                    "name": "element.png",
+                    "path": "element.png",
+                    "link": "https://nextcloud.example.com/f/33483"
+                  },
+                  "file4": {
+                    "type": "file",
+                    "id": "33481",
+                    "name": "Bureaublad.png",
+                    "path": "Bureaublad.png",
+                    "link": "https://nextcloud.example.com/f/33481"
+                  },
+                  "file5": {
+                    "type": "file",
+                    "id": "33484",
+                    "name": "AI Assistent.png",
+                    "path": "AI Assistent.png",
+                    "link": "https://nextcloud.example.com/f/33484"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 33485,
+              "object_name": "/Drive.png",
+              "objects": {
+                "33484": "/AI Assistent.png",
+                "33481": "/Bureaublad.png",
+                "33483": "/element.png",
+                "33482": "/Docs.png",
+                "33485": "/Drive.png"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/add-color.svg",
+              "datetime": "2026-01-13T16:07:43+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2215,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx en test-chris.docx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 31826,
+              "object_name": "/test-chris.docx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx",
+                "31826": "/test-chris.docx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-13T16:06:23+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2206,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file}",
+                {
+                  "file": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-12T09:55:35+00:00",
+              "previews": []
+            },
+            {
+              "activity_id": 2199,
+              "app": "files",
+              "type": "file_changed",
+              "user": "c182da864294432ad688ae357f420725a374a0a4ca2df33832ad5b78addb50a7",
+              "subject": "Je wijzigde test-chris.docx en tijduiteg.xlsx",
+              "subject_rich": [
+                "Je wijzigde {file2} en {file1}",
+                {
+                  "file1": {
+                    "type": "file",
+                    "id": "22075",
+                    "name": "tijduiteg.xlsx",
+                    "path": "tijduiteg.xlsx",
+                    "link": "https://nextcloud.example.com/f/22075"
+                  },
+                  "file2": {
+                    "type": "file",
+                    "id": "31826",
+                    "name": "test-chris.docx",
+                    "path": "test-chris.docx",
+                    "link": "https://nextcloud.example.com/f/31826"
+                  }
+                }
+              ],
+              "message": "",
+              "message_rich": ["", []],
+              "object_type": "files",
+              "object_id": 22075,
+              "object_name": "/tijduiteg.xlsx",
+              "objects": {
+                "31826": "/test-chris.docx",
+                "22075": "/tijduiteg.xlsx"
+              },
+              "link": "https://nextcloud.example.com/apps/files/?dir=/",
+              "icon": "https://nextcloud.example.com/apps/files/img/change.svg",
+              "datetime": "2026-01-08T19:57:39+00:00",
+              "previews": []
+            }
+          ]
         }
       }
     }

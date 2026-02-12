@@ -9,7 +9,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
-function Drive({ title = "Drive" }) {
+function Drive() {
   const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ function Drive({ title = "Drive" }) {
 
   return (
     <Widget
-      title={title}
+      title={t("title")}
       favorite={favorite}
       setFavorite={setFavorite}
       setSearch={setSearch}

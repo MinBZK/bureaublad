@@ -3,7 +3,7 @@
 from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from app.models.activity import Activity
+from app.models.activity import FileActivity, FileActivityResponse, FileInfo
 from app.models.search import SearchResults
 from fastapi.testclient import TestClient
 
@@ -43,62 +43,123 @@ class TestOCSEndpoints:
         mock_get_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test successful activities retrieval."""
+        """Test successful file activities retrieval."""
         # Mock token exchange
         mock_get_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_activities.return_value = [
-            Activity(
-                activity_id=123,
-                app="files",
-                type="file_created",
-                user="testuser",
-                subject="File created",
-                message="Created file document.pdf",
-                link="/f/456",
-                object_type="files",
-                object_id=456,
-                object_name="documents/document.pdf",
-                datetime=datetime(2024, 11, 1, 10, 30, 0),
-            ),
-            Activity(
-                activity_id=124,
-                app="files",
-                type="file_changed",
-                user="testuser",
-                subject="File changed",
-                message="Modified file report.docx",
-                link="/f/789",
-                object_type="files",
-                object_id=789,
-                object_name="reports/report.docx",
-                datetime=datetime(2024, 11, 1, 14, 15, 0),
-            ),
-        ]
+        mock_client_instance.get_file_activities.return_value = FileActivityResponse(
+            results=[
+                FileActivity(
+                    activity_id=123,
+                    datetime=datetime(2024, 11, 1, 14, 15, 0),
+                    action="file_changed",
+                    files=[
+                        FileInfo(
+                            id=456,
+                            name="document.pdf",
+                            path="documents/document.pdf",
+                            link="https://ocs.example.com/f/456",
+                        ),
+                    ],
+                ),
+                FileActivity(
+                    activity_id=124,
+                    datetime=datetime(2024, 11, 1, 10, 30, 0),
+                    action="file_created",
+                    files=[
+                        FileInfo(
+                            id=789,
+                            name="report.docx",
+                            path="reports/report.docx",
+                            link="https://ocs.example.com/f/789",
+                        ),
+                    ],
+                ),
+            ],
+            last_given=124,
+        )
         mock_ocs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/ocs/activities")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
-        assert data[0]["activity_id"] == 123
-        assert data[0]["app"] == "files"
-        assert data[0]["type"] == "file_created"
-        assert data[0]["user"] == "testuser"
-        assert data[0]["subject"] == "File created"
-        assert data[0]["object_name"] == "documents/document.pdf"
-        assert data[0]["url"] == "https://ocs.example.com/f/456"
-        assert data[0]["date"] == "01 Nov 2024"
-        assert data[0]["time"] == "10:30:00"
-        assert data[0]["object_filename"] == "document.pdf"
-        assert data[1]["activity_id"] == 124
-        assert data[1]["object_filename"] == "report.docx"
+        assert data["last_given"] == 124
+        assert len(data["results"]) == 2
+        assert data["results"][0]["activity_id"] == 123
+        assert data["results"][0]["action"] == "file_changed"
+        assert len(data["results"][0]["files"]) == 1
+        assert data["results"][0]["files"][0]["id"] == 456
+        assert data["results"][0]["files"][0]["name"] == "document.pdf"
+        assert data["results"][0]["files"][0]["link"] == "https://ocs.example.com/f/456"
+        assert data["results"][1]["activity_id"] == 124
+        assert data["results"][1]["files"][0]["name"] == "report.docx"
 
         # Verify OCSClient was called correctly
-        mock_client_instance.get_activities.assert_called_once()
+        mock_client_instance.get_file_activities.assert_called_once()
+
+    @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
+    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
+    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.OCSClient")
+    def test_ocs_activities_multi_file(
+        self,
+        mock_ocs_client: MagicMock,
+        mock_get_token: AsyncMock,
+        authenticated_client: TestClient,
+    ) -> None:
+        """Test file activities with multiple files per activity."""
+        # Mock token exchange
+        mock_get_token.return_value = "test-ocs-token"
+
+        # Mock OCSClient
+        mock_client_instance = AsyncMock()
+        mock_client_instance.get_file_activities.return_value = FileActivityResponse(
+            results=[
+                FileActivity(
+                    activity_id=2217,
+                    datetime=datetime(2026, 1, 13, 16, 7, 43),
+                    action="file_created",
+                    files=[
+                        FileInfo(
+                            id=33485,
+                            name="Drive.png",
+                            path="Drive.png",
+                            link="https://ocs.example.com/f/33485",
+                        ),
+                        FileInfo(
+                            id=33482,
+                            name="Docs.png",
+                            path="Docs.png",
+                            link="https://ocs.example.com/f/33482",
+                        ),
+                        FileInfo(
+                            id=33483,
+                            name="element.png",
+                            path="element.png",
+                            link="https://ocs.example.com/f/33483",
+                        ),
+                    ],
+                ),
+            ],
+            last_given=2199,
+        )
+        mock_ocs_client.return_value = mock_client_instance
+
+        response = authenticated_client.get("/api/v1/ocs/activities")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert len(data["results"]) == 1
+        activity = data["results"][0]
+        assert activity["activity_id"] == 2217
+        assert activity["action"] == "file_created"
+        assert len(activity["files"]) == 3
+        assert activity["files"][0]["name"] == "Drive.png"
+        assert activity["files"][1]["name"] == "Docs.png"
+        assert activity["files"][2]["name"] == "element.png"
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
     @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
@@ -110,20 +171,21 @@ class TestOCSEndpoints:
         mock_get_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test activities endpoint with no activities."""
+        """Test activities endpoint with no file activities."""
         # Mock token exchange
         mock_get_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_activities.return_value = []
+        mock_client_instance.get_file_activities.return_value = FileActivityResponse(results=[], last_given=None)
         mock_ocs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/ocs/activities")
 
         assert response.status_code == 200
         data = response.json()
-        assert data == []
+        assert data["results"] == []
+        assert data["last_given"] is None
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
     @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
@@ -191,14 +253,6 @@ class TestOCSEndpoints:
         data = response.json()
         assert data == []
 
-    def test_ocs_search_short_term(self, authenticated_client: TestClient) -> None:
-        """Test search endpoint with term shorter than 4 characters."""
-        response = authenticated_client.get("/api/v1/ocs/search?term=abc")
-
-        assert response.status_code == 200
-        data = response.json()
-        assert data == []
-
     def test_ocs_search_missing_term(self, authenticated_client: TestClient) -> None:
         """Test search endpoint without term parameter."""
         response = authenticated_client.get("/api/v1/ocs/search")
@@ -258,7 +312,7 @@ class TestOCSEndpoints:
 
         # Mock OCSClient error
         mock_client_instance = AsyncMock()
-        mock_client_instance.get_activities.side_effect = ExternalServiceError("OCS", "API error")
+        mock_client_instance.get_file_activities.side_effect = ExternalServiceError("OCS", "API error")
         mock_ocs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/ocs/activities")

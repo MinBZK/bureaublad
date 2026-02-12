@@ -7,7 +7,7 @@ import logging
 from typing import cast
 
 from app.clients.base import BaseAPIClient
-from app.models.activity import Activity
+from app.models.activity import Activity, FileActivity, FileActivityResponse
 from app.models.search import FileSearchResult, SearchResults
 
 logger = logging.getLogger(__name__)
@@ -27,28 +27,50 @@ class OCSClient(BaseAPIClient):
         headers["Accept"] = "application/json"
         return headers
 
-    async def get_activities(
+    async def get_file_activities(
         self,
-        path: str = "ocs/v2.php/apps/activity/api/v2/activity",
-        limit: int = 5,
+        limit: int = 50,
         since: int = 0,
-        filter: None | str = "files",
-    ) -> list[Activity]:
-        url_string = f"{path}/{filter}" if filter else path
+    ) -> FileActivityResponse:
+        """Get file activities with cursor-based pagination.
 
-        params = {"format": "json"}
+        Fetches activities, filters to file-related activities (including sharing),
+        and returns with all files per activity preserved.
+        """
+        url_string = "ocs/v2.php/apps/activity/api/v2/activity/files"
+
+        params: dict[str, str] = {"format": "json"}
         if since:
             params["since"] = str(since)
         if limit:
             params["limit"] = str(limit)
 
-        notes = await self._get_resource(
+        activities, headers = await self._get_resource_with_headers(
             path=url_string,
             model_type=list[Activity],
             params=params,
             response_parser=lambda data: data.get("ocs", {}).get("data", []),
         )
-        return notes
+
+        # Filter by object_type == "files" (includes files + files_sharing apps)
+        file_activities: list[FileActivity] = []
+        for activity in activities:
+            if activity.object_type == "files":
+                file_activities.append(
+                    FileActivity(
+                        activity_id=activity.activity_id,
+                        datetime=activity.datetime,
+                        action=activity.type,
+                        files=activity.extract_files(),
+                    )
+                )
+
+        # Get last_given from header for cursor-based pagination
+        # Note: httpx returns headers in lowercase
+        last_given_str = headers.get("x-activity-last-given")
+        last_given = int(last_given_str) if last_given_str else None
+
+        return FileActivityResponse(results=file_activities, last_given=last_given)
 
     async def search_files(
         self, term: str, path: str = "ocs/v2.php/search/providers/files/search"
@@ -56,7 +78,7 @@ class OCSClient(BaseAPIClient):
         validated = await self._get_resource(
             path=path,
             model_type=list[FileSearchResult],
-            params={"term": term},
+            params={"format": "json", "term": term},
             response_parser=lambda data: data.get("ocs", {}).get("data", {}).get("entries", []),
         )
         return cast(list[SearchResults], validated)

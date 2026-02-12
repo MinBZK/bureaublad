@@ -46,6 +46,7 @@ class TestDriveClient:
         # Mock first response (workspace)
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -62,6 +63,7 @@ class TestDriveClient:
         # Mock second response (documents)
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {
             "count": 1,
             "results": [
@@ -106,6 +108,7 @@ class TestDriveClient:
         """Test document retrieval with custom parameters."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -121,6 +124,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
@@ -154,6 +158,7 @@ class TestDriveClient:
         """Test document retrieval with minimal parameters."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -169,6 +174,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
@@ -191,6 +197,7 @@ class TestDriveClient:
         """Test that leading slash is stripped from path."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -206,6 +213,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
@@ -264,6 +272,7 @@ class TestDriveClient:
         """Test document retrieval when second request fails."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -293,6 +302,7 @@ class TestDriveClient:
         """Test document retrieval when no documents found."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -308,6 +318,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {"count": 0, "results": []}
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
@@ -323,6 +334,7 @@ class TestDriveClient:
         """Test document retrieval when second response has no results key."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -338,6 +350,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {"count": 0, "results": []}  # Empty results
 
         mock_http_client.get.side_effect = [workspace_response, documents_response]
@@ -351,6 +364,7 @@ class TestDriveClient:
         """Test retrieval of multiple documents."""
         workspace_response = Mock()
         workspace_response.status_code = 200
+        workspace_response.headers = {}
         workspace_response.json.return_value = {
             "count": 1,
             "results": [
@@ -366,6 +380,7 @@ class TestDriveClient:
 
         documents_response = Mock()
         documents_response.status_code = 200
+        documents_response.headers = {}
         documents_response.json.return_value = {
             "count": 2,
             "results": [
