@@ -34,17 +34,32 @@ export default function PageLayout({ children }) {
       <Content className="layout-content">
         <div className="content">
           {/* Render all embedded apps at once, show/hide based on route */}
-          {embeddedApps.map((app) => (
-            <div
-              key={app.id}
-              style={{
-                display: currentAppId === app.id ? "block" : "none",
-                height: "100%",
-              }}
-            >
-              <ExternalApp appId={app.id} />
-            </div>
-          ))}
+          {embeddedApps.map((app) => {
+            const isActive = currentAppId === app.id;
+            const isMatrix = app.id === "matrix";
+
+            return (
+              <div
+                key={app.id}
+                style={{
+                  // Use visibility:hidden for Matrix to prevent cache clearing issues
+                  ...(isMatrix
+                    ? {
+                        visibility: isActive ? "visible" : "hidden",
+                        position: isActive ? "relative" : "absolute",
+                        height: "100%",
+                        width: "100%",
+                      }
+                    : {
+                        display: isActive ? "block" : "none",
+                        height: "100%",
+                      }),
+                }}
+              >
+                <ExternalApp appId={app.id} />
+              </div>
+            );
+          })}
           {/* Render children for non-embedded routes */}
           {!isEmbeddedAppRoute && children}
         </div>
