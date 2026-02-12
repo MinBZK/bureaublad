@@ -45,6 +45,9 @@
     "refresh": "Vernieuwen",
     "search": "zoeken"
   },
+  "List": {
+    "empty": "Geen items gevonden"
+  },
   "Search": {
     "placeholder": "zoeken...",
     "notFound": "Niet gevonden"
@@ -60,7 +63,8 @@
     "loginButton": "Inloggen"
   },
   "Footer": {
-    "copyright": "Mijn Bureau ©"
+    "copyright": "Mijn Bureau ©",
+    "helpdesk": "Helpdesk"
   },
   "Navigation": {
     "home": "Home"

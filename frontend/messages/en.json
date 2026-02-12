@@ -44,6 +44,9 @@
   "Widget": {
     "refresh": "Refresh"
   },
+  "List": {
+    "empty": "No items found"
+  },
   "Search": {
     "placeholder": "Search...",
     "notFound": "Not Found"
@@ -59,7 +62,8 @@
     "loginButton": "Log in"
   },
   "Footer": {
-    "copyright": "My Office ©"
+    "copyright": "My Office ©",
+    "helpdesk": "Help desk"
   },
   "Navigation": {
     "home": "Home"

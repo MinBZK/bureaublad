@@ -27,7 +27,7 @@ function Widget({
   onRefresh = undefined,
   page = 1,
   setPage = undefined,
-  total = 10,
+  total = 0,
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
