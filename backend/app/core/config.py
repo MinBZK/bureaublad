@@ -68,7 +68,7 @@ class Settings(BaseSettings):
     DOCS_URL: str | None = None
     DOCS_AUDIENCE: str = "docs"
     DOCS_ICON: str = "description"
-    DOCS_TITLE: str = "Docs"
+    DOCS_TITLE: str = "Notes"
     DOCS_IFRAME: bool = False
     DOCS_CARD: bool = True
 
@@ -89,35 +89,35 @@ class Settings(BaseSettings):
     DRIVE_URL: str | None = None
     DRIVE_AUDIENCE: str = "drive"
     DRIVE_ICON: str = "cloud_drive"
-    DRIVE_TITLE: str = "Drive"
+    DRIVE_TITLE: str = "Files"
     DRIVE_IFRAME: bool = False
     DRIVE_CARD: bool = True
 
     MEET_URL: str | None = None
     MEET_AUDIENCE: str = "meet"
     MEET_ICON: str = "video_call"
-    MEET_TITLE: str = "Meet"
+    MEET_TITLE: str = "Video call"
     MEET_IFRAME: bool = False
     MEET_CARD: bool = True
 
     GRIST_URL: str | None = None
     GRIST_AUDIENCE: str = "grist"
     GRIST_ICON: str = "table_chart"
-    GRIST_TITLE: str = "Grist"
+    GRIST_TITLE: str = "Spreadsheet"
     GRIST_IFRAME: bool = False
     GRIST_CARD: bool = False
 
     CONVERSATION_URL: str | None = None
     CONVERSATION_AUDIENCE: str = "conversation"
     CONVERSATION_ICON: str = "chat"
-    CONVERSATION_TITLE: str = "Conversation"
+    CONVERSATION_TITLE: str = "AI assistant"
     CONVERSATION_IFRAME: bool = False
     CONVERSATION_CARD: bool = True
 
     MATRIX_URL: str | None = None
     MATRIX_AUDIENCE: str = "matrix"
     MATRIX_ICON: str = "forum"
-    MATRIX_TITLE: str = "Matrix"
+    MATRIX_TITLE: str = "Chat"
     MATRIX_IFRAME: bool = False
     MATRIX_CARD: bool = False
 

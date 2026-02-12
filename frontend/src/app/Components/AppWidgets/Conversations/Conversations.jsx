@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar } from "antd";
 import { WechatOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
@@ -11,7 +10,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // Conversation
-function Conversations() {
+function Conversations({ app }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Conversations");
@@ -29,6 +28,7 @@ function Conversations() {
   return (
     <Widget
       title={t("title")}
+      app={app}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -60,7 +60,7 @@ function Conversations() {
               }
             />
             <Link href={item?.url} target="_blank" rel="noopener noreferrer">
-              <Avatar className="avt-ai" icon={<WechatOutlined />} />
+              <WechatOutlined className="widget-icon-primary" />
             </Link>
           </CustomList.Item>
         )}
