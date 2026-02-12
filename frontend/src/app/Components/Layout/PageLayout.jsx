@@ -1,11 +1,12 @@
 "use client";
-import { Layout } from "antd";
+import { FloatButton, Layout } from "antd";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "../../../i18n/TranslationsProvider";
 import ExternalApp from "@/app/Common/ExternalApp";
+import { MessageOutlined } from "@ant-design/icons";
 const { Content, Footer } = Layout;
 
 export default function PageLayout({ children }) {
@@ -64,6 +65,13 @@ export default function PageLayout({ children }) {
           {!isEmbeddedAppRoute && children}
         </div>
       </Content>
+      <FloatButton
+        shape="circle"
+        style={{ insetInlineEnd: 30 }}
+        icon={<MessageOutlined />}
+        href={appConfig?.helpdesk_url}
+        tooltip={t("helpdesk")}
+      />
       <Footer>
         {t("copyright")}
         {new Date().getFullYear()}

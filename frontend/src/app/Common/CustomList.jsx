@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { Spin, Flex, Typography } from "antd";
+import { Spin, Flex, Typography, Empty } from "antd";
+import { useTranslations } from "@/i18n/TranslationsProvider";
 
 const { Text } = Typography;
 
@@ -11,6 +12,7 @@ const CustomList = ({
   renderItem,
   ...restProps
 }) => {
+  const t = useTranslations("List");
   if (dataSource?.length <= 0 && loading) {
     return (
       <Flex
@@ -29,6 +31,9 @@ const CustomList = ({
         const renderedItem = renderItem(item, index);
         return renderedItem;
       })}
+      {dataSource?.length === 0 && !loading && (
+        <Empty description={t("empty")} />
+      )}
     </div>
   );
 };
