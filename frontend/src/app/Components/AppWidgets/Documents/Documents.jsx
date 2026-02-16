@@ -10,7 +10,7 @@ import CustomList from "../../../Common/CustomList";
 import moment from "moment";
 // Docs
 function Documents() {
-  const [favorite, setFavorite] = useState(false);
+  // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Documents");
@@ -20,7 +20,7 @@ function Documents() {
     error,
     onRefresh,
   } = useFetchWithRefresh("/docs/documents", {
-    favorite,
+    // favorite,
     title: search,
     page,
     page_size: 3,
@@ -29,8 +29,8 @@ function Documents() {
   return (
     <Widget
       title={t("title")}
-      favorite={favorite}
-      setFavorite={setFavorite}
+      // favorite={favorite}
+      // setFavorite={setFavorite}
       search={search}
       setSearch={setSearch}
       error={error}
