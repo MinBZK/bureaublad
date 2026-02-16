@@ -10,7 +10,7 @@ import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 function Drive() {
-  const [favorite, setFavorite] = useState(false);
+  // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Drive");
@@ -21,7 +21,7 @@ function Drive() {
     onRefresh,
   } = useFetchWithRefresh("/drive/documents", {
     title: search,
-    favorite,
+    // favorite,
     page,
     page_size: 3,
   });
@@ -29,8 +29,8 @@ function Drive() {
   return (
     <Widget
       title={t("title")}
-      favorite={favorite}
-      setFavorite={setFavorite}
+      // favorite={favorite}
+      // setFavorite={setFavorite}
       setSearch={setSearch}
       error={error}
       onRefresh={onRefresh}
