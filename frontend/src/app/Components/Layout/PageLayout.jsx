@@ -15,7 +15,7 @@ export default function PageLayout({ children }) {
   const { data } = useFetchWithRefresh("/auth/profile");
   const pathname = usePathname();
 
-  const isLayoutHidden = ["/login", "/404"].includes(pathname);
+  const isLayoutHidden = ["/login", "/404", "/500"].includes(pathname);
 
   // Get all embedded apps (apps with iframe: true)
   const embeddedApps =
@@ -31,6 +31,7 @@ export default function PageLayout({ children }) {
         isProfile={!!error}
         profile={data?.name}
         applications={appConfig?.applications}
+        redirectUrl={appConfig?.redirect_to_account_page}
       />
       <Content className="layout-content">
         <div className="content">

@@ -5,6 +5,7 @@ import {
   UserOutlined,
   GlobalOutlined,
   BgColorsOutlined,
+  ProfileOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,7 +16,12 @@ import { useLanguage } from "../../../../i18n/LanguageContext";
 import { useTheme } from "../../Context/ThemeContext";
 const { Header } = Layout;
 
-function HeaderLayout({ isProfile = true, profile, applications }) {
+function HeaderLayout({
+  isProfile = true,
+  profile,
+  applications,
+  redirectUrl,
+}) {
   const pathname = usePathname();
   const tHome = useTranslations("HomePage");
   const tHeader = useTranslations("Header");
@@ -39,6 +45,11 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
   const items = [
     {
       key: "1",
+      label: <Link href={redirectUrl}>{tHeader("myAccount")}</Link>,
+      icon: <ProfileOutlined />,
+    },
+    {
+      key: "2",
       label: (
         <span onClick={handleLanguageChange}>
           {locale === "nl"
@@ -49,7 +60,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       icon: <GlobalOutlined />,
     },
     {
-      key: "2",
+      key: "3",
       label: (
         <span onClick={toggleTheme}>
           {theme === "light" ? tTheme("dark") : tTheme("light")}
@@ -58,7 +69,7 @@ function HeaderLayout({ isProfile = true, profile, applications }) {
       icon: <BgColorsOutlined />,
     },
     {
-      key: "3",
+      key: "4",
       label: <Link href={`/api/v1/auth/logout`}>{tHome("logout")}</Link>,
       icon: <LogoutOutlined />,
       danger: true,
