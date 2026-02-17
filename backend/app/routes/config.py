@@ -46,5 +46,6 @@ async def get_config() -> ConfigResponse:
         applications=applications,
         theme_css=settings.THEME_CSS_URL,
         helpdesk_url=settings.HELPDESK_URL,
+        redirect_to_account_page=settings.REDIRECT_TO_ACCOUNT_PAGE,
         silent_login=True,  # Backend handles authentication
     )

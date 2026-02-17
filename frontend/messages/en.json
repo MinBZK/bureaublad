@@ -6,7 +6,8 @@
   },
   "Header": {
     "languageEnglish": "English",
-    "languageDutch": "Nederlands"
+    "languageDutch": "Nederlands",
+    "myAccount": "My Account"
   },
   "AiAssistant": {
     "title": "AI Assistant",

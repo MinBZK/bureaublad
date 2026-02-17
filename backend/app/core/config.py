@@ -130,6 +130,7 @@ class Settings(BaseSettings):
 
     THEME_CSS_URL: str = ""
     HELPDESK_URL: str = ""
+    REDIRECT_TO_ACCOUNT_PAGE: str = ""
 
     CORS_ALLOW_ORIGINS: Annotated[list[AnyUrl], BeforeValidator(parse_string_or_list)] = []
     CORS_ALLOW_CREDENTIALS: bool = False

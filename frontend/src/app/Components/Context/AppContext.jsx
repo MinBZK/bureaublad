@@ -26,6 +26,8 @@ export function AppProvider({ children }) {
           const params = searchParams.toString();
           const redirectUrl = params ? `/login?${params}` : "/login";
           router.push(redirectUrl);
+        } else if (err?.response?.status === 500) {
+          router.push("/500");
         } else {
           router.push("/404");
         }
