@@ -62,7 +62,6 @@ class TestRefreshToken:
         """Create a mock request object."""
         request = MagicMock(spec=Request)
         request.session = {}
-        request.state = MagicMock()
         return request
 
     @pytest.mark.asyncio
@@ -214,7 +213,6 @@ class TestGetCurrentUser:
         """Create a mock request object."""
         request = MagicMock(spec=Request)
         request.session = {"_session_id": "test_session_123"}
-        request.state = MagicMock()
         return request
 
     @pytest.fixture
@@ -267,7 +265,6 @@ class TestGetCurrentUser:
         result = await get_current_user(mock_request, None)
 
         assert result == valid_auth_state.user
-        assert mock_request.state.user == valid_auth_state.user
         # Should not attempt refresh
         mock_session.update_tokens.assert_not_called()
 
@@ -299,7 +296,6 @@ class TestGetCurrentUser:
 
         # Verify result
         assert result == valid_auth_state.user
-        assert mock_request.state.user == valid_auth_state.user
 
     @pytest.mark.asyncio
     @patch("app.core.authentication.session")
@@ -384,7 +380,6 @@ class TestGetCurrentUser:
         # Create request without session ID
         request = MagicMock(spec=Request)
         request.session = {}  # No _session_id
-        request.state = MagicMock()
 
         mock_session.get_auth.side_effect = [
             expired_auth_state,  # Initial check
