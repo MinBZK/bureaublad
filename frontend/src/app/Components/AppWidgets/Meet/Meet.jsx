@@ -60,9 +60,9 @@ function Meet() {
                 item.pin_code ? (
                   <span
                     className="custom-list-text-copy"
-                    onClick={() => copyToClipboard(item.pin_code)}
+                    onClick={() => copyToClipboard(item?.pin_code)}
                   >
-                    {t("pincode")} : {item.pin_code}
+                    {t("pincode")} : {item?.pin_code}
                   </span>
                 ) : null
               }

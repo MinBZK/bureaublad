@@ -1,8 +1,8 @@
 "use client";
-import { useTranslations } from "../../i18n/TranslationsProvider";
-import ErrorResult from "../Common/ErrorResult";
+import { useTranslations } from "../i18n/TranslationsProvider";
+import ErrorResult from "./Common/ErrorResult";
 
-function NotFoundPage() {
+export default function NotFound() {
   const t = useTranslations("NotFoundPage");
   return (
     <ErrorResult
@@ -10,9 +10,7 @@ function NotFoundPage() {
       title="404"
       subTitle={t("subTitle")}
       btnTitle={t("backToHome")}
-      btnLink={`/`}
+      btnLink="/"
     />
   );
 }
-
-export default NotFoundPage;

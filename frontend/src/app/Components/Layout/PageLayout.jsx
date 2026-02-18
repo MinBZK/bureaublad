@@ -15,7 +15,7 @@ export default function PageLayout({ children }) {
   const { data } = useFetchWithRefresh("/auth/profile");
   const pathname = usePathname();
 
-  const isLayoutHidden = ["/login", "/404", "/500"].includes(pathname);
+  const isLayoutHidden = ["/login"].includes(pathname);
 
   // Get all embedded apps (apps with iframe: true)
   const embeddedApps =
@@ -66,13 +66,15 @@ export default function PageLayout({ children }) {
           {!isEmbeddedAppRoute && children}
         </div>
       </Content>
-      <FloatButton
-        shape="circle"
-        style={{ insetInlineEnd: 30 }}
-        icon={<MessageOutlined />}
-        href={appConfig?.helpdesk_url}
-        tooltip={t("helpdesk")}
-      />
+      {appConfig?.helpdesk_url && (
+        <FloatButton
+          shape="circle"
+          style={{ insetInlineEnd: 30 }}
+          icon={<MessageOutlined />}
+          href={appConfig?.helpdesk_url}
+          tooltip={t("helpdesk")}
+        />
+      )}
       <Footer>
         {t("copyright")}
         {new Date().getFullYear()}

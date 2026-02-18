@@ -20,13 +20,18 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.get("/login")
-async def login(request: Request, redirect_to: str | None = None) -> RedirectResponse:
+async def login(request: Request, redirect_to: str | None = None, silent: bool = False) -> RedirectResponse:
     """
     Initiate OAuth 2.0 Authorization Code Flow with PKCE.
 
     Authlib automatically handles:
     - CSRF protection via 'state' parameter (generated and validated)
     - PKCE code_verifier/code_challenge generation and storage
+
+    Args:
+        request: FastAPI request object
+        redirect_to: Optional redirect URL after successful login
+        silent: If True, uses prompt=none for silent SSO (fails if user not logged in to Keycloak)
     """
     if redirect_to:
         # Validate redirect_to to prevent open redirect vulnerability
@@ -38,7 +43,10 @@ async def login(request: Request, redirect_to: str | None = None) -> RedirectRes
 
     redirect_uri = request.url_for("callback")
 
-    return await oauth.oidc.authorize_redirect(request, redirect_uri)  # type: ignore[reportUnknownMemberType, reportUnknownVariableType]
+    # Add prompt=none for silent authentication (Keycloak SSO check)
+    extra_params = {"prompt": "none"} if silent else {}
+
+    return await oauth.oidc.authorize_redirect(request, redirect_uri, **extra_params)  # type: ignore[reportUnknownMemberType, reportUnknownVariableType]
 
 
 @router.get("/callback")
