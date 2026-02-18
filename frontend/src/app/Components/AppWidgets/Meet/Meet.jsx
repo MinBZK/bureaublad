@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { Avatar, message } from "antd";
-import { PhoneOutlined } from "@ant-design/icons";
+import { message } from "antd";
+import { PhoneOutlined, UserOutlined } from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
@@ -15,7 +15,7 @@ const copyToClipboard = (text) => {
 };
 
 // meet
-function Meet() {
+function Meet({ app }) {
   // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -29,6 +29,7 @@ function Meet() {
   return (
     <Widget
       title={t("title")}
+      app={app}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -46,11 +47,7 @@ function Meet() {
         renderItem={(item) => (
           <CustomList.Item key={item.slug}>
             <CustomList.Item.Meta
-              avatar={
-                <Avatar className="avt-name">
-                  {item?.name?.at(0)?.toUpperCase()}
-                </Avatar>
-              }
+              avatar={<UserOutlined className="widget-icon-orange" />}
               title={
                 <Link href={item.url} target="_blank" rel="noopener noreferrer">
                   {item.name}
@@ -68,7 +65,7 @@ function Meet() {
               }
             />
             <Link href={item.url} target="_blank" rel="noopener noreferrer">
-              <Avatar className="avt-call" icon={<PhoneOutlined />} />
+              <PhoneOutlined className="widget-icon-green" />
             </Link>
           </CustomList.Item>
         )}
