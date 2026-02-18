@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar } from "antd";
 import { FileImageOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import moment from "moment";
@@ -9,7 +8,7 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
-function Drive() {
+function Drive({ app }) {
   // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -29,6 +28,7 @@ function Drive() {
   return (
     <Widget
       title={t("title")}
+      app={app}
       // favorite={favorite}
       // setFavorite={setFavorite}
       setSearch={setSearch}
@@ -46,9 +46,7 @@ function Drive() {
           index < 3 && (
             <CustomList.Item key={item.id}>
               <CustomList.Item.Meta
-                avatar={
-                  <Avatar icon={<FileImageOutlined />} className="avt-name" />
-                }
+                avatar={<FileImageOutlined className="widget-icon-orange" />}
                 title={
                   <Link
                     href={item?.url || ""}

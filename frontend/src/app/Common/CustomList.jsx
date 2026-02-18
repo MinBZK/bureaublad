@@ -55,14 +55,18 @@ const CustomListItemMeta = ({ avatar, title, description, className = "" }) => {
   return (
     <Flex
       className={`custom-list-item-meta ${className}`}
-      align="flex-start"
-      gap="middle"
+      align="center"
+      gap="small"
       style={{ flex: 1, minWidth: 0, overflow: "hidden" }}
     >
-      {avatar && <Flex className="custom-list-item-meta-avatar">{avatar}</Flex>}
+      {avatar && (
+        <Flex className="custom-list-item-meta-avatar" align="center">
+          {avatar}
+        </Flex>
+      )}
       <Flex
         vertical
-        gap={4}
+        gap={0}
         style={{ flex: 1, minWidth: 0, overflow: "hidden" }}
       >
         {title && (

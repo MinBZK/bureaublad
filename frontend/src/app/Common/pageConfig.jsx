@@ -43,7 +43,9 @@ export const availableWidgetComponents = (applications) => {
     .filter((app) => app.enabled)
     .map((app) => {
       const Component = componentMap[app.id];
-      return Component ? <Component key={app.id} title={app?.title} /> : null;
+      return Component ? (
+        <Component key={app.id} title={app?.title} app={app} />
+      ) : null;
     })
     .filter(Boolean);
 };
