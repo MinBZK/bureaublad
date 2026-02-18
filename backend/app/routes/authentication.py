@@ -1,11 +1,12 @@
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from starlette.datastructures import URL
 
 from app.core import session
+from app.core.authentication import get_current_user
 from app.core.config import settings
 from app.core.oauth import oauth
 from app.core.translate import _
@@ -69,7 +70,7 @@ async def callback(request: Request) -> RedirectResponse:
         return RedirectResponse(url=f"/login?error={error_message}", status_code=302)
 
 
-@router.get("/profile")
+@router.get("/profile", dependencies=[Depends(get_current_user)])
 async def profile(request: Request) -> User:
     """Get current user profile from session."""
     auth = await session.get_auth(request)

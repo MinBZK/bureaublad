@@ -31,6 +31,7 @@ export default function PageLayout({ children }) {
         isProfile={!!error}
         profile={data?.name}
         applications={appConfig?.applications}
+        redirectUrl={appConfig?.redirect_to_account_page}
       />
       <Content className="layout-content">
         <div className="content">

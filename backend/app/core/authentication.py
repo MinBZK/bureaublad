@@ -33,6 +33,10 @@ async def get_current_user(
     if not auth:
         raise CredentialError(_("Not authenticated"))
 
+    if not auth.expires_at:
+        logger.warning("Auth state missing expires_at, treating as expired")
+        raise CredentialError(_("Session expired. Please log in again."))
+
     if _needs_refresh(auth.expires_at):
         await _refresh_token(request, auth.refresh_token)
 
@@ -41,7 +45,6 @@ async def get_current_user(
         if not auth:
             raise CredentialError(_("Session expired. Please log in again."))
 
-    request.state.user = auth.user
     return auth.user
 
 
