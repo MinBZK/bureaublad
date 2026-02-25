@@ -6,7 +6,7 @@ from fastapi import Request
 from app.core import session
 from app.core.config import settings
 from app.core.translate import _
-from app.exceptions import CredentialError
+from app.exceptions import CredentialError, TokenExchangeError
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +50,19 @@ async def exchange_token(
     # Raise for any other HTTP errors
     response.raise_for_status()
 
-    exchanged_token: str = token
+    try:
+        token_data = response.json()
+    except Exception:
+        logger.exception(f"Token exchange returned non-JSON response for audience={audience}")
+        msg = "Token exchange returned an invalid response. Please try logging in again."
+        raise TokenExchangeError(msg) from Exception
+
+    exchanged_token = token_data.get("access_token")
+
+    if not exchanged_token or not isinstance(exchanged_token, str):
+        logger.error(f"Token exchange response missing 'access_token' for audience={audience}")
+        raise TokenExchangeError("Token exchange returned an invalid response. Please try logging in again.")
+
     logger.info(f"Successfully exchanged token for audience={audience}")
 
     return exchanged_token
