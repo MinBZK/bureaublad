@@ -51,17 +51,17 @@ async def exchange_token(
     response.raise_for_status()
 
     try:
-      token_data = response.json()
+        token_data = response.json()
     except Exception:
-      logger.error(f"Token exchange returned non-JSON response for audience={audience}")
-      raise TokenExchangeError("Token exchange returned an invalid response. Please try logging in again.")
+        logger.exception(f"Token exchange returned non-JSON response for audience={audience}")
+        msg = "Token exchange returned an invalid response. Please try logging in again."
+        raise TokenExchangeError(msg) from Exception
 
     exchanged_token = token_data.get("access_token")
 
     if not exchanged_token or not isinstance(exchanged_token, str):
-      logger.error(f"Token exchange response missing 'access_token' for audience={audience}")
-      raise TokenExchangeError("Token exchange returned an invalid response. Please try logging in again.")
-
+        logger.error(f"Token exchange response missing 'access_token' for audience={audience}")
+        raise TokenExchangeError("Token exchange returned an invalid response. Please try logging in again.")
 
     logger.info(f"Successfully exchanged token for audience={audience}")
 

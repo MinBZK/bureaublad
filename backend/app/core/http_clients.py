@@ -24,6 +24,23 @@ async def add_request_id_header(request: httpx.Request) -> None:
         request.headers["X-Request-ID"] = request_id
 
 
+class StatelessTransport(httpx.AsyncBaseTransport):
+    """Strip Set-Cookie from all responses to prevent cross-user session leakage.
+
+    The shared httpx.AsyncClient persists cookies across users. Backend services
+    (e.g. Nextcloud, Docs) emit Set-Cookie on every request; if accumulated, one
+    user's session is sent on all subsequent users' requests.
+    """
+
+    def __init__(self, transport: httpx.AsyncBaseTransport) -> None:
+        self.transport = transport
+
+    async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
+        response = await self.transport.handle_async_request(request)
+        response.headers.pop("set-cookie", None)
+        return response
+
+
 class HTTPClientDependency:
     """Reusable httpx.AsyncClient dependency for FastAPI.
 
@@ -47,7 +64,7 @@ class HTTPClientDependency:
     async def __call__(self) -> httpx.AsyncClient:
         """Return the cached httpx.AsyncClient, creating it if needed."""
         if not self.http_client:
-            transport = httpx.AsyncHTTPTransport(retries=self.max_retries)
+            transport = StatelessTransport(httpx.AsyncHTTPTransport(retries=self.max_retries))
 
             self.http_client = httpx.AsyncClient(
                 timeout=self.timeout,
