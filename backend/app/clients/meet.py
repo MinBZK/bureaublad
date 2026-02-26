@@ -35,20 +35,12 @@ class MeetClient(BaseAPIClient):
 
         params: dict[str, Any] = {"page": page, "page_size": page_size}
 
-        rooms = await self._get_resource(
+        return await self._get_resource(
             path=path,
             model_type=PaginatedResponse[Room],
             params=params,
             response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},
         )
-
-        # honor pagination from Page and page_size params
-        start = (page - 1) * page_size
-        end = start + page_size
-        rooms.results = rooms.results[start:end]
-        rooms.count = len(rooms.results)
-
-        return rooms
 
     async def post_room(self, name: str, path: str = "api/v1.0/rooms/") -> Room:
         url = self._build_url(path)

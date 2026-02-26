@@ -195,6 +195,26 @@ class TestMeetClient:
         assert result.count == 0
         assert result.results == []
 
+    async def test_get_rooms_preserves_total_count(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
+        """Test that the total count from the API is preserved, not replaced by the page result count."""
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.headers = {}
+        mock_response.json.return_value = {
+            "count": 64,  # total across all pages
+            "results": [
+                {"id": "room1", "name": "Room 1", "slug": "room-1", "pin_code": None},
+                {"id": "room2", "name": "Room 2", "slug": "room-2", "pin_code": None},
+                {"id": "room3", "name": "Room 3", "slug": "room-3", "pin_code": None},
+            ],
+        }
+        mock_http_client.get.return_value = mock_response
+
+        result = await client.get_rooms(page=1, page_size=3)
+
+        assert result.count == 64
+        assert len(result.results) == 3
+
     async def test_get_rooms_missing_results_key(self, client: MeetClient, mock_http_client: AsyncMock) -> None:
         """Test room retrieval when results key is missing."""
         mock_response = Mock()
