@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar } from "antd";
 import { EditOutlined, FileOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
@@ -10,7 +9,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // NextCloud
-function Files() {
+function Files({ app }) {
   const [searchTerm, setSearchTerm] = useState("");
   const t = useTranslations("Files");
   const [page, setPage] = useState(1);
@@ -41,6 +40,7 @@ function Files() {
   return (
     <Widget
       title={t("title")}
+      app={app}
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}
@@ -55,7 +55,7 @@ function Files() {
         renderItem={(item) => (
           <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta
-              avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
+              avatar={<FileOutlined className="widget-icon-blue" />}
               title={
                 <Link
                   href={item?.link}

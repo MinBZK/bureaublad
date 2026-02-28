@@ -14,31 +14,31 @@
     "placeholder": "Type your question here..."
   },
   "Conversations": {
-    "title": "AI Conversation",
+    "title": "AI assistant",
     "lastModified": "Last modified"
   },
   "Email": {
     "title": "Email"
   },
   "Drive": {
-    "title": "Drive",
-    "lastModified": "Last modified"
-  },
-  "Files": {
     "title": "Files",
     "lastModified": "Last modified"
   },
+  "Files": {
+    "title": "NextCloud",
+    "lastModified": "Last modified"
+  },
   "Documents": {
-    "title": "Docs",
+    "title": "Notes",
     "lastModified": "Last modified",
     "untitled": "Untitled Document"
   },
   "Meet": {
-    "title": "Video Conference",
+    "title": "Video call",
     "pincode": "Pin code"
   },
   "Sheets": {
-    "title": "Sheets",
+    "title": "Spreadsheet",
     "selectOrganization": "Select organization",
     "updated": "Updated"
   },

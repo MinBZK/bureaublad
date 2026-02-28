@@ -34,6 +34,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/src:/app/src:cached
+      - ./frontend/messages:/app/messages:cached
       - ./.next:/app/.next
       - /app/node_modules # prevent host from overwriting node_modules
     environment:

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Avatar } from "antd";
 import { EditOutlined, FileTextOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "../../../Common/Widget";
@@ -9,7 +8,7 @@ import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 import moment from "moment";
 // Docs
-function Documents() {
+function Documents({ app }) {
   // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -29,6 +28,7 @@ function Documents() {
   return (
     <Widget
       title={t("title")}
+      app={app}
       // favorite={favorite}
       // setFavorite={setFavorite}
       search={search}
@@ -46,7 +46,7 @@ function Documents() {
         renderItem={(item) => (
           <CustomList.Item key={item.id}>
             <CustomList.Item.Meta
-              avatar={<Avatar icon={<FileTextOutlined />} />}
+              avatar={<FileTextOutlined className="widget-icon-orange" />}
               title={
                 <Link
                   href={item?.url}
