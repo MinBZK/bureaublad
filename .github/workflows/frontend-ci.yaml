@@ -125,7 +125,7 @@ jobs:
             NEXT_PUBLIC_BACKEND_BASE_URL=${{env.NEXT_PUBLIC_BACKEND_BASE_URL}}
 
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           subject-name: ghcr.io/minbzk/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
