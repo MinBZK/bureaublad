@@ -76,7 +76,7 @@ class TestDriveEndpoints:
         )
 
         # Verify DriveClient was called correctly
-        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None)
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -118,94 +118,7 @@ class TestDriveEndpoints:
         assert data["results"][0]["mimetype"] == "application/pdf"
 
         # Verify DriveClient was called with title filter
-        mock_client_instance.get_documents.assert_called_once_with(
-            page=1, page_size=5, title="Filtered Document", is_favorite=False
-        )
-
-    @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
-    @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
-    @patch("app.routes.drive.get_token")
-    @patch("app.routes.drive.DriveClient")
-    def test_drive_documents_with_favorite_filter(
-        self,
-        mock_drive_client: MagicMock,
-        mock_get_token: MagicMock,
-        authenticated_client: TestClient,
-    ) -> None:
-        """Test documents retrieval with is_favorite filter."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-drive-token"
-
-        # Mock DriveClient
-        mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
-            count=1,
-            results=[
-                Document(
-                    id="doc-101",
-                    title="Favorite Spreadsheet.xlsx",
-                    url="https://drive.example.com/files/doc-101",
-                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    updated_at="2024-11-01T13:00:00Z",
-                )
-            ],
-        )
-        mock_drive_client.return_value = mock_client_instance
-
-        response = authenticated_client.get("/api/v1/drive/documents?is_favorite=true")
-
-        assert response.status_code == 200
-        data = response.json()
-        assert data["count"] == 1
-        assert len(data["results"]) == 1
-        assert data["results"][0]["title"] == "Favorite Spreadsheet.xlsx"
-        assert data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-
-        # Verify DriveClient was called with is_favorite=True
-        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
-
-    @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
-    @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
-    @patch("app.routes.drive.get_token")
-    @patch("app.routes.drive.DriveClient")
-    def test_drive_documents_with_combined_filters(
-        self,
-        mock_drive_client: MagicMock,
-        mock_get_token: MagicMock,
-        authenticated_client: TestClient,
-    ) -> None:
-        """Test documents retrieval with both title and favorite filters."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-drive-token"
-
-        # Mock DriveClient
-        mock_client_instance = AsyncMock()
-        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
-            count=1,
-            results=[
-                Document(
-                    id="doc-202",
-                    title="Important Document.pdf",
-                    url="https://drive.example.com/files/doc-202",
-                    mimetype="application/pdf",
-                    updated_at="2024-11-01T14:00:00Z",
-                )
-            ],
-        )
-        mock_drive_client.return_value = mock_client_instance
-
-        response = authenticated_client.get("/api/v1/drive/documents?title=Important&is_favorite=true")
-
-        assert response.status_code == 200
-        data = response.json()
-        assert data["count"] == 1
-        assert len(data["results"]) == 1
-        assert data["results"][0]["title"] == "Important Document.pdf"
-
-        # Verify DriveClient was called with both filters
-        mock_client_instance.get_documents.assert_called_once_with(
-            page=1, page_size=5, title="Important", is_favorite=True
-        )
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title="Filtered Document")
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
