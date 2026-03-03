@@ -38,6 +38,7 @@ function Files() {
     ) ?? [];
 
   const paginatedFiles = uniqueFiles?.slice((page - 1) * 3, page * 3) ?? [];
+
   return (
     <Widget
       title={t("title")}
