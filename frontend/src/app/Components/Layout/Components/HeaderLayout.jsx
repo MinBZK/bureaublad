@@ -21,6 +21,7 @@ function HeaderLayout({
   profile,
   applications,
   redirectUrl,
+  isAffixHeader = true,
 }) {
   const pathname = usePathname();
   const tHome = useTranslations("HomePage");
@@ -76,38 +77,38 @@ function HeaderLayout({
     },
   ];
 
-  return (
-    <Affix>
-      <Header>
-        <Flex>
-          <div className="logo">
-            <Link className="logo-txt" href="/">
-              {tHome("title")}
+  const header = (
+    <Header>
+      <Flex>
+        <div className="logo">
+          <Link className="logo-txt" href="/">
+            {tHome("title")}
+          </Link>
+        </div>
+        {applications && (
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            selectedKeys={getSelectedKey()}
+            items={menuItem(applications, tNav)}
+            className="header-menu"
+          />
+        )}
+        {applications?.some(
+          (value) => value?.id === "ai" && value?.enabled,
+        ) && <AiAssistant />}
+        {!isProfile && (
+          <Dropdown menu={{ items }}>
+            <Link className="profile-link" href="/#">
+              <Avatar icon={<UserOutlined />} /> {profile}
             </Link>
-          </div>
-          {applications && (
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              selectedKeys={getSelectedKey()}
-              items={menuItem(applications, tNav)}
-              className="header-menu"
-            />
-          )}
-          {applications?.some(
-            (value) => value?.id === "ai" && value?.enabled,
-          ) && <AiAssistant />}
-          {!isProfile && (
-            <Dropdown menu={{ items }}>
-              <Link className="profile-link" href="/#">
-                <Avatar icon={<UserOutlined />} /> {profile}
-              </Link>
-            </Dropdown>
-          )}
-        </Flex>
-      </Header>
-    </Affix>
+          </Dropdown>
+        )}
+      </Flex>
+    </Header>
   );
+
+  return isAffixHeader ? <Affix>{header}</Affix> : header;
 }
 
 export default HeaderLayout;
