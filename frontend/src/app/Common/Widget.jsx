@@ -1,17 +1,13 @@
 "use client";
-import { StarFilled, StarOutlined, ReloadOutlined } from "@ant-design/icons";
 import {
-  Button,
-  Card,
-  Divider,
-  Result,
-  Input,
-  Row,
-  Col,
-  Pagination,
-  Select,
-} from "antd";
+  StarFilled,
+  StarOutlined,
+  ReloadOutlined,
+  ArrowRightOutlined,
+} from "@ant-design/icons";
+import { Button, Card, Divider, Result, Input, Pagination } from "antd";
 import React, { useState } from "react";
+import Link from "next/link";
 import { useTranslations } from "../../i18n/TranslationsProvider";
 
 const { Search } = Input;
@@ -19,6 +15,7 @@ const { Search } = Input;
 function Widget({
   children,
   title,
+  app,
   error,
   loading = false,
   favorite,
@@ -35,7 +32,20 @@ function Widget({
 
   return (
     <Card
-      title={title}
+      title={
+        app ? (
+          <Link
+            href={app.iframe ? `/${app.id}` : app.url}
+            target={app.iframe ? undefined : "_blank"}
+            rel={app.iframe ? undefined : "noopener noreferrer"}
+            className="widget-title-link"
+          >
+            {title} <ArrowRightOutlined className="widget-title-icon" />
+          </Link>
+        ) : (
+          title
+        )
+      }
       loading={loading}
       extra={
         onRefresh && (
@@ -51,24 +61,20 @@ function Widget({
       {error ? (
         <Result status="warning" title={error} className="space-min-up" />
       ) : (
-        <React.Fragment>
-          <Row>
-            <Col span={setFavorite ? 22 : 24}>
+        <div className="widget-body">
+          {(setSearch || setFavorite) && (
+            <div className="widget-search-row">
               {setSearch && (
-                <React.Fragment>
-                  <Search
-                    placeholder={placeholder || `${title} ${t("search")}`}
-                    onSearch={(t) => setSearch(t)}
-                    onChange={(e) => setValue(e.target.value)}
-                    value={value}
-                    allowClear
-                    className="widget-search"
-                  />
-                  <Divider />
-                </React.Fragment>
+                <Search
+                  placeholder=""
+                  onSearch={(t) => setSearch(t)}
+                  onChange={(e) => setValue(e.target.value)}
+                  value={value}
+                  allowClear
+                  className="widget-search"
+                  style={{ flex: 1 }}
+                />
               )}
-            </Col>
-            <Col span={1} push={1}>
               {setFavorite && (
                 <Button
                   onClick={() => setFavorite(!favorite)}
@@ -76,14 +82,14 @@ function Widget({
                   icon={favorite ? <StarFilled /> : <StarOutlined />}
                 />
               )}
-            </Col>
-          </Row>
+            </div>
+          )}
 
           {children}
 
-          {page && setPage && (
-            <React.Fragment>
-              <Divider />
+          {page && setPage && total > 3 && (
+            <div className="widget-pagination">
+              <Divider style={{ marginTop: 0 }} />
               <Pagination
                 pageSize={3}
                 defaultCurrent={page}
@@ -93,9 +99,9 @@ function Widget({
                 align="end"
                 pageSizeOptions={[5]}
               />
-            </React.Fragment>
+            </div>
           )}
-        </React.Fragment>
+        </div>
       )}
     </Card>
   );

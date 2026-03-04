@@ -14,31 +14,31 @@
     "placeholder": "Typ je vraag hier..."
   },
   "Conversations": {
-    "title": "AI gesprek",
+    "title": "AI-assistent",
     "lastModified": "Laatste wijziging"
   },
   "Email": {
     "title": "Email"
   },
   "Drive": {
-    "title": "Drive",
-    "lastModified": "Laatste wijziging"
-  },
-  "Files": {
     "title": "Bestanden",
     "lastModified": "Laatste wijziging"
   },
+  "Files": {
+    "title": "NextCloud",
+    "lastModified": "Laatste wijziging"
+  },
   "Documents": {
-    "title": "Docs",
+    "title": "Notities",
     "lastModified": "Laatste wijziging",
     "untitled": "Naamloos document"
   },
   "Meet": {
-    "title": "Videoconferentie",
+    "title": "Videobellen",
     "pincode": "Pincode"
   },
   "Sheets": {
-    "title": "Sheets",
+    "title": "Spreadsheet",
     "selectOrganization": "Organisatie selecteren",
     "updated": "Geüpdatet"
   },

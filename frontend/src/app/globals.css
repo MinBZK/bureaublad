@@ -86,7 +86,7 @@ body {
 }
 
 .layout-content {
-  padding: 20px;
+  padding: 12px;
 }
 
 .content {
@@ -116,11 +116,18 @@ body {
 }
 
 .dashboard-list {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .dashboard-list > .ant-col {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.dashboard-list > .ant-col > .ant-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 footer {
@@ -145,7 +152,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 8px 0;
   border-bottom: 1px solid var(--color-border-default);
 }
 
@@ -162,6 +169,11 @@ footer {
 
 .custom-list-item-meta-avatar {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .custom-list-item-meta-content {
@@ -171,10 +183,10 @@ footer {
 }
 
 .custom-list-item-meta-title {
-  margin-bottom: 4px;
+  margin-bottom: 0;
   color: rgba(0, 0, 0, 0.85);
   font-size: 14px;
-  line-height: 1.5715;
+  line-height: 1.4;
   overflow: hidden !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
@@ -214,8 +226,8 @@ footer {
 
 .custom-list-item-meta-description {
   color: rgba(0, 0, 0, 0.45);
-  font-size: 14px;
-  line-height: 1.5715;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .custom-list-loading {
@@ -367,6 +379,61 @@ footer {
   width: 100%;
 }
 
+/* WIDGET */
+/* -------------------------------------------------- */
+.widget-title-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.widget-title-icon {
+  font-size: 12px;
+}
+
+.widget-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.widget-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.widget-pagination {
+  margin-top: auto;
+}
+
+.widget-icon,
+.widget-icon-orange,
+.widget-icon-blue,
+.widget-icon-primary,
+.widget-icon-green {
+  font-size: 20px;
+}
+
+.widget-icon-orange {
+  color: #f56a00;
+}
+
+.widget-icon-blue {
+  color: #4096ff;
+}
+
+.widget-icon-primary {
+  color: #1677ff;
+}
+
+.widget-icon-green {
+  color: #87d068;
+}
+
 /* COMMON */
 /* -------------------------------------------------- */
 .space-up {
@@ -415,7 +482,7 @@ footer {
 }
 
 .widget-list {
-  min-height: 230px;
+  min-height: 0;
 }
 
 .sheets-org-select {
@@ -501,6 +568,10 @@ footer {
 
 .ant-card-body {
   color: var(--card-text-color) !important;
+  padding: 12px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
 }
 
 /* List overrides - ensure text inherits card colors */
@@ -684,8 +755,8 @@ footer {
 
 /* Pagination overrides */
 .ant-pagination-item {
-  background: var(--input-background) !important;
-  border-color: var(--input-border-color) !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .ant-pagination-item a {
@@ -693,19 +764,22 @@ footer {
 }
 
 .ant-pagination-item-active {
-  background: var(--input-background) !important;
-  border-color: var(--color-primary) !important;
-
-  border-color: var(--button-primary-bg) !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-text-dark) !important;
+  border-radius: 0 !important;
 }
 
 .ant-pagination-item-active a {
   color: var(--icon-color) !important;
+  font-weight: 600;
 }
 
 .ant-pagination-item:hover {
-  background: var(--color-border-default) !important;
-  border-color: var(--input-border-color) !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid var(--color-border-default) !important;
+  border-radius: 0 !important;
 }
 
 .ant-pagination-item:hover a {
@@ -713,21 +787,23 @@ footer {
 }
 
 .ant-pagination-item-active:hover {
-  background: var(--input-background) !important;
-  border-color: var(--color-primary) !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--color-text-dark) !important;
+  border-radius: 0 !important;
 }
 
 .ant-pagination-prev .ant-pagination-item-link,
 .ant-pagination-next .ant-pagination-item-link {
-  background: var(--input-background) !important;
-  border-color: var(--input-border-color) !important;
+  background: transparent !important;
+  border: none !important;
   color: var(--icon-color) !important;
 }
 
 .ant-pagination-prev:hover .ant-pagination-item-link,
 .ant-pagination-next:hover .ant-pagination-item-link {
-  background: var(--color-border-default) !important;
-  border-color: var(--input-border-color) !important;
+  background: transparent !important;
+  border: none !important;
   color: var(--icon-color) !important;
 }
 
