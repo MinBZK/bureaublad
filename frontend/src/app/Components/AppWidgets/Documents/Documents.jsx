@@ -9,7 +9,7 @@ import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 import moment from "moment";
 // Docs
-function Documents({title}) {
+function Documents({ title }) {
   // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);

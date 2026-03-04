@@ -11,7 +11,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // Conversation
-function Conversations({ title}) {
+function Conversations({ title }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Conversations");
