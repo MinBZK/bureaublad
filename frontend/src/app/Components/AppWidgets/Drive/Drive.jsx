@@ -1,13 +1,20 @@
 "use client";
 import React, { useState } from "react";
 import { Avatar } from "antd";
-import { FileImageOutlined } from "@ant-design/icons";
+import {
+  FileExcelOutlined,
+  FileImageOutlined,
+  FileOutlined,
+  FilePptOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
 import moment from "moment";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
+
 
 function Drive() {
   // const [favorite, setFavorite] = useState(false);
@@ -25,6 +32,7 @@ function Drive() {
     page,
     page_size: 3,
   });
+
 
   return (
     <Widget
@@ -47,7 +55,10 @@ function Drive() {
             <CustomList.Item key={item.id}>
               <CustomList.Item.Meta
                 avatar={
-                  <Avatar icon={<FileImageOutlined />} className="avt-name" />
+                  <Avatar
+                    icon={fileIcon(item?.mimetype)}
+                    className="avt-name"
+                  />
                 }
                 title={
                   <Link
@@ -69,3 +80,15 @@ function Drive() {
 }
 
 export default Drive;
+
+const MIME_ICONS = [
+  ["image", FileImageOutlined],
+  ["text", FileTextOutlined],
+  ["spreadsheet", FileExcelOutlined],
+  ["presentation", FilePptOutlined],
+];
+
+const fileIcon = (mimetype) => {
+  const Icon = MIME_ICONS.find(([type]) => mimetype?.includes(type))?.[1] ?? FileOutlined;
+  return <Icon />;
+};

@@ -34,7 +34,7 @@ export default function PageLayout({ children }) {
         redirectUrl={appConfig?.redirect_to_account_page}
         isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
       />
-      <Content className={isEmbeddedAppRoute ? "" : "layout-content"}>
+      <Content className={!isEmbeddedAppRoute ? "" : "layout-content"}>
         <div className="content">
           {/* Render all embedded apps at once, show/hide based on route */}
           {embeddedApps.map((app) => {
@@ -67,10 +67,10 @@ export default function PageLayout({ children }) {
           {!isEmbeddedAppRoute && children}
         </div>
       </Content>
-      {appConfig?.helpdesk_url && (
+      {!appConfig?.helpdesk_url && (
         <FloatButton
           shape="circle"
-          style={{ insetInlineEnd: 30 }}
+          style={{ insetInlineEnd: 40, insetBlockEnd: 80 }}
           icon={<MessageOutlined />}
           href={appConfig?.helpdesk_url}
           tooltip={t("helpdesk")}
