@@ -15,7 +15,6 @@ import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefres
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
-
 function Drive() {
   // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
@@ -32,7 +31,6 @@ function Drive() {
     page,
     page_size: 3,
   });
-
 
   return (
     <Widget
@@ -89,6 +87,7 @@ const MIME_ICONS = [
 ];
 
 const fileIcon = (mimetype) => {
-  const Icon = MIME_ICONS.find(([type]) => mimetype?.includes(type))?.[1] ?? FileOutlined;
+  const Icon =
+    MIME_ICONS.find(([type]) => mimetype?.includes(type))?.[1] ?? FileOutlined;
   return <Icon />;
 };
