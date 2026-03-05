@@ -11,7 +11,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // Conversation
-function Conversations() {
+function Conversations({ title }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Conversations");
@@ -28,7 +28,7 @@ function Conversations() {
 
   return (
     <Widget
-      title={t("title")}
+      title={title || t("title")}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
