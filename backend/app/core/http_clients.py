@@ -8,7 +8,7 @@ from app.context import get_request_id
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_TIMEOUT = 2.0
+DEFAULT_TIMEOUT = 5.0
 DEFAULT_MAX_RETRIES = 2
 
 

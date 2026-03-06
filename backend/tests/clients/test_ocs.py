@@ -47,6 +47,21 @@ class TestOCSClient:
         assert client.client is mock_http_client
         assert client.base_url == "https://nextcloud.example.com"
         assert client.token == "test-token"
+        assert client.timeout is None
+
+    def test_init_with_custom_timeout(self, mock_http_client: AsyncMock) -> None:
+        """Test OCSClient initialization with custom timeout."""
+        client = OCSClient(
+            http_client=mock_http_client,
+            base_url="https://nextcloud.example.com",
+            token="test-token",
+            timeout=10.0,
+        )
+        assert client.timeout == 10.0
+
+    def test_init_timeout_is_none_by_default(self, client: OCSClient) -> None:
+        """Test that timeout defaults to None."""
+        assert client.timeout is None
 
     def test_init_strips_trailing_slash(self, mock_http_client: AsyncMock) -> None:
         """Test that trailing slash is stripped from base_url."""
@@ -182,6 +197,39 @@ class TestOCSClient:
         result = await client.search_files(term="nonexistent")
 
         assert result == []
+
+    async def test_default_timeout_uses_client_default(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
+        """Test that default timeout (None) does not pass timeout kwarg, preserving client default."""
+        mock_response = create_mock_response(status_code=200, json_data={"ocs": {"data": {"entries": []}}})
+        mock_http_client.get.return_value = mock_response
+
+        await client.search_files(term="test")
+
+        call_kwargs = mock_http_client.get.call_args[1]
+        assert "timeout" not in call_kwargs
+
+    async def test_custom_timeout_passes_value(self, mock_http_client: AsyncMock) -> None:
+        """Test that custom timeout passes timeout value to client.get()."""
+        client = OCSClient(
+            http_client=mock_http_client,
+            base_url="https://nextcloud.example.com",
+            token="test-token",
+            timeout=10.0,
+        )
+        mock_response = create_mock_response(status_code=200, json_data={"ocs": {"data": {"entries": []}}})
+        mock_http_client.get.return_value = mock_response
+
+        await client.search_files(term="test")
+
+        call_kwargs = mock_http_client.get.call_args[1]
+        assert call_kwargs["timeout"] == 10.0
+
+    async def test_timeout_exception_is_reraised(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
+        """Test that httpx.TimeoutException is re-raised, not wrapped as ExternalServiceError."""
+        mock_http_client.get.side_effect = httpx.ReadTimeout("read timed out")
+
+        with pytest.raises(httpx.TimeoutException):
+            await client.search_files(term="test")
 
     async def test_get_file_activities_single_file(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test file activities with a single file per activity."""
