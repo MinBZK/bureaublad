@@ -21,7 +21,7 @@ async def get_ocs_client(request: Request, http_client: HTTPClient) -> OCSClient
 
     token = await get_token(request, settings.OCS_AUDIENCE)
 
-    return OCSClient(http_client, settings.OCS_URL, token)
+    return OCSClient(http_client, settings.OCS_URL, token, timeout=10.0)
 
 
 @router.get("/activities", response_model=FileActivityResponse)
