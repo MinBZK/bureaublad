@@ -15,10 +15,11 @@ class BaseAPIClient:
 
     service_name: str
 
-    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str) -> None:
+    def __init__(self, http_client: httpx.AsyncClient, base_url: str, token: str, timeout: float | None = None) -> None:
         self.client = http_client
         self.base_url = base_url.rstrip("/")
         self.token = token
+        self.timeout = timeout
 
     def _build_url(self, path: str) -> str:
         """Build full URL from base and path."""
@@ -38,11 +39,13 @@ class BaseAPIClient:
         """Get resource and return both data and response headers."""
         try:
             url = self._build_url(path)
-            response = await self.client.get(
-                url,
-                params=params or {},
-                headers=self._auth_headers(),
-            )
+            kwargs: dict[str, Any] = {
+                "params": params or {},
+                "headers": self._auth_headers(),
+            }
+            if self.timeout is not None:
+                kwargs["timeout"] = self.timeout
+            response = await self.client.get(url, **kwargs)
 
             if response.status_code != 200:
                 raise ExternalServiceError(
@@ -54,6 +57,9 @@ class BaseAPIClient:
             validated = TypeAdapter(model_type).validate_python(data)
             return validated, dict(response.headers)
 
+        except httpx.TimeoutException:
+            logger.exception(f"Timeout calling {self.service_name} API")
+            raise
         except httpx.HTTPError as e:
             logger.exception(f"HTTP error calling {self.service_name} API")
             raise ExternalServiceError(self.service_name, f"HTTP error: {e}") from e

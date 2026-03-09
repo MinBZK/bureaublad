@@ -15,20 +15,19 @@ const copyToClipboard = (text) => {
 };
 
 // meet
-function Meet() {
+function Meet({ app }) {
   // TODO search functionality is implemented in the frontend only because Meet dose not support search
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Meet");
-  const {
-    data: meet,
-    error,
-    onRefresh,
-  } = useFetchWithRefresh("/meet/rooms", { page, page_size: 3 });
+  const { data: meet, error, onRefresh } = useFetchWithRefresh("/meet/rooms");
+
+  // Custom Pagination because meet dose not support pagination correctly
+  const paginatedMeet = meet?.results?.slice((page - 1) * 3, page * 3) ?? [];
 
   return (
     <Widget
-      title={t("title")}
+      app={app}
       error={error}
       onRefresh={onRefresh}
       setSearch={setSearch}
@@ -38,7 +37,7 @@ function Meet() {
     >
       <CustomList
         dataSource={
-          meet?.results?.filter((value) =>
+          paginatedMeet?.filter((value) =>
             value?.name?.toUpperCase()?.includes(search.toUpperCase()),
           ) || []
         }

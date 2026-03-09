@@ -10,7 +10,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // NextCloud
-function Files() {
+function Files({ app }) {
   const [searchTerm, setSearchTerm] = useState("");
   const t = useTranslations("Files");
   const [page, setPage] = useState(1);
@@ -38,9 +38,10 @@ function Files() {
     ) ?? [];
 
   const paginatedFiles = uniqueFiles?.slice((page - 1) * 3, page * 3) ?? [];
+
   return (
     <Widget
-      title={t("title")}
+      app={app}
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}
