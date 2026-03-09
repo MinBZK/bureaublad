@@ -4,7 +4,6 @@ from datetime import datetime
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from app.models.activity import FileActivity, FileActivityResponse, FileInfo
-from app.models.search import SearchResults
 from fastapi.testclient import TestClient
 
 
@@ -203,27 +202,29 @@ class TestOCSEndpoints:
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.search_files.return_value = [
-            SearchResults(
-                name="Meeting notes.txt",
-                url="/f/123",
-            ),
-            SearchResults(
-                name="Project report.pdf",
-                url="/f/456",
-            ),
-        ]
+        mock_client_instance.search_files.return_value = FileActivityResponse(
+            results=[
+                FileActivity(
+                    files=[FileInfo(name="Meeting notes.txt", link="/f/123")],
+                ),
+                FileActivity(
+                    files=[FileInfo(name="Project report.pdf", link="/f/456")],
+                ),
+            ],
+            last_given=None,
+        )
         mock_ocs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/ocs/search?term=meeting")
 
         assert response.status_code == 200
         data = response.json()
-        assert len(data) == 2
-        assert data[0]["name"] == "Meeting notes.txt"
-        assert data[0]["url"] == "/f/123"
-        assert data[1]["name"] == "Project report.pdf"
-        assert data[1]["url"] == "/f/456"
+        assert len(data["results"]) == 2
+        assert data["results"][0]["files"][0]["name"] == "Meeting notes.txt"
+        assert data["results"][0]["files"][0]["link"] == "/f/123"
+        assert data["results"][1]["files"][0]["name"] == "Project report.pdf"
+        assert data["results"][1]["files"][0]["link"] == "/f/456"
+        assert data["last_given"] is None
 
         # Verify OCSClient was called correctly
         mock_client_instance.search_files.assert_called_once_with(term="meeting")
@@ -244,14 +245,15 @@ class TestOCSEndpoints:
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
-        mock_client_instance.search_files.return_value = []
+        mock_client_instance.search_files.return_value = FileActivityResponse(results=[], last_given=None)
         mock_ocs_client.return_value = mock_client_instance
 
         response = authenticated_client.get("/api/v1/ocs/search?term=nonexistent")
 
         assert response.status_code == 200
         data = response.json()
-        assert data == []
+        assert data["results"] == []
+        assert data["last_given"] is None
 
     def test_ocs_search_missing_term(self, authenticated_client: TestClient) -> None:
         """Test search endpoint without term parameter."""
