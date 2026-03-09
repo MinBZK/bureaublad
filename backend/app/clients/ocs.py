@@ -4,11 +4,10 @@ Reference: https://docs.nextcloud.com/server/latest/developer_manual/client_apis
 """
 
 import logging
-from typing import cast
 
 from app.clients.base import BaseAPIClient
-from app.models.activity import Activity, FileActivity, FileActivityResponse
-from app.models.search import FileSearchResult, SearchResults
+from app.models.activity import Activity, FileActivity, FileActivityResponse, FileInfo
+from app.models.search import FileSearchResult
 
 logger = logging.getLogger(__name__)
 
@@ -74,11 +73,13 @@ class OCSClient(BaseAPIClient):
 
     async def search_files(
         self, term: str, path: str = "ocs/v2.php/search/providers/files/search"
-    ) -> list[SearchResults]:
+    ) -> FileActivityResponse:
         validated = await self._get_resource(
             path=path,
             model_type=list[FileSearchResult],
             params={"format": "json", "term": term},
             response_parser=lambda data: data.get("ocs", {}).get("data", {}).get("entries", []),
         )
-        return cast(list[SearchResults], validated)
+        search_results: list[FileSearchResult] = validated
+        file_activities = [FileActivity(files=[FileInfo(name=entry.name, link=entry.url)]) for entry in search_results]
+        return FileActivityResponse(results=file_activities, last_given=None)

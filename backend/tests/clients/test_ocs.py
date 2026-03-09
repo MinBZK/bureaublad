@@ -8,8 +8,7 @@ import httpx
 import pytest
 from app.clients.ocs import OCSClient
 from app.exceptions import ExternalServiceError
-from app.models.activity import Activity
-from app.models.search import SearchResults
+from app.models.activity import Activity, FileActivityResponse
 
 
 def create_mock_response(
@@ -99,11 +98,11 @@ class TestOCSClient:
         result = await client.search_files(term="test")
 
         # Assertions
-        assert len(result) == 1
-        search_result = result[0]
-        assert isinstance(search_result, SearchResults)
-        assert search_result.name == "test-file.txt"
-        # Note: subline is not a field in the model, only name and url
+        assert isinstance(result, FileActivityResponse)
+        assert len(result.results) == 1
+        assert result.results[0].files[0].name == "test-file.txt"
+        assert result.results[0].files[0].link == "https://nextcloud.example.com/f/12345"
+        assert result.last_given is None
 
         # Verify HTTP call
         mock_http_client.get.assert_called_once()
@@ -185,9 +184,11 @@ class TestOCSClient:
 
         result = await client.search_files(term="test")
 
-        assert len(result) == 2
-        assert result[0].name == "file1.txt"
-        assert result[1].name == "file2.txt"
+        assert len(result.results) == 2
+        assert result.results[0].files[0].name == "file1.txt"
+        assert result.results[0].files[0].link == "https://nextcloud.example.com/f/12345"
+        assert result.results[1].files[0].name == "file2.txt"
+        assert result.results[1].files[0].link == "https://nextcloud.example.com/f/67890"
 
     async def test_search_files_no_results(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test file search when no results found."""
@@ -196,7 +197,9 @@ class TestOCSClient:
 
         result = await client.search_files(term="nonexistent")
 
-        assert result == []
+        assert isinstance(result, FileActivityResponse)
+        assert result.results == []
+        assert result.last_given is None
 
     async def test_default_timeout_uses_client_default(self, client: OCSClient, mock_http_client: AsyncMock) -> None:
         """Test that default timeout (None) does not pass timeout kwarg, preserving client default."""

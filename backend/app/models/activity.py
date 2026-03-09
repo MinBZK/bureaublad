@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime as DateTime
 from typing import Any, cast
 
 from pydantic import BaseModel, computed_field
@@ -9,9 +9,9 @@ from app.core.config import settings
 class FileInfo(BaseModel):
     """Single file reference within an activity."""
 
-    id: int
+    id: int | None = None
     name: str
-    path: str
+    path: str | None = None
     link: str | None = None  # Direct link from Nextcloud, may be absent
 
 
@@ -28,7 +28,7 @@ class Activity(BaseModel):
     object_type: str
     object_id: int
     object_name: str
-    datetime: datetime
+    datetime: DateTime
     objects: dict[str, str] | None = None
     subject_rich: list[Any] | None = None
 
@@ -116,9 +116,9 @@ class FileActivity(BaseModel):
     Each activity contains all affected files in the 'files' array.
     """
 
-    activity_id: int
-    datetime: datetime
-    action: str  # file_created, file_changed, shared, etc.
+    activity_id: int | None = None
+    datetime: DateTime | None = None
+    action: str | None = None  # file_created, file_changed, shared, etc.
     files: list[FileInfo]  # All files in this activity
 
 
