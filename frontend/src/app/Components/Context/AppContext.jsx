@@ -24,15 +24,17 @@ export function AppProvider({ children }) {
         setError(err?.response);
         // Redirect based on error
         if (err?.response?.status === 401) {
-          // Try silent login first if available
-          attemptSilentLogin(
+          // Try silent login first; only redirect to /login if no silent login was triggered
+          const silentLoginInitiated = attemptSilentLogin(
             300,
             window.location.pathname + window.location.search,
           );
 
-          const params = searchParams.toString();
-          const redirectUrl = params ? `/login?${params}` : "/login";
-          router.push(redirectUrl);
+          if (!silentLoginInitiated) {
+            const params = searchParams.toString();
+            const redirectUrl = params ? `/login?${params}` : "/login";
+            router.push(redirectUrl);
+          }
         }
         // For other errors, the error state is already set and will be handled by the app
       } finally {
