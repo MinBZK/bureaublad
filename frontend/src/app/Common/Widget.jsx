@@ -1,5 +1,10 @@
 "use client";
-import { StarFilled, StarOutlined, ReloadOutlined } from "@ant-design/icons";
+import {
+  StarFilled,
+  StarOutlined,
+  ReloadOutlined,
+  ArrowRightOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -9,16 +14,14 @@ import {
   Row,
   Col,
   Pagination,
-  Select,
 } from "antd";
 import React, { useState } from "react";
 import { useTranslations } from "../../i18n/TranslationsProvider";
-
+import Link from "next/link";
 const { Search } = Input;
 
 function Widget({
   children,
-  title,
   error,
   loading = false,
   favorite,
@@ -29,13 +32,28 @@ function Widget({
   page = 1,
   setPage = undefined,
   total = 0,
+  app,
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
+  const { iframe, url, title } = app || {};
+  const iconLink = iframe ? (
+    <Link href={`/${id}`}>
+      <ArrowRightOutlined />
+    </Link>
+  ) : (
+    <Link href={url || ""} rel="noopener noreferrer" target="_blank">
+      <ArrowRightOutlined />
+    </Link>
+  );
 
   return (
     <Card
-      title={title}
+      title={
+        <span>
+          {title} {iconLink}
+        </span>
+      }
       loading={loading}
       extra={
         onRefresh && (

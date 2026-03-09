@@ -10,7 +10,7 @@ import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 // NextCloud
-function Files({ title }) {
+function Files({ app }) {
   const [searchTerm, setSearchTerm] = useState("");
   const t = useTranslations("Files");
   const [page, setPage] = useState(1);
@@ -41,7 +41,7 @@ function Files({ title }) {
 
   return (
     <Widget
-      title={title || t("title")}
+      app={app}
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}

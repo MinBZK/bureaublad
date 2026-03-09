@@ -9,7 +9,7 @@ import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "../../../Common/CustomList";
 import moment from "moment";
 // Docs
-function Documents({ title }) {
+function Documents({ app }) {
   // const [favorite, setFavorite] = useState(false);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -28,7 +28,7 @@ function Documents({ title }) {
 
   return (
     <Widget
-      title={title || t("title")}
+      app={app}
       // favorite={favorite}
       // setFavorite={setFavorite}
       search={search}
