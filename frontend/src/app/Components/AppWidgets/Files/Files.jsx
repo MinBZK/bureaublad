@@ -67,10 +67,12 @@ function Files({ app }) {
                 </Link>
               }
               description={
-                <span>
-                  {t("lastModified")}:
-                  {moment(item?.datetime).format("DD-MM-YYYY, HH:mm")}
-                </span>
+                item?.datetime && (
+                  <span>
+                    {t("lastModified")}:
+                    {moment(item?.datetime).format("DD-MM-YYYY, HH:mm")}
+                  </span>
+                )
               }
             />
             <Link href={item?.link} target="_blank" rel="noopener noreferrer">

@@ -28,11 +28,13 @@ function initiateSilentLogin(redirectTo) {
 }
 
 // Attempt silent login with retry mechanism
+// Returns true if a silent login redirect was initiated, false otherwise
 export function attemptSilentLogin(retryInSeconds = 300, redirectTo) {
   if (!isRetryAllowed()) {
-    return;
+    return false;
   }
 
   setNextRetryTime(retryInSeconds);
   initiateSilentLogin(redirectTo);
+  return true;
 }
