@@ -34,7 +34,9 @@ export default function PageLayout({ children }) {
         redirectUrl={appConfig?.redirect_to_account_page}
         isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
       />
-      <Content className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-content"}>
+      <Content
+        className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-content"}
+      >
         <div className="content">
           {/* Render all embedded apps at once, show/hide based on route */}
           {embeddedApps.map((app) => {
