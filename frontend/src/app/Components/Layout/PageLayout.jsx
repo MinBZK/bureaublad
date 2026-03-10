@@ -22,7 +22,7 @@ export default function PageLayout({ children }) {
     appConfig?.applications?.filter((app) => app.iframe && app.url) || [];
   const currentAppId = pathname.slice(1); // Remove leading slash
   const isEmbeddedAppRoute = embeddedApps.some(
-    (app) => app.id === currentAppId,
+    (app) => app?.id === currentAppId,
   );
 
   return !isLayoutHidden ? (
@@ -34,12 +34,12 @@ export default function PageLayout({ children }) {
         redirectUrl={appConfig?.redirect_to_account_page}
         isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
       />
-      <Content className={!isEmbeddedAppRoute ? "" : "layout-content"}>
+      <Content className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-content"}>
         <div className="content">
           {/* Render all embedded apps at once, show/hide based on route */}
           {embeddedApps.map((app) => {
-            const isActive = currentAppId === app.id;
-            const isMatrix = app.id === "matrix";
+            const isActive = currentAppId === app?.id;
+            const isMatrix = app?.id === "matrix";
 
             return (
               <div

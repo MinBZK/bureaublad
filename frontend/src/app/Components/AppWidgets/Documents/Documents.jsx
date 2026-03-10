@@ -44,12 +44,12 @@ function Documents({ app }) {
         dataSource={docs?.results || []}
         loading={loading}
         renderItem={(item) => (
-          <CustomList.Item key={item.id}>
+          <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta
               avatar={<Avatar icon={<FileTextOutlined />} />}
               title={
                 <Link
-                  href={item?.url}
+                  href={item?.url_preview || item?.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -58,7 +58,7 @@ function Documents({ app }) {
               }
               description={`${t("lastModified")}: ${moment.utc(item.updated_at).format("DD-MM-YYYY, HH:mm")}`}
             />
-            <Link href={item?.url} target="_blank" rel="noopener noreferrer">
+            <Link href={item?.url_preview || item?.url} target="_blank" rel="noopener noreferrer">
               <EditOutlined />
             </Link>
           </CustomList.Item>

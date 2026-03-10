@@ -89,6 +89,9 @@ body {
   padding: 20px;
 }
 
+.homepage-layout{
+  padding: 0px 20px;
+}
 .content {
   margin: 0;
   background: var(--layout-content-background);
