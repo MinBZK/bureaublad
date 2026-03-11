@@ -13,12 +13,10 @@ class Document(BaseModel):
     updated_at: str
 
     @model_validator(mode="after")
-    def set_view_url(self) -> "Document":
-        if self.url_preview:
-            self.url = self.url_preview
-        elif self.url:
+    def set_url_preview(self) -> "Document":
+        if not self.url_preview and self.url:
             parsed = urlparse(self.url)
-            self.url = f"{parsed.scheme}://{parsed.netloc}/explorer/items/files/{self.id}"
+            self.url_preview = f"{parsed.scheme}://{parsed.netloc}/explorer/items/files/{self.id}"
         return self
 
     @computed_field

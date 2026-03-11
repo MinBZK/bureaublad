@@ -58,7 +58,7 @@ export default function ExternalApp({ appId }) {
       <Dropdown
         menu={{ items: menuItems }}
         trigger={["hover"]}
-        placement="bottomRight"
+        placement="bottom"
         getPopupContainer={(trigger) => trigger.parentElement}
         rootClassName="external-app-dropdown-menu"
       >

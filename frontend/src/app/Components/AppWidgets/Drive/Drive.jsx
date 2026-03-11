@@ -60,7 +60,7 @@ function Drive({ app }) {
                 }
                 title={
                   <Link
-                    href={item?.url || ""}
+                    href={item?.url_preview || ""}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

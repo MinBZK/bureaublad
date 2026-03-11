@@ -66,7 +66,8 @@ class TestDriveClient:
         assert len(result.results) == 1
         assert isinstance(result.results[0], Document)
         assert result.results[0].title == "Test Document"
-        assert result.results[0].url == "https://drive.example.com/explorer/items/files/doc1"
+        assert result.results[0].url == "https://drive.example.com/media/item/doc1/test.pdf"
+        assert result.results[0].url_preview == "https://drive.example.com/explorer/items/files/doc1"
 
         # Should make exactly one HTTP call to the recents endpoint
         assert mock_http_client.get.call_count == 1
@@ -185,6 +186,6 @@ class TestDriveClient:
         assert result.count == 2
         assert len(result.results) == 2
         assert result.results[0].title == "Document 1"
-        assert result.results[0].url == "https://drive.example.com/explorer/items/files/doc1"
+        assert result.results[0].url_preview == "https://drive.example.com/explorer/items/files/doc1"
         assert result.results[1].title == "Document 2"
-        assert result.results[1].url == "https://drive.example.com/preview/doc2.png"
+        assert result.results[1].url_preview == "https://drive.example.com/preview/doc2.png"

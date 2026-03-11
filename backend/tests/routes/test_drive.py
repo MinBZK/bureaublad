@@ -224,7 +224,7 @@ class TestDriveEndpoints:
         assert data["count"] == 1
         assert len(data["results"]) == 1
         assert data["results"][0]["title"] == "Test Computed Fields.docx"
-        assert data["results"][0]["url"] == "https://drive.example.com/explorer/items/files/doc-computed"
+        assert data["results"][0]["url_preview"] == "https://drive.example.com/explorer/items/files/doc-computed"
         assert (
             data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )

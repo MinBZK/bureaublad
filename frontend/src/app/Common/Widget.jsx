@@ -36,16 +36,17 @@ function Widget({
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
-  const { iframe, url, title } = app || {};
-  const iconLink = iframe ? (
-    <Link href={`/${id}`}>
-      <ArrowRightOutlined />
-    </Link>
-  ) : (
-    <Link href={url || ""} rel="noopener noreferrer" target="_blank">
-      <ArrowRightOutlined />
-    </Link>
-  );
+  const { iframe, url, title, id } = app || {};
+  const iconLink =
+    iframe && id ? (
+      <Link href={`/${id}`}>
+        <ArrowRightOutlined />
+      </Link>
+    ) : (
+      <Link href={url || ""} rel="noopener noreferrer" target="_blank">
+        <ArrowRightOutlined />
+      </Link>
+    );
 
   return (
     <Card
