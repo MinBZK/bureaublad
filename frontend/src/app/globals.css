@@ -89,6 +89,9 @@ body {
   padding: 20px;
 }
 
+.homepage-layout {
+  padding: 0px 20px;
+}
 .content {
   margin: 0;
   background: var(--layout-content-background);
@@ -313,9 +316,10 @@ footer {
 .external-app-dropdown-trigger {
   position: absolute;
   top: 0;
-  right: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 40px;
-  height: 10px;
+  height: 15px;
   background-color: rgba(0, 0, 0, 0.15);
   border-radius: 0 0 8px 8px;
   cursor: pointer;

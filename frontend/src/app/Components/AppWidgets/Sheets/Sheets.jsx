@@ -48,7 +48,7 @@ function Sheets({ app }) {
 
   const orgOptions = orgs.slice(0, 2).map((org) => ({
     label: org.name,
-    value: org.id,
+    value: org?.id,
   }));
 
   const onRefresh = () => {

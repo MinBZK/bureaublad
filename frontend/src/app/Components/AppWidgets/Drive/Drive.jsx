@@ -50,7 +50,7 @@ function Drive({ app }) {
         loading={loading}
         renderItem={(item, index) =>
           index < 3 && (
-            <CustomList.Item key={item.id}>
+            <CustomList.Item key={item?.id}>
               <CustomList.Item.Meta
                 avatar={
                   <Avatar
@@ -60,7 +60,7 @@ function Drive({ app }) {
                 }
                 title={
                   <Link
-                    href={item?.url || ""}
+                    href={item?.url_preview || ""}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

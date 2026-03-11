@@ -44,14 +44,14 @@ class TestDriveEndpoints:
                 Document(
                     id="doc-123",
                     title="Project Report.docx",
-                    url="https://drive.example.com/files/doc-123",
+                    url="https://drive.example.com/media/item/doc-123/file.docx",
                     mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     updated_at="2024-11-01T10:00:00Z",
                 ),
                 Document(
                     id="doc-456",
                     title="Presentation.pptx",
-                    url="https://drive.example.com/files/doc-456",
+                    url="https://drive.example.com/media/item/doc-456/file.pptx",
                     mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
                     updated_at="2024-11-01T11:00:00Z",
                 ),
@@ -100,7 +100,7 @@ class TestDriveEndpoints:
                 Document(
                     id="doc-789",
                     title="Filtered Document.pdf",
-                    url="https://drive.example.com/files/doc-789",
+                    url="https://drive.example.com/media/item/doc-789/file.pdf",
                     mimetype="application/pdf",
                     updated_at="2024-11-01T12:00:00Z",
                 )
@@ -208,7 +208,8 @@ class TestDriveEndpoints:
                 Document(
                     id="doc-computed",
                     title="Test Computed Fields.docx",
-                    url="https://drive.example.com/files/doc-computed",
+                    url="https://drive.example.com/media/item/doc-computed/file.docx",
+                    url_preview=None,
                     mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                     updated_at="2024-11-01T15:30:00Z",
                 )
@@ -223,7 +224,7 @@ class TestDriveEndpoints:
         assert data["count"] == 1
         assert len(data["results"]) == 1
         assert data["results"][0]["title"] == "Test Computed Fields.docx"
-        assert data["results"][0]["url"] == "https://drive.example.com/files/doc-computed"
+        assert data["results"][0]["url_preview"] == "https://drive.example.com/explorer/items/files/doc-computed"
         assert (
             data["results"][0]["mimetype"] == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         )
@@ -255,28 +256,28 @@ class TestDriveEndpoints:
                 Document(
                     id="pdf-1",
                     title="Document.pdf",
-                    url="https://drive.example.com/files/pdf-1",
+                    url="https://drive.example.com/media/item/pdf-1/file.pdf",
                     mimetype="application/pdf",
                     updated_at="2024-11-01T16:00:00Z",
                 ),
                 Document(
                     id="excel-1",
                     title="Spreadsheet.xlsx",
-                    url="https://drive.example.com/files/excel-1",
+                    url="https://drive.example.com/media/item/excel-1/file.xlsx",
                     mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     updated_at="2024-11-01T16:15:00Z",
                 ),
                 Document(
                     id="powerpoint-1",
                     title="Presentation.pptx",
-                    url="https://drive.example.com/files/powerpoint-1",
+                    url="https://drive.example.com/media/item/powerpoint-1/file.pptx",
                     mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
                     updated_at="2024-11-01T16:30:00Z",
                 ),
                 Document(
                     id="text-1",
                     title="Text.txt",
-                    url="https://drive.example.com/files/text-1",
+                    url="https://drive.example.com/media/item/text-1/file.txt",
                     mimetype="text/plain",
                     updated_at="2024-11-01T16:45:00Z",
                 ),

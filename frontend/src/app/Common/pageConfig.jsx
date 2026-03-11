@@ -17,9 +17,9 @@ export const menuItem = (applications, t) => [
   ...applications
     ?.filter((app) => app?.url && app?.title)
     .map((app) => ({
-      key: app.id,
+      key: app?.id,
       label: app.iframe ? (
-        <Link href={`/${app.id}`}>{app.title}</Link>
+        <Link href={`/${app?.id}`}>{app.title}</Link>
       ) : (
         <Link href={app.url} rel="noopener noreferrer" target="_blank">
           {app.title}
@@ -41,8 +41,8 @@ export const availableWidgetComponents = (applications) => {
   return applications
     .filter((app) => app.enabled)
     .map((app) => {
-      const Component = componentMap[app.id];
-      return Component ? <Component key={app.id} app={app} /> : null;
+      const Component = componentMap[app?.id];
+      return Component ? <Component key={app?.id} app={app} /> : null;
     })
     .filter(Boolean);
 };

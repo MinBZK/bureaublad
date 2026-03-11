@@ -21,7 +21,7 @@ export default function ExternalApp({ appId }) {
   // Use appId prop if provided, otherwise fallback to pathname
   const appIdToUse = appId || pathname.slice(1);
   const app = appConfig?.applications?.find(
-    (application) => application.id === appIdToUse,
+    (application) => application?.id === appIdToUse,
   );
 
   const toggleFullscreen = () => {
@@ -58,7 +58,7 @@ export default function ExternalApp({ appId }) {
       <Dropdown
         menu={{ items: menuItems }}
         trigger={["hover"]}
-        placement="bottomRight"
+        placement="bottom"
         getPopupContainer={(trigger) => trigger.parentElement}
         rootClassName="external-app-dropdown-menu"
       >

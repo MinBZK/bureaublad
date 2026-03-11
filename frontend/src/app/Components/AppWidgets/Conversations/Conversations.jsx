@@ -41,7 +41,7 @@ function Conversations({ app }) {
         dataSource={conv?.results || []}
         loading={loading}
         renderItem={(item) => (
-          <CustomList.Item key={item.id}>
+          <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta
               title={
                 <Link
@@ -54,7 +54,7 @@ function Conversations({ app }) {
               }
               description={
                 <span>
-                  {t("lastModified")} :
+                  {t("lastModified")}:
                   {moment.utc(item.updated_at)?.format("DD-MM-YYYY HH:mm")}
                 </span>
               }

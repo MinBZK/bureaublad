@@ -52,7 +52,8 @@ class TestDriveClient:
                     "id": "doc1",
                     "title": "Test Document",
                     "updated_at": "2024-01-15T11:00:00Z",
-                    "url": "https://drive.example.com/doc",
+                    "url": "https://drive.example.com/media/item/doc1/test.pdf",
+                    "url_preview": None,
                     "mimetype": "application/pdf",
                 }
             ],
@@ -65,6 +66,8 @@ class TestDriveClient:
         assert len(result.results) == 1
         assert isinstance(result.results[0], Document)
         assert result.results[0].title == "Test Document"
+        assert result.results[0].url == "https://drive.example.com/media/item/doc1/test.pdf"
+        assert result.results[0].url_preview == "https://drive.example.com/explorer/items/files/doc1"
 
         # Should make exactly one HTTP call to the recents endpoint
         assert mock_http_client.get.call_count == 1
@@ -162,14 +165,16 @@ class TestDriveClient:
                     "id": "doc1",
                     "title": "Document 1",
                     "updated_at": "2024-01-15T11:00:00Z",
-                    "url": "https://drive.example.com/doc1",
+                    "url": "https://drive.example.com/media/item/doc1/doc1.pdf",
+                    "url_preview": None,
                     "mimetype": "application/pdf",
                 },
                 {
                     "id": "doc2",
                     "title": "Document 2",
                     "updated_at": "2024-01-16T11:00:00Z",
-                    "url": "https://drive.example.com/doc2",
+                    "url": "https://drive.example.com/media/item/doc2/doc2.pdf",
+                    "url_preview": "https://drive.example.com/preview/doc2.png",
                     "mimetype": "application/pdf",
                 },
             ],
@@ -181,4 +186,6 @@ class TestDriveClient:
         assert result.count == 2
         assert len(result.results) == 2
         assert result.results[0].title == "Document 1"
+        assert result.results[0].url_preview == "https://drive.example.com/explorer/items/files/doc1"
         assert result.results[1].title == "Document 2"
+        assert result.results[1].url_preview == "https://drive.example.com/preview/doc2.png"

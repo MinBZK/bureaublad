@@ -46,7 +46,11 @@ function HeaderLayout({
   const items = [
     {
       key: "1",
-      label: <Link href={redirectUrl}>{tHeader("myAccount")}</Link>,
+      label: (
+        <Link href={redirectUrl} rel="noopener noreferrer" target="_blank">
+          {tHeader("myAccount")}
+        </Link>
+      ),
       icon: <ProfileOutlined />,
     },
     {
