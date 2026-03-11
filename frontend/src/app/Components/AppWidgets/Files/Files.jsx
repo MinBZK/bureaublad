@@ -69,7 +69,7 @@ function Files({ app }) {
               description={
                 item?.datetime && (
                   <span>
-                    {t("lastModified")}:
+                    {t("lastModified")}:{" "}
                     {moment(item?.datetime).format("DD-MM-YYYY, HH:mm")}
                   </span>
                 )

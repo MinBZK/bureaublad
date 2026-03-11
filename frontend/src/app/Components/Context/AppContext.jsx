@@ -2,9 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
-import { useSearchParams } from "next/navigation";
 import StartLoading from "../../Common/StartLoading";
-import { attemptSilentLogin } from "@/lib/silentLogin";
 
 const AppContext = createContext();
 
@@ -13,7 +11,6 @@ export function AppProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchConfig = async () => {
@@ -24,17 +21,8 @@ export function AppProvider({ children }) {
         setError(err?.response);
         // Redirect based on error
         if (err?.response?.status === 401) {
-          // Try silent login first; only redirect to /login if no silent login was triggered
-          const silentLoginInitiated = attemptSilentLogin(
-            300,
-            window.location.pathname + window.location.search,
-          );
-
-          if (!silentLoginInitiated) {
-            const params = searchParams.toString();
-            const redirectUrl = params ? `/login?${params}` : "/login";
-            router.push(redirectUrl);
-          }
+          const redirectUrl = "/login";
+          router.push(redirectUrl);
         }
         // For other errors, the error state is already set and will be handled by the app
       } finally {
