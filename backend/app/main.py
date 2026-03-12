@@ -6,6 +6,7 @@ from fastapi import Depends, FastAPI
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from starlette.types import ExceptionHandler
 
 from app.const import VERSION
@@ -21,7 +22,6 @@ from app.core.lifespan import lifespan
 from app.core.logging import configure_logging
 from app.middleware.logging import RequestLoggingMiddleware
 from app.middleware.request_id import RequestIDMiddleware
-from app.middleware.session import SessionMiddleware
 from app.middleware.translate import LanguageMiddleware
 from app.routes.authentication import router as auth_router
 from app.routes.health import router as health_router
