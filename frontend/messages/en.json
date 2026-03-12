@@ -35,7 +35,11 @@
   },
   "Meet": {
     "title": "Video Conference",
-    "pincode": "Pin code"
+    "pincode": "Pin code",
+    "accessLevel": "Access level",
+    "public": "Public",
+    "trusted": "Trusted",
+    "restricted": "Restricted"
   },
   "Sheets": {
     "title": "Sheets",

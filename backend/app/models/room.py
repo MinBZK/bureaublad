@@ -7,6 +7,7 @@ class Room(BaseModel):
     id: str
     name: str
     slug: str
+    access_level: str | None = None
     pin_code: str | None = None
 
     @computed_field

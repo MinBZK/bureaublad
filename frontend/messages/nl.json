@@ -35,7 +35,11 @@
   },
   "Meet": {
     "title": "Videoconferentie",
-    "pincode": "Pincode"
+    "pincode": "Pincode",
+    "accessLevel": "Toegangs niveau",
+    "public": "Openbaar",
+    "trusted": "Vertrouwd",
+    "restricted": "Beperkt"
   },
   "Sheets": {
     "title": "Sheets",
