@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
-import { Avatar, message } from "antd";
-import { PhoneOutlined } from "@ant-design/icons";
+import { Avatar, Tooltip } from "antd";
+import {
+  GlobalOutlined,
+  LockOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+} from "@ant-design/icons";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
 import Link from "next/link";
 import { useTranslations } from "@/i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
-const copyToClipboard = (text) => {
-  navigator.clipboard.writeText(text).then(() => {
-    message.success("Copied!");
-  });
+const ACCESS_LEVEL_ICON = {
+  public: <GlobalOutlined />,
+  trusted: <TeamOutlined />,
+  restricted: <LockOutlined />,
 };
 
 // meet
@@ -56,12 +61,14 @@ function Meet({ app }) {
                 </Link>
               }
               description={
-                item.pin_code ? (
-                  <span
-                    className="custom-list-text-copy"
-                    onClick={() => copyToClipboard(item?.pin_code)}
-                  >
-                    {t("pincode")} : {item?.pin_code}
+                item.access_level ? (
+                  <span className="custom-list-text">
+                    {t("accessLevel")}:
+                    <Tooltip title={t(item.access_level)}>
+                      <span className="access-level-icon">
+                        {ACCESS_LEVEL_ICON[item.access_level]}
+                      </span>
+                    </Tooltip>
                   </span>
                 ) : null
               }

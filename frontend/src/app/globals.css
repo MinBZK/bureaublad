@@ -135,6 +135,9 @@ footer {
   color: var(--header-text-color) !important;
 }
 
+.access-level-icon {
+  margin-left: 6px;
+}
 /* CUSTOM LIST */
 /* -------------------------------------------------- */
 .custom-list {
