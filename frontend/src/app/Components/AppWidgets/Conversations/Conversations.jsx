@@ -54,7 +54,7 @@ function Conversations({ app }) {
               }
               description={
                 <span>
-                  {t("lastModified")}:
+                  {t("lastModified")}:{" "}
                   {moment.utc(item.updated_at)?.format("DD-MM-YYYY HH:mm")}
                 </span>
               }
