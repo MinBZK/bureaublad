@@ -50,11 +50,7 @@ function Meet({ app }) {
         renderItem={(item) => (
           <CustomList.Item key={item.slug}>
             <CustomList.Item.Meta
-              avatar={
-                <Avatar className="avt-name">
-                  {item?.name?.at(0)?.toUpperCase()}
-                </Avatar>
-              }
+              avatar={<Avatar className="avt-name" icon={<PhoneOutlined />} />}
               title={
                 <Link href={item.url} target="_blank" rel="noopener noreferrer">
                   {item.name}
@@ -73,9 +69,6 @@ function Meet({ app }) {
                 ) : null
               }
             />
-            <Link href={item.url} target="_blank" rel="noopener noreferrer">
-              <Avatar className="avt-call" icon={<PhoneOutlined />} />
-            </Link>
           </CustomList.Item>
         )}
       />

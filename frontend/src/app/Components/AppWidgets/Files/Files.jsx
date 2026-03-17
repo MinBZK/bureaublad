@@ -91,9 +91,6 @@ function Files({ app }) {
                   )
                 }
               />
-              <Link href={item?.link} target="_blank" rel="noopener noreferrer">
-                <EditOutlined />
-              </Link>
             </CustomList.Item>
           );
         }}

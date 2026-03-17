@@ -57,13 +57,6 @@ function Documents({ app }) {
               }
               description={`${t("lastModified")}: ${moment.utc(item.updated_at).format("DD-MM-YYYY, HH:mm")}`}
             />
-            <Link
-              href={item?.url_preview || item?.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <EditOutlined />
-            </Link>
           </CustomList.Item>
         )}
       />

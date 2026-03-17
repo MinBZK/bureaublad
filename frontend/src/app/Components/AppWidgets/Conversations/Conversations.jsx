@@ -43,6 +43,7 @@ function Conversations({ app }) {
         renderItem={(item) => (
           <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta
+              avatar={<Avatar className="avt-ai" icon={<WechatOutlined />} />}
               title={
                 <Link
                   href={item?.url}
@@ -59,9 +60,6 @@ function Conversations({ app }) {
                 </span>
               }
             />
-            <Link href={item?.url} target="_blank" rel="noopener noreferrer">
-              <Avatar className="avt-ai" icon={<WechatOutlined />} />
-            </Link>
           </CustomList.Item>
         )}
       />
