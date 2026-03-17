@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { Avatar } from "antd";
-import { EditOutlined, FileOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  FileExcelOutlined,
+  FileImageOutlined,
+  FileOutlined,
+  FilePptOutlined,
+  FileWordOutlined,
+} from "@ant-design/icons";
 import Link from "next/link";
 import Widget from "@/app/Common/Widget";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
@@ -53,36 +60,79 @@ function Files({ app }) {
         dataSource={paginatedFiles}
         loading={loading}
         className="widget-list"
-        renderItem={(item) => (
-          <CustomList.Item key={item?.id}>
-            <CustomList.Item.Meta
-              avatar={<Avatar icon={<FileOutlined />} className="avt-doc" />}
-              title={
-                <Link
-                  href={item?.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {item?.name}
-                </Link>
-              }
-              description={
-                item?.datetime && (
-                  <span>
-                    {t("lastModified")}:
-                    {moment(item?.datetime).format("DD-MM-YYYY, HH:mm")}
-                  </span>
-                )
-              }
-            />
-            <Link href={item?.link} target="_blank" rel="noopener noreferrer">
-              <EditOutlined />
-            </Link>
-          </CustomList.Item>
-        )}
+        renderItem={(item) => {
+          const { Icon, backgroundColor } = fileVisualByExtension(item?.name);
+
+          return (
+            <CustomList.Item key={item?.id}>
+              <CustomList.Item.Meta
+                avatar={
+                  <Avatar
+                    icon={<Icon style={{ color: "#ffffff" }} />}
+                    className="avt-doc"
+                    style={{ backgroundColor }}
+                  />
+                }
+                title={
+                  <Link
+                    href={item?.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {item?.name}
+                  </Link>
+                }
+                description={
+                  item?.datetime && (
+                    <span>
+                      {t("lastModified")}:{" "}
+                      {moment(item?.datetime).format("DD-MM-YYYY, HH:mm")}
+                    </span>
+                  )
+                }
+              />
+              <Link href={item?.link} target="_blank" rel="noopener noreferrer">
+                <EditOutlined />
+              </Link>
+            </CustomList.Item>
+          );
+        }}
       />
     </Widget>
   );
 }
 
 export default Files;
+
+const EXTENSION_VISUALS = [
+  {
+    extensions: ["png", "jpg", "jpeg"],
+    Icon: FileImageOutlined,
+    backgroundColor: "#7719AA",
+  },
+  {
+    extensions: ["doc", "docx", "odt", "odf"],
+    Icon: FileWordOutlined,
+    backgroundColor: "#185ABD",
+  },
+  {
+    extensions: ["xls", "xlsx", "ods"],
+    Icon: FileExcelOutlined,
+    backgroundColor: "#107C41",
+  },
+  {
+    extensions: ["ppt", "pptx", "odp"],
+    Icon: FilePptOutlined,
+    backgroundColor: "#C43E1C",
+  },
+];
+
+const fileVisualByExtension = (filename) => {
+  const extension = filename?.split(".")?.pop()?.toLowerCase();
+
+  const visual = EXTENSION_VISUALS.find(({ extensions }) =>
+    extensions.includes(extension),
+  );
+
+  return visual ?? { Icon: FileOutlined, backgroundColor: "#8c8c8c" };
+};

@@ -56,6 +56,9 @@ function Drive({ app }) {
                   <Avatar
                     icon={fileIcon(item?.mimetype)}
                     className="avt-name"
+                    style={{
+                      backgroundColor: fileBackgroundColor(item?.mimetype),
+                    }}
                   />
                 }
                 title={
@@ -79,15 +82,21 @@ function Drive({ app }) {
 
 export default Drive;
 
-const MIME_ICONS = [
-  ["image", FileImageOutlined],
-  ["text", FileTextOutlined],
-  ["spreadsheet", FileExcelOutlined],
-  ["presentation", FilePptOutlined],
+const MIME_ICON_CONFIG = [
+  ["image", FileImageOutlined, "#7719AA"],
+  ["text", FileTextOutlined, "#185ABD"],
+  ["spreadsheet", FileExcelOutlined, "#107C41"],
+  ["presentation", FilePptOutlined, "#C43E1C"],
 ];
 
 const fileIcon = (mimetype) => {
-  const Icon =
-    MIME_ICONS.find(([type]) => mimetype?.includes(type))?.[1] ?? FileOutlined;
-  return <Icon />;
+  const [, Icon = FileOutlined] =
+    MIME_ICON_CONFIG.find(([type]) => mimetype?.includes(type)) ?? [];
+  return <Icon style={{ color: "#ffffff" }} />;
+};
+
+const fileBackgroundColor = (mimetype) => {
+  const [, , backgroundColor = "#8c8c8c"] =
+    MIME_ICON_CONFIG.find(([type]) => mimetype?.includes(type)) ?? [];
+  return backgroundColor;
 };
