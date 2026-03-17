@@ -25,7 +25,6 @@ function Documents({ app }) {
     page,
     page_size: 3,
   });
-  console.log(docs);
   return (
     <Widget
       app={app}

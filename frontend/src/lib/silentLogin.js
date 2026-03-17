@@ -38,3 +38,17 @@ export function attemptSilentLogin(retryInSeconds = 300, redirectTo) {
   initiateSilentLogin(redirectTo);
   return true;
 }
+
+export function attemptSilentLoginOrLogin(err) {
+  if (err?.response?.status === 401) {
+    // Try silent login first; only redirect to /login if no silent login was triggered
+    const silentLoginInitiated = attemptSilentLogin(
+      300,
+      window.location.pathname + window.location.search,
+    );
+
+    if (!silentLoginInitiated) {
+      window.location.href = "/api/v1/auth/login";
+    }
+  }
+}
