@@ -13,12 +13,7 @@ export default function Home() {
   );
 
   if (appComponents.length === 0) {
-    return (
-      <Empty
-        description={t("noApps")}
-        style={{ marginTop: 80 }}
-      />
-    );
+    return <Empty description={t("noApps")} style={{ marginTop: 80 }} />;
   }
 
   return (
