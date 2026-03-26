@@ -42,6 +42,7 @@ function Documents({ app }) {
         className="widget-list"
         dataSource={docs?.results || []}
         loading={loading}
+        search={search}
         renderItem={(item) => (
           <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta

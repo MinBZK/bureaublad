@@ -15,8 +15,6 @@ export default function PageLayout({ children }) {
   const { data } = useFetchWithRefresh("/auth/profile");
   const pathname = usePathname();
 
-  const isLayoutHidden = ["/login"].includes(pathname);
-
   // Get all embedded apps (apps with iframe: true)
   const embeddedApps =
     appConfig?.applications?.filter((app) => app.iframe && app.url) || [];
@@ -25,7 +23,7 @@ export default function PageLayout({ children }) {
     (app) => app?.id === currentAppId,
   );
 
-  return !isLayoutHidden ? (
+  return (
     <Layout>
       <HeaderLayout
         isProfile={!!error}
@@ -35,7 +33,7 @@ export default function PageLayout({ children }) {
         isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
       />
       <Content
-        className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-content"}
+        className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-iframe"}
       >
         <div className="content">
           {/* Render all embedded apps at once, show/hide based on route */}
@@ -85,7 +83,5 @@ export default function PageLayout({ children }) {
         </Footer>
       )}
     </Layout>
-  ) : (
-    <>{children}</>
   );
 }

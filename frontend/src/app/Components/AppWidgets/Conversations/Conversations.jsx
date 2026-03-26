@@ -40,6 +40,7 @@ function Conversations({ app }) {
         className="widget-list"
         dataSource={conv?.results || []}
         loading={loading}
+        search={search}
         renderItem={(item) => (
           <CustomList.Item key={item?.id}>
             <CustomList.Item.Meta

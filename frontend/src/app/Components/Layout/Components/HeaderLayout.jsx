@@ -30,6 +30,8 @@ function HeaderLayout({
   const tTheme = useTranslations("Theme");
   const { locale, setLocale } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const isInIframe =
+    typeof window !== "undefined" && window.self !== window.top;
 
   // Determine selected key based on current path
   const getSelectedKey = () => {
@@ -104,7 +106,7 @@ function HeaderLayout({
         {!isProfile && (
           <Dropdown menu={{ items }}>
             <Link className="profile-link" href="/#">
-              <Avatar icon={<UserOutlined />} /> {profile}
+              <Avatar icon={<UserOutlined />} /> {!isInIframe && profile}
             </Link>
           </Dropdown>
         )}
