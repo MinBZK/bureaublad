@@ -51,7 +51,11 @@
     "search": "zoeken"
   },
   "List": {
-    "empty": "Geen items gevonden"
+    "empty": "Geen items gevonden",
+    "emptyData": "Nog geen gegevens beschikbaar. Voeg gegevens toe in de applicatie om ze hier te zien."
+  },
+  "Dashboard": {
+    "noApps": "Nog geen applicaties geconfigureerd. Neem contact op met uw beheerder om applicaties in te schakelen."
   },
   "Search": {
     "placeholder": "zoeken...",

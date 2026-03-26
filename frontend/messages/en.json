@@ -50,7 +50,11 @@
     "refresh": "Refresh"
   },
   "List": {
-    "empty": "No items found"
+    "empty": "No items found",
+    "emptyData": "No data available yet. Add data in the application to see it here."
+  },
+  "Dashboard": {
+    "noApps": "No applications configured yet. Contact your administrator to enable applications."
   },
   "Search": {
     "placeholder": "Search...",

@@ -60,6 +60,7 @@ function Files({ app }) {
         dataSource={paginatedFiles}
         loading={loading}
         className="widget-list"
+        search={searchTerm}
         renderItem={(item) => {
           const { Icon, backgroundColor } = fileVisualByExtension(item?.name);
 

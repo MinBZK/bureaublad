@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppContext } from "../Components/Context/AppContext";
 import { usePathname } from "next/navigation";
 import { Dropdown } from "antd";
@@ -16,7 +16,15 @@ export default function ExternalApp({ appId }) {
   const pathname = usePathname();
   const { appConfig } = useAppContext();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const t = useTranslations("ExternalApp");
+
+  // Close dropdown when user clicks inside the iframe (iframe steals window focus)
+  useEffect(() => {
+    const handleBlur = () => setDropdownOpen(false);
+    window.addEventListener("blur", handleBlur);
+    return () => window.removeEventListener("blur", handleBlur);
+  }, []);
 
   // Use appId prop if provided, otherwise fallback to pathname
   const appIdToUse = appId || pathname.slice(1);
@@ -57,7 +65,9 @@ export default function ExternalApp({ appId }) {
     >
       <Dropdown
         menu={{ items: menuItems }}
-        trigger={["hover"]}
+        trigger={["click"]}
+        open={dropdownOpen}
+        onOpenChange={setDropdownOpen}
         placement="bottom"
         getPopupContainer={(trigger) => trigger.parentElement}
         rootClassName="external-app-dropdown-menu"

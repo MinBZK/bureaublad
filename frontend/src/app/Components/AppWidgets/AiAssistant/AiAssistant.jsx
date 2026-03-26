@@ -1,19 +1,40 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button, Divider, Drawer, Input, Result } from "antd";
-import { RobotOutlined } from "@ant-design/icons";
+import { RobotOutlined, SendOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import {
   INITIAL_LOCALE,
   LOCALE_STORAGE_LANG_KEY,
 } from "../../../../i18n/config";
-const { Search } = Input;
+const { TextArea } = Input;
+
 function AiAssistant() {
   const t = useTranslations("AiAssistant");
   const [open, setOpen] = useState(false);
   const [aiResult, setAiResult] = useState([]);
   const [error, setError] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [aiResult]);
+
+  const handleSubmit = () => {
+    const text = inputValue.trim();
+    if (!text) return;
+    setInputValue("");
+    postAi(text);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
 
   const postAi = async (text) => {
     setError(null);
@@ -35,13 +56,11 @@ function AiAssistant() {
       });
 
       if (!response.ok) {
-        // Try to parse error message from response
         let errorMessage = `HTTP error! status: ${response.status}`;
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || errorData.error || errorMessage;
         } catch {
-          // If response is not JSON, use status text
           errorMessage = response.statusText || errorMessage;
         }
         throw new Error(errorMessage);
@@ -105,27 +124,49 @@ function AiAssistant() {
         closable={{ "aria-label": "Close Button" }}
         onClose={() => setOpen(false)}
         open={open}
+        classNames={{
+          body: `ai-drawer-body${aiResult.length === 0 && !error ? " ai-drawer-body--empty" : ""}`,
+        }}
       >
-        <React.Fragment>
-          <Search
+        {(aiResult.length > 0 || !!error) && (
+          <>
+            <div className="ai-drawer-messages">
+              {error ? (
+                <Result
+                  status="warning"
+                  title={error}
+                  className="space-min-up"
+                />
+              ) : (
+                <React.Fragment>
+                  {aiResult.map((msg, i) => (
+                    <div key={i} className="message">
+                      <ReactMarkdown>{msg}</ReactMarkdown>
+                    </div>
+                  ))}
+                  <div ref={bottomRef} />
+                </React.Fragment>
+              )}
+            </div>
+            <Divider className="ai-drawer-divider" />
+          </>
+        )}
+        <div className="ai-drawer-input">
+          <TextArea
             placeholder={t("placeholder")}
-            onSearch={(text) => postAi(text)}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoSize={{ minRows: 2, maxRows: 6 }}
             allowClear
-            className="widget-search"
           />
-          <Divider />
-          {error ? (
-            <Result status="warning" title={error} className="space-min-up" />
-          ) : (
-            <React.Fragment>
-              {aiResult.map((msg, i) => (
-                <div key={i} className="message">
-                  <ReactMarkdown>{msg}</ReactMarkdown>
-                </div>
-              ))}
-            </React.Fragment>
-          )}
-        </React.Fragment>
+          <Button
+            type="primary"
+            icon={<SendOutlined />}
+            onClick={handleSubmit}
+            className="ai-drawer-send"
+          />
+        </div>
       </Drawer>
     </>
   );

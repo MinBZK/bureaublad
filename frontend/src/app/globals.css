@@ -89,6 +89,10 @@ body {
   padding: 20px;
 }
 
+.layout-iframe {
+  padding: 0;
+}
+
 .homepage-layout {
   padding: 0px 20px;
 }
@@ -347,6 +351,51 @@ footer {
   width: 100%;
   height: 100%;
   border: none;
+}
+
+/* AI DRAWER */
+/* -------------------------------------------------- */
+.ai-drawer-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ai-drawer-body--empty {
+  justify-content: center;
+}
+
+.ai-drawer-messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  animation: ai-fade-in 0.35s ease;
+}
+
+@keyframes ai-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-drawer-divider {
+  margin: 0 0 12px;
+}
+
+.ai-drawer-input {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  transition: all 0.35s ease;
+}
+
+.ai-drawer-send {
+  flex-shrink: 0;
 }
 
 /* AI */
@@ -780,6 +829,12 @@ footer {
 
 .ant-dropdown-menu-item:hover {
   background: var(--menu-item-hover-bg) !important;
+  color: var(--menu-item-selected-text) !important;
+}
+
+.ant-dropdown-menu-item:hover a,
+.ant-dropdown-menu-item:hover .anticon {
+  color: var(--menu-item-selected-text) !important;
 }
 
 .ant-dropdown-menu-item-danger {

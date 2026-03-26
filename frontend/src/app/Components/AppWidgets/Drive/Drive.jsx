@@ -48,6 +48,7 @@ function Drive({ app }) {
         className="widget-list"
         dataSource={drive?.results || []}
         loading={loading}
+        search={search}
         renderItem={(item, index) =>
           index < 3 && (
             <CustomList.Item key={item?.id}>

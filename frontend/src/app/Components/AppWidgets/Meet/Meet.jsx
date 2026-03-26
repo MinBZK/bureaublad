@@ -41,11 +41,13 @@ function Meet({ app }) {
       total={meet?.count || 0}
     >
       <CustomList
+        className="widget-list"
         dataSource={
           paginatedMeet?.filter((value) =>
             value?.name?.toUpperCase()?.includes(search.toUpperCase()),
           ) || []
         }
+        search={search}
         // loading={loading}
         renderItem={(item) => (
           <CustomList.Item key={item.slug}>

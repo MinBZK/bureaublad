@@ -10,6 +10,7 @@ const CustomList = ({
   dataSource = [],
   loading = false,
   renderItem,
+  search = "",
   ...restProps
 }) => {
   const t = useTranslations("List");
@@ -32,7 +33,7 @@ const CustomList = ({
         return renderedItem;
       })}
       {dataSource?.length === 0 && !loading && (
-        <Empty description={t("empty")} />
+        <Empty description={search ? t("empty") : t("emptyData")} />
       )}
     </div>
   );
