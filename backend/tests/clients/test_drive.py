@@ -115,7 +115,9 @@ class TestDriveClient:
         assert call[0][0] == "https://drive.example.com/api/v1.0/items/"
         assert call[1]["params"] == {"page": 1, "page_size": 5, "is_favorite": "True"}
 
-    async def test_get_documents_is_favorite_false_uses_recents(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
+    async def test_get_documents_is_favorite_false_uses_recents(
+        self, client: DriveClient, mock_http_client: AsyncMock
+    ) -> None:
         """Test that is_favorite=False uses the recents endpoint and omits the param."""
         response = Mock()
         response.status_code = 200

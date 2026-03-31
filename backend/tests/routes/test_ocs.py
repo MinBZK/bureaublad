@@ -201,7 +201,9 @@ class TestOCSEndpoints:
         mock_client_instance = AsyncMock()
         mock_client_instance.get_file_activities.return_value = FileActivityResponse(
             results=[
-                FileActivity(files=[FileInfo(id=1, name="favorite.pdf", path="favorite.pdf", link="https://ocs.example.com/f/1")]),
+                FileActivity(
+                    files=[FileInfo(id=1, name="favorite.pdf", path="favorite.pdf", link="https://ocs.example.com/f/1")]
+                ),
             ],
             last_given=None,
         )

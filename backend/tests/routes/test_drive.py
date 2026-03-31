@@ -118,7 +118,9 @@ class TestDriveEndpoints:
         assert data["results"][0]["mimetype"] == "application/pdf"
 
         # Verify DriveClient was called with title filter
-        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title="Filtered Document", is_favorite=False)
+        mock_client_instance.get_documents.assert_called_once_with(
+            page=1, page_size=5, title="Filtered Document", is_favorite=False
+        )
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
