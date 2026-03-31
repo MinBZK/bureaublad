@@ -1,5 +1,42 @@
 [
   {
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/ocs/v2.php/cloud/user"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "ocs": {
+          "meta": { "status": "ok", "statuscode": 200 },
+          "data": {
+            "id": "testuser",
+            "displayname": "Test User",
+            "email": "testuser@example.com"
+          }
+        }
+      }
+    }
+  },
+  {
+    "priority": 10,
+    "httpRequest": {
+      "method": "REPORT",
+      "path": "/remote.php/dav/files/testuser/"
+    },
+    "httpResponse": {
+      "statusCode": 207,
+      "headers": {
+        "Content-Type": ["application/xml"]
+      },
+      "body": "<?xml version=\"1.0\"?><d:multistatus xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\"><d:response><d:href>/remote.php/dav/files/testuser/Favourite%20Document.docx</d:href><d:propstat><d:prop><d:displayname>Favourite Document.docx</d:displayname><d:getcontenttype>application/vnd.openxmlformats-officedocument.wordprocessingml.document</d:getcontenttype><oc:fileid>33100</oc:fileid><oc:favorite>1</oc:favorite></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/files/testuser/EDIC/Favourite%20Presentation.pptx</d:href><d:propstat><d:prop><d:displayname>Favourite Presentation.pptx</d:displayname><d:getcontenttype>application/vnd.openxmlformats-officedocument.presentationml.presentation</d:getcontenttype><oc:fileid>33200</oc:fileid><oc:favorite>1</oc:favorite></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>"
+    }
+  },
+  {
     "httpRequest": {
       "method": "GET",
       "path": "/ocs/v2.php/search/providers/files/search",

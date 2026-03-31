@@ -101,6 +101,34 @@ class TestDriveClient:
         call = mock_http_client.get.call_args_list[0]
         assert call[1]["params"] == {"page": 1, "page_size": 5, "title": "search term"}
 
+    async def test_get_documents_with_is_favorite(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
+        """Test document retrieval with is_favorite filter uses items/ endpoint."""
+        response = Mock()
+        response.status_code = 200
+        response.headers = {}
+        response.json.return_value = {"count": 0, "results": []}
+        mock_http_client.get.return_value = response
+
+        await client.get_documents(is_favorite=True)
+
+        call = mock_http_client.get.call_args_list[0]
+        assert call[0][0] == "https://drive.example.com/api/v1.0/items/"
+        assert call[1]["params"] == {"page": 1, "page_size": 5, "is_favorite": "True"}
+
+    async def test_get_documents_is_favorite_false_uses_recents(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
+        """Test that is_favorite=False uses the recents endpoint and omits the param."""
+        response = Mock()
+        response.status_code = 200
+        response.headers = {}
+        response.json.return_value = {"count": 0, "results": []}
+        mock_http_client.get.return_value = response
+
+        await client.get_documents(is_favorite=False)
+
+        call = mock_http_client.get.call_args_list[0]
+        assert call[0][0] == "https://drive.example.com/api/v1.0/items/recents/"
+        assert "is_favorite" not in call[1]["params"]
+
     async def test_get_documents_with_pagination(self, client: DriveClient, mock_http_client: AsyncMock) -> None:
         """Test document retrieval with custom page and page_size."""
         response = Mock()
