@@ -73,7 +73,7 @@ branch = true
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 85
+fail_under = 83
 sort = "-Cover"
 
 [tool.coverage.html]

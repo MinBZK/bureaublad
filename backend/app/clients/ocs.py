@@ -109,9 +109,7 @@ class OCSClient(BaseAPIClient):
 
         response = await self.client.request("REPORT", report_url, content=xml_body.encode(), headers=headers)
         if response.status_code not in (200, 207):
-            raise ExternalServiceError(
-                self.service_name, f"Failed to fetch favorites (status {response.status_code})"
-            )
+            raise ExternalServiceError(self.service_name, f"Failed to fetch favorites (status {response.status_code})")
 
         # Parse WebDAV multistatus XML response
         DAV = "DAV:"
