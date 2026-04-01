@@ -145,21 +145,21 @@ jobs:
           sed -i 's/VERSION: str = .*$/VERSION: str = "${{ steps.get_commit_hash.outputs.commit_hash }}"/g' backend/app/const.py
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/minbzk/${{ env.IMAGE_NAME }}
         env:
@@ -167,7 +167,7 @@ jobs:
 
       - name: Build and push Docker images
         id: push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: backend
           push: true

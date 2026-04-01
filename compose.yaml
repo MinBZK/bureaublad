@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:3.6.9
+    image: traefik:v3.6.12
     command:
       - "--api.dashboard=false"
       - "--api.insecure=true"
@@ -73,7 +73,7 @@ services:
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.5.4
+    image: quay.io/keycloak/keycloak:26.5.6
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
@@ -115,7 +115,7 @@ services:
     networks:
       - proxy
   redis:
-    image: redis:8.6.1
+    image: redis:8.6.2
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
