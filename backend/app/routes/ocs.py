@@ -29,11 +29,12 @@ async def ocs_activities(
     http_client: HTTPClient,
     limit: int = 50,
     since: int = 0,
+    is_favorite: bool = False,
 ) -> FileActivityResponse:
-    """Get file activities with cursor-based pagination."""
+    """Get file activities with cursor-based pagination. Use is_favorite=true to fetch favorite files instead."""
     client = await get_ocs_client(request, http_client)
 
-    return await client.get_file_activities(limit=limit, since=since)
+    return await client.get_file_activities(limit=limit, since=since, is_favorite=is_favorite)
 
 
 @router.get("/search", response_model=FileActivityResponse)

@@ -31,10 +31,11 @@ async def drive_documents(
     page: int = 1,
     page_size: int = 5,
     title: str | None = None,
+    is_favorite: bool = False,
 ) -> PaginatedResponse[Document]:
     """Get documents from Drive service."""
     if not settings.drive_enabled or not settings.DRIVE_URL:
         raise ServiceUnavailableError("Drive")
 
     client = await get_drive_client(request, http_client)
-    return await client.get_documents(page=page, page_size=page_size, title=title)
+    return await client.get_documents(page=page, page_size=page_size, title=title, is_favorite=is_favorite)
