@@ -76,7 +76,7 @@ class TestDriveEndpoints:
         )
 
         # Verify DriveClient was called correctly
-        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None)
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
@@ -118,7 +118,43 @@ class TestDriveEndpoints:
         assert data["results"][0]["mimetype"] == "application/pdf"
 
         # Verify DriveClient was called with title filter
-        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title="Filtered Document")
+        mock_client_instance.get_documents.assert_called_once_with(
+            page=1, page_size=5, title="Filtered Document", is_favorite=False
+        )
+
+    @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
+    @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")
+    @patch("app.routes.drive.get_token")
+    @patch("app.routes.drive.DriveClient")
+    def test_drive_documents_with_is_favorite_filter(
+        self,
+        mock_drive_client: MagicMock,
+        mock_get_token: MagicMock,
+        authenticated_client: TestClient,
+    ) -> None:
+        """Test documents retrieval with is_favorite filter."""
+        mock_get_token.return_value = "test-drive-token"
+        mock_client_instance = AsyncMock()
+        mock_client_instance.get_documents.return_value = PaginatedResponse[Document](
+            count=1,
+            results=[
+                Document(
+                    id="fav-1",
+                    title="Favorite Doc.pdf",
+                    url="https://drive.example.com/media/item/fav-1/file.pdf",
+                    mimetype="application/pdf",
+                    updated_at="2024-11-01T12:00:00Z",
+                )
+            ],
+        )
+        mock_drive_client.return_value = mock_client_instance
+
+        response = authenticated_client.get("/api/v1/drive/documents?is_favorite=true")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["count"] == 1
+        mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
 
     @patch("app.routes.drive.settings.DRIVE_URL", "https://drive.example.com")
     @patch("app.routes.drive.settings.DRIVE_AUDIENCE", "drive")

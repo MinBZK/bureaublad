@@ -16,6 +16,7 @@ class DriveClient(BaseAPIClient):
         page: int = 1,
         page_size: int = 5,
         title: str | None = None,
+        is_favorite: bool = False,
     ) -> PaginatedResponse[Document]:
         page = max(1, page)
         page_size = max(1, page_size)
@@ -25,9 +26,16 @@ class DriveClient(BaseAPIClient):
         if title:
             params["title"] = title
 
+        # api/v1.0/items/recents/ does not support is_favorite; use items/ directly when filtering favorites
+        if is_favorite:
+            params["is_favorite"] = str(is_favorite)
+            path = "api/v1.0/items/"
+        else:
+            path = "api/v1.0/items/recents/"
+
         try:
             return await self._get_resource(
-                path="api/v1.0/items/recents/",
+                path=path,
                 model_type=PaginatedResponse[Document],
                 params=params,
                 response_parser=lambda data: {"count": data.get("count", 0), "results": data.get("results", [])},

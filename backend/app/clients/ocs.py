@@ -5,7 +5,9 @@ Reference: https://docs.nextcloud.com/server/latest/developer_manual/client_apis
 
 import logging
 
+import defusedxml.ElementTree as ET
 from app.clients.base import BaseAPIClient
+from app.exceptions import ExternalServiceError
 from app.models.activity import Activity, FileActivity, FileActivityResponse, FileInfo
 from app.models.search import FileSearchResult
 
@@ -30,12 +32,17 @@ class OCSClient(BaseAPIClient):
         self,
         limit: int = 50,
         since: int = 0,
+        is_favorite: bool = False,
     ) -> FileActivityResponse:
         """Get file activities with cursor-based pagination.
 
-        Fetches activities, filters to file-related activities (including sharing),
+        When is_favorite=True, fetches favorite files via WebDAV REPORT instead of the activity feed.
+        Otherwise fetches activities, filters to file-related activities (including sharing),
         and returns with all files per activity preserved.
         """
+        if is_favorite:
+            return await self._get_favorite_files()
+
         url_string = "ocs/v2.php/apps/activity/api/v2/activity/files"
 
         params: dict[str, str] = {"format": "json"}
@@ -70,6 +77,67 @@ class OCSClient(BaseAPIClient):
         last_given = int(last_given_str) if last_given_str else None
 
         return FileActivityResponse(results=file_activities, last_given=last_given)
+
+    async def _get_favorite_files(self) -> FileActivityResponse:
+        """Fetch favorite files using Nextcloud WebDAV REPORT.
+
+        Reference: https://docs.nextcloud.com/server/latest/developer_manual/client_apis/webdav/index.html
+        """
+        # Resolve current user ID
+        url = self._build_url("ocs/v2.php/cloud/user")
+        user_response = await self.client.get(url, params={"format": "json"}, headers=self._auth_headers())
+        if user_response.status_code != 200:
+            raise ExternalServiceError(
+                self.service_name, f"Failed to resolve current user (status {user_response.status_code})"
+            )
+        user_id = user_response.json().get("ocs", {}).get("data", {}).get("id", "")
+
+        # WebDAV REPORT to filter favorite files
+        xml_body = (
+            '<?xml version="1.0"?>'
+            '<oc:filter-files xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">'
+            "<d:prop>"
+            "<d:getlastmodified/><d:getcontenttype/><d:displayname/><oc:fileid/><oc:favorite/>"
+            "</d:prop>"
+            "<oc:filter-rules><oc:favorite>1</oc:favorite></oc:filter-rules>"
+            "</oc:filter-files>"
+        )
+        report_url = self._build_url(f"remote.php/dav/files/{user_id}/")
+        headers = self._auth_headers()
+        headers["Content-Type"] = "application/xml"
+        headers["Depth"] = "infinity"
+
+        response = await self.client.request("REPORT", report_url, content=xml_body.encode(), headers=headers)
+        if response.status_code not in (200, 207):
+            raise ExternalServiceError(self.service_name, f"Failed to fetch favorites (status {response.status_code})")
+
+        # Parse WebDAV multistatus XML response
+        DAV = "DAV:"
+        OC = "http://owncloud.org/ns"
+        root = ET.fromstring(response.text)
+        base_path = f"/remote.php/dav/files/{user_id}/"
+        file_activities: list[FileActivity] = []
+
+        for resp in root.findall(f"{{{DAV}}}response"):
+            href = resp.findtext(f"{{{DAV}}}href") or ""
+            propstat = resp.find(f"{{{DAV}}}propstat")
+            if propstat is None:
+                continue
+            if "200" not in (propstat.findtext(f"{{{DAV}}}status") or ""):
+                continue
+            prop = propstat.find(f"{{{DAV}}}prop")
+            if prop is None:
+                continue
+
+            display_name = prop.findtext(f"{{{DAV}}}displayname") or href.rstrip("/").split("/")[-1]
+            file_id_str = prop.findtext(f"{{{OC}}}fileid")
+            file_id = int(file_id_str) if file_id_str else None
+            path = href[len(base_path) :] if href.startswith(base_path) else href
+            link = f"{self.base_url}/f/{file_id}" if file_id else None
+
+            file_activities.append(FileActivity(files=[FileInfo(id=file_id, name=display_name, path=path, link=link)]))
+
+        return FileActivityResponse(results=file_activities, last_given=None)
 
     async def search_files(
         self, term: str, path: str = "ocs/v2.php/search/providers/files/search"
