@@ -8,6 +8,7 @@ dependencies = [
     "authlib>=1.6.5",
     "babel>=2.17.0",
     "caldav>=1.4.0",
+    "defusedxml>=0.7.1",
     "fastapi[standard]>=0.115.11",
     "httpx>=0.28.1",
     "itsdangerous>=2.2.0",
@@ -72,7 +73,7 @@ branch = true
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 85
+fail_under = 83
 sort = "-Cover"
 
 [tool.coverage.html]

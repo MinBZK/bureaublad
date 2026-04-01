@@ -67,7 +67,7 @@ export default function PageLayout({ children }) {
           {!isEmbeddedAppRoute && children}
         </div>
       </Content>
-      {!appConfig?.helpdesk_url && (
+      {appConfig?.helpdesk_url && (
         <FloatButton
           shape="circle"
           style={{ insetInlineEnd: 40, insetBlockEnd: 80 }}
