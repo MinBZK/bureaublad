@@ -7,7 +7,6 @@ import logging
 
 import defusedxml.ElementTree as ET
 from app.clients.base import BaseAPIClient
-from app.exceptions import ExternalServiceError
 from app.models.activity import Activity, FileActivity, FileActivityResponse, FileInfo
 from app.models.search import FileSearchResult
 
@@ -87,9 +86,11 @@ class OCSClient(BaseAPIClient):
         url = self._build_url("ocs/v2.php/cloud/user")
         user_response = await self.client.get(url, params={"format": "json"}, headers=self._auth_headers())
         if user_response.status_code != 200:
-            raise ExternalServiceError(
-                self.service_name, f"Failed to resolve current user (status {user_response.status_code})"
+            logger.warning(
+                "Failed to resolve current user for favorites (status %s), returning empty results",
+                user_response.status_code,
             )
+            return FileActivityResponse(results=[], last_given=None)
         user_id = user_response.json().get("ocs", {}).get("data", {}).get("id", "")
 
         # WebDAV REPORT to filter favorite files
@@ -109,7 +110,11 @@ class OCSClient(BaseAPIClient):
 
         response = await self.client.request("REPORT", report_url, content=xml_body.encode(), headers=headers)
         if response.status_code not in (200, 207):
-            raise ExternalServiceError(self.service_name, f"Failed to fetch favorites (status {response.status_code})")
+            logger.warning(
+                "Failed to fetch favorites via WebDAV REPORT (status %s), returning empty results",
+                response.status_code,
+            )
+            return FileActivityResponse(results=[], last_given=None)
 
         # Parse WebDAV multistatus XML response
         DAV = "DAV:"
