@@ -97,7 +97,7 @@ class TestOCSEndpoints:
         assert data["results"][1]["files"][0]["name"] == "report.docx"
 
         # Verify OCSClient was called correctly
-        mock_client_instance.get_file_activities.assert_called_once()
+        mock_client_instance.get_file_activities.assert_called_once_with(limit=50, since=0, is_favorite=False)
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
     @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
@@ -185,6 +185,37 @@ class TestOCSEndpoints:
         data = response.json()
         assert data["results"] == []
         assert data["last_given"] is None
+
+    @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
+    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
+    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.OCSClient")
+    def test_ocs_activities_with_is_favorite(
+        self,
+        mock_ocs_client: MagicMock,
+        mock_get_token: AsyncMock,
+        authenticated_client: TestClient,
+    ) -> None:
+        """Test activities endpoint with is_favorite=true returns favorite files."""
+        mock_get_token.return_value = "test-ocs-token"
+        mock_client_instance = AsyncMock()
+        mock_client_instance.get_file_activities.return_value = FileActivityResponse(
+            results=[
+                FileActivity(
+                    files=[FileInfo(id=1, name="favorite.pdf", path="favorite.pdf", link="https://ocs.example.com/f/1")]
+                ),
+            ],
+            last_given=None,
+        )
+        mock_ocs_client.return_value = mock_client_instance
+
+        response = authenticated_client.get("/api/v1/ocs/activities?is_favorite=true")
+
+        assert response.status_code == 200
+        data = response.json()
+        assert len(data["results"]) == 1
+        assert data["results"][0]["files"][0]["name"] == "favorite.pdf"
+        mock_client_instance.get_file_activities.assert_called_once_with(limit=50, since=0, is_favorite=True)
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
     @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")

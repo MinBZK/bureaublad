@@ -1,5 +1,87 @@
 [
   {
+    "priority": 10,
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/v1.0/items/",
+      "queryStringParameters": {
+        "is_favorite": ["True"]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": ["application/json"]
+      },
+      "body": {
+        "count": 1,
+        "next": null,
+        "previous": null,
+        "results": [
+          {
+            "id": "275d6193-279e-4957-aeb0-081eef7df1a9",
+            "abilities": {
+              "accesses_manage": true,
+              "accesses_view": true,
+              "breadcrumb": true,
+              "children_list": true,
+              "children_create": true,
+              "destroy": true,
+              "download": true,
+              "hard_delete": true,
+              "favorite": true,
+              "link_configuration": true,
+              "invite_owner": true,
+              "link_select_options": {
+                "restricted": null,
+                "authenticated": ["reader", "editor"],
+                "public": ["reader", "editor"]
+              },
+              "move": true,
+              "restore": true,
+              "retrieve": true,
+              "tree": true,
+              "media_auth": true,
+              "partial_update": true,
+              "update": true,
+              "upload_ended": true,
+              "wopi": false
+            },
+            "created_at": "2025-10-07T20:19:19.415476Z",
+            "creator": {
+              "id": "f6611c5a-6e8f-4909-9bc3-aafbb72b00c1",
+              "full_name": "Berry",
+              "short_name": "Berry"
+            },
+            "depth": 2,
+            "is_favorite": true,
+            "link_role": "reader",
+            "link_reach": "restricted",
+            "numchild": 0,
+            "numchild_folder": 0,
+            "path": "ae5508b3-ee3b-4dfb-b9b5-3e2f2e7aad45.275d6193-279e-4957-aeb0-081eef7df1a9",
+            "title": "Berry-small.jpeg",
+            "updated_at": "2025-10-07T20:19:19.415490Z",
+            "user_role": "owner",
+            "type": "file",
+            "upload_state": "ready",
+            "url": "https://drive.demo.eu/media/item/275d6193-279e-4957-aeb0-081eef7df1a9/Berry-small.jpeg",
+            "url_permalink": "https://drive.demo.eu/api/v1.0/items/275d6193-279e-4957-aeb0-081eef7df1a9/download/",
+            "url_preview": null,
+            "filename": "Berry-small.jpeg",
+            "mimetype": "application/vnd.oasis.opendocument.text",
+            "main_workspace": false,
+            "size": 308981,
+            "description": null,
+            "deleted_at": null,
+            "hard_delete_at": null,
+            "is_wopi_supported": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "httpRequest": {
       "method": "GET",
       "path": "/api/v1.0/items/recents/"

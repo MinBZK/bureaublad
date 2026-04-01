@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useLocalStorage } from "@/app/Common/CustomHooks/useLocalStorage";
 import { Avatar } from "antd";
 import {
   FileExcelOutlined,
@@ -16,7 +17,10 @@ import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import CustomList from "@/app/Common/CustomList";
 
 function Drive({ app }) {
-  // const [favorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useLocalStorage(
+    "drive_is_favorite",
+    false,
+  );
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const t = useTranslations("Drive");
@@ -27,7 +31,7 @@ function Drive({ app }) {
     onRefresh,
   } = useFetchWithRefresh("/drive/documents", {
     title: search,
-    // favorite,
+    is_favorite: isFavorite || undefined,
     page,
     page_size: 3,
   });
@@ -35,8 +39,8 @@ function Drive({ app }) {
   return (
     <Widget
       app={app}
-      // favorite={favorite}
-      // setFavorite={setFavorite}
+      favorite={isFavorite}
+      setFavorite={setIsFavorite}
       setSearch={setSearch}
       error={error}
       onRefresh={onRefresh}

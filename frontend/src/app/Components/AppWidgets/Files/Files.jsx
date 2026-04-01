@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useLocalStorage } from "@/app/Common/CustomHooks/useLocalStorage";
 import { Avatar } from "antd";
 import {
   EditOutlined,
@@ -18,6 +19,10 @@ import CustomList from "@/app/Common/CustomList";
 
 // NextCloud
 function Files({ app }) {
+  const [isFavorite, setIsFavorite] = useLocalStorage(
+    "files_is_favorite",
+    false,
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const t = useTranslations("Files");
   const [page, setPage] = useState(1);
@@ -28,7 +33,8 @@ function Files({ app }) {
     error,
     onRefresh,
   } = useFetchWithRefresh(searchTerm ? "/ocs/search" : "/ocs/activities", {
-    term: searchTerm,
+    term: searchTerm || undefined,
+    is_favorite: !searchTerm && isFavorite ? true : undefined,
   });
 
   const onSearch = (value) => {
@@ -49,6 +55,8 @@ function Files({ app }) {
   return (
     <Widget
       app={app}
+      favorite={isFavorite}
+      setFavorite={setIsFavorite}
       setSearch={onSearch}
       error={error}
       onRefresh={onRefresh}
