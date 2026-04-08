@@ -47,7 +47,9 @@
     "updated": "Updated"
   },
   "Widget": {
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "search": "search",
+    "admin": "Admin Portal"
   },
   "List": {
     "empty": "No items found",
@@ -75,7 +77,12 @@
     "helpdesk": "Help desk"
   },
   "Navigation": {
-    "home": "Home"
+    "home": "Home",
+    "admin": "Admin"
+  },
+  "AdminPortal": {
+    "title": "Admin Portal",
+    "description": "Manage and configure the applications in your suite."
   },
   "ExternalApp": {
     "openNewTab": "Open in new tab",

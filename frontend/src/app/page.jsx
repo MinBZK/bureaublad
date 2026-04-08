@@ -8,9 +8,7 @@ export default function Home() {
   const { appConfig } = useAppContext();
   const t = useTranslations("Dashboard");
 
-  const appComponents = availableWidgetComponents(
-    appConfig?.applications || [],
-  );
+  const appComponents = availableWidgetComponents(appConfig || null);
 
   if (appComponents.length === 0) {
     return <Empty description={t("noApps")} style={{ marginTop: 80 }} />;

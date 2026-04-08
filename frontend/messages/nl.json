@@ -48,7 +48,8 @@
   },
   "Widget": {
     "refresh": "Vernieuwen",
-    "search": "zoeken"
+    "search": "zoeken",
+    "admin": "Beheerdersportaal"
   },
   "List": {
     "empty": "Geen items gevonden",
@@ -76,7 +77,12 @@
     "helpdesk": "Helpdesk"
   },
   "Navigation": {
-    "home": "Home"
+    "home": "Home",
+    "admin": "Beheer"
+  },
+  "AdminPortal": {
+    "title": "Beheerdersportaal",
+    "description": "Beheer en configureer de applicaties in uw suite."
   },
   "ExternalApp": {
     "openNewTab": "Open in nieuw tabblad",
