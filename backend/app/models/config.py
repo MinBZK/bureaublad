@@ -31,3 +31,4 @@ class ConfigResponse(BaseModel):
     redirect_to_account_page: str = ""
     theme_css: str
     silent_login: bool = False
+    is_admin: bool = False

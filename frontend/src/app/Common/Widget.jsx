@@ -4,6 +4,7 @@ import {
   StarOutlined,
   ReloadOutlined,
   ArrowRightOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -14,6 +15,8 @@ import {
   Row,
   Col,
   Pagination,
+  Dropdown,
+  Space,
 } from "antd";
 import React, { useState } from "react";
 import { useTranslations } from "../../i18n/TranslationsProvider";
@@ -33,37 +36,56 @@ function Widget({
   setPage = undefined,
   total = 0,
   app,
+  isAdmin = false,
 }) {
   const t = useTranslations("Widget");
   const [value, setValue] = useState("");
   const { iframe, url, title, id } = app || {};
-  const iconLink =
+  const iconLink = (title) =>
     iframe && id ? (
-      <Link href={`/${id}`}>
-        <ArrowRightOutlined />
-      </Link>
+      <Link href={`/${id}`}>{title}</Link>
     ) : (
       <Link href={url || ""} rel="noopener noreferrer" target="_blank">
-        <ArrowRightOutlined />
+        {title}
       </Link>
     );
 
+  const items = [
+    isAdmin && {
+      label: (
+        <Link
+          href={id === "ocs" ? `${url}/settings/admin` : `${url}/admin` || ""}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <ArrowRightOutlined /> {title} {t("admin")}
+        </Link>
+      ),
+      key: "0",
+    },
+    onRefresh && {
+      label: (
+        <Link onClick={onRefresh} href="#">
+          <ReloadOutlined /> {t("refresh")}
+        </Link>
+      ),
+      key: "1",
+    },
+  ];
+
   return (
     <Card
-      title={
-        <span>
-          {title} {iconLink}
-        </span>
-      }
+      title={<span>{iconLink(title)}</span>}
       loading={loading}
       extra={
-        onRefresh && (
-          <Button
-            onClick={onRefresh}
-            type="text"
-            icon={<ReloadOutlined />}
-            title={t("refresh")}
-          />
+        items.filter(Boolean).length > 0 && (
+          <Dropdown menu={{ items: items.filter(Boolean) }} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <SettingOutlined />
+              </Space>
+            </a>
+          </Dropdown>
         )
       }
     >

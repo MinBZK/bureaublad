@@ -29,7 +29,7 @@ export const menuItem = (applications, t) => [
     })),
 ];
 
-export const availableWidgetComponents = (applications) => {
+export const availableWidgetComponents = ({ applications, is_admin }) => {
   const componentMap = {
     docs: Documents,
     drive: Drive,
@@ -39,10 +39,12 @@ export const availableWidgetComponents = (applications) => {
     meet: Meet,
   };
   return applications
-    .filter((app) => app.enabled)
-    .map((app) => {
+    ?.filter((app) => app.enabled)
+    ?.map((app) => {
       const Component = componentMap[app?.id];
-      return Component ? <Component key={app?.id} app={app} /> : null;
+      return Component ? (
+        <Component key={app?.id} app={app} isAdmin={is_admin} />
+      ) : null;
     })
     .filter(Boolean);
 };

@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class User(BaseModel):
     name: str
     email: str
+    roles: list[str] = []
 
 
 class AuthState(BaseModel):
@@ -38,11 +39,14 @@ class AuthState(BaseModel):
         if userinfo.get("azp") != settings.OIDC_AUDIENCE:
             raise CredentialError("Invalid token azp")
 
+        realm_roles: list[str] = userinfo.get("realm_access", {}).get("roles", [])
+
         return cls(
             sub=cls._require_string(userinfo, "sub"),
             user=User(
                 name=userinfo.get(name_claim, "Unknown"),
                 email=userinfo.get(email_claim, "no-email@unknown.local"),
+                roles=realm_roles,
             ),
             access_token=cls._require_string(token, "access_token"),
             refresh_token=token.get("refresh_token"),

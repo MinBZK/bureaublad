@@ -6,6 +6,7 @@ import {
   GlobalOutlined,
   BgColorsOutlined,
   ProfileOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,6 +23,7 @@ function HeaderLayout({
   applications,
   redirectUrl,
   isAffixHeader = true,
+  isAdmin = false,
 }) {
   const pathname = usePathname();
   const tHome = useTranslations("HomePage");
@@ -46,6 +48,11 @@ function HeaderLayout({
   };
 
   const items = [
+    isAdmin && {
+      key: "0",
+      label: <Link href={"/admin"}>{tNav("admin")}</Link>,
+      icon: <SettingOutlined />,
+    },
     {
       key: "1",
       label: (
@@ -81,8 +88,7 @@ function HeaderLayout({
       icon: <LogoutOutlined />,
       danger: true,
     },
-  ];
-
+  ].filter(Boolean); // Filter out falsey values (like the admin item when !isAdmin)
   const header = (
     <Header>
       <Flex>

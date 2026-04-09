@@ -56,6 +56,7 @@ class Settings(BaseSettings):
     OIDC_AUDIENCE: str = "bureaublad"
     OIDC_ISSUER: str = ""
     OIDC_SIGNATURE_ALGORITM: str | list[str] = [ALGORITHMS.RS256, ALGORITHMS.HS256]
+    ADMIN_ROLE_NAME: str = "admin"
 
     # La Suite Services
     OCS_URL: str | None = None

@@ -31,6 +31,7 @@ export default function PageLayout({ children }) {
         applications={appConfig?.applications}
         redirectUrl={appConfig?.redirect_to_account_page}
         isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
+        isAdmin={appConfig?.isAdmin}
       />
       <Content
         className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-iframe"}
