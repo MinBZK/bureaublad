@@ -1,4 +1,4 @@
-# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false, reportAttributeAccessIssue=false, reportUnknownArgumentType=false, reportAssignmentType=false
+# pyright: reportUnknownMemberType=false, reportUnknownVariableType=false, reportAttributeAccessIssue=false, reportUnknownArgumentType=false, reportAssignmentType=false, reportCallIssue=false
 from datetime import date, datetime
 
 from app.models.calendar import Calendar
@@ -25,7 +25,7 @@ class CaldavClient:
             check_date_end = datetime.combine(check_date, datetime.max.time())
             events = calendar.search(start=check_date_start, end=check_date_end, event=True, expand=True)
             for event in events:
-                event_instance = event.instance.vevent
+                event_instance = event.vobject_instance.vevent
                 events_today.append(
                     Calendar(
                         title=event_instance.summary.value,
@@ -44,7 +44,7 @@ class CaldavClient:
 
         for calendar in calendars:
             for task in calendar.todos():
-                task_instance = task.instance.vtodo
+                task_instance = task.vobject_instance.vtodo
                 task_summary: str = task_instance.summary.value
                 task_start: datetime = task_instance.dtstart.value if hasattr(task_instance, "dtstart") else None
                 task_due: datetime = task_instance.due.value if hasattr(task_instance, "due") else None
