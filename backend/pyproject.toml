@@ -9,14 +9,14 @@ dependencies = [
     "babel>=2.18.0",
     "caldav>=3.2.1",
     "defusedxml>=0.7.1",
-    "fastapi[standard]>=0.136.3",
+    "fastapi[standard]>=0.138.2",
     "httpx>=0.28.1",
     "itsdangerous>=2.2.0",
-    "openai>=2.39.0",
-    "pydantic-settings>=2.14.1",
+    "openai>=2.44.0",
+    "pydantic-settings>=2.14.2",
     "python-jose>=3.5.0",
     "python-ulid>=3.1.0",
-    "redis>=8.0.0",
+    "redis>=8.0.1",
     "types-authlib>=1.6.11.20260518",
 ]
 dynamic = ["version"]
@@ -26,11 +26,11 @@ repository = "https://github.com/MinBZK/bureaublad"
 
 [dependency-groups]
 dev = [
-    "coverage>=7.14.1",
-    "pyright>=1.1.410",
-    "pytest>=9.0.3",
+    "coverage>=7.14.3",
+    "pyright>=1.1.411",
+    "pytest>=9.1.1",
     "pytest-asyncio>=1.4.0",
-    "ruff>=0.15.15",
+    "ruff>=0.15.20",
 ]
 
 [tool.uv]
