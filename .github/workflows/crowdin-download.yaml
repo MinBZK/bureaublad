@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Download Crowdin files
-        uses: crowdin/github-action@v2
+        uses: crowdin/github-action@v3
         with:
           config: crowdin.yaml
           upload_sources: false
