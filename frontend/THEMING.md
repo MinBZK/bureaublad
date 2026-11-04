@@ -1,13 +1,58 @@
 # Custom Theming Guide
 
-This application supports custom theming through CSS variables. Clients can easily customize colors by providing a custom CSS file through the configuration API.
+This application follows the Rijkshuisstijl (Rijksoverheid) visual language and supports custom theming through CSS variables. Clients can easily customize colors by providing a custom CSS file through the configuration API or by using the palette picker in the header.
+
+## Adjustable colours
+
+Every colour is driven by CSS custom properties. The default palette is
+**Lintblauw** (`#154273`), the Rijksoverheid main colour. The in-app palette
+picker writes the selected 100% colour to `--rh-*` variables and persists the
+choice in `localStorage`.
+
+The complete official Rijkshuisstijl palette is available (see
+`src/app/Common/brandPalettes.js`):
+
+| Colour      | HEX       |
+| ----------- | --------- |
+| Lintblauw   | `#154273` |
+| Paars       | `#42145f` |
+| Violet      | `#a90061` |
+| Robijnrood  | `#ca005d` |
+| Roze        | `#f092cd` |
+| Rood        | `#d52b1e` |
+| Oranje      | `#e17000` |
+| Donkergeel  | `#ffb612` |
+| Geel        | `#f9e11e` |
+| Donkerbruin | `#673327` |
+| Bruin       | `#94710a` |
+| Donkergroen | `#275937` |
+| Groen       | `#39870c` |
+| Mosgroen    | `#777b00` |
+| Mintgroen   | `#76d2b6` |
+| Donkerblauw | `#01689b` |
+| Hemelblauw  | `#007bc7` |
+| Lichtblauw  | `#8fcae7` |
+
+### Colour rules
+
+The implementation follows the Rijkshuisstijl colour rules:
+
+- Only the **100%** values of the communication colours are selectable.
+- Tints (75%, 60%, 45%, 30%, 15%) are generated with
+  `--color-primary-tint-*` for supporting surfaces, charts and tables, and are
+  only used together with the 100% colour of the same hue.
+- **Cool Gray** (`#0f172a`) is not a communication colour and is not offered in
+  the picker. It is reserved for neutral surfaces, borders, tables and charts.
+- Any organisation may use every colour; no colour is claimed.
+- Text on a primary colour is chosen automatically (white or Cool Gray) for the
+  best contrast.
 
 ## How It Works
 
 The application dynamically loads custom theme CSS from a URL provided by the configuration API:
 
 1. The backend configuration API returns a `theme_css` URL in the config response
-2. [ThemeLoader.jsx](src/app/Components/ThemeLoader/ThemeLoader.jsx) automatically loads the CSS file from that URL
+2. [ThemeContext.jsx](src/app/Components/Context/ThemeContext.jsx) automatically loads the CSS file from that URL
 3. The custom CSS file overrides the default CSS variables to apply your brand's theme
 
 ## How to Customize
@@ -24,20 +69,18 @@ Create a CSS file with your custom theme. You can use this template:
  */
 
 :root {
-  /* Base/Generic colors - Recommended approach
-     Override these to automatically update all components */
-  --color-primary: #43a047;
-  --color-primary-hover: #66bb6a;
-  --color-primary-active: #2e7d32;
-  --color-background-neutral: #e8f5e9;
-  --color-border-default: #c8e6c9;
+  /* Use the official 100% Rijkshuisstijl colours.
+     Override the semantic variables so the theme can also override the
+     in-app colour picker. */
+  --color-primary: #39870c;
+  --color-primary-hover: color-mix(in srgb, var(--color-primary) 86%, black);
+  --color-primary-active: color-mix(in srgb, var(--color-primary) 74%, black);
+  --color-on-primary: #ffffff;
+  --color-accent: #154273;
 
-  /* Component-specific overrides (Optional)
-     Override these for fine-grained control */
-  --header-background: #2e7d32;
-  --avatar-name-bg: #ef6c00;
-  --avatar-call-bg: #66bb6a;
-  --avatar-doc-bg: #43a047;
+  /* Neutral surfaces are derived from Cool Gray, not a communication colour */
+  --color-background-neutral: #f1f5f9;
+  --color-border-default: #cbd5e1;
 }
 ```
 
@@ -77,10 +120,10 @@ For local development and testing:
 
 The [custom-style.css](src/app/custom-style.css) file includes ready-to-use theme examples at the bottom:
 
-- **Blue Corporate Theme** - Professional blue tones
-- **Green Nature Theme** - Fresh green palette
-- **Purple Modern Theme** - Modern purple design
-- **Dark Theme** - Dark mode optimized colors
+- **Hemelblauw** - Blue accent palette
+- **Groen** - Green accent palette
+- **Rood** - Red accent palette
+- **Paars** - Purple accent palette
 
 Simply copy one of these example themes and paste it at the top of the file (uncommented) to try it out.
 
@@ -90,15 +133,19 @@ Simply copy one of these example themes and paste it at the top of the file (unc
 
 These generic colors are reused across multiple components to ensure consistency:
 
-- `--color-primary` - Primary brand color (default: #1677ff)
-- `--color-primary-hover` - Primary color on hover (default: #4096ff)
-- `--color-primary-active` - Primary color when active/clicked (default: #0958d9)
+- `--color-primary` - Primary colour, always a 100% Rijkshuisstijl value (default: #154273)
+- `--color-primary-hover` - Functional hover state (default: #123963)
+- `--color-primary-active` - Functional active state (default: #103155)
+- `--color-on-primary` - Readable text colour on the primary colour (default: #ffffff)
+- `--color-primary-tint-75/60/45/30/15` - Official support tints, always paired with the 100% colour
+- `--color-accent` - Accent/link colour, also a 100% Rijkshuisstijl value (default: #007bc7)
 - `--color-text-light` - Light text color for dark backgrounds (default: #ffffff)
-- `--color-text-dark` - Dark text color for light backgrounds (default: #000000)
+- `--color-text-dark` - Dark text color for light backgrounds (default: #0f172a)
+- `--color-text-muted` - Muted/secondary text (default: #475569)
 - `--color-background-light` - Light background (default: #ffffff)
-- `--color-background-neutral` - Neutral background (default: #f5f5f5)
-- `--color-border-default` - Default border color (default: #d9d9d9)
-- `--color-border-subtle` - Subtle border/placeholder color (default: #bfbfbf)
+- `--color-background-neutral` - Neutral background (default: #f1f5f9)
+- `--color-border-default` - Default border color (default: #cbd5e1)
+- `--color-border-subtle` - Subtle border/placeholder color (default: #94a3b8)
 
 **Note:** You can override the base colors to automatically update all components that use them, or override individual component colors for fine-grained control.
 
@@ -126,16 +173,9 @@ These generic colors are reused across multiple components to ensure consistency
 - `--menu-item-active-bg` - Menu item when active (uses `--color-primary-active`)
 - `--menu-item-selected-text` - Selected menu item text color (uses `--color-text-light`)
 
-### Avatar Colors
-
-- `--avatar-name-bg` - Background color for name/profile avatars (default: #f56a00)
-- `--avatar-call-bg` - Background color for call/phone avatars (default: #87d068)
-- `--avatar-doc-bg` - Background color for document avatars (default: #4096ff)
-- `--avatar-ai-bg` - Background color for AI conversation avatars (uses `--color-primary`)
-
 ### Card Colors
 
-- `--card-background` - Background color for cards/widgets (uses `--color-background-light`)
+- `--card-background` - Background color for cards (uses `--color-background-light`)
 - `--card-text-color` - Text color inside cards (uses `--color-text-dark`)
 - `--card-border-color` - Border color for cards (uses `--color-border-default`)
 
@@ -160,12 +200,12 @@ Change the base/generic colors to automatically update all components:
 
 ```css
 :root {
-  /* Override base colors - affects all components using them */
-  --color-primary: #2e7d32;
-  --color-primary-hover: #43a047;
-  --color-primary-active: #1b5e20;
-  --color-text-light: #ffffff;
-  --color-text-dark: #000000;
+  /* Override base colours - affects all components using them */
+  --color-primary: #39870c;
+  --color-primary-hover: color-mix(in srgb, var(--color-primary) 86%, black);
+  --color-primary-active: color-mix(in srgb, var(--color-primary) 74%, black);
+  --color-on-primary: #ffffff;
+  --color-accent: #154273;
 }
 ```
 
@@ -177,10 +217,10 @@ Override specific component colors for more control:
 
 ```css
 :root {
-  /* Override specific components */
-  --button-primary-bg: #2e7d32;
-  --menu-item-selected-bg: #43a047;
-  --card-background: #e8f5e9;
+  /* Override specific components, still using 100% brand colours */
+  --button-primary-bg: #39870c;
+  --menu-item-selected-bg: #39870c;
+  --card-background: #f1f5f9;
 }
 ```
 
@@ -192,13 +232,12 @@ Combine both approaches - set base colors and override specific components:
 
 ```css
 :root {
-  /* Set base colors */
-  --color-primary: #2e7d32;
-  --color-text-light: #ffffff;
+  /* Set base colours */
+  --color-primary: #39870c;
+  --color-on-primary: #ffffff;
 
-  /* Override specific components that need different colors */
-  --avatar-ai-bg: #1565c0; /* Different from primary */
-  --header-background: #1b5e20; /* Darker than primary */
+  /* Override specific components that need another official colour */
+  --header-background: #154273;
 }
 ```
 
@@ -206,12 +245,11 @@ Combine both approaches - set base colors and override specific components:
 
 You can use any valid CSS color format:
 
-- Hex: `#2e7d32`
-- RGB: `rgb(46, 125, 50)`
-- RGBA: `rgba(46, 125, 50, 0.9)`
-- HSL: `hsl(122, 39%, 49%)`
-- Color names: `green`
+- Hex: `#39870c`
+- RGB: `rgb(57, 135, 12)`
+- RGBA: `rgba(57, 135, 12, 0.9)`
+- HSL: `hsl(98, 84%, 29%)`
 
-  ```
-
-  ```
+**Note:** For communication colours, use the official 100% hex values listed
+above. Do not use arbitrary colours or tint percentages as a primary/accent
+colour.

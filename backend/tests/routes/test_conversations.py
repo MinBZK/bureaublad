@@ -26,18 +26,17 @@ class TestConversationsEndpoints:
         assert "Conversation service is not configured" in data["msg"]
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_conversations_chats_success(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful chats retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock conversation data
         test_conversations = PaginatedResponse(
@@ -74,8 +73,8 @@ class TestConversationsEndpoints:
         assert data["results"][1]["id"] == "conv-456"
         assert data["results"][1]["title"] == "Team Standup"
 
-        # Verify token exchange was called
-        mock_get_token.assert_called_once()
+        # Verify access token was retrieved
+        mock_get_access_token.assert_called_once()
 
         # Verify ConversationClient was instantiated
         mock_conversation_client.assert_called_once()
@@ -84,18 +83,17 @@ class TestConversationsEndpoints:
         mock_client_instance.get_chats.assert_called_once_with(page=1, page_size=5, title=None)
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_docs_get_conversations_chats_with_title_filter(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test conversations retrieval with title filter."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -128,18 +126,17 @@ class TestConversationsEndpoints:
         )
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_conversations_chats_with_pagination(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test chats retrieval with pagination parameter."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock conversation data for page 2
         test_conversations = PaginatedResponse(
@@ -172,18 +169,17 @@ class TestConversationsEndpoints:
         mock_client_instance.get_chats.assert_called_once_with(page=2, page_size=1, title=None)
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_conversations_chats_empty_result(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test chats endpoint with no conversations."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock empty conversation data
         mock_client_instance = AsyncMock()
@@ -198,36 +194,34 @@ class TestConversationsEndpoints:
         assert data["results"] == []
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
-    def test_conversations_chats_token_exchange_error(
+    @patch("app.routes.conversations.get_access_token")
+    def test_conversations_chats_access_token_error(
         self,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test chats endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test chats endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/conversations/chats")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_conversations_chats_client_error(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test chats endpoint when ConversationClient raises an exception."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock ConversationClient error
         mock_client_instance = AsyncMock()
@@ -253,18 +247,17 @@ class TestConversationsEndpoints:
         assert response.status_code == 422  # Unprocessable Entity - type conversion failed
 
     @patch("app.routes.conversations.settings.CONVERSATION_URL", "https://conversations.example.com")
-    @patch("app.routes.conversations.settings.CONVERSATION_AUDIENCE", "conversations")
-    @patch("app.routes.conversations.get_token")
+    @patch("app.routes.conversations.get_access_token")
     @patch("app.routes.conversations.ConversationClient")
     def test_conversations_chats_with_computed_url_field(
         self,
         mock_conversation_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test that conversations include computed URL field."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-conversation-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-conversation-token"
 
         # Mock conversation data
         test_conversations = PaginatedResponse(

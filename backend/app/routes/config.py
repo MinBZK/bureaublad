@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/config", tags=["config"])
 
-ALL_SERVICES = ["ai", "docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation", "matrix"]
+ALL_SERVICES = ["docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation", "matrix", "projects"]
 
 
 @router.get("")
@@ -31,7 +31,6 @@ async def get_config(current_user: Annotated[User, Depends(get_current_user)]) -
         icon = getattr(settings, f"{service_id.upper()}_ICON", None)
         title = getattr(settings, f"{service_id.upper()}_TITLE", None)
         url = getattr(settings, f"{service_id.upper()}_URL", None)
-        iframe = getattr(settings, f"{service_id.upper()}_IFRAME", False)
 
         if url is not None:
             applications.append(
@@ -41,7 +40,6 @@ async def get_config(current_user: Annotated[User, Depends(get_current_user)]) -
                     icon=icon,
                     url=url,
                     title=title,
-                    iframe=iframe,
                 )
             )
 

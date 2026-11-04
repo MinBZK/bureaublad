@@ -1,28 +1,27 @@
 "use client";
-import { Affix, Avatar, Dropdown, Flex, Layout, Menu } from "antd";
+import { Affix, Avatar, Dropdown, Flex, Layout, Popover } from "antd";
 import {
-  LogoutOutlined,
-  UserOutlined,
-  GlobalOutlined,
   BgColorsOutlined,
+  DownOutlined,
+  GlobalOutlined,
+  LogoutOutlined,
+  MoonOutlined,
   ProfileOutlined,
-  SettingOutlined,
+  SunOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { menuItem } from "../../../Common/pageConfig";
-import AiAssistant from "../../AppWidgets/AiAssistant/AiAssistant";
+import ColorPicker from "./ColorPicker";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import { useLanguage } from "../../../../i18n/LanguageContext";
 import { useTheme } from "../../Context/ThemeContext";
 const { Header } = Layout;
 
 function HeaderLayout({
-  isProfile = true,
+  isAuthenticated = false,
   profile,
-  applications,
   redirectUrl,
-  isAffixHeader = true,
   isAdmin = false,
 }) {
   const pathname = usePathname();
@@ -31,96 +30,138 @@ function HeaderLayout({
   const tNav = useTranslations("Navigation");
   const tTheme = useTranslations("Theme");
   const { locale, setLocale } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
-  const isInIframe =
-    typeof window !== "undefined" && window.self !== window.top;
-
-  // Determine selected key based on current path
-  const getSelectedKey = () => {
-    if (pathname === "/") return ["home"];
-    const pathSegment = pathname.slice(1); // Remove leading slash
-    return [pathSegment];
-  };
+  const { theme, toggleTheme, brand, setBrand, palettes } = useTheme();
 
   const handleLanguageChange = () => {
-    const newLocale = locale === "nl" ? "en" : "nl";
-    setLocale(newLocale);
+    setLocale(locale === "nl" ? "en" : "nl");
   };
 
-  const items = [
-    isAdmin && {
-      key: "0",
-      label: <Link href={"/admin"}>{tNav("admin")}</Link>,
-      icon: <SettingOutlined />,
-    },
+  const accountItems = [
     {
-      key: "1",
+      key: "account",
       label: (
-        <Link href={redirectUrl} rel="noopener noreferrer" target="_blank">
+        <a href={redirectUrl} rel="noopener noreferrer" target="_blank">
           {tHeader("myAccount")}
-        </Link>
+        </a>
       ),
       icon: <ProfileOutlined />,
     },
     {
-      key: "2",
-      label: (
-        <span onClick={handleLanguageChange}>
-          {locale === "nl"
-            ? tHeader("languageEnglish")
-            : tHeader("languageDutch")}
-        </span>
-      ),
+      key: "language",
+      label:
+        locale === "nl" ? tHeader("languageEnglish") : tHeader("languageDutch"),
       icon: <GlobalOutlined />,
+      onClick: handleLanguageChange,
     },
     {
-      key: "3",
-      label: (
-        <span onClick={toggleTheme}>
-          {theme === "light" ? tTheme("dark") : tTheme("light")}
-        </span>
-      ),
-      icon: <BgColorsOutlined />,
+      key: "theme",
+      label: theme === "light" ? tTheme("dark") : tTheme("light"),
+      icon: theme === "light" ? <MoonOutlined /> : <SunOutlined />,
+      onClick: toggleTheme,
     },
     {
-      key: "4",
+      key: "logout",
       label: <Link href={`/api/v1/auth/logout`}>{tHome("logout")}</Link>,
       icon: <LogoutOutlined />,
       danger: true,
     },
-  ].filter(Boolean); // Filter out falsey values (like the admin item when !isAdmin)
+  ];
+
   const header = (
-    <Header>
-      <Flex>
-        <div className="logo">
-          <Link className="logo-txt" href="/">
-            {tHome("title")}
-          </Link>
-        </div>
-        {applications && (
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            selectedKeys={getSelectedKey()}
-            items={menuItem(applications, tNav)}
-            className="header-menu"
-          />
-        )}
-        {applications?.some(
-          (value) => value?.id === "ai" && value?.enabled,
-        ) && <AiAssistant />}
-        {!isProfile && (
-          <Dropdown menu={{ items }}>
-            <Link className="profile-link" href="/#">
-              <Avatar icon={<UserOutlined />} /> {!isInIframe && profile}
+    <Header className="rh-header">
+      <Flex
+        align="center"
+        className={
+          isAuthenticated
+            ? "rh-header-inner"
+            : "rh-header-inner rh-header-inner--minimal"
+        }
+      >
+        <Link className="rh-logo" href="/">
+          <span className="rh-logo-mark" aria-hidden="true">
+            MB
+          </span>
+          <span className="rh-logo-text">{tHome("title")}</span>
+        </Link>
+
+        {isAuthenticated && (
+          <nav className="rh-nav" aria-label={tNav("mainNavigation")}>
+            <Link
+              href="/"
+              aria-current={pathname === "/" ? "page" : undefined}
+              className={
+                pathname === "/" ? "rh-nav-link is-active" : "rh-nav-link"
+              }
+            >
+              {tNav("home")}
             </Link>
-          </Dropdown>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                aria-current={pathname === "/admin" ? "page" : undefined}
+                className={
+                  pathname === "/admin"
+                    ? "rh-nav-link is-active"
+                    : "rh-nav-link"
+                }
+              >
+                {tNav("admin")}
+              </Link>
+            )}
+          </nav>
         )}
+
+        <div className="rh-header-actions">
+          <Popover
+            trigger="click"
+            placement="bottomRight"
+            arrow={false}
+            content={
+              <ColorPicker
+                brand={brand}
+                onSelect={setBrand}
+                palettes={palettes}
+              />
+            }
+          >
+            <button
+              type="button"
+              className="rh-icon-button"
+              aria-label={tTheme("colors")}
+              title={tTheme("colors")}
+            >
+              <BgColorsOutlined />
+            </button>
+          </Popover>
+
+          {isAuthenticated ? (
+            <Dropdown menu={{ items: accountItems }} placement="bottomRight">
+              <button type="button" className="rh-account-button">
+                <Avatar size="small" icon={<UserOutlined />} />
+                {profile && <span className="rh-account-name">{profile}</span>}
+                <DownOutlined className="rh-account-caret" />
+              </button>
+            </Dropdown>
+          ) : (
+            <button
+              type="button"
+              className="rh-language-button"
+              onClick={handleLanguageChange}
+            >
+              <GlobalOutlined />
+              <span>
+                {locale === "nl"
+                  ? tHeader("languageEnglish")
+                  : tHeader("languageDutch")}
+              </span>
+            </button>
+          )}
+        </div>
       </Flex>
     </Header>
   );
 
-  return isAffixHeader ? <Affix>{header}</Affix> : header;
+  return <Affix>{header}</Affix>;
 }
 
 export default HeaderLayout;

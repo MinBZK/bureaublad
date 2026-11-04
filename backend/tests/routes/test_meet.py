@@ -33,18 +33,17 @@ class TestMeetEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     def test_meet_get_rooms_success(
         self,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful rooms retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
@@ -84,18 +83,17 @@ class TestMeetEndpoints:
         mock_client_instance.get_rooms.assert_called_once_with(page=1, page_size=5)
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     def test_meet_get_rooms_with_pagination(
         self,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test rooms retrieval with pagination."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
@@ -124,18 +122,17 @@ class TestMeetEndpoints:
         mock_client_instance.get_rooms.assert_called_once_with(page=2, page_size=1)
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     def test_meet_get_rooms_empty_result(
         self,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test rooms endpoint with no rooms."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
@@ -150,24 +147,23 @@ class TestMeetEndpoints:
         assert data["results"] == []
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     @patch("app.routes.meet.generate_random_room_name")
     def test_meet_post_room_success(
         self,
         mock_generate_name: MagicMock,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful room creation."""
         # Mock room name generation
         mock_generate_name.return_value = "abc-defg-hij"
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient
         mock_client_instance = AsyncMock()
@@ -193,56 +189,53 @@ class TestMeetEndpoints:
         mock_client_instance.post_room.assert_called_once_with(name="abc-defg-hij")
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
-    def test_meet_get_rooms_token_exchange_error(
+    @patch("app.routes.meet.get_access_token")
+    def test_meet_get_rooms_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test get rooms endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test get rooms endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/meet/rooms")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
-    def test_meet_post_room_token_exchange_error(
+    @patch("app.routes.meet.get_access_token")
+    def test_meet_post_room_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test post room endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test post room endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.post("/api/v1/meet/rooms")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     def test_meet_get_rooms_api_error(
         self,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test get rooms endpoint when Meet API returns error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient error
         mock_client_instance = AsyncMock()
@@ -254,15 +247,14 @@ class TestMeetEndpoints:
         assert response.status_code == 502  # ExternalServiceError returns 502
 
     @patch("app.routes.meet.settings.MEET_URL", "https://meet.example.com")
-    @patch("app.routes.meet.settings.MEET_AUDIENCE", "meet")
-    @patch("app.routes.meet.get_token")
+    @patch("app.routes.meet.get_access_token")
     @patch("app.routes.meet.MeetClient")
     @patch("app.routes.meet.generate_random_room_name")
     def test_meet_post_room_api_error(
         self,
         mock_generate_name: MagicMock,
         mock_meet_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test post room endpoint when Meet API returns error."""
@@ -271,8 +263,8 @@ class TestMeetEndpoints:
         # Mock room name generation
         mock_generate_name.return_value = "abc-defg-hij"
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-meet-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-meet-token"
 
         # Mock MeetClient error
         mock_client_instance = AsyncMock()

@@ -1,76 +1,32 @@
 {
   "HomePage": {
     "title": "Mijn Bureau",
-    "welcome": "Welkom bij jouw bureau",
-    "logout": "Uitloggen"
+    "intro": "Alle apps, bestanden en gesprekken op één plek.",
+    "products": "Producten",
+    "productsIntro": "Kies je applicatie en ga direct aan de slag.",
+    "logout": "Uitloggen",
+    "heading": "Mijn applicaties"
+  },
+  "Products": {
+    "default": "Open deze applicatie",
+    "empty": "Er zijn nog geen producten beschikbaar.",
+    "ocs": "Bestanden en mappen",
+    "docs": "Documenten schrijven en delen",
+    "calendar": "Agenda en planning",
+    "task": "Taken en to-do's",
+    "drive": "Bestanden opslaan en delen",
+    "meet": "Vergaderen met beeld en geluid",
+    "grist": "Spreadsheets en databases",
+    "conversation": "Gesprekken met AI",
+    "matrix": "Chat en samenwerken",
+    "projects": "Projecten beheren",
+    "opensInNewTab": "Opent in een nieuw tabblad"
   },
   "Header": {
     "languageEnglish": "English",
     "languageDutch": "Nederlands",
-    "myAccount": "Mijn Account"
-  },
-  "AiAssistant": {
-    "title": "AI Assistent",
-    "placeholder": "Typ je vraag hier..."
-  },
-  "Conversations": {
-    "title": "AI gesprek",
-    "lastModified": "Laatste wijziging"
-  },
-  "Email": {
-    "title": "Email"
-  },
-  "Drive": {
-    "title": "Drive",
-    "lastModified": "Laatste wijziging"
-  },
-  "Files": {
-    "title": "Bestanden",
-    "lastModified": "Laatste wijziging"
-  },
-  "Documents": {
-    "title": "Docs",
-    "lastModified": "Laatste wijziging",
-    "untitled": "Naamloos document"
-  },
-  "Meet": {
-    "title": "Videoconferentie",
-    "pincode": "Pincode",
-    "accessLevel": "Toegangs niveau",
-    "public": "Openbaar",
-    "trusted": "Vertrouwd",
-    "restricted": "Beperkt"
-  },
-  "Sheets": {
-    "title": "Sheets",
-    "selectOrganization": "Organisatie selecteren",
-    "updated": "Geüpdatet"
-  },
-  "Widget": {
-    "refresh": "Vernieuwen",
-    "search": "zoeken",
-    "admin": "Beheerdersportaal"
-  },
-  "List": {
-    "empty": "Geen items gevonden",
-    "emptyData": "Nog geen gegevens beschikbaar. Voeg gegevens toe in de applicatie om ze hier te zien."
-  },
-  "Dashboard": {
-    "noApps": "Nog geen applicaties geconfigureerd. Neem contact op met uw beheerder om applicaties in te schakelen."
-  },
-  "Search": {
-    "placeholder": "zoeken...",
-    "notFound": "Niet gevonden"
-  },
-  "ErrorPage": {
-    "subTitle": "Er is iets mis gegaan",
-    "backHome": "Terug naar homepagina"
-  },
-  "LoginPage": {
-    "failedTitle": "Inloggen mislukt",
-    "failedMessage": "Authenticatie is mislukt. Probeer het opnieuw.",
-    "loginMessage": "Meld u aan om toegang te krijgen tot deze applicatie.",
-    "loginButton": "Inloggen"
+    "myAccount": "Mijn Account",
+    "login": "Inloggen"
   },
   "Footer": {
     "copyright": "Mijn Bureau ©",
@@ -78,19 +34,37 @@
   },
   "Navigation": {
     "home": "Home",
-    "admin": "Beheer"
+    "admin": "Beheer",
+    "mainNavigation": "Hoofdnavigatie"
   },
   "AdminPortal": {
     "title": "Beheerdersportaal",
-    "description": "Beheer en configureer de applicaties in uw suite."
-  },
-  "ExternalApp": {
-    "openNewTab": "Open in nieuw tabblad",
-    "exitFullscreen": "Volledig scherm afsluiten",
-    "fullscreen": "Volledig scherm"
+    "description": "Beheer en configureer de applicaties in je suite."
   },
   "Theme": {
     "light": "Licht Mode",
-    "dark": "Donker Mode"
+    "dark": "Donker Mode",
+    "colors": "Kleuren aanpassen",
+    "paletteTitle": "Kleurenpalet",
+    "mainColour": "Hoofdkleur",
+    "paletteHint": "Kies een kleur uit het pallet."
+  },
+  "Welcome": {
+    "title": "Welkom bij Mijn Bureau",
+    "intro": "Jouw digitale werkplek voor al je apps, bestanden en gesprekken. Meld je aan om verder te gaan.",
+    "login": "Inloggen",
+    "loginHint": "Je wordt doorgestuurd naar de beveiligde inlogomgeving.",
+    "loginError": "Inloggen is niet gelukt. Probeer het opnieuw of neem contact op met de helpdesk.",
+    "helpdesk": "Helpdesk"
+  },
+  "ErrorPage": {
+    "title": "Er ging iets mis",
+    "subTitle": "De applicatie kon niet worden geladen. Probeer het opnieuw.",
+    "retry": "Opnieuw proberen",
+    "backToHome": "Terug naar de homepage"
+  },
+  "NotFoundPage": {
+    "subTitle": "De pagina kon niet worden gevonden.",
+    "backToHome": "Terug naar de homepage"
   }
 }

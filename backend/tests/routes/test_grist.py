@@ -33,18 +33,17 @@ class TestGristEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_orgs_success(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful organizations retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient
         mock_client_instance = AsyncMock()
@@ -84,18 +83,17 @@ class TestGristEndpoints:
         mock_client_instance.get_organizations.assert_called_once()
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_docs_success(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful documents retrieval with pagination."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient
         mock_client_instance = AsyncMock()
@@ -143,18 +141,17 @@ class TestGristEndpoints:
         mock_client_instance.get_documents.assert_called_once_with(1, 1, 5)
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_docs_pagination(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint with pagination."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient
         mock_client_instance = AsyncMock()
@@ -207,18 +204,17 @@ class TestGristEndpoints:
         assert data["results"][2]["id"] == "doc5"
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_docs_default_pagination(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint with default pagination parameters."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient
         mock_client_instance = AsyncMock()
@@ -233,18 +229,17 @@ class TestGristEndpoints:
         assert data["results"] == []
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_orgs_empty_result(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test organizations endpoint with no organizations."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient
         mock_client_instance = AsyncMock()
@@ -263,56 +258,53 @@ class TestGristEndpoints:
         assert response.status_code == 422  # Validation error
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
-    def test_grist_orgs_token_exchange_error(
+    @patch("app.routes.grist.get_access_token")
+    def test_grist_orgs_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test organizations endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test organizations endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/grist/orgs")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
-    def test_grist_docs_token_exchange_error(
+    @patch("app.routes.grist.get_access_token")
+    def test_grist_docs_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test documents endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test documents endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/grist/docs?organization_id=1")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_orgs_api_error(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test organizations endpoint when Grist API returns error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient error
         mock_client_instance = AsyncMock()
@@ -324,20 +316,19 @@ class TestGristEndpoints:
         assert response.status_code == 502  # ExternalServiceError returns 502
 
     @patch("app.routes.grist.settings.GRIST_URL", "https://grist.example.com")
-    @patch("app.routes.grist.settings.GRIST_AUDIENCE", "grist")
-    @patch("app.routes.grist.get_token")
+    @patch("app.routes.grist.get_access_token")
     @patch("app.routes.grist.GristClient")
     def test_grist_docs_api_error(
         self,
         mock_grist_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint when Grist API returns error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-grist-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-grist-token"
 
         # Mock GristClient error
         mock_client_instance = AsyncMock()

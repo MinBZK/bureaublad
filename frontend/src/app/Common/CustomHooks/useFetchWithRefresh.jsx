@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import api from "@/lib/axios";
 import { useAutoRefresh } from "./useAutoRefresh";
-import { attemptSilentLoginOrLogin } from "@/lib/silentLogin";
+import { attemptSilentLogin } from "@/lib/silentLogin";
 
 export function useFetchWithRefresh(url, params = {}) {
   const [data, setData] = useState([]);
@@ -37,7 +37,12 @@ export function useFetchWithRefresh(url, params = {}) {
         if (!isAutoRefresh) {
           setError(err.message);
         }
-        attemptSilentLoginOrLogin(err);
+        if (err?.response?.status === 401) {
+          attemptSilentLogin(
+            300,
+            window.location.pathname + window.location.search,
+          );
+        }
       } finally {
         setLoading(false);
       }

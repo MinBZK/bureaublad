@@ -3,12 +3,12 @@ import logging
 from fastapi import APIRouter, Request
 
 from app.clients.drive import DriveClient
+from app.core.authentication import get_access_token
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.document import Document
 from app.models.pagination import PaginatedResponse
-from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,7 @@ async def get_drive_client(request: Request, http_client: HTTPClient) -> DriveCl
     if not settings.drive_enabled or not settings.DRIVE_URL:
         raise ServiceUnavailableError("Drive")
 
-    token = await get_token(request, settings.DRIVE_AUDIENCE)
+    token = await get_access_token(request)
 
     return DriveClient(http_client, settings.DRIVE_URL, token)
 

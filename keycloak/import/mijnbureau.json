@@ -36,8 +36,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759753400",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "true",
-        "post.logout.redirect.uris": "http://bureaublad.localhost/",
+        "post.logout.redirect.uris": "http://bureaublad.localhost##http://bureaublad.localhost/",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
@@ -90,7 +89,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754412",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -144,7 +142,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754472",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -198,7 +195,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754472",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -252,7 +248,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754530",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -306,7 +301,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754507",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -360,7 +354,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754355",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -414,7 +407,6 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1759754438",
         "backchannel.logout.session.required": "true",
-        "standard.token.exchange.enabled": "false",
         "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -475,93 +467,6 @@
       "enabled": true
     }
   ],
-  "defaultRoles": ["offline_access", "uma_authorization", "tokenexchange-role"],
-  "roles": {
-    "realm": [
-      {
-        "name": "tokenexchange-role",
-        "description": "Allow bureau clients to exchange tokens",
-        "composite": true,
-        "composites": {
-          "client": {
-            "nextcloud": ["token-exchange-role"],
-            "openxchange": ["token-exchange-role"],
-            "docs": ["token-exchange-role"],
-            "meet": ["token-exchange-role"],
-            "drive": ["token-exchange-role"],
-            "conversation": ["token-exchange-role"],
-            "grist": ["token-exchange-role"]
-          }
-        },
-        "clientRole": false,
-        "attributes": {}
-      }
-    ],
-    "client": {
-      "nextcloud": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "openxchange": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "docs": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "meet": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "drive": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "conversation": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ],
-      "grist": [
-        {
-          "name": "token-exchange-role",
-          "description": "",
-          "composite": false,
-          "clientRole": true,
-          "attributes": {}
-        }
-      ]
-    }
-  },
+  "defaultRoles": ["offline_access", "uma_authorization"],
   "keycloakVersion": "26.3.5"
 }

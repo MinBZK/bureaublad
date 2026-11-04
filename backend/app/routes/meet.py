@@ -5,12 +5,12 @@ from string import ascii_lowercase
 from fastapi import APIRouter, Request
 
 from app.clients.meet import MeetClient
+from app.core.authentication import get_access_token
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.pagination import PaginatedResponse
 from app.models.room import Room
-from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ async def get_meet_client(request: Request, http_client: HTTPClient) -> MeetClie
     if not settings.meet_enabled or not settings.MEET_URL:
         raise ServiceUnavailableError("Meet")
 
-    token = await get_token(request, settings.MEET_AUDIENCE)
+    token = await get_access_token(request)
 
     return MeetClient(http_client, settings.MEET_URL, token)
 
@@ -52,7 +52,7 @@ async def meet_post_room(request: Request, http_client: HTTPClient) -> Room:
     if not settings.meet_enabled or not settings.MEET_URL:
         raise ServiceUnavailableError("Meet")
 
-    # Get auth from session (already refreshed by get_current_user dependency)
+    # Get the access token from the session (already refreshed by get_current_user dependency)
     client = await get_meet_client(request, http_client)
 
     name: str = generate_random_room_name()

@@ -38,14 +38,14 @@ class TestAuthCallback:
     """Tests for /auth/callback endpoint."""
 
     @patch("app.routes.authentication.oauth.oidc.authorize_access_token")
-    def test_callback_failure(self, mock_token_exchange: AsyncMock, client: TestClient) -> None:
+    def test_callback_failure(self, mock_authorize_access_token: AsyncMock, client: TestClient) -> None:
         """Test OAuth callback failure handling."""
-        mock_token_exchange.side_effect = Exception("OAuth error")
+        mock_authorize_access_token.side_effect = Exception("OAuth error")
 
         response = client.get("/api/v1/auth/callback?code=invalid&state=test-state", follow_redirects=False)
 
         assert response.status_code == 302
-        assert "/login?error=authentication_failed" in response.headers["location"]
+        assert "/?error=authentication_failed" in response.headers["location"]
 
 
 class TestAuthProfile:

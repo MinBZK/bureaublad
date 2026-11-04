@@ -3,11 +3,11 @@ import logging
 from fastapi import APIRouter, Request
 
 from app.clients.ocs import OCSClient
+from app.core.authentication import get_access_token
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.activity import FileActivityResponse
-from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ async def get_ocs_client(request: Request, http_client: HTTPClient) -> OCSClient
     if not settings.ocs_enabled or not settings.OCS_URL:
         raise ServiceUnavailableError("OCS")
 
-    token = await get_token(request, settings.OCS_AUDIENCE)
+    token = await get_access_token(request)
 
     return OCSClient(http_client, settings.OCS_URL, token, timeout=10.0)
 

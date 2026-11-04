@@ -15,13 +15,6 @@ class CredentialError(HTTPException):
         )
 
 
-class TokenExchangeError(HTTPException):
-    """Raised when token exchange with the identity provider fails."""
-
-    def __init__(self, detail: str = _("Token exchange failed")) -> None:
-        super().__init__(status_code=status.HTTP_403_FORBIDDEN, detail=detail)
-
-
 class ServiceUnavailableError(HTTPException):
     """Raised when a required service is not configured or unavailable."""
 

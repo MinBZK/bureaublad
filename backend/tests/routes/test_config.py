@@ -30,13 +30,11 @@ def test_config_get_authenticated(authenticated_client: TestClient) -> None:
         assert "icon" in app
         assert "url" in app
         assert "title" in app
-        assert "iframe" in app
         assert isinstance(app["id"], str)
         assert isinstance(app["enabled"], bool)
         assert app["icon"] is None or isinstance(app["icon"], str)
         assert app["url"] is None or isinstance(app["url"], str)
         assert app["title"] is None or isinstance(app["title"], str)
-        assert isinstance(app["iframe"], bool)
 
     # Verify theme_css is a string
     assert isinstance(data["theme_css"], str)

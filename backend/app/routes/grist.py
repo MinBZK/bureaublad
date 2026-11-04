@@ -5,12 +5,12 @@ import logging
 from fastapi import APIRouter, Request
 
 from app.clients.grist import GristClient
+from app.core.authentication import get_access_token
 from app.core.config import settings
 from app.core.http_clients import HTTPClient
 from app.exceptions import ServiceUnavailableError
 from app.models.grist import GristDocument, GristOrganization
 from app.models.pagination import PaginatedResponse
-from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -21,8 +21,8 @@ async def get_grist_client(request: Request, http_client: HTTPClient) -> GristCl
     if not settings.grist_enabled or not settings.GRIST_URL:
         raise ServiceUnavailableError("Grist")
 
-    # Get auth from session (already refreshed by get_current_user dependency)
-    token = await get_token(request, settings.GRIST_AUDIENCE)
+    # Get the access token from the session (already refreshed by get_current_user dependency)
+    token = await get_access_token(request)
 
     # Create client and fetch organizations
     return GristClient(http_client, settings.GRIST_URL, token)

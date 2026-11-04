@@ -1,72 +1,28 @@
 "use client";
-import { FloatButton, Layout } from "antd";
+import { useEffect, useState } from "react";
+import { Button, FloatButton, Layout, Result } from "antd";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
 import { useFetchWithRefresh } from "@/app/Common/CustomHooks/useFetchWithRefresh";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "../../../i18n/TranslationsProvider";
-import ExternalApp from "@/app/Common/ExternalApp";
+import WelcomePage from "../Welcome/WelcomePage";
 import { MessageOutlined } from "@ant-design/icons";
 const { Content, Footer } = Layout;
 
-export default function PageLayout({ children }) {
+function AuthenticatedLayout({ appConfig, children }) {
   const t = useTranslations("Footer");
-  const { appConfig, error } = useAppContext();
   const { data } = useFetchWithRefresh("/auth/profile");
-  const pathname = usePathname();
-
-  // Get all embedded apps (apps with iframe: true)
-  const embeddedApps =
-    appConfig?.applications?.filter((app) => app.iframe && app.url) || [];
-  const currentAppId = pathname.slice(1); // Remove leading slash
-  const isEmbeddedAppRoute = embeddedApps.some(
-    (app) => app?.id === currentAppId,
-  );
 
   return (
-    <Layout>
+    <Layout className="rh-layout">
       <HeaderLayout
-        isProfile={!!error}
+        isAuthenticated
         profile={data?.name}
-        applications={appConfig?.applications}
         redirectUrl={appConfig?.redirect_to_account_page}
-        isAffixHeader={!isEmbeddedAppRoute} // Affix header for embedded app routes
-        isAdmin={appConfig?.isAdmin}
+        isAdmin={appConfig?.is_admin}
       />
-      <Content
-        className={!isEmbeddedAppRoute ? "homepage-layout" : "layout-iframe"}
-      >
-        <div className="content">
-          {/* Render all embedded apps at once, show/hide based on route */}
-          {embeddedApps.map((app) => {
-            const isActive = currentAppId === app?.id;
-            const isMatrix = app?.id === "matrix";
-
-            return (
-              <div
-                key={app.id}
-                style={{
-                  // Use visibility:hidden for Matrix to prevent cache clearing issues
-                  ...(isMatrix
-                    ? {
-                        visibility: isActive ? "visible" : "hidden",
-                        position: isActive ? "relative" : "absolute",
-                        height: "100%",
-                        width: "100%",
-                      }
-                    : {
-                        display: isActive ? "block" : "none",
-                        height: "100%",
-                      }),
-                }}
-              >
-                <ExternalApp appId={app.id} />
-              </div>
-            );
-          })}
-          {/* Render children for non-embedded routes */}
-          {!isEmbeddedAppRoute && children}
-        </div>
+      <Content className="layout-content">
+        <div className="content">{children}</div>
       </Content>
       {appConfig?.helpdesk_url && (
         <FloatButton
@@ -77,12 +33,70 @@ export default function PageLayout({ children }) {
           tooltip={t("helpdesk")}
         />
       )}
-      {!isEmbeddedAppRoute && (
-        <Footer>
-          {t("copyright")}
-          {new Date().getFullYear()}
-        </Footer>
-      )}
+      <Footer className="rh-footer">
+        {t("copyright")} {new Date().getFullYear()}
+      </Footer>
     </Layout>
+  );
+}
+
+export default function PageLayout({ children }) {
+  const { appConfig, error, retryConfig } = useAppContext();
+  const tError = useTranslations("ErrorPage");
+  const [loginError, setLoginError] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setLoginError(params.get("error") === "authentication_failed");
+  }, []);
+
+  const isUnauthenticated = error?.status === 401;
+  const hasError = Boolean(error) && !isUnauthenticated;
+  const isAuthenticated = Boolean(appConfig) && !error;
+
+  const handleLogin = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("error");
+    const redirectTo = url.pathname + url.search;
+    window.location.href = `/api/v1/auth/login?redirect_to=${encodeURIComponent(
+      redirectTo,
+    )}`;
+  };
+
+  if (hasError) {
+    return (
+      <Layout className="rh-layout">
+        <HeaderLayout isAuthenticated={false} />
+        <Content className="rh-error-screen">
+          <div className="rh-error-card">
+            <Result
+              status="500"
+              title={tError("title")}
+              subTitle={tError("subTitle")}
+              extra={
+                <Button type="primary" onClick={retryConfig}>
+                  {tError("retry")}
+                </Button>
+              }
+            />
+          </div>
+        </Content>
+      </Layout>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <Layout className="rh-layout">
+        <HeaderLayout isAuthenticated={false} />
+        <Content className="rh-welcome-content-area">
+          <WelcomePage onLogin={handleLogin} loginError={loginError} />
+        </Content>
+      </Layout>
+    );
+  }
+
+  return (
+    <AuthenticatedLayout appConfig={appConfig}>{children}</AuthenticatedLayout>
   );
 }

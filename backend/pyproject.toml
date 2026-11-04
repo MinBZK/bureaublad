@@ -12,7 +12,6 @@ dependencies = [
     "fastapi[standard]>=0.138.2",
     "httpx>=0.28.1",
     "itsdangerous>=2.2.0",
-    "openai>=2.44.0",
     "pydantic-settings>=2.14.2",
     "python-jose>=3.5.0",
     "python-ulid>=3.1.0",

@@ -34,7 +34,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/src:/app/src:cached
-      - ./.next:/app/.next
+      - frontend_next_cache:/app/dist
+      - frontend_turbo_cache:/app/.turbo
       - /app/node_modules # prevent host from overwriting node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true # ensures file watching inside Docker
@@ -195,17 +196,17 @@ services:
       - "traefik.http.routers.mockserver_nextcloud.rule=Host(`nextcloud.localhost`)"
       - "traefik.http.routers.mockserver_nextcloud.entrypoints=web"
 
-  mockserver_ai:
-    build:
-      context: mocks/ai_mock
-      dockerfile: Dockerfile
+  mockserver_projects:
+    image: nginx:1.27-alpine
     restart: unless-stopped
+    volumes:
+      - ./mocks/projects:/usr/share/nginx/html:ro
     networks:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mockserver_ai.rule=Host(`ai.localhost`)"
-      - "traefik.http.routers.mockserver_ai.entrypoints=web"
+      - "traefik.http.routers.mockserver_projects.rule=Host(`projects.localhost`)"
+      - "traefik.http.routers.mockserver_projects.entrypoints=web"
 
   mockserver_conversation:
     image: mockserver/mockserver:7.2.0
@@ -224,7 +225,6 @@ services:
 volumes:
   postgres:
   frontend_next_cache:
-  frontend_node_modules:
   frontend_turbo_cache:
 
 networks:

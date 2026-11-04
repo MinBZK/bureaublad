@@ -60,74 +60,54 @@ class Settings(BaseSettings):
 
     # La Suite Services
     OCS_URL: str | None = None
-    OCS_AUDIENCE: str = "nextcloud"
     OCS_ICON: str = "folder"
     OCS_TITLE: str = "NextCloud"
-    OCS_IFRAME: bool = False
     OCS_CARD: bool = True
 
     DOCS_URL: str | None = None
-    DOCS_AUDIENCE: str = "docs"
     DOCS_ICON: str = "description"
     DOCS_TITLE: str = "Docs"
-    DOCS_IFRAME: bool = False
     DOCS_CARD: bool = True
 
     CALENDAR_URL: str | None = None
-    CALENDAR_AUDIENCE: str = "openxchange"
     CALENDAR_ICON: str = "calendar_today"
     CALENDAR_TITLE: str = "Calendar"
-    CALENDAR_IFRAME: bool = False
     CALENDAR_CARD: bool = False
 
     TASK_URL: str | None = None
-    TASK_AUDIENCE: str = "openxchange"
     TASK_ICON: str = "check_circle"
     TASK_TITLE: str = "Tasks"
-    TASK_IFRAME: bool = False
     TASK_CARD: bool = False
 
     DRIVE_URL: str | None = None
-    DRIVE_AUDIENCE: str = "drive"
     DRIVE_ICON: str = "cloud_drive"
     DRIVE_TITLE: str = "Drive"
-    DRIVE_IFRAME: bool = False
     DRIVE_CARD: bool = True
 
     MEET_URL: str | None = None
-    MEET_AUDIENCE: str = "meet"
     MEET_ICON: str = "video_call"
     MEET_TITLE: str = "Meet"
-    MEET_IFRAME: bool = False
     MEET_CARD: bool = True
 
     GRIST_URL: str | None = None
-    GRIST_AUDIENCE: str = "grist"
     GRIST_ICON: str = "table_chart"
     GRIST_TITLE: str = "Grist"
-    GRIST_IFRAME: bool = False
-    GRIST_CARD: bool = False
+    GRIST_CARD: bool = True
 
     CONVERSATION_URL: str | None = None
-    CONVERSATION_AUDIENCE: str = "conversation"
     CONVERSATION_ICON: str = "chat"
     CONVERSATION_TITLE: str = "Conversation"
-    CONVERSATION_IFRAME: bool = False
     CONVERSATION_CARD: bool = True
 
     MATRIX_URL: str | None = None
-    MATRIX_AUDIENCE: str = "matrix"
     MATRIX_ICON: str = "forum"
     MATRIX_TITLE: str = "Matrix"
-    MATRIX_IFRAME: bool = False
-    MATRIX_CARD: bool = False
+    MATRIX_CARD: bool = True
 
-    # AI Integration
-    AI_URL: str | None = "https://api.openai.com/v1/"
-    AI_ICON: str = "smart_toy"
-    AI_CARD: bool = True
-    AI_MODEL: str | None = "gpt-4o"
-    AI_API_KEY: str | None = None
+    PROJECTS_URL: str | None = None
+    PROJECTS_ICON: str = "project"
+    PROJECTS_TITLE: str = "Projects"
+    PROJECTS_CARD: bool = True
 
     THEME_CSS_URL: str = ""
     HELPDESK_URL: str = ""
@@ -234,11 +214,6 @@ class Settings(BaseSettings):
     @property
     def conversation_enabled(self) -> bool:
         return self.CONVERSATION_URL is not None
-
-    @computed_field
-    @property
-    def ai_enabled(self) -> bool:
-        return self.AI_URL is not None and self.AI_MODEL is not None and self.AI_API_KEY is not None
 
     @computed_field
     @property
