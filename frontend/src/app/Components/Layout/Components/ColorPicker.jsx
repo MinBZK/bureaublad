@@ -36,9 +36,7 @@ function ColorPicker({ brand, onSelect, palettes }) {
               >
                 {isSelected && <CheckOutlined />}
               </span>
-              <span className="rh-colorpicker-label">
-                {palette.label}
-              </span>
+              <span className="rh-colorpicker-label">{palette.label}</span>
             </button>
           );
         })}

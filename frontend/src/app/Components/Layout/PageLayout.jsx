@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, FloatButton, Layout, Result } from "antd";
 import HeaderLayout from "./Components/HeaderLayout";
 import { useAppContext } from "../Context/AppContext";
@@ -43,12 +43,11 @@ function AuthenticatedLayout({ appConfig, children }) {
 export default function PageLayout({ children }) {
   const { appConfig, error, retryConfig } = useAppContext();
   const tError = useTranslations("ErrorPage");
-  const [loginError, setLoginError] = useState(false);
-
-  useEffect(() => {
+  const [loginError] = useState(() => {
+    if (typeof window === "undefined") return false;
     const params = new URLSearchParams(window.location.search);
-    setLoginError(params.get("error") === "authentication_failed");
-  }, []);
+    return params.get("error") === "authentication_failed";
+  });
 
   const isUnauthenticated = error?.status === 401;
   const hasError = Boolean(error) && !isUnauthenticated;
