@@ -32,12 +32,12 @@ If you need translations from multiple namespaces:
 ```jsx
 function MyComponent() {
   const tHome = useTranslations("HomePage");
-  const tWidget = useTranslations("Widget");
+  const tTheme = useTranslations("Theme");
 
   return (
     <div>
       <h1>{tHome("title")}</h1>
-      <button>{tWidget("refresh")}</button>
+      <button>{tTheme("colors")}</button>
     </div>
   );
 }

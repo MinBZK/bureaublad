@@ -21,25 +21,9 @@ msgstr ""
 msgid "Could not validate credentials"
 msgstr ""
 
-#: app/exceptions.py:21
-msgid "Token exchange failed"
-msgstr ""
-
 #: app/core/authentication.py:37 app/core/authentication.py:53
-#: app/routes/authentication.py:69 app/token_exchange.py:42
+#: app/routes/authentication.py:69
 msgid "Not authenticated"
-msgstr ""
-
-#: app/clients/ai.py:50
-msgid "Connection failed"
-msgstr ""
-
-#: app/clients/ai.py:53
-msgid "Authentication failed"
-msgstr ""
-
-#: app/clients/ai.py:56
-msgid "Service temporarily unavailable"
 msgstr ""
 
 #: app/core/authentication.py:60

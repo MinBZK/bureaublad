@@ -3,7 +3,7 @@ import { useTranslations } from "../../i18n/TranslationsProvider";
 import ErrorResult from "../Common/ErrorResult";
 
 function NotFoundPage() {
-  const t = useTranslations("NotFoundPage");
+  const t = useTranslations("ErrorPage");
   return (
     <ErrorResult
       errorStatus="500"

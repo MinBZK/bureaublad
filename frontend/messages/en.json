@@ -1,96 +1,70 @@
 {
   "HomePage": {
     "title": "Mijn Bureau",
-    "welcome": "Welcome to Mijn Bureau",
-    "logout": "Logout"
+    "intro": "All your apps, files and conversations in one place.",
+    "products": "Products",
+    "productsIntro": "Choose your application and get straight to work.",
+    "logout": "Logout",
+    "heading": "My applications"
+  },
+  "Products": {
+    "default": "Open this application",
+    "empty": "No products are available yet.",
+    "ocs": "Files and folders",
+    "docs": "Write and share documents",
+    "calendar": "Calendar and planning",
+    "task": "Tasks and to-dos",
+    "drive": "Store and share files",
+    "meet": "Meet with video and audio",
+    "grist": "Spreadsheets and databases",
+    "conversation": "Conversations with AI",
+    "matrix": "Chat and collaborate",
+    "projects": "Manage projects",
+    "opensInNewTab": "Opens in a new tab"
   },
   "Header": {
     "languageEnglish": "English",
     "languageDutch": "Nederlands",
-    "myAccount": "My Account"
-  },
-  "AiAssistant": {
-    "title": "AI Assistant",
-    "placeholder": "Type your question here..."
-  },
-  "Conversations": {
-    "title": "AI Conversation",
-    "lastModified": "Last modified"
-  },
-  "Email": {
-    "title": "Email"
-  },
-  "Drive": {
-    "title": "Drive",
-    "lastModified": "Last modified"
-  },
-  "Files": {
-    "title": "Files",
-    "lastModified": "Last modified"
-  },
-  "Documents": {
-    "title": "Docs",
-    "lastModified": "Last modified",
-    "untitled": "Untitled Document"
-  },
-  "Meet": {
-    "title": "Video Conference",
-    "pincode": "Pin code",
-    "accessLevel": "Access level",
-    "public": "Public",
-    "trusted": "Trusted",
-    "restricted": "Restricted"
-  },
-  "Sheets": {
-    "title": "Sheets",
-    "selectOrganization": "Select organization",
-    "updated": "Updated"
-  },
-  "Widget": {
-    "refresh": "Refresh",
-    "search": "search",
-    "admin": "Admin Portal"
-  },
-  "List": {
-    "empty": "No items found",
-    "emptyData": "No data available yet. Add data in the application to see it here."
-  },
-  "Dashboard": {
-    "noApps": "No applications configured yet. Contact your administrator to enable applications."
-  },
-  "Search": {
-    "placeholder": "Search...",
-    "notFound": "Not Found"
-  },
-  "ErrorPage": {
-    "subTitle": "Something went wrong",
-    "backHome": "Back to homepage"
-  },
-  "LoginPage": {
-    "failedTitle": "Login failed",
-    "failedMessage": "Authentication failed. Please try again.",
-    "loginMessage": "Log in to access this application.",
-    "loginButton": "Log in"
+    "myAccount": "My Account",
+    "login": "Log in"
   },
   "Footer": {
-    "copyright": "My Office ©",
+    "copyright": "MijnBureau ©",
     "helpdesk": "Help desk"
   },
   "Navigation": {
     "home": "Home",
-    "admin": "Admin"
+    "admin": "Admin",
+    "mainNavigation": "Main navigation"
   },
   "AdminPortal": {
     "title": "Admin Portal",
     "description": "Manage and configure the applications in your suite."
   },
-  "ExternalApp": {
-    "openNewTab": "Open in new tab",
-    "exitFullscreen": "Exit fullscreen",
-    "fullscreen": "Full screen"
-  },
   "Theme": {
     "light": "Light Mode",
-    "dark": "Dark Mode"
+    "dark": "Dark Mode",
+    "colors": "Adjust colours",
+    "paletteTitle": "Colour palette",
+    "mainColour": "Main colour",
+    "paletteHint": "Choose a colour from the palette."
+  },
+  "Welcome": {
+    "title": "Welcome to Mijn Bureau",
+    "intro": "Your digital workplace for all your apps, files and conversations. Sign in to continue.",
+    "login": "Log in",
+    "loginHint": "You will be redirected to the secure login environment.",
+    "loginError": "Signing in failed. Try again or contact the help desk.",
+    "helpdesk": "Help desk"
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "subTitle": "The application could not be loaded. Please try again.",
+    "retry": "Try again",
+    "backToHome": "Back to homepage"
+  },
+  "NotFoundPage": {
+    "subTitle": "The page could not be found.",
+    "backToHome": "Back to homepage"
   }
 }

@@ -17,7 +17,6 @@ class ApplicationsConfig(BaseModel):
     icon: str | None = None
     url: str | None = None
     title: str | None = None
-    iframe: bool = False
 
 
 class OIDCConfig(BaseModel):

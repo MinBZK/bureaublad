@@ -11,8 +11,9 @@ import { Suspense } from "react";
 import Loading from "./Common/Loading";
 
 export const metadata = {
-  title: "Mijn Bureaublad",
-  description: "Open BSW bureaublad",
+  title: "Mijn Bureau",
+  description:
+    "De autonome, open source digitale werkplek voor de overheid. Veilig, zelf-gehost en volledig onder eigen regie.",
 };
 
 export default async function RootLayout({ children }) {

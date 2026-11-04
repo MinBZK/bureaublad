@@ -1,8 +1,14 @@
 "use client";
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 import api from "@/lib/axios";
 import StartLoading from "../../Common/StartLoading";
-import { attemptSilentLoginOrLogin } from "../../../lib/silentLogin";
+import { attemptSilentLogin } from "../../../lib/silentLogin";
 
 const AppContext = createContext();
 
@@ -10,27 +16,38 @@ export function AppProvider({ children }) {
   const [appConfig, setAppConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const res = await api.get("/config");
-        setAppConfig(res?.data);
-      } catch (err) {
-        setError(err?.response);
-        // Redirect based on error
-        attemptSilentLoginOrLogin(err);
-        // For other errors, the error state is already set and will be handled by the app
-      } finally {
-        setLoading(false);
+
+  const fetchConfig = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await api.get("/config");
+      setAppConfig(res?.data);
+    } catch (err) {
+      setError(err?.response ?? { status: 0 });
+      // If the session is gone, try silent SSO once. If that is not
+      // possible, the welcome page offers a manual login button.
+      if (err?.response?.status === 401) {
+        attemptSilentLogin(
+          300,
+          window.location.pathname + window.location.search,
+        );
       }
-    };
-    fetchConfig();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchConfig();
+  }, [fetchConfig]);
 
   return (
     <StartLoading loading={loading}>
-      <AppContext.Provider value={{ appConfig, error }}>
+      <AppContext.Provider
+        value={{ appConfig, error, retryConfig: fetchConfig }}
+      >
         {children}
       </AppContext.Provider>
     </StartLoading>

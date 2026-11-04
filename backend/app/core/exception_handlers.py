@@ -70,7 +70,7 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 
     Returns 500 Internal Server Error and logs the full exception.
     """
-    logger.exception(f"Unhandled exception: {exc.__class__.__name__}: {exc}")
+    logger.error(f"Unhandled exception: {exc.__class__.__name__}: {exc}", exc_info=exc)
 
     return JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

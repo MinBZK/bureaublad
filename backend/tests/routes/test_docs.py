@@ -23,18 +23,17 @@ class TestDocsEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_success(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful documents retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -67,18 +66,17 @@ class TestDocsEndpoints:
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=False)
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_with_title_filter(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents retrieval with title filter."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -111,18 +109,17 @@ class TestDocsEndpoints:
         )
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_with_favorite_filter(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents retrieval with is_favorite filter."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -153,18 +150,17 @@ class TestDocsEndpoints:
         mock_client_instance.get_documents.assert_called_once_with(page=1, page_size=5, title=None, is_favorite=True)
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_empty_result(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint with empty result."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -179,36 +175,34 @@ class TestDocsEndpoints:
         assert data["results"] == []
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
-    def test_docs_get_documents_token_exchange_error(
+    @patch("app.routes.docs.get_access_token")
+    def test_docs_get_documents_access_token_error(
         self,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test documents endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test documents endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/docs/documents")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_client_error(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint when DocsClient raises an exception."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient error
         mock_client_instance = AsyncMock()
@@ -220,18 +214,17 @@ class TestDocsEndpoints:
         assert response.status_code == 502  # HTTPError returns 502 Bad Gateway
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_get_documents_with_computed_fields(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test documents endpoint returns computed fields correctly."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -280,18 +273,17 @@ class TestDocsEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_post_documents_success(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful document creation."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient
         mock_client_instance = AsyncMock()
@@ -317,36 +309,34 @@ class TestDocsEndpoints:
         mock_client_instance.post_document.assert_called_once()
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
-    def test_docs_post_documents_token_exchange_error(
+    @patch("app.routes.docs.get_access_token")
+    def test_docs_post_documents_access_token_error(
         self,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test POST documents endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test POST documents endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.post("/api/v1/docs/documents")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_post_documents_client_error(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test POST documents endpoint when DocsClient raises an exception."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient error
         mock_client_instance = AsyncMock()
@@ -358,20 +348,19 @@ class TestDocsEndpoints:
         assert response.status_code == 502  # HTTPError returns 502 Bad Gateway
 
     @patch("app.routes.docs.settings.DOCS_URL", "https://docs.example.com")
-    @patch("app.routes.docs.settings.DOCS_AUDIENCE", "docs")
-    @patch("app.routes.docs.get_token")
+    @patch("app.routes.docs.get_access_token")
     @patch("app.routes.docs.DocsClient")
     def test_docs_post_documents_external_service_error(
         self,
         mock_docs_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test POST documents endpoint when external service returns an error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-docs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-docs-token"
 
         # Mock DocsClient error
         mock_client_instance = AsyncMock()

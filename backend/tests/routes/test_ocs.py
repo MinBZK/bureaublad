@@ -33,18 +33,17 @@ class TestOCSEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_activities_success(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful file activities retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
@@ -100,18 +99,17 @@ class TestOCSEndpoints:
         mock_client_instance.get_file_activities.assert_called_once_with(limit=50, since=0, is_favorite=False)
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_activities_multi_file(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test file activities with multiple files per activity."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
@@ -161,18 +159,17 @@ class TestOCSEndpoints:
         assert activity["files"][2]["name"] == "element.png"
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_activities_empty_result(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test activities endpoint with no file activities."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
@@ -187,17 +184,16 @@ class TestOCSEndpoints:
         assert data["last_given"] is None
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_activities_with_is_favorite(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test activities endpoint with is_favorite=true returns favorite files."""
-        mock_get_token.return_value = "test-ocs-token"
+        mock_get_access_token.return_value = "test-ocs-token"
         mock_client_instance = AsyncMock()
         mock_client_instance.get_file_activities.return_value = FileActivityResponse(
             results=[
@@ -218,18 +214,17 @@ class TestOCSEndpoints:
         mock_client_instance.get_file_activities.assert_called_once_with(limit=50, since=0, is_favorite=True)
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_search_success(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful search."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
@@ -261,18 +256,17 @@ class TestOCSEndpoints:
         mock_client_instance.search_files.assert_called_once_with(term="meeting")
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_search_empty_result(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test search endpoint with no results."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient
         mock_client_instance = AsyncMock()
@@ -292,56 +286,53 @@ class TestOCSEndpoints:
         assert response.status_code == 422  # Validation error
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
-    def test_ocs_activities_token_exchange_error(
+    @patch("app.routes.ocs.get_access_token")
+    def test_ocs_activities_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test activities endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test activities endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/ocs/activities")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
-    def test_ocs_search_token_exchange_error(
+    @patch("app.routes.ocs.get_access_token")
+    def test_ocs_search_access_token_error(
         self,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test search endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test search endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/ocs/search?term=test")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_activities_api_error(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test activities endpoint when OCS API returns error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient error
         mock_client_instance = AsyncMock()
@@ -353,20 +344,19 @@ class TestOCSEndpoints:
         assert response.status_code == 502  # ExternalServiceError returns 502
 
     @patch("app.routes.ocs.settings.OCS_URL", "https://ocs.example.com")
-    @patch("app.routes.ocs.settings.OCS_AUDIENCE", "ocs")
-    @patch("app.routes.ocs.get_token")
+    @patch("app.routes.ocs.get_access_token")
     @patch("app.routes.ocs.OCSClient")
     def test_ocs_search_api_error(
         self,
         mock_ocs_client: MagicMock,
-        mock_get_token: AsyncMock,
+        mock_get_access_token: AsyncMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test search endpoint when OCS API returns error."""
         from app.exceptions import ExternalServiceError
 
-        # Mock token exchange
-        mock_get_token.return_value = "test-ocs-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-ocs-token"
 
         # Mock OCSClient error
         mock_client_instance = AsyncMock()

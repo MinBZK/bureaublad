@@ -34,18 +34,17 @@ class TestCaldavEndpoints:
         assert response.status_code == 503
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
+    @patch("app.routes.caldav.get_access_token")
     @patch("app.routes.caldav.CaldavClient")
     def test_caldav_calendar_success(
         self,
         mock_caldav_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful calendar events retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-caldav-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-caldav-token"
 
         # Mock CaldavClient
         mock_client_instance = MagicMock()
@@ -79,18 +78,17 @@ class TestCaldavEndpoints:
         mock_client_instance.get_calendars.assert_called_once_with(check_date=datetime(2024, 11, 1, 0, 0, 0))
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
+    @patch("app.routes.caldav.get_access_token")
     @patch("app.routes.caldav.CaldavClient")
     def test_caldav_tasks_success(
         self,
         mock_caldav_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test successful tasks retrieval."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-caldav-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-caldav-token"
 
         # Mock CaldavClient
         mock_client_instance = MagicMock()
@@ -124,18 +122,17 @@ class TestCaldavEndpoints:
         mock_client_instance.get_tasks.assert_called_once()
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
+    @patch("app.routes.caldav.get_access_token")
     @patch("app.routes.caldav.CaldavClient")
     def test_caldav_calendar_empty_result(
         self,
         mock_caldav_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test calendar endpoint with no events for the day."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-caldav-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-caldav-token"
 
         # Mock CaldavClient
         mock_client_instance = MagicMock()
@@ -149,18 +146,17 @@ class TestCaldavEndpoints:
         assert data == []
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
+    @patch("app.routes.caldav.get_access_token")
     @patch("app.routes.caldav.CaldavClient")
     def test_caldav_tasks_empty_result(
         self,
         mock_caldav_client: MagicMock,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
         """Test tasks endpoint with no tasks."""
-        # Mock token exchange
-        mock_get_token.return_value = "test-caldav-token"
+        # Mock access token
+        mock_get_access_token.return_value = "test-caldav-token"
 
         # Mock CaldavClient
         mock_client_instance = MagicMock()
@@ -179,37 +175,35 @@ class TestCaldavEndpoints:
         assert response.status_code == 422  # Unprocessable Entity
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
-    def test_caldav_calendar_token_exchange_error(
+    @patch("app.routes.caldav.get_access_token")
+    def test_caldav_calendar_access_token_error(
         self,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test calendar endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test calendar endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/caldav/calendars/2024-11-01")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401
 
     @patch("app.routes.caldav.settings.TASK_URL", "https://caldav.example.com")
-    @patch("app.routes.caldav.settings.TASK_AUDIENCE", "caldav")
-    @patch("app.routes.caldav.get_token")
-    def test_caldav_tasks_token_exchange_error(
+    @patch("app.routes.caldav.get_access_token")
+    def test_caldav_tasks_access_token_error(
         self,
-        mock_get_token: MagicMock,
+        mock_get_access_token: MagicMock,
         authenticated_client: TestClient,
     ) -> None:
-        """Test tasks endpoint when token exchange fails."""
-        from app.exceptions import TokenExchangeError
+        """Test tasks endpoint when access token retrieval fails."""
+        from app.exceptions import CredentialError
 
-        # Mock token exchange error
-        mock_get_token.side_effect = TokenExchangeError("Token exchange failed")
+        # Mock access token error
+        mock_get_access_token.side_effect = CredentialError("Access token unavailable")
 
         response = authenticated_client.get("/api/v1/caldav/tasks")
 
-        assert response.status_code == 403  # TokenExchangeError returns 403
+        assert response.status_code == 401  # CredentialError returns 401

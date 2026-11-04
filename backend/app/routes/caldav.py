@@ -4,11 +4,11 @@ from datetime import date, datetime
 from fastapi import APIRouter, Request
 
 from app.clients.caldav import CaldavClient
+from app.core.authentication import get_access_token
 from app.core.config import settings
 from app.exceptions import ServiceUnavailableError
 from app.models.calendar import Calendar
 from app.models.task import Task
-from app.token_exchange import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -19,8 +19,8 @@ async def get_caldav_client(request: Request) -> CaldavClient:
     if not settings.task_enabled or not settings.TASK_URL:
         raise ServiceUnavailableError("Task")
 
-    # Get auth from session (already refreshed by get_current_user dependency)
-    new_token = await get_token(request, settings.TASK_AUDIENCE)
+    # Get the access token from the session (already refreshed by get_current_user dependency)
+    new_token = await get_access_token(request)
 
     return CaldavClient(base_url=settings.TASK_URL, token=new_token)
 

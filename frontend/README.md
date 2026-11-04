@@ -51,85 +51,31 @@ If you want to run the frontend in development mode separately:
 
 **Note**: When running frontend separately, make sure the backend is running and accessible.
 
-## Embedding External Applications
+## Product Tiles
 
-External applications can be embedded as iframes within the portal. The configuration is based on the `SIDEBAR_LINKS_JSON` setting in the backend `.env` file.
+Applications are presented as product tiles on the homepage. Every product is
+configured in the backend and opens in a new browser tab.
 
-### Configuration
+### Configuration Fields
 
-Each application in `SIDEBAR_LINKS_JSON` with `"iframe": true` will be embedded in the portal. The application's `id` field determines the route path.
+- **`id`** (required): Unique identifier (e.g. `"ocs"`, `"docs"`, `"drive"`)
+- **`icon`** (optional): Icon name
+- **`url`** (required): External application URL
+- **`title`** (required): Display name on the product tile
+- **`enabled`** (required): Whether the product is shown
 
-#### Configuration Fields
+To add a product, add its service URL and title to `backend/.env` and enable
+the matching `*_CARD` setting. The backend `/api/v1/config` endpoint returns the
+enabled applications, which the frontend renders as tiles.
 
-- **`id`** (required): Unique identifier and route path (e.g., `"ocs"` creates `/ocs` route)
-- **`icon`** (required): Icon name from [Ant Design Icons](https://ant.design/components/icon) (e.g., `"MailOutlined"`, `"FileTextOutlined"`, `"AppstoreOutlined"`)
-- **`url`** (required): The external application URL to embed
-- **`title`** (required): Display name in the navigation menu
-- **`iframe`** (optional): Set to `true` to embed in iframe, `false` or omit to open in new tab
+### Styling
 
-#### Example Configuration
+The frontend follows the Rijkshuisstijl (Rijksoverheid) visual language. Brand
+colours are CSS custom properties and can be adjusted at runtime with the
+palette picker in the header, or through a `theme_css` file returned by the
+backend.
 
-```json
-{
-  "id": "ocs",
-  "icon": "MailOutlined",
-  "url": "https://nextcloud.example.com",
-  "title": "Files",
-  "iframe": true
-}
-```
-
-This configuration creates:
-
-- **Route**: `/ocs`
-- **Menu Link**: "Files" in the navigation menu with a Mail icon
-- **Embedded URL**: `https://nextcloud.example.com` loaded in an iframe
-
-**Note**: The `icon` field should contain just the icon name from Ant Design Icons (without the `import` or component syntax). The `DynamicIcon` component automatically resolves the icon name.
-
-### Adding a New Embedded Application
-
-1. **Add to backend configuration** (`backend/.env`):
-
-   ```json
-   {
-     "id": "myapp",
-     "icon": "AppstoreOutlined",
-     "url": "https://myapp.example.com",
-     "title": "My App",
-     "iframe": true
-   }
-   ```
-
-2. **Create the route page** (`src/app/(EmbaddedApps)/myapp/page.jsx`):
-
-   ```jsx
-   import ExternalApp from "../../Common/ExternalApp";
-
-   export default function MyAppPage() {
-     return <ExternalApp />;
-   }
-   ```
-
-3. The `ExternalApp` component automatically:
-   - Matches the route path to the application `id`
-   - Loads the configured `url` in an iframe
-   - Displays the application `title`
-
-### Route Structure
-
-All embedded applications are organized under the `(EmbaddedApps)` route group:
-
-```
-src/app/(EmbaddedApps)/
-  ├── ai/page.jsx          → /ai
-  ├── calendar/page.jsx    → /calendar
-  ├── docs/page.jsx        → /docs
-  ├── drive/page.jsx       → /drive
-  ├── grist/page.jsx       → /grist
-  ├── ocs/page.jsx         → /ocs
-  ├── meet/page.jsx        → /meet
-  └── conversation/page.jsx → /conversation
-```
-
-The `(EmbaddedApps)` folder with parentheses is a Next.js Route Group - it organizes files without affecting the URL structure.
+The picker offers all official 100% Rijkshuisstijl colours (Lintblauw plus the
+17 communication colours). Tints are only used as supporting surfaces together
+with the 100% colour, and Cool Gray is reserved for neutral surfaces, charts and
+tables. See [THEMING.md](THEMING.md) for details.

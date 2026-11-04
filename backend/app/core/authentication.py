@@ -48,6 +48,19 @@ async def get_current_user(
     return auth.user
 
 
+async def get_access_token(request: Request) -> str:
+    """Return the access token from the current session.
+
+    The token is used directly for downstream services; no audience-specific
+    token is requested.
+    """
+    auth = await session.get_auth(request)
+    if not auth:
+        raise CredentialError(_("Not authenticated"))
+
+    return auth.access_token
+
+
 def _needs_refresh(expires_at: int | None) -> bool:
     """Check if token needs refresh (expired or expiring within 60s)."""
     if not expires_at:

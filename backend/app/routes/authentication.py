@@ -51,7 +51,7 @@ async def login(request: Request, redirect_to: str | None = None, silent: bool =
 
 @router.get("/callback")
 async def callback(request: Request) -> RedirectResponse:
-    """Handle OAuth 2.0 callback and exchange authorization code for tokens."""
+    """Handle the OAuth 2.0 callback and complete the authorization code flow."""
     try:
         token: dict[str, Any] = await oauth.oidc.authorize_access_token(request)  # type: ignore[reportUnknownMemberType]
         auth = AuthState.from_token(token, name_claim=settings.OIDC_NAME_CLAIM, email_claim=settings.OIDC_EMAIL_CLAIM)  # type: ignore[reportUnknownArgumentType]
@@ -67,7 +67,7 @@ async def callback(request: Request) -> RedirectResponse:
         request.session.pop("redirect_to", None)
         # Redirect to login with error parameter instead of raising exception
         error_message = "authentication_failed"
-        return RedirectResponse(url=f"/login?error={error_message}", status_code=302)
+        return RedirectResponse(url=f"/?error={error_message}", status_code=302)
 
 
 @router.get("/profile", dependencies=[Depends(get_current_user)])

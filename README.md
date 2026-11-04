@@ -14,7 +14,7 @@ Bureaublad is a flexible dashboard application that aggregates information from 
 
 - 🔄 **Stateless Design** - All data remains at the source
 - 🔌 **Multiple Integrations** - Connects to various productivity tools
-- 🔐 **Secure Authentication** - OpenID Connect with Token Exchange support
+- 🔐 **Secure Authentication** - OpenID Connect
 - 📱 **Modern Interface** - React-based responsive frontend
 
 ## Architecture
@@ -23,7 +23,7 @@ Bureaublad follows a modern microservices architecture:
 
 - **Frontend:** React SPA (Single Page Application)
 - **Backend:** FastAPI REST API
-- **Authentication:** OpenID Connect with Token Exchange support
+- **Authentication:** OpenID Connect
 
 ## Integrations
 
@@ -36,8 +36,8 @@ Bureaublad follows a modern microservices architecture:
 | **Nextcloud/OwnCloud** | [OCS API](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/OCS/ocs-api-overview.html) | Activity feeds                   |
 | **Drive**              | [Drive API](https://github.com/suitenumerique/drive)                                                       | File storage and sharing         |
 | **Meet**               | [Meet API](https://github.com/suitenumerique/meet)                                                         | Video conferencing               |
-| **AI Assistant**       | [OpenAI API](https://github.com/openai/openai-python)                                                      | AI-powered endpoint              |
 | **Conversations**      | [Conversations API](https://github.com/suitenumerique/conversations)                                       | AI-powered assistance            |
+| **Projects**           | External URL                                                                                               | Project management               |
 
 ### Planned Integrations
 
@@ -86,8 +86,8 @@ Once started, you can access the following services:
 | **Grist mocks**        | <http://grist.localhost/mockserver/dashboard>          | grist mocks                     |
 | **Meet mocks**         | <http://meet.localhost/mockserver/dashboard>           | meet mocks                      |
 | **Nextcloud mocks**    | <http://nextcloud.localhost/mockserver/dashboard>      | nextcloud mocks                 |
-| **OpenAI mocks**       | <http://ai.localhost/mockserver/dashboard>             | AI mocks                        |
 | **Conversation mocks** | <http://conversation.localhost/mockserver/dashboard>   | conversation mocks              |
+| **Projects demo**      | <http://projects.localhost>                            | projects placeholder            |
 
 ### Default Credentials
 
@@ -129,12 +129,12 @@ bureaublad/
 
 ## Requirements
 
-> **Important:** Your identity provider must support [Token Exchange (RFC 8693)](https://datatracker.ietf.org/doc/html/rfc8693) for proper authentication flow. Please verify compatibility before deployment.
+> **Note:** Authentication uses OpenID Connect. The access token from the user session is passed directly to downstream services.
 
 ## Future Roadmap
 
 - 🔍 Advanced search capabilities across all integrated tools
-- ⚙️ User-customizable dashboard layouts and widgets
+- ⚙️ User-customizable dashboard layouts
 - 🔗 Additional third-party integrations
 
 ## Contributing

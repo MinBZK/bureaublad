@@ -1,26 +1,35 @@
 "use client";
-import { Row, Col, Empty } from "antd";
 import { useAppContext } from "./Components/Context/AppContext";
-import { availableWidgetComponents } from "./Common/pageConfig";
 import { useTranslations } from "../i18n/TranslationsProvider";
+import ProductTiles from "./Components/Products/ProductTiles";
 
 export default function Home() {
   const { appConfig } = useAppContext();
-  const t = useTranslations("Dashboard");
+  const tHome = useTranslations("HomePage");
 
-  const appComponents = availableWidgetComponents(appConfig || null);
-
-  if (appComponents.length === 0) {
-    return <Empty description={t("noApps")} style={{ marginTop: 80 }} />;
-  }
+  const applications =
+    appConfig?.applications?.filter(
+      (app) => app?.enabled && app?.url && app?.title,
+    ) || [];
 
   return (
-    <Row gutter={16} className="dashboard-list">
-      {appComponents.map((item, index) => (
-        <Col key={index} xs={24} sm={12} md={12} lg={12} xl={12} xxl={8}>
-          {item}
-        </Col>
-      ))}
-    </Row>
+    <>
+      <section className="rh-hero">
+        <div className="rh-hero-inner">
+          <h1 className="rh-hero-title">{tHome("heading")}</h1>
+          <p className="rh-hero-text">{tHome("intro")}</p>
+        </div>
+      </section>
+
+      <div className="rh-page">
+        <section className="rh-section" aria-labelledby="products-heading">
+          <div className="rh-section-header">
+            <h2 id="products-heading">{tHome("products")}</h2>
+            <p>{tHome("productsIntro")}</p>
+          </div>
+          <ProductTiles applications={applications} />
+        </section>
+      </div>
+    </>
   );
 }
