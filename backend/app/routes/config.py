@@ -15,31 +15,43 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/config", tags=["config"])
 
-ALL_SERVICES = ["docs", "drive", "calendar", "task", "meet", "ocs", "grist", "conversation", "matrix", "projects"]
+ALL_SERVICES = [
+    "docs",
+    "drive",
+    "calendar",
+    "task",
+    "meet",
+    "ocs",
+    "grist",
+    "conversation",
+    "matrix",
+    "projects",
+    "email",
+    "dictaphone",
+]
 
 
 @router.get("")
 async def get_config(current_user: Annotated[User, Depends(get_current_user)]) -> ConfigResponse:
     """Get application configuration.
-    Returns all enabled services.
+    Returns all configured services with a URL.
     """
     applications: list[ApplicationsConfig] = []
 
     for service_id in ALL_SERVICES:
-        # Check if service is enabled
-        enabled = getattr(settings, f"{service_id.upper()}_CARD", False)
         icon = getattr(settings, f"{service_id.upper()}_ICON", None)
         title = getattr(settings, f"{service_id.upper()}_TITLE", None)
         url = getattr(settings, f"{service_id.upper()}_URL", None)
+        beta = getattr(settings, f"{service_id.upper()}_BETA", False)
 
         if url is not None:
             applications.append(
                 ApplicationsConfig(
                     id=service_id,
-                    enabled=enabled,
                     icon=icon,
                     url=url,
                     title=title,
+                    beta=beta,
                 )
             )
 

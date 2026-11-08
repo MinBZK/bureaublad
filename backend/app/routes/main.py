@@ -1,13 +1,7 @@
 from fastapi import APIRouter
 
-from app.routes import caldav, config, conversations, docs, drive, grist, meet, ocs
+from app.routes import config
 
 api_router = APIRouter()
-api_router.include_router(docs.router)
-api_router.include_router(ocs.router)
-api_router.include_router(caldav.router)
 api_router.include_router(config.router)
-api_router.include_router(drive.router)
-api_router.include_router(meet.router)
-api_router.include_router(conversations.router)
-api_router.include_router(grist.router)
+

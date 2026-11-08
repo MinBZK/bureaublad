@@ -4,6 +4,8 @@
     "intro": "All your apps, files and conversations in one place.",
     "products": "Products",
     "productsIntro": "Choose your application and get straight to work.",
+    "favoritesHeading": "Favorites",
+    "favoritesIntro": "Your pinned applications.",
     "logout": "Logout",
     "heading": "My applications"
   },
@@ -20,6 +22,11 @@
     "conversation": "Conversations with AI",
     "matrix": "Chat and collaborate",
     "projects": "Manage projects",
+    "email": "Read and send email",
+    "dictaphone": "Create audio recordings",
+    "beta": "Beta",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
     "opensInNewTab": "Opens in a new tab"
   },
   "Header": {

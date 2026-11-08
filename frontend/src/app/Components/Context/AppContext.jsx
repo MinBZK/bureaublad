@@ -18,12 +18,10 @@ export function AppProvider({ children }) {
   const [error, setError] = useState(null);
 
   const fetchConfig = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
     try {
       const res = await api.get("/config");
       setAppConfig(res?.data);
+      setError(null);
     } catch (err) {
       setError(err?.response ?? { status: 0 });
       // If the session is gone, try silent SSO once. If that is not
@@ -39,15 +37,21 @@ export function AppProvider({ children }) {
     }
   }, []);
 
+  const retryConfig = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    fetchConfig();
+  }, [fetchConfig]);
+
   useEffect(() => {
+    // Fetch the application config once on mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchConfig();
   }, [fetchConfig]);
 
   return (
     <StartLoading loading={loading}>
-      <AppContext.Provider
-        value={{ appConfig, error, retryConfig: fetchConfig }}
-      >
+      <AppContext.Provider value={{ appConfig, error, retryConfig }}>
         {children}
       </AppContext.Provider>
     </StartLoading>

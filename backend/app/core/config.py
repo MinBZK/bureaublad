@@ -62,52 +62,57 @@ class Settings(BaseSettings):
     OCS_URL: str | None = None
     OCS_ICON: str = "folder"
     OCS_TITLE: str = "NextCloud"
-    OCS_CARD: bool = True
+    OCS_BETA: bool = False
 
     DOCS_URL: str | None = None
     DOCS_ICON: str = "description"
-    DOCS_TITLE: str = "Docs"
-    DOCS_CARD: bool = True
+    DOCS_TITLE: str = "Notities"
+    DOCS_BETA: bool = False
 
     CALENDAR_URL: str | None = None
     CALENDAR_ICON: str = "calendar_today"
-    CALENDAR_TITLE: str = "Calendar"
-    CALENDAR_CARD: bool = False
+    CALENDAR_TITLE: str = "Kalender"
+    CALENDAR_BETA: bool = False
 
     TASK_URL: str | None = None
     TASK_ICON: str = "check_circle"
-    TASK_TITLE: str = "Tasks"
-    TASK_CARD: bool = False
+    TASK_TITLE: str = "Taken"
+    TASK_BETA: bool = False
 
     DRIVE_URL: str | None = None
     DRIVE_ICON: str = "cloud_drive"
-    DRIVE_TITLE: str = "Drive"
-    DRIVE_CARD: bool = True
+    DRIVE_TITLE: str = "Bestanden"
+    DRIVE_BETA: bool = False
 
     MEET_URL: str | None = None
     MEET_ICON: str = "video_call"
-    MEET_TITLE: str = "Meet"
-    MEET_CARD: bool = True
-
-    GRIST_URL: str | None = None
-    GRIST_ICON: str = "table_chart"
-    GRIST_TITLE: str = "Grist"
-    GRIST_CARD: bool = True
+    MEET_TITLE: str = "Videobellen"
+    MEET_BETA: bool = False
 
     CONVERSATION_URL: str | None = None
     CONVERSATION_ICON: str = "chat"
-    CONVERSATION_TITLE: str = "Conversation"
-    CONVERSATION_CARD: bool = True
+    CONVERSATION_TITLE: str = "AI Assistent"
+    CONVERSATION_BETA: bool = False
 
     MATRIX_URL: str | None = None
     MATRIX_ICON: str = "forum"
-    MATRIX_TITLE: str = "Matrix"
-    MATRIX_CARD: bool = True
+    MATRIX_TITLE: str = "Chat"
+    MATRIX_BETA: bool = False
 
     PROJECTS_URL: str | None = None
     PROJECTS_ICON: str = "project"
-    PROJECTS_TITLE: str = "Projects"
-    PROJECTS_CARD: bool = True
+    PROJECTS_TITLE: str = "Projecten"
+    PROJECTS_BETA: bool = True
+
+    EMAIL_URL: str | None = None
+    EMAIL_ICON: str = "mail"
+    EMAIL_TITLE: str = "E-mail"
+    EMAIL_BETA: bool = False
+
+    DICTAPHONE_URL: str | None = None
+    DICTAPHONE_ICON: str = "project"
+    DICTAPHONE_TITLE: str = "Opnemen"
+    DICTAPHONE_BETA: bool = True
 
     THEME_CSS_URL: str = ""
     HELPDESK_URL: str = ""
