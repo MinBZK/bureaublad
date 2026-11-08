@@ -57,9 +57,9 @@ export default function PageLayout({ children }) {
     const url = new URL(window.location.href);
     url.searchParams.delete("error");
     const redirectTo = url.pathname + url.search;
-    window.location.href = `/api/v1/auth/login?redirect_to=${encodeURIComponent(
-      redirectTo,
-    )}`;
+    const loginUrl = new URL("/api/v1/auth/login", window.location.origin);
+    loginUrl.searchParams.set("redirect_to", redirectTo);
+    window.location.href = loginUrl.toString();
   };
 
   if (hasError) {

@@ -12,11 +12,11 @@ class Service(BaseModel):
 
 
 class ApplicationsConfig(BaseModel):
-    enabled: bool = False
     id: str
     icon: str | None = None
     url: str | None = None
     title: str | None = None
+    beta: bool = False
 
 
 class OIDCConfig(BaseModel):

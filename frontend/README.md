@@ -58,15 +58,16 @@ configured in the backend and opens in a new browser tab.
 
 ### Configuration Fields
 
-- **`id`** (required): Unique identifier (e.g. `"ocs"`, `"docs"`, `"drive"`)
+- **`id`** (required): Unique identifier (e.g. `"ocs"`, `"docs"`, `"drive"`, `"email"`, `"dictaphone"`)
 - **`icon`** (optional): Icon name
 - **`url`** (required): External application URL
 - **`title`** (required): Display name on the product tile
-- **`enabled`** (required): Whether the product is shown
+- **`beta`** (optional): Shows a Beta label on the product tile
 
-To add a product, add its service URL and title to `backend/.env` and enable
-the matching `*_CARD` setting. The backend `/api/v1/config` endpoint returns the
-enabled applications, which the frontend renders as tiles.
+To add a product, add its service URL and title to `backend/.env`. The backend
+`/api/v1/config` endpoint returns applications with a configured URL, which the
+frontend renders as tiles.
+Use per-application `*_BETA` flags in `backend/.env` (for example `DOCS_BETA=True`).
 
 ### Styling
 

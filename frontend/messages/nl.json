@@ -4,6 +4,8 @@
     "intro": "Alle apps, bestanden en gesprekken op één plek.",
     "products": "Producten",
     "productsIntro": "Kies je applicatie en ga direct aan de slag.",
+    "favoritesHeading": "Favorieten",
+    "favoritesIntro": "Jouw vastgezette applicaties.",
     "logout": "Uitloggen",
     "heading": "Mijn applicaties"
   },
@@ -20,6 +22,11 @@
     "conversation": "Gesprekken met AI",
     "matrix": "Chat en samenwerken",
     "projects": "Projecten beheren",
+    "email": "E-mail lezen en versturen",
+    "dictaphone": "Audio-opnames maken",
+    "beta": "Beta",
+    "addToFavorites": "Toevoegen aan favorieten",
+    "removeFromFavorites": "Verwijderen uit favorieten",
     "opensInNewTab": "Opent in een nieuw tabblad"
   },
   "Header": {
