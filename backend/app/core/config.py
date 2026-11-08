@@ -222,11 +222,6 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def grist_enabled(self) -> bool:
-        return self.GRIST_URL is not None
-
-    @computed_field
-    @property
     def matrix_enabled(self) -> bool:
         return self.MATRIX_URL is not None
 

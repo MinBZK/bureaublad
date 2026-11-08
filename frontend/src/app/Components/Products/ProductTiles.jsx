@@ -52,8 +52,12 @@ function ProductTiles({
               </span>
               <span className="rh-product-body">
                 <span className="rh-product-title-wrap">
-                  <span className="rh-product-title">{app.title || app.id}</span>
-                  {app.beta && <span className="rh-product-beta">{t("beta")}</span>}
+                  <span className="rh-product-title">
+                    {app.title || app.id}
+                  </span>
+                  {app.beta && (
+                    <span className="rh-product-beta">{t("beta")}</span>
+                  )}
                 </span>
                 <span className="rh-product-desc">{description}</span>
               </span>
