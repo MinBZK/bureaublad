@@ -40,9 +40,7 @@ export default function Home() {
   }, [favoriteApplicationIds]);
 
   const applications =
-    appConfig?.applications?.filter(
-      (app) => app?.url && app?.title,
-    ) || [];
+    appConfig?.applications?.filter((app) => app?.url && app?.title) || [];
   const sortedApplications = [...applications].sort((a, b) => {
     const aIsBeta = Boolean(a?.beta);
     const bIsBeta = Boolean(b?.beta);
@@ -54,8 +52,8 @@ export default function Home() {
     return aLabel.localeCompare(bLabel, undefined, { sensitivity: "base" });
   });
   const visibleApplications = sortedApplications;
-  const favoriteApplications = visibleApplications.filter((app) =>
-    !app?.beta && favoriteApplicationIds.includes(app.id),
+  const favoriteApplications = visibleApplications.filter(
+    (app) => !app?.beta && favoriteApplicationIds.includes(app.id),
   );
   const regularApplications = visibleApplications.filter(
     (app) => app?.beta || !favoriteApplicationIds.includes(app.id),
