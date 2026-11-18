@@ -31,3 +31,4 @@ class ConfigResponse(BaseModel):
     theme_css: str
     silent_login: bool = False
     is_admin: bool = False
+    search_enabled: bool = False

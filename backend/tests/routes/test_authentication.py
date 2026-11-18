@@ -47,6 +47,27 @@ class TestAuthCallback:
         assert response.status_code == 302
         assert "/?error=authentication_failed" in response.headers["location"]
 
+    @patch("app.routes.authentication.oauth.oidc.authorize_access_token")
+    @patch("app.routes.authentication.oauth.oidc.authorize_redirect")
+    def test_silent_callback_failure_redirects_without_error(
+        self, mock_redirect: MagicMock, mock_authorize_access_token: AsyncMock, fresh_client: TestClient
+    ) -> None:
+        """Test that a failed silent SSO callback redirects without an error parameter."""
+        # Start a silent login to store the silent_auth flag and redirect_to in the session
+        mock_redirect.return_value = RedirectResponse(url="https://auth.example.com/authorize")
+        fresh_client.get("/api/v1/auth/login?silent=true&redirect_to=/dashboard", follow_redirects=False)
+
+        mock_authorize_access_token.side_effect = Exception("login_required")
+
+        response = fresh_client.get("/api/v1/auth/callback?code=invalid&state=test-state", follow_redirects=False)
+
+        assert response.status_code == 302
+        assert response.headers["location"] == "/dashboard"
+
+        # The silent_auth flag is consumed: a subsequent failure uses the interactive error path
+        response = fresh_client.get("/api/v1/auth/callback?code=invalid&state=test-state", follow_redirects=False)
+        assert "/?error=authentication_failed" in response.headers["location"]
+
 
 class TestAuthProfile:
     """Tests for /auth/profile endpoint."""

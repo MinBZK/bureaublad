@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ColorPicker from "./ColorPicker";
+import SearchBar from "./SearchBar";
 import { useTranslations } from "../../../../i18n/TranslationsProvider";
 import { useLanguage } from "../../../../i18n/LanguageContext";
 import { useTheme } from "../../Context/ThemeContext";
@@ -23,6 +24,8 @@ function HeaderLayout({
   profile,
   redirectUrl,
   isAdmin = false,
+  searchEnabled = false,
+  serviceTitles = {},
 }) {
   const pathname = usePathname();
   const tHome = useTranslations("HomePage");
@@ -109,6 +112,12 @@ function HeaderLayout({
               </Link>
             )}
           </nav>
+        )}
+
+        {isAuthenticated && searchEnabled && (
+          <div className="rh-search">
+            <SearchBar serviceTitles={serviceTitles} />
+          </div>
         )}
 
         <div className="rh-header-actions">

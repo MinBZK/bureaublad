@@ -114,6 +114,17 @@ class Settings(BaseSettings):
     DICTAPHONE_TITLE: str = "Opnemen"
     DICTAPHONE_BETA: bool = True
 
+    # La Suite Find (global search). Search is disabled unless FIND_URL and the
+    # Menshen token-exchange credentials are all configured.
+    FIND_URL: str | None = None
+    FIND_AUDIENCE: str = "find"  # Menshen audience id of the Find service
+    FIND_SEARCH_SCOPE: str = ""  # Action scope Menshen exchanges into find:*:search scopes
+    FIND_URL_TEMPLATES: dict[str, str] = {}  # Overrides: Find service name -> URL template with {id}
+
+    MENSHEN_URL: str | None = None
+    MENSHEN_CLIENT_ID: str = ""
+    MENSHEN_CLIENT_SECRET: str | None = None
+
     THEME_CSS_URL: str = ""
     HELPDESK_URL: str = ""
     REDIRECT_TO_ACCOUNT_PAGE: str = ""
@@ -231,6 +242,40 @@ class Settings(BaseSettings):
         if self.OIDC_ISSUER:
             return f"{self.OIDC_ISSUER.rstrip('/')}/.well-known/openid-configuration"
         return ""
+
+    @computed_field
+    @property
+    def search_enabled(self) -> bool:
+        """Global search via La Suite Find is enabled when Find and Menshen are configured."""
+        return bool(
+            self.FIND_URL
+            and self.MENSHEN_URL
+            and self.MENSHEN_CLIENT_ID
+            and self.MENSHEN_CLIENT_SECRET
+            and self.FIND_SEARCH_SCOPE
+        )
+
+    @property
+    def find_url_templates(self) -> dict[str, str]:
+        """URL templates linking a Find result to its document, per Find service name.
+
+        Defaults follow the La Suite Docs and Drive URL conventions; explicit
+        FIND_URL_TEMPLATES entries override them.
+        """
+        templates: dict[str, str] = {}
+        if self.DOCS_URL:
+            templates["docs"] = f"{self.DOCS_URL.rstrip('/')}/docs/{{id}}"
+        if self.DRIVE_URL:
+            templates["drive"] = f"{self.DRIVE_URL.rstrip('/')}/explorer/items/{{id}}"
+        templates.update(self.FIND_URL_TEMPLATES)
+        return templates
+
+    def find_document_url(self, service: str, document_id: str) -> str | None:
+        """Build the deep link to a Find result, or None when the service has no template."""
+        template = self.find_url_templates.get(service)
+        if not template:
+            return None
+        return template.format(id=document_id)
 
     @computed_field
     @property

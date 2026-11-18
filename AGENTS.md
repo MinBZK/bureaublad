@@ -44,3 +44,10 @@ This repository contains a **FastAPI backend** and a **React frontend**, each in
 - **JavaScript/TypeScript**: Follow ESLint + Prettier rules.
 - Include docstrings for public functions and classes.
 - Use descriptive variable and function names.
+
+## Integrations
+
+Bureaublad includes an optional global search backed by La Suite Find (`backend/app/routes/search.py`, `backend/app/services/search.py`). It is disabled unless all of `FIND_URL`, `FIND_AUDIENCE`, `FIND_SEARCH_SCOPE`, `MENSHEN_URL`, `MENSHEN_CLIENT_ID`, and `MENSHEN_CLIENT_SECRET` are configured (see `backend/example.env` and `settings.search_enabled`). The user's access token is exchanged with Menshen (RFC 8693) for a Find-scoped token; Find itself never sees the Keycloak token. Deep links to result documents are built from `FIND_URL_TEMPLATES` (JSON map of Find service name → URL template with `{id}`), defaulting to the Docs and Drive URL conventions. The frontend shows the header search bar only when the `/config` response has `search_enabled: true`.
+
+LaSuite find code: https://github.com/suitenumerique/find
+LaSuite menshen code; https://github.com/suitenumerique/menshen

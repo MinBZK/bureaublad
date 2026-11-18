@@ -20,6 +20,13 @@ function AuthenticatedLayout({ appConfig, children }) {
         profile={data?.name}
         redirectUrl={appConfig?.redirect_to_account_page}
         isAdmin={appConfig?.is_admin}
+        searchEnabled={appConfig?.search_enabled}
+        serviceTitles={Object.fromEntries(
+          (appConfig?.applications ?? []).map((app) => [
+            app.id,
+            app.title ?? app.id,
+          ]),
+        )}
       />
       <Content className="layout-content">
         <div className="content">{children}</div>

@@ -474,6 +474,46 @@ a:hover {
   margin-left: auto;
 }
 
+/* Header search (La Suite Find)
+   -------------------------------------------------------------------------- */
+.rh-search {
+  flex: 1;
+  max-width: 480px;
+}
+
+.rh-search-autocomplete {
+  width: 100%;
+}
+
+.rh-search-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0;
+}
+
+.rh-search-result-title {
+  overflow: hidden;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rh-search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.rh-search-result-path {
+  overflow: hidden;
+  color: var(--color-text-secondary, #666);
+  font-size: 0.8rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .rh-icon-button {
   display: inline-flex;
   align-items: center;
@@ -1216,6 +1256,12 @@ textarea.ant-input:focus {
     order: 3;
     width: 100%;
     height: 44px;
+  }
+
+  .rh-search {
+    order: 4;
+    width: 100%;
+    max-width: none;
   }
 
   .rh-nav-link {

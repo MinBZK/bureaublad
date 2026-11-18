@@ -45,6 +45,12 @@ async def login(request: Request, redirect_to: str | None = None, silent: bool =
 
     # Add prompt=none for silent authentication (Keycloak SSO check)
     extra_params = {"prompt": "none"} if silent else {}
+    if silent:
+        # Mark this attempt so a failed callback can be told apart from an
+        # interactive login failure (a missing IdP session is expected).
+        request.session["silent_auth"] = True
+    else:
+        request.session.pop("silent_auth", None)
 
     return await oauth.oidc.authorize_redirect(request, redirect_uri, **extra_params)  # type: ignore[reportUnknownMemberType, reportUnknownVariableType]
 
@@ -58,13 +64,20 @@ async def callback(request: Request) -> RedirectResponse:
         await session.set_auth(request, auth)  # type: ignore[reportUnknownArgumentType]
 
         redirect_to = request.session.pop("redirect_to", "/")
+        request.session.pop("silent_auth", None)
         logger.info(f"User {auth.sub} authenticated successfully")  # type: ignore[reportUnknownMemberType]
         return RedirectResponse(url=redirect_to, status_code=302)
 
     except Exception:
         logger.exception("OAuth callback failed")
         # Clear any partial session state
-        request.session.pop("redirect_to", None)
+        was_silent = request.session.pop("silent_auth", False)
+        redirect_to = request.session.pop("redirect_to", "/")
+        if was_silent:
+            # A silent SSO failure is expected when the user has no IdP
+            # session; redirect without an error so the welcome page shows
+            # normally and offers a manual login.
+            return RedirectResponse(url=redirect_to, status_code=302)
         # Redirect to login with error parameter instead of raising exception
         error_message = "authentication_failed"
         return RedirectResponse(url=f"/?error={error_message}", status_code=302)

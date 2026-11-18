@@ -64,4 +64,5 @@ async def get_config(current_user: Annotated[User, Depends(get_current_user)]) -
         redirect_to_account_page=settings.REDIRECT_TO_ACCOUNT_PAGE,
         silent_login=True,  # Backend handles authentication
         is_admin=is_admin,
+        search_enabled=settings.search_enabled,
     )
